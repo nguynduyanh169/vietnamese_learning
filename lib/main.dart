@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget{
     final textTheme = Theme.of(context).textTheme;
     // TODO: implement build
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Vietnamese Application',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme:GoogleFonts.latoTextTheme(textTheme).copyWith(
