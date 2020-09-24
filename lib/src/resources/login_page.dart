@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
             ],
             color: Colors.white),
         child: Text(
-          'Login With Apple',
+          'Login with Apple',
           style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
         ),
       ),
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             ],
             color: Colors.white),
         child: Text(
-          'Login With Facebook',
+          'Login with Facebook',
           style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
         ),
       ),
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
             ],
             color: Colors.white),
         child: Text(
-          'Login With Google',
+          'Login with Google',
           style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
         ),
       ),
