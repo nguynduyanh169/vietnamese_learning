@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_button/sign_button.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -12,87 +13,36 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   Widget _loginWithAppleButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xffdf8e33).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Login with Apple',
-          style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
-        ),
-      ),
+    return SignInButton(
+        buttonType: ButtonType.apple,
+        buttonSize: ButtonSize.large, // small(default), medium, large
+        btnText: 'Continue to Apple',
+        onPressed: () {
+          print('click');
+        }
     );
   }
 
   Widget _loginWithFaceBookButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xffdf8e33).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Login with Facebook',
-          style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
-        ),
-      ),
+    return SignInButton(
+        buttonType: ButtonType.facebook,
+        buttonSize: ButtonSize.large,
+        btnText: "Continue to Facebook",// small(default), medium, large
+        onPressed: () {
+          print('click');
+        }
     );
   }
 
 
   Widget _loginWithGoogleButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xffdf8e33).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Login with Google',
-          style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
-        ),
-      ),
+    return SignInButton(
+        buttonType: ButtonType.google,
+        buttonSize: ButtonSize.large,
+        btnText: 'Continue to Google',// small(default), medium, large
+        onPressed: () {
+          print('click');
+        }
     );
   }
 
@@ -102,6 +52,16 @@ class _LoginPageState extends State<LoginPage> {
       text: TextSpan(
           text: 'Vietnamese Learning',
           style: TextStyle(color: Colors.white54, fontSize: 40)
+      ),
+    );
+  }
+
+  Widget _title2() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'Sign Up/Login',
+          style: TextStyle(color: Colors.white54, fontSize: 15)
       ),
     );
   }
@@ -128,14 +88,18 @@ class _LoginPageState extends State<LoginPage> {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xfffbb448), Color(0xffe46b10)])),
+                  colors: [Color(0xffBA68C8), Color(0xff8E24AA)])),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _title(),
               SizedBox(
-                height: 80,
+                height: 150,
+              ),
+              _title2(),
+              SizedBox(
+                height: 20,
               ),
               _loginWithAppleButton(),
               SizedBox(

@@ -207,6 +207,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.13"
+  sign_button:
+    dependency: "direct main"
+    description:
+      name: sign_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.9"
   sky_engine:
     dependency: transitive
     description: flutter
