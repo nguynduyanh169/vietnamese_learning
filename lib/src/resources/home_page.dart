@@ -14,34 +14,48 @@ class _HomePageState extends State<HomePage> {
   final tabs = [
     Container(
       child: Center(
-        child: Text('Home', style: TextStyle(fontSize: 30),),
+        child: Text(
+          'Home',
+          style: TextStyle(fontSize: 30),
+        ),
       ),
     ),
     Container(
       child: Center(
-        child: Text('Games', style: TextStyle(fontSize: 30),),
+        child: Text(
+          'Games',
+          style: TextStyle(fontSize: 30),
+        ),
       ),
     ),
     Container(
       child: Center(
-        child: Text('Speak', style: TextStyle(fontSize: 30),),
-      ),
-    ),Container(
-      child: Center(
-        child: Text('Quiz', style: TextStyle(fontSize: 30),),
+        child: Text(
+          'Speak',
+          style: TextStyle(fontSize: 30),
+        ),
       ),
     ),
     Container(
       child: Center(
-        child: Text('Profile', style: TextStyle(fontSize: 30),),
+        child: Text(
+          'Quiz',
+          style: TextStyle(fontSize: 30),
+        ),
+      ),
+    ),
+    Container(
+      child: Center(
+        child: Text(
+          'Profile',
+          style: TextStyle(fontSize: 30),
+        ),
       ),
     )
-
   ];
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
