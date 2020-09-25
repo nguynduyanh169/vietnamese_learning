@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_button/sign_button.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,18 +11,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
-  Widget _loginWithAppleButton() {
-    return SignInButton(
-        buttonType: ButtonType.apple,
-        buttonSize: ButtonSize.large, // small(default), medium, large
-        btnText: 'Continue to Apple',
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
-        }
-    );
-  }
 
   Widget _continueWithGoogleButton() {
     return OutlineButton(
