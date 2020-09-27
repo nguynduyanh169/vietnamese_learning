@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/widgets/category_card.dart';
+import 'package:vietnamese_learning/src/widgets/search_bar.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -12,14 +15,69 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final tabs = [
-    Container(
-      child: Center(
-        child: Text(
-          'Home',
-          style: TextStyle(fontSize: 30),
+    Stack(children: <Widget>[
+      Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            alignment: Alignment.topCenter,
+            image: AssetImage("assets/images/background.png"),
+          ),
         ),
       ),
-    ),
+      SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 52,
+                  width: 52,
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[300],
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              SearchBar(),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  childAspectRatio: .85,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  children: <Widget>[
+                    CategoryCard(
+                      title: "Tieng Viet 1",
+                      svgSrc: "assets/images/tiengviet1.svg",
+                      press: () {},
+                    ),
+                    CategoryCard(
+                      title: "Tieng Viet 2",
+                      svgSrc: "assets/images/tiengviet1.svg",
+                      press: () {},
+                    ),
+                    CategoryCard(
+                      title: "Tieng Viet 3",
+                      svgSrc: "assets/images/tiengviet1.svg",
+                      press: () {},
+                    ),
+                    CategoryCard(
+                      title: "Tieng Viet 4",
+                      svgSrc: "assets/images/tiengviet1.svg",
+                      press: () {},
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+    ]),
     Container(
       child: Center(
         child: Text(
@@ -64,11 +122,11 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
-                color: Colors.black,
+                color: Colors.lightBlue[400],
               ),
               title: Text(
                 'Home',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.lightBlue[400]),
               ),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
