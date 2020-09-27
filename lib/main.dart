@@ -4,17 +4,15 @@ import 'package:vietnamese_learning/src/resources/login_page.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    // TODO: implement build
     return MaterialApp(
       title: 'Vietnamese Application',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textTheme:GoogleFonts.latoTextTheme(textTheme).copyWith(
+        textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
           bodyText1: GoogleFonts.montserrat(textStyle: textTheme.bodyText1),
         ),
       ),
@@ -23,4 +21,3 @@ class MyApp extends StatelessWidget{
     );
   }
 }
-
