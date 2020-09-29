@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget button(title, uri, [ color = const Color.fromRGBO(68, 68, 76, .8) ]) {
   return Container(
-    width: 260.0,
+    width: 300.0,
     height: 60.0,
     child: Center(
       child: Row(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CategoryCard extends StatelessWidget {
   final String svgSrc;
@@ -31,23 +32,33 @@ class CategoryCard extends StatelessWidget {
           ],
         ),
         child: Material(
-          color: Colors.transparent,
+          color: Colors.white,
           child: InkWell(
             onTap: press,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: <Widget>[
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      title,
+                      style: GoogleFonts.roboto(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
                   Spacer(),
-                  SvgPicture.asset(svgSrc),
-                  Spacer(),
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .title
-                        .copyWith(fontSize: 12),
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    child: Image(
+                      width: 150,
+                      height: 150,
+                      image: AssetImage(svgSrc),
+                    ),
                   )
                 ],
               ),

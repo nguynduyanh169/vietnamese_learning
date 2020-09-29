@@ -31,6 +31,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 50),
               MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
                 child: button('Google', 'assets/images/google_logo.png'),
                 onPressed: (){
                   Navigator.of(context).push(
@@ -57,6 +60,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 13),
               MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                ),
                 child: button('Facebook', 'assets/images/facebook_logo.png', Colors.white),
                   onPressed: (){
 
@@ -65,6 +71,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 13),
               MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
                   child: button('Apple', 'assets/images/apple_logo.png', Colors.white),
                   onPressed: (){
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
-import 'package:vietnamese_learning/src/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget{
   HomeScreen({Key key}) : super(key: key);
@@ -15,30 +15,18 @@ class _HomeScreenState extends State<HomeScreen>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Stack(children: <Widget>[
-      Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            alignment: Alignment.topCenter,
-            image: AssetImage("assets/images/background.png"),
-          ),
-        ),
-      ),
-      SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+    Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 52,
-                  width: 52,
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[300],
-                    shape: BoxShape.circle,
-                  ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 13),
+                alignment: Alignment.center,
+                child: Image(
+                    width: 50,
+                    height: 50,
+                    image: AssetImage('assets/images/logolearning.png')
                 ),
               ),
               Expanded(
@@ -50,22 +38,29 @@ class _HomeScreenState extends State<HomeScreen>{
                   children: <Widget>[
                     CategoryCard(
                       title: "Tieng Viet 1",
-                      svgSrc: "assets/images/tiengviet1.svg",
-                      press: () {},
+                      svgSrc: "assets/images/logo.png",
+                      press: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context){
+                              return LessonDetail();
+                            }),
+                        );
+                      },
                     ),
                     CategoryCard(
                       title: "Tieng Viet 2",
-                      svgSrc: "assets/images/tiengviet1.svg",
+                      svgSrc: "assets/images/logo.png",
                       press: () {},
                     ),
                     CategoryCard(
                       title: "Tieng Viet 3",
-                      svgSrc: "assets/images/tiengviet1.svg",
+                      svgSrc: "assets/images/logo.png",
                       press: () {},
                     ),
                     CategoryCard(
                       title: "Tieng Viet 4",
-                      svgSrc: "assets/images/tiengviet1.svg",
+                      svgSrc: "assets/images/logo.png",
                       press: () {},
                     ),
                   ],
@@ -74,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen>{
             ],
           ),
         ),
-      )
     ]);
   }
 }
