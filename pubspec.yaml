@@ -19,6 +19,7 @@ dependencies:
   percent_indicator: ^2.1.7+4
   flutter_signin_button: ^1.1.0
   persistent_bottom_nav_bar: any
+  carousel_slider: ^2.3.1
 
 dev_dependencies:
   flutter_test:
@@ -39,4 +40,7 @@ flutter:
      - assets/images/logo.png
      - assets/images/vietnameselearnlogo.png
      - assets/images/logolearning.png
+     - assets/images/vocabulary_logo.png
+     - assets/images/conversation_logo.png
+     - assets/images/quiz_logo.png
  

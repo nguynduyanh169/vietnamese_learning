@@ -20,7 +20,7 @@ Widget button(title, uri, [ color = const Color.fromRGBO(68, 68, 76, .8) ]) {
                 fontSize: 20
               ),
             ),
-            padding: new EdgeInsets.only(left: 20.0),
+            padding: new EdgeInsets.only(left: 35.0),
           ),
         ],
       ),

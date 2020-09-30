@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
 
@@ -39,14 +40,12 @@ class _HomeScreenState extends State<HomeScreen>{
                     CategoryCard(
                       title: "Tieng Viet 1",
                       svgSrc: "assets/images/logo.png",
-                      press: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context){
-                              return LessonDetail();
-                            }),
-                        );
-                      },
+                      press: () => pushNewScreen(
+                          context,
+                          screen: LessonDetail(),
+                          withNavBar: false,
+                        pageTransitionAnimation: PageTransitionAnimation.cupertino
+                      )
                     ),
                     CategoryCard(
                       title: "Tieng Viet 2",
