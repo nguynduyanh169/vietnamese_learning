@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/widgets/sign_in_button.dart';
 
@@ -15,12 +16,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Container(
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height / 3,
@@ -29,12 +30,31 @@ class _LoginPageState extends State<LoginPage> {
                         image:
                             AssetImage('assets/images/vietnameselearn.png'))),
               ),
-              SizedBox(height: 50),
+              Container(
+                width: SizeConfig.blockSizeHorizontal * 85,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+                    labelText: 'Email',
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Container(
+                width: SizeConfig.blockSizeHorizontal * 85,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+                    labelText: 'Password',
+                  ),
+                ),
+              ),
+              SizedBox(height: 50.0),
               MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0),
                 ),
-                child: button('Google', 'assets/images/google_logo.png'),
+                child: button('Google', context, 'assets/images/google_logo.png'),
                 onPressed: (){
                   Navigator.of(context).push(
                     PageRouteBuilder(
@@ -63,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0),
                 ),
-                child: button('Facebook', 'assets/images/facebook_logo.png', Colors.white),
+                child: button('Facebook',context , 'assets/images/facebook_logo.png', Colors.white),
                   onPressed: (){
 
                   },
@@ -74,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0),
                 ),
-                  child: button('Apple', 'assets/images/apple_logo.png', Colors.white),
+                  child: button('Apple', context, 'assets/images/apple_logo.png', Colors.white),
                   onPressed: (){
 
                   },
