@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height / 3,
+                height: MediaQuery.of(context).size.height / 4,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image:
@@ -34,15 +34,33 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(bottom: 10.0),
+
+                child: Text(
+                  "Email",
+                ),
+              ),
+              Container(
+                width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Email',
+                    labelText: 'Enter you Email',
+                    prefixIcon: Icon(Icons.email),
                   ),
                 ),
               ),
-              SizedBox(height: SizeConfig.blockSizeVertical * 1.5),
+              SizedBox(height: SizeConfig.blockSizeVertical * 3.0),
+              Container(
+                width: SizeConfig.blockSizeHorizontal * 85,
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Text(
+                  "Password",
+                ),
+              ),
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
@@ -50,14 +68,25 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Password',
+                    labelText: 'Enter your Password',
+                    prefixIcon: Icon(Icons.lock)
                   ),
                 ),
               ),
               SizedBox(height: SizeConfig.blockSizeVertical * 2),
               Container(
                 child: InkWell(
-                  child: Text("Forget password?", style: TextStyle(color: Colors.blueAccent),),
+                  child: Container(
+                    width: SizeConfig.blockSizeHorizontal * 85,
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      "Forgot password?",
+                      style: TextStyle(
+                        color: Colors.blueAccent[100],
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
                   onTap: () {
                     Navigator.of(context).push(
                       PageRouteBuilder(
@@ -81,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 3,
+                height: SizeConfig.blockSizeVertical * 5,
               ),
               MaterialButton(
                 shape: RoundedRectangleBorder(
@@ -94,7 +123,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: Padding(
                       child: Text(
                         "Sign in",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: Colors.white,
+                            fontSize: 18.0,
+                            fontFamily: 'OpenSans'
+                        ),
                       ),
                       padding: new EdgeInsets.only(left: 0.0),
                     ),
@@ -122,27 +154,71 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 color: Colors.blue,
               ),
-              SizedBox(height: SizeConfig.blockSizeVertical * 5),
-              MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0),
+              SizedBox(height: SizeConfig.blockSizeVertical * 2),
+              Container(
+                child: Text(
+                  "- OR -",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-                child: button('Facebook', context,
-                    'assets/images/facebook_logo.png', Colors.white),
-                onPressed: () {},
-                color: Color.fromRGBO(58, 89, 152, 1.0),
               ),
-              SizedBox(
-                  height: SizeConfig.blockSizeVertical * 2
-              ),
-              MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0),
+              SizedBox(height: SizeConfig.blockSizeVertical * 2),
+              Container(
+                child: Text(
+                  "Sign in with",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-                child: button('Google', context,
-                    'assets/images/google_logo.png', Colors.black),
-                onPressed: () {},
-                color: Colors.white,
+              ),
+              SizedBox(height: SizeConfig.blockSizeVertical * 2),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 60.0,
+                    width: 60.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromRGBO(58, 89, 152, 1.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        scale: 13,
+                        image: AssetImage('assets/images/facebook_logo.png'),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
+                  Container(
+                    height: 60.0,
+                    width: 60.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        scale: 13,
+                        image: AssetImage('assets/images/google_logo.png'),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 3,
@@ -151,10 +227,10 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
                 child: Row(
                   children: <Widget>[
-                    Text("Not a member? "),
+                    Text("Dont't have an Account? "),
                     SizedBox(width: 5,),
                     InkWell(
-                      child: Text("Sign up here", style: TextStyle(color: Colors.blueAccent),),
+                      child: Text("Sign Up", style: TextStyle(color: Colors.blueAccent),),
                       onTap: () {
                         Navigator.of(context).push(
                           PageRouteBuilder(
