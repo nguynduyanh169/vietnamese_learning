@@ -17,7 +17,7 @@ class Quiz extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Container(
-      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8),
+      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8, left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
       child: Column(
         children: [
           QuizQuestion(

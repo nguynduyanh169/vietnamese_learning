@@ -8,13 +8,25 @@ class QuizAnswer extends StatelessWidget{
   QuizAnswer(this.selectHandler, this.answerText);
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        answerText,
-        style: Theme
-            .of(context)
-            .textTheme
-            .headline5,
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: InkWell(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 13),
+              alignment: Alignment.center,
+              child: Image(
+                  width: 50,
+                  height: 50,
+                  image: AssetImage('assets/images/logolearning.png')
+              ),
+            ),
+            Text(answerText, style: TextStyle(fontSize: 15.0),)
+          ],
+        ),
       ),
     );
   }
