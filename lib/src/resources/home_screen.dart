@@ -17,8 +17,9 @@ class _HomeScreenState extends State<HomeScreen>{
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     // TODO: implement build
-    return Stack(children: <Widget>[
-    Padding(
+    return Scaffold(
+      body: Stack(children: <Widget>[
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,14 +41,14 @@ class _HomeScreenState extends State<HomeScreen>{
                   mainAxisSpacing: 20,
                   children: <Widget>[
                     CategoryCard(
-                      title: "Tieng Viet 1",
-                      svgSrc: "assets/images/logo.png",
-                      press: () => pushNewScreen(
-                          context,
-                          screen: LessonDetail(),
-                          withNavBar: false,
-                        pageTransitionAnimation: PageTransitionAnimation.cupertino
-                      )
+                        title: "Tieng Viet 1",
+                        svgSrc: "assets/images/logo.png",
+                        press: () => pushNewScreen(
+                            context,
+                            screen: LessonDetail(),
+                            withNavBar: false,
+                            pageTransitionAnimation: PageTransitionAnimation.cupertino
+                        )
                     ),
                     CategoryCard(
                       title: "Tieng Viet 2",
@@ -70,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen>{
             ],
           ),
         ),
-    ]);
+      ]),
+    );
   }
 }
