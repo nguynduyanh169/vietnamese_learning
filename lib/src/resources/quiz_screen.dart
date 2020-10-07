@@ -64,6 +64,42 @@ class _QuizScreenState extends State<QuizScreen> {
         {'text': 'Chanakya', 'score': 10}
       ]
     },
+    {
+      'questionText': 'Which of the following was the author of the Arthashastra?',
+      'answers': [
+        {'text': 'Kalhan', 'score': 0},
+        {'text': 'Visakhadatta', 'score': 0},
+        {'text': 'Bana Bhatta', 'score': 0},
+        {'text': 'Chanakya', 'score': 10}
+      ]
+    },
+    {
+      'questionText': 'Which of the following was the author of the Arthashastra?',
+      'answers': [
+        {'text': 'Kalhan', 'score': 0},
+        {'text': 'Visakhadatta', 'score': 0},
+        {'text': 'Bana Bhatta', 'score': 0},
+        {'text': 'Chanakya', 'score': 10}
+      ]
+    },
+    {
+      'questionText': 'Which of the following was the author of the Arthashastra?',
+      'answers': [
+        {'text': 'Kalhan', 'score': 0},
+        {'text': 'Visakhadatta', 'score': 0},
+        {'text': 'Bana Bhatta', 'score': 0},
+        {'text': 'Chanakya', 'score': 10}
+      ]
+    },
+    {
+      'questionText': 'Which of the following was the author of the Arthashastra?',
+      'answers': [
+        {'text': 'Kalhan', 'score': 0},
+        {'text': 'Visakhadatta', 'score': 0},
+        {'text': 'Bana Bhatta', 'score': 0},
+        {'text': 'Chanakya', 'score': 10}
+      ]
+    },
   ];
 
   void _resetQuiz() {
@@ -85,8 +121,9 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      home: Scaffold(
-        body: _questionIndex < _questions.length
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: _questionIndex < _questions.length
             ? Quiz(
             questions: _questions,
             answerQuestions: _answerQuestions,

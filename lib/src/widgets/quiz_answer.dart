@@ -13,6 +13,7 @@ class QuizAnswer extends StatelessWidget{
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: InkWell(
+        onTap: selectHandler,
         child: Column(
           children: [
             Container(
