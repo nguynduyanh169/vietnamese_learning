@@ -21,7 +21,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: ListView(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left: 0.0),
+                padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 0,
+                    top: SizeConfig.blockSizeVertical * 3),
                 child: Stack(
                   fit: StackFit.loose,
                   children: <Widget>[
@@ -30,8 +32,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         new Container(
-                            width: SizeConfig.blockSizeHorizontal * 35,
-                            height: 130.0,
+                            width: SizeConfig.blockSizeHorizontal * 38,
+                            height: SizeConfig.blockSizeVertical * 20,
                             decoration: new BoxDecoration(
                               shape: BoxShape.circle,
                               image: new DecorationImage(
@@ -43,7 +45,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     Padding(
-                        padding: EdgeInsets.only(top: 90.0, right: 100.0),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 15,
+                            right: SizeConfig.blockSizeHorizontal * 23),
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -60,10 +64,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+
               Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 5,
+                    right: SizeConfig.blockSizeHorizontal * 5),
                 child: Container(
-                  margin: const EdgeInsets.only(left: 100.0),
+                  margin: const EdgeInsets.only(left: 100),
                   child: Text(
                     "Hồ Quang Bảo",
                     style: TextStyle(fontSize: 20),
@@ -169,34 +176,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: <Widget>[
                           Card(
                               child: ListTile(
-                                leading: Icon(Icons.feedback),
-                                title: Text("Feedback"),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              )),
+                            leading: Icon(Icons.feedback),
+                            title: Text("Feedback"),
+                            trailing: Icon(Icons.arrow_forward_ios),
+                          )),
                           Card(
                               child: ListTile(
-                                leading: Icon(Icons.language),
-                                title: Text("Language"),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              )),
+                            leading: Icon(Icons.language),
+                            title: Text("Language"),
+                            trailing: Icon(Icons.arrow_forward_ios),
+                          )),
                           Card(
                               child: ListTile(
-                                leading: Icon(Icons.notifications),
-                                title: Text("Notification Setting"),
-                                trailing: Switch(value: false, onChanged: null),
-                              )),
+                            leading: Icon(Icons.notifications),
+                            title: Text("Notification Setting"),
+                            trailing: Switch(value: false, onChanged: null),
+                          )),
                           Card(
                               child: ListTile(
-                                leading: Icon(Icons.perm_identity),
-                                title: Text("Sign out"),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              )),
+                            leading: Icon(Icons.perm_identity),
+                            title: Text("Sign out"),
+                            trailing: Icon(Icons.arrow_forward_ios),
+                          )),
                         ],
                       ),
-                    )
-                ),
+                    )),
               ),
-
             ],
           ),
         ));
