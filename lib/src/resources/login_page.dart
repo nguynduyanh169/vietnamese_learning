@@ -27,8 +27,10 @@ class _LoginPageState extends State<LoginPage> {
                 height: MediaQuery.of(context).size.height / 4,
                 decoration: BoxDecoration(
                     image: DecorationImage(
+                      scale: 1.5,
                         image:
-                            AssetImage('assets/images/vietnameselearn.png'))),
+
+                            AssetImage('assets/images/VL.png'))),
               ),
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
@@ -225,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
                 child: Row(
                   children: <Widget>[
-                    Text("Dont't have an Account? "),
+                    Text("Don't have an Account? "),
                     SizedBox(width: 5,),
                     InkWell(
                       child: Text("Sign Up", style: TextStyle(color: Colors.blueAccent),),
