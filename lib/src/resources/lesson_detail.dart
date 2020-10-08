@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 
 class LessonDetail extends StatefulWidget {
@@ -13,12 +14,13 @@ class _LessonDetailState extends State<LessonDetail> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Container(
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 35.0, left: 15.0),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeVertical * 2),
               child: Row(
                 children: <Widget>[
                   IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () => Navigator.of(context).pop(),),
@@ -27,10 +29,11 @@ class _LessonDetailState extends State<LessonDetail> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 40.0),
-              height: 500, // card height
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0, left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+              height: SizeConfig.blockSizeVertical * 90, // card height
               child: PageView(
-                controller: PageController(viewportFraction: 0.7),
+                controller: PageController(viewportFraction: 1.0),
+                scrollDirection: Axis.vertical,
                 children: <Widget>[
                   Card(
                     color: Colors.green,
@@ -39,7 +42,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         borderRadius: BorderRadius.circular(15.0)),
                     child: Column(children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 13),
                         child: Text(
                           'Vocabulary',
                           style: GoogleFonts.sansita(
@@ -51,7 +54,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                         child: Image(
                           image: AssetImage('assets/images/vocabulary_logo.png'),
                           width: 200,
@@ -59,7 +62,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(top: 20.0),
+                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                           child: Ink(
                             decoration: const ShapeDecoration(
                               color: Colors.greenAccent,
@@ -72,7 +75,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             ),
                           )),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                         child: Text(
                           'Vocabulary is the key to mastering a language',
                           style: GoogleFonts.notoSans(
@@ -92,7 +95,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         borderRadius: BorderRadius.circular(15.0)),
                     child: Column(children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 13),
                         child: Text(
                           'Conversation',
                           style: GoogleFonts.sansita(
@@ -104,7 +107,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                         child: Image(
                           image: AssetImage('assets/images/conversation_logo.png'),
                           width: 200,
@@ -112,7 +115,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(top: 30.0),
+                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                           child: Ink(
                             decoration: const ShapeDecoration(
                               color: Colors.amber,
@@ -125,7 +128,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             ),
                           )),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                         child: Text(
                           'Conversation makes you feel more confident',
                           style: GoogleFonts.notoSans(
@@ -145,7 +148,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         borderRadius: BorderRadius.circular(15.0)),
                     child: Column(children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 13),
                         child: Text(
                           'Quiz',
                           style: GoogleFonts.sansita(
@@ -157,7 +160,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                         child: Image(
                           image: AssetImage('assets/images/quiz_logo.png'),
                           width: 200,
@@ -165,7 +168,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(top: 30.0),
+                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                           child: Ink(
                             decoration: const ShapeDecoration(
                               color: Colors.blueAccent,
@@ -197,7 +200,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             ),
                           )),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0, left: 4.0, right: 4.0),
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3, left: 4.0, right: 4.0),
                         child: Text(
                           'Do the quiz to test your memory',
                           style: GoogleFonts.notoSans(
