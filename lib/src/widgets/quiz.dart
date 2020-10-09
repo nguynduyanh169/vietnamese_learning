@@ -20,12 +20,22 @@ class Quiz extends StatelessWidget {
     var percent = questionIndex * 0.1;
     SizeConfig().init(context);
     return Container(
-        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8, left: SizeConfig.blockSizeHorizontal * 8, right: SizeConfig.blockSizeHorizontal * 8),
+        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3, left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
       child: Column(
         children: [
           Container(
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeVertical * 2),
+            child: Row(
+              children: <Widget>[
+                IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
+                Text("Lesson Details", style: TextStyle(fontSize: 20),)
+              ],
+            ),
+          ),
+          SizedBox(height: SizeConfig.blockSizeVertical * 5,),
+          Container(
             child: new LinearPercentIndicator(
-              width: SizeConfig.blockSizeHorizontal * 82,
+              width: SizeConfig.blockSizeHorizontal * 88,
               animation: false,
               lineHeight: 15.0,
               percent: percent,

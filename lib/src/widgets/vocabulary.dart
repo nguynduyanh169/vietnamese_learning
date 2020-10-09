@@ -18,7 +18,7 @@ class Vocabulary extends StatelessWidget {
     // TODO: implement build
     return Container(
         padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 15,
+            top: SizeConfig.blockSizeVertical * 3,
             left: SizeConfig.blockSizeHorizontal * 5,
             right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 100,
@@ -27,6 +27,16 @@ class Vocabulary extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeVertical * 2),
+              child: Row(
+                children: <Widget>[
+                  IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
+                  Text("Lesson Details", style: TextStyle(fontSize: 20),)
+                ],
+              ),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical * 5,),
             Container(
               padding:
                   EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
