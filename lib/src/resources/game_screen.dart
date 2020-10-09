@@ -3,48 +3,46 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() => runApp(GameScreen());
 
-class GameScreen extends StatelessWidget{
+class GameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Matching Game",
-    home: GamePage(),
+      home: GamePage(),
     );
   }
-
 }
 
-class GamePage extends StatefulWidget{
-
+class GamePage extends StatefulWidget {
   _GamePageState createState() => _GamePageState();
-
 }
 
-class _GamePageState extends State<GamePage>{
+class _GamePageState extends State<GamePage> {
   List<ItemModel> items;
   List<ItemModel> items2;
   int score;
   bool gameOver;
+
   @override
   void initState() {
     super.initState();
     initGame();
   }
 
-  initGame(){
+  initGame() {
     gameOver = false;
     score = 0;
     items = [
-      ItemModel(icon:FontAwesomeIcons.coffee, name:"Coffee", value:"Coffee"),
-      ItemModel(icon:FontAwesomeIcons.dog, name:"Dog", value:"Dog"),
-      ItemModel(icon:FontAwesomeIcons.cat, name:"Cat", value:"Cat"),
-      ItemModel(icon:FontAwesomeIcons.bus, name:"Bus", value:"Bus"),
+      ItemModel(icon: FontAwesomeIcons.coffee, name: "Coffee", value: "Coffee"),
+      ItemModel(icon: FontAwesomeIcons.dog, name: "Dog", value: "Dog"),
+      ItemModel(icon: FontAwesomeIcons.cat, name: "Cat", value: "Cat"),
+      ItemModel(icon: FontAwesomeIcons.bus, name: "Bus", value: "Bus"),
     ];
     items2 = List<ItemModel>.from(items);
     items.shuffle();
     items2.shuffle();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,99 +54,109 @@ class _GamePageState extends State<GamePage>{
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            Text.rich(TextSpan(
-              children: [
-                TextSpan(text: "Score: "),
-                TextSpan(text: "$score", style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
-                ))
-              ]
-            )
-            ),
-            if(!gameOver)
+            Text.rich(TextSpan(children: [
+              TextSpan(text: "Score: "),
+              TextSpan(
+                  text: "$score",
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                  ))
+            ])),
+            if (!gameOver)
               Row(
                 children: <Widget>[
                   Column(
-                    children: items.map((item){
-                      return Container(
-                        margin: const EdgeInsets.all(8.0),
-                        child: Draggable<ItemModel>(
-                          data: item,
-                          childWhenDragging: Icon(
-                            item.icon, color: Colors.grey, size: 50.0,
-                          ),
-                          feedback: Icon(item.icon,color: Colors.teal, size: 50,),
-                          child: Icon(item.icon, color: Colors.teal, size: 50,),
+                      children: items.map((item) {
+                    return Container(
+                      margin: const EdgeInsets.all(8.0),
+                      child: Draggable<ItemModel>(
+                        data: item,
+                        childWhenDragging: Icon(
+                          item.icon,
+                          color: Colors.grey,
+                          size: 50.0,
                         ),
-                      );
-                    }).toList()
-                  ),
-                  Spacer(
-
-                  ),
+                        feedback: Icon(
+                          item.icon,
+                          color: Colors.teal,
+                          size: 50,
+                        ),
+                        child: Icon(
+                          item.icon,
+                          color: Colors.teal,
+                          size: 50,
+                        ),
+                      ),
+                    );
+                  }).toList()),
+                  Spacer(),
                   Column(
-                    children: items2.map((item){
-                      return DragTarget<ItemModel>(
-                        onAccept: (receivedItem){
-                          if(item.value == receivedItem.value){
-                            setState(() {
-                              items.remove(receivedItem);
-                              items2.remove(item);
-                              score += 10;
-                              item.accepting = false;
-                            });
-                          }else{
-                            setState(() {
-                              score -= 5;
-                              item.accepting = false;
-                            });
-                          }
-                        },
-                        onLeave: (receivedItem){
+                      children: items2.map((item) {
+                    return DragTarget<ItemModel>(
+                      onAccept: (receivedItem) {
+                        if (item.value == receivedItem.value) {
                           setState(() {
+                            items.remove(receivedItem);
+                            items2.remove(item);
+                            score += 10;
                             item.accepting = false;
                           });
-                        },
-                        onWillAccept: (receivedItem){
+                        } else {
                           setState(() {
-                            item.accepting= true;
+                            score -= 5;
+                            item.accepting = false;
                           });
-                          return true;
-                        },
-                        builder: (context, acceptedItems, rejectedItem) => Container(
-                          color: item.accepting? Colors.red:Colors.teal,
-                          height: 50,
-                          width: 100,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(8.0),
-                          child: Text(item.name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,
-                              fontSize: 18),),
-
+                        }
+                      },
+                      onLeave: (receivedItem) {
+                        setState(() {
+                          item.accepting = false;
+                        });
+                      },
+                      onWillAccept: (receivedItem) {
+                        setState(() {
+                          item.accepting = true;
+                        });
+                        return true;
+                      },
+                      builder: (context, acceptedItems, rejectedItem) =>
+                          Container(
+                        color: item.accepting ? Colors.red : Colors.teal,
+                        height: 50,
+                        width: 100,
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.all(8.0),
+                        child: Text(
+                          item.name,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
                         ),
-                      );
-                    }).toList()
-                  ),
+                      ),
+                    );
+                  }).toList()),
                 ],
               ),
-            if(gameOver)
-              Text("GameOver", style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0
-              ),),
-            if(gameOver)
+            if (gameOver)
+              Text(
+                "GameOver",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.0),
+              ),
+            if (gameOver)
               Center(
                 child: RaisedButton(
                   textColor: Colors.white,
                   color: Colors.pink,
                   child: Text("New Game"),
-                  onPressed: (){
+                  onPressed: () {
                     initGame();
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                 ),
               )
@@ -157,7 +165,6 @@ class _GamePageState extends State<GamePage>{
       ),
     );
   }
-
 }
 
 class ItemModel {
@@ -167,8 +174,4 @@ class ItemModel {
   bool accepting;
 
   ItemModel({this.name, this.value, this.icon, this.accepting = false});
-
-
-
 }
-
