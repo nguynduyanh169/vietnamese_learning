@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen>{
                 child: Image(
                     width: 50,
                     height: 50,
-                    image: AssetImage('assets/images/logolearning.png')
+                    image: AssetImage('assets/images/VLwithout.png')
                 ),
               ),
               Expanded(
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen>{
                   mainAxisSpacing: 20,
                   children: <Widget>[
                     CategoryCard(
-                        title: "Tieng Viet 1",
+                        title: "Greeting",
                         svgSrc: "assets/images/logo.png",
                         press: () => pushNewScreen(
                             context,
@@ -51,17 +51,17 @@ class _HomeScreenState extends State<HomeScreen>{
                         )
                     ),
                     CategoryCard(
-                      title: "Tieng Viet 2",
+                      title: "Nationality",
                       svgSrc: "assets/images/logo.png",
                       press: () {},
                     ),
                     CategoryCard(
-                      title: "Tieng Viet 3",
+                      title: "Address",
                       svgSrc: "assets/images/logo.png",
                       press: () {},
                     ),
                     CategoryCard(
-                      title: "Tieng Viet 4",
+                      title: "In the classroom",
                       svgSrc: "assets/images/logo.png",
                       press: () {},
                     ),
