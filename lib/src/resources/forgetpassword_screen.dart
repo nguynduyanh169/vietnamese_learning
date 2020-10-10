@@ -8,6 +8,7 @@ class ForgetPasswordScreen extends StatelessWidget{
     SizeConfig().init(context);
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 20),
         child: Center(

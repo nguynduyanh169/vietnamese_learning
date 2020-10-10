@@ -123,20 +123,6 @@ class _QuizScreenState extends State<QuizScreen> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'Quiz',
-              style: TextStyle(
-                color: Colors.black
-              ),
-            ),
-            backgroundColor: Colors.grey[100],
-            shadowColor: Colors.white,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
           body: _questionIndex < _questions.length
             ? Quiz(
             questions: _questions,

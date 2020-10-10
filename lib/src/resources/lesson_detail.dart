@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/conversation_screen.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/resources/vocabulary_screen.dart';
 
@@ -110,7 +111,9 @@ class _LessonDetailState extends State<LessonDetail> {
                         );
                       },
                     ),
-                    Card(
+                    InkWell(
+
+                    child: Card(
                       color: Colors.amberAccent,
                       elevation: 6,
                       shape: RoundedRectangleBorder(
@@ -154,6 +157,27 @@ class _LessonDetailState extends State<LessonDetail> {
                           ),
                         )
                       ]),
+                    ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                ConversationScreen(),
+                            transitionsBuilder:
+                                (context, animation, secondaryAnimation, child) {
+                              var begin = Offset(1.0, 0.0);
+                              var end = Offset.zero;
+                              var curve = Curves.ease;
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              return SlideTransition(
+                                position: animation.drive(tween),
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
                     InkWell(
                       child: Card(

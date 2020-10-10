@@ -1,6 +1,6 @@
 # vietnamese_learning
 
-A new Flutter application.
+A new Flutter application for Capstone Project .
 
 ## Getting Started
 

@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     SystemChrome.setEnabledSystemUIOverlays ([]);
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         child: Center(
           child: Column(

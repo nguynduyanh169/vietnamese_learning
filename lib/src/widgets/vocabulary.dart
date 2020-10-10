@@ -28,31 +28,24 @@ class Vocabulary extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeVertical * 2),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
               child: Row(
                 children: <Widget>[
-                  IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
-                  Text("Lesson Details", style: TextStyle(fontSize: 20),)
+                  IconButton(icon: Icon(Icons.cancel), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
+                  Container(
+                    child: new LinearPercentIndicator(
+                      width: SizeConfig.blockSizeHorizontal * 75,
+                      animation: false,
+                      lineHeight: 15.0,
+                      percent: percent,
+                      linearStrokeCap: LinearStrokeCap.roundAll,
+                      progressColor: Colors.green,
+                    ),
+                  ),
                 ],
               ),
             ),
             SizedBox(height: SizeConfig.blockSizeVertical * 5,),
-            Container(
-              padding:
-                  EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-              child: new LinearPercentIndicator(
-                width: SizeConfig.blockSizeHorizontal * 80,
-                animation: false,
-                lineHeight: 15.0,
-                percent: percent,
-                center: Text(
-                  "$percentStr %",
-                  style: TextStyle(fontSize: 9),
-                ),
-                linearStrokeCap: LinearStrokeCap.roundAll,
-                progressColor: Colors.green,
-              ),
-            ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 3,
             ),

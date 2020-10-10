@@ -8,6 +8,7 @@ class SignUpScreen extends StatelessWidget{
     SizeConfig().init(context);
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
         child: Center(
