@@ -33,9 +33,8 @@ class Vocabulary extends StatelessWidget {
                 children: <Widget>[
                   IconButton(icon: Icon(Icons.cancel), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
                   Container(
-
                     child: new LinearPercentIndicator(
-                      width: SizeConfig.blockSizeHorizontal * 70,
+                      width: SizeConfig.blockSizeHorizontal * 75,
                       animation: false,
                       lineHeight: 15.0,
                       percent: percent,

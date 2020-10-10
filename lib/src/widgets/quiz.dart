@@ -28,25 +28,25 @@ class Quiz extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
-                Text("Lesson Details", style: TextStyle(fontSize: 20),)
+                IconButton(icon: Icon(Icons.cancel), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
+                Container(
+                  child: new LinearPercentIndicator(
+                    width: SizeConfig.blockSizeHorizontal * 75,
+                    animation: false,
+                    lineHeight: 15.0,
+                    percent: percent,
+                    linearStrokeCap: LinearStrokeCap.roundAll,
+                    progressColor: Colors.green,
+                  ),
+                ),
               ],
             ),
           ),
           SizedBox(height: SizeConfig.blockSizeVertical * 5,),
-          Container(
-            child: new LinearPercentIndicator(
-              width: SizeConfig.blockSizeHorizontal * 88,
-              animation: false,
-              lineHeight: 15.0,
-              percent: percent,
-              linearStrokeCap: LinearStrokeCap.roundAll,
-              progressColor: Colors.blueAccent,
-            ),
-          ),
           QuizQuestion(
             questions[questionIndex]['questionText'],
           ),
+          SizedBox(height: SizeConfig.blockSizeVertical * 9,),
           Expanded(
               child: GridView.count(
                   crossAxisCount: 2,

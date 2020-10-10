@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
-
 class VocabularyResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class VocabularyResult extends StatelessWidget {
               Image(width: SizeConfig.blockSizeHorizontal * 40, height: SizeConfig.blockSizeVertical * 30,image: AssetImage('assets/images/vocabulary_logo.png'),),
               MaterialButton(
                 onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),
-                child: Text("Back to Lesson 1"),)
+                child: Text("Back to Lesson Introduction"),)
             ],
           ),
         )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class QuizResult extends StatelessWidget{
   final int resultScore;
@@ -22,18 +23,28 @@ class QuizResult extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          Text(
-            resultPhrase,
-            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+    SizeConfig().init(context);
+    int correct = resultScore ~/ 10;
+    int incorrect = 10 - correct;
+    return Container(
+        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 20),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text('Congratulation', style: TextStyle(fontSize: 40),),
+              SizedBox(height: SizeConfig.blockSizeVertical * 3,),
+              Text('You has completed quiz part of Introduction'),
+              SizedBox(height: SizeConfig.blockSizeVertical * 4,),
+              Image(width: SizeConfig.blockSizeHorizontal * 40, height: SizeConfig.blockSizeVertical * 30,image: AssetImage('assets/images/quiz_logo.png'),),
+              Text('Correct: $correct'),
+              Text('Incorrect: $incorrect'),
+              MaterialButton(
+                onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),
+                child: Text("Back to Lesson Introduction"),)
+            ],
           ),
-          FlatButton(child: Text('Restart Quiz!',
-          ),textColor:Colors.blue,onPressed: resetHandlar,)
-        ],
-      ),
+        )
     );
   }
 }
