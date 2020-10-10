@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/resources/home_screen.dart';
 import 'package:vietnamese_learning/src/resources/level_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/resources/game_screen.dart';
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      LevelScreen(),
+      HomeScreen(),
       GameScreen(),
       ProfileScreen2()
     ];

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/resources/home_screen.dart';
+import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LevelScreen extends StatefulWidget {
@@ -17,12 +17,32 @@ class _LevelScreenState extends State<LevelScreen> {
     SizeConfig().init(context);
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/backgroundlevel.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 30,
+            top: SizeConfig.blockSizeVertical * 8,
             left: SizeConfig.blockSizeHorizontal * 5,
             right: SizeConfig.blockSizeHorizontal * 5),
         child: Column(
           children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width * 1,
+              height: MediaQuery.of(context).size.height * 0.2,
+              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
+              child: Text(
+                'CHOOSE YOUR LEVEL',
+                style: GoogleFonts.roboto(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.blueGrey,
+                ),
+              ),
+            ),
             Container(
               width: MediaQuery.of(context).size.width * 1,
               height: 80.0,
@@ -34,7 +54,7 @@ class _LevelScreenState extends State<LevelScreen> {
               child: InkWell(
                 onTap: () => pushNewScreen(
                       context,
-                      screen: HomeScreen(),
+                      screen: HomePage(),
                       withNavBar: true,
                 ),
                 child: Column(
@@ -50,11 +70,12 @@ class _LevelScreenState extends State<LevelScreen> {
                             color: Colors.white,
                           ),
                         ),
+                        SizedBox(width: SizeConfig.blockSizeHorizontal * 30,),
                         Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/rocket.png"),
-                            ),
+                          width: 70,
+                          height: 70,
+                          child: Image(
+                            image: AssetImage('assets/images/owlcolor.png'),
                           ),
                         ),
                       ],
@@ -77,12 +98,24 @@ class _LevelScreenState extends State<LevelScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text(
-                        "Intermediate",
-                        style: GoogleFonts.sansita(
-                          fontSize: 45,
-                          color: Colors.white,
-                        )
+                    Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          child: Image(
+                            image: AssetImage('assets/images/owlexpertcolor.png'),
+                          ),
+                        ),
+                        SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
+                        Text(
+                            "Intermediate",
+                            style: GoogleFonts.sansita(
+                              fontSize: 45,
+                              color: Colors.white,
+                            )
+                        ),
+                      ],
                     ),
                   ],
                 )
@@ -101,12 +134,24 @@ class _LevelScreenState extends State<LevelScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text(
-                        "Advanced",
-                        style: GoogleFonts.sansita(
-                          fontSize: 45,
-                          color: Colors.white,
+                    Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          child: Image(
+                            image: AssetImage('assets/images/owlwithclassescolor.png'),
+                          ),
                         ),
+                        SizedBox(width: SizeConfig.blockSizeVertical * 17,),
+                        Text(
+                          "Advanced",
+                          style: GoogleFonts.sansita(
+                            fontSize: 45,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 )
