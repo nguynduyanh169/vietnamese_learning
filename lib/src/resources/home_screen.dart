@@ -3,6 +3,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
+import 'package:vietnamese_learning/src/resources/speech_screen.dart';
 
 class HomeScreen extends StatefulWidget{
   HomeScreen({Key key}) : super(key: key);
@@ -68,10 +69,20 @@ class _HomeScreenState extends State<HomeScreen>{
                   ],
                 ),
               ),
+              FloatingActionButton(
+                onPressed: (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SpeechScreen()),
+                  );
+                },
+                child: Icon(Icons.mic),
+
+              ),
             ],
           ),
         ),
       ]),
+
     );
   }
 }
