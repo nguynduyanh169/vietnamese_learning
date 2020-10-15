@@ -1,14 +1,17 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class VocabularyCard extends StatelessWidget {
   final String english;
   final String vietnamese;
   final Function nextHandler;
+  final String img;
 
-  VocabularyCard({this.english, this.vietnamese, this.nextHandler});
+  VocabularyCard({this.english, this.vietnamese, this.img , this.nextHandler});
 
   @override
   Widget build(BuildContext context) {
@@ -16,53 +19,192 @@ class VocabularyCard extends StatelessWidget {
     // TODO: implement build
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Container(
-          width: SizeConfig.blockSizeHorizontal * 80,
-          height: SizeConfig.blockSizeVertical * 50,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '$english',
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 3,
-                ),
-                Text(
-                  '$vietnamese',
-                  style: TextStyle(fontSize: 15),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 3,
-                ),
-                Image(
-                    width: 50,
-                    height: 50,
-                    image: AssetImage('assets/images/logolearning.png')),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 3,
-                ),
-                MaterialButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+        FlipCard(
+          front: Container(
+            width: SizeConfig.blockSizeHorizontal * 85,
+            height: SizeConfig.blockSizeVertical * 58,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 4,
                   ),
-                  child: Icon(Icons.volume_up),
-                )
-              ],
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 40,
+                    height: SizeConfig.blockSizeVertical * 30,
+                    child: Image.asset('$img'),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 4,
+                  ),
+                  Text(
+                    '$vietnamese',
+                    style: GoogleFonts.dmSans(
+                      textStyle: TextStyle(fontSize: 25)
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.amberAccent,
+                            width: SizeConfig.blockSizeHorizontal * 18,
+                            height: SizeConfig.blockSizeVertical * 10,
+                            child: Center(
+                              child: Icon(
+                                Icons.volume_up,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          print('Sound');
+                        },
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 30,
+                      ),
+                      InkWell(
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.amberAccent,
+                            width: SizeConfig.blockSizeHorizontal * 18,
+                            height: SizeConfig.blockSizeVertical * 10,
+                            child: Center(
+                              child: Icon(
+                                Icons.mic,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          print('Micro');
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
+          back: Container(
+            width: SizeConfig.blockSizeHorizontal * 85,
+            height: SizeConfig.blockSizeVertical * 58,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 10,
+                  ),
+                  Container(
+                    child: Text('$vietnamese', style: GoogleFonts.dmSans(textStyle: TextStyle(fontSize: 30))),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 5,
+                  ),
+                  Text(
+                    '$english (n)',
+                    style: GoogleFonts.dmSans(textStyle: TextStyle(fontSize: 25)),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.amberAccent,
+                            width: SizeConfig.blockSizeHorizontal * 18,
+                            height: SizeConfig.blockSizeVertical * 10,
+                            child: Center(
+                              child: Icon(
+                                Icons.volume_up,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          print('Sound');
+                        },
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 30,
+                      ),
+                      InkWell(
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.amberAccent,
+                            width: SizeConfig.blockSizeHorizontal * 18,
+                            height: SizeConfig.blockSizeVertical * 10,
+                            child: Center(
+                              child: Icon(
+                                Icons.mic,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          print('Micro');
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          direction: FlipDirection.HORIZONTAL,
         ),
-        MaterialButton(
-          onPressed: nextHandler,
-          shape: CircleBorder(side: BorderSide.none),
-          child: Icon(Icons.arrow_forward),
+        SizedBox(
+          height: SizeConfig.blockSizeVertical * 2,
+        ),
+        Text(
+          'Touch to flip card',
+          style: GoogleFonts.dmSans(
+            textStyle: TextStyle(fontSize: 24)
+          ),
+        ),
+        SizedBox(
+          height: SizeConfig.blockSizeVertical * 3,
+        ),
+        ButtonTheme(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          child: RaisedButton(
+              onPressed: nextHandler,
+              child: Container(
+                width: SizeConfig.blockSizeHorizontal * 70,
+                height: SizeConfig.blockSizeVertical * 8,
+                child: Center(
+                  child: Text(
+                    'Continue',
+                    style: GoogleFonts.dmSans(
+                      textStyle: TextStyle(fontSize: 25, color: Colors.white)
+                    ),
+                  ),
+                ),
+              )),
         )
       ],
     );

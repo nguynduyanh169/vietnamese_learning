@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Enter you Email',
+                    labelText: 'Enter your Email',
                     prefixIcon: Icon(Icons.email),
                   ),
                 ),

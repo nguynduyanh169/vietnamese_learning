@@ -19,12 +19,13 @@ dependencies:
   percent_indicator: ^2.1.7+4
   flutter_signin_button: ^1.1.0
   persistent_bottom_nav_bar: any
-  carousel_slider: ^2.3.1
   font_awesome_flutter: ^8.8.1
   device_simulator: ^0.9.6
   speech_to_text: ^2.7.0
   highlight_text: ^0.7.2
   avatar_glow: ^1.2.0
+  flip_card: ^0.4.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,4 +58,12 @@ flutter:
      - assets/images/owlwithclassescolor.png
      - assets/images/backgroundlevel.png
      - assets/images/backgroundlevel1.png
+     - assets/images/demovocab/dog.png
+     - assets/images/demovocab/mouse.png
+     - assets/images/demovocab/bird.png
+     - assets/images/demovocab/phone.png
+     - assets/images/demovocab/tree.png
+     - assets/images/demovocab/chicken.png
+     - assets/images/demovocab/car.png
+     - assets/images/demovocab/bike.png
  

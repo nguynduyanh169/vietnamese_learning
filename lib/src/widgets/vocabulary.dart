@@ -31,7 +31,7 @@ class Vocabulary extends StatelessWidget {
               padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
               child: Row(
                 children: <Widget>[
-                  IconButton(icon: Icon(Icons.cancel), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
+                  IconButton(icon: Icon(Icons.clear), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
                   Container(
                     child: new LinearPercentIndicator(
                       width: SizeConfig.blockSizeHorizontal * 75,
@@ -39,19 +39,19 @@ class Vocabulary extends StatelessWidget {
                       lineHeight: 15.0,
                       percent: percent,
                       linearStrokeCap: LinearStrokeCap.roundAll,
-                      progressColor: Colors.green,
+                      progressColor: Colors.amberAccent,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: SizeConfig.blockSizeVertical * 5,),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 3,
             ),
             VocabularyCard(
               english: vocabularies[vocabularyIndex]['english'],
               vietnamese: vocabularies[vocabularyIndex]['vietnamese'],
+              img: vocabularies[vocabularyIndex]['img'],
               nextHandler: nextHandler,
             )
           ],
