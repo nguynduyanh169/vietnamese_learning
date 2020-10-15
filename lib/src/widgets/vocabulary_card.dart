@@ -124,7 +124,7 @@ class VocabularyCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(textStyle: TextStyle(fontSize: 25)),
                   ),
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical * 15,
+                    height: SizeConfig.blockSizeVertical * 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
