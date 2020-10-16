@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/conversation_screen.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
-import 'package:vietnamese_learning/src/resources/vocabulary_screen.dart';
+import 'package:vietnamese_learning/src/resources/vocab_detail_screen.dart';
 
 class LessonDetail extends StatefulWidget {
   LessonDetail({Key key}) : super(key: key);
@@ -31,7 +31,7 @@ class _LessonDetailState extends State<LessonDetail> {
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     Text(
-                      "Introduction",
+                      "Greeting",
                       style: TextStyle(fontSize: 20),
                     )
                   ],
@@ -94,7 +94,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder: (context, animation, secondaryAnimation) =>
-                                VocabularyScreen(),
+                                VocabDetailScreen(),
                             transitionsBuilder:
                                 (context, animation, secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);
@@ -246,7 +246,6 @@ class _LessonDetailState extends State<LessonDetail> {
                           ),
                         );
                       },
-
                     )
                   ],
                 ),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vietnamese_learning/src/widgets/vocabulary.dart';
-import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 import 'home_screen.dart';
 

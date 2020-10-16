@@ -75,8 +75,8 @@ class _LevelScreenState extends State<LevelScreen> {
                               width: SizeConfig.blockSizeHorizontal * 30,
                             ),
                             Container(
-                              width: 70,
-                              height: 70,
+                              width: SizeConfig.blockSizeHorizontal * 13.5,
+                              height: SizeConfig.blockSizeVertical * 10,
                               child: Image(
                                 image: AssetImage('assets/images/owlcolor.png'),
                               ),
@@ -151,7 +151,7 @@ class _LevelScreenState extends State<LevelScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeVertical * 17,
+                            width: SizeConfig.blockSizeVertical * 13,
                           ),
                           Text(
                             "Advanced",
