@@ -93,23 +93,9 @@ class _LessonDetailState extends State<LessonDetail> {
                         ]),
                       ),
                       onTap: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation, secondaryAnimation) =>
-                                VocabDetailScreen(),
-                            transitionsBuilder:
-                                (context, animation, secondaryAnimation, child) {
-                              var begin = Offset(1.0, 0.0);
-                              var end = Offset.zero;
-                              var curve = Curves.ease;
-                              var tween = Tween(begin: begin, end: end)
-                                  .chain(CurveTween(curve: curve));
-                              return SlideTransition(
-                                position: animation.drive(tween),
-                                child: child,
-                              );
-                            },
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => VocabDetailScreen()),
                         );
                       },
                     ),
