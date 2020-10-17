@@ -32,7 +32,8 @@ class _LevelScreenState extends State<LevelScreen> {
             Container(
               width: MediaQuery.of(context).size.width * 1,
               height: MediaQuery.of(context).size.height * 0.2,
-              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
+              padding:
+                  EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
               child: Text(
                 'CHOOSE YOUR LEVEL',
                 style: GoogleFonts.roboto(
@@ -46,116 +47,123 @@ class _LevelScreenState extends State<LevelScreen> {
             Container(
               width: MediaQuery.of(context).size.width * 1,
               height: 80.0,
-              child : Card(
+              child: Card(
                 color: Colors.green,
                 shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: InkWell(
-                onTap: () => pushNewScreen(
-                      context,
-                      screen: HomePage(),
-                      withNavBar: true,
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Text(
-                          "Beginner",
-                          style: GoogleFonts.sansita(
-                            fontSize: 45,
-                            color: Colors.white,
-                          ),
+                child: InkWell(
+                    onTap: () => pushNewScreen(
+                          context,
+                          screen: HomePage(),
+                          withNavBar: true,
                         ),
-                        SizedBox(width: SizeConfig.blockSizeHorizontal * 30,),
-                        Container(
-                          width: 70,
-                          height: 70,
-                          child: Image(
-                            image: AssetImage('assets/images/owlcolor.png'),
-                          ),
-                        ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Text(
+                              "Beginner",
+                              style: GoogleFonts.sansita(
+                                fontSize: 45,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 30,
+                            ),
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal * 13.5,
+                              height: SizeConfig.blockSizeVertical * 10,
+                              child: Image(
+                                image: AssetImage('assets/images/owlcolor.png'),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                )
+                    )),
               ),
             ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 2,
             ),
-            SizedBox(height: SizeConfig.blockSizeVertical * 2,),
             Container(
               width: MediaQuery.of(context).size.width * 1,
               height: 80.0,
-            child: Card(
-              color: Colors.yellow[700],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Container(
-                          width: 60,
-                          height: 60,
-                          child: Image(
-                            image: AssetImage('assets/images/owlexpertcolor.png'),
+              child: Card(
+                  color: Colors.yellow[700],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            child: Image(
+                              image: AssetImage(
+                                  'assets/images/owlexpertcolor.png'),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
-                        Text(
-                            "Intermediate",
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 4,
+                          ),
+                          Text("Intermediate",
+                              style: GoogleFonts.sansita(
+                                fontSize: 45,
+                                color: Colors.white,
+                              )),
+                        ],
+                      ),
+                    ],
+                  )),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 2,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 1,
+              height: 80.0,
+              child: Card(
+                  color: Colors.red[700],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            child: Image(
+                              image: AssetImage(
+                                  'assets/images/owlwithclassescolor.png'),
+                            ),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeVertical * 13,
+                          ),
+                          Text(
+                            "Advanced",
                             style: GoogleFonts.sansita(
                               fontSize: 45,
                               color: Colors.white,
-                            )
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-            ),
-            ),
-            SizedBox(height: SizeConfig.blockSizeVertical * 2,),
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: 80.0,
-            child: Card(
-                color: Colors.red[700],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Container(
-                          width: 60,
-                          height: 60,
-                          child: Image(
-                            image: AssetImage('assets/images/owlwithclassescolor.png'),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: SizeConfig.blockSizeVertical * 17,),
-                        Text(
-                          "Advanced",
-                          style: GoogleFonts.sansita(
-                            fontSize: 45,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-            ),
+                        ],
+                      ),
+                    ],
+                  )),
             )
           ],
         ),

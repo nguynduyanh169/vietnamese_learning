@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class QuizAnswer extends StatelessWidget{

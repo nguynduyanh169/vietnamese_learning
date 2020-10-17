@@ -20,7 +20,6 @@ class Quiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var percentStr = questionIndex * 10.0;
     var percent = questionIndex * 0.1;
     SizeConfig().init(context);
     return Container(
