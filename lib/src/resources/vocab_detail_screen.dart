@@ -18,6 +18,15 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
     // TODO: implement build
     return Scaffold(
         backgroundColor: Colors.green,
+        appBar: AppBar(
+          title: Text(
+            "Vocabulary",
+            style: TextStyle(color: Colors.white70),
+          ),
+          leading: IconButton(icon: Icon(Icons.arrow_back_ios, color: Colors.white70),  onPressed: () => Navigator.of(context).pop(),),
+          backgroundColor: Colors.green,
+          shadowColor: Colors.green,
+        ),
         body: Container(
           width: SizeConfig.blockSizeHorizontal * 99,
           child: Column(
