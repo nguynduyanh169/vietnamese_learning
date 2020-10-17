@@ -10,13 +10,19 @@ class Quiz extends StatelessWidget {
   final Function answerQuestions;
   final Color primaryColor;
 
-
-
   Quiz(
       {@required this.questions,
       @required this.answerQuestions,
       @required this.questionIndex,
       @required this.primaryColor});
+
+  String correctAns(){
+    for (var answer in questions[questionIndex]['answers']){
+      if(answer['score'] == 10){
+        return answer['text'];
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +60,7 @@ class Quiz extends StatelessWidget {
               child: Column(
                 children: [
                   ...(questions[questionIndex]['answers'] as List<Map<String,Object>>).map((answers) {
-                    return QuizAnswer(() => answerQuestions(answers['score']), answers['text'], primaryColor);
+                    return QuizAnswer(() => answerQuestions(answers['score']), answers['text'], primaryColor, answers['score'], correctAns());
                   }).toList()
                 ],
               )

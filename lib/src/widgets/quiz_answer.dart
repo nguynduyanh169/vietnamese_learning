@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
@@ -5,8 +6,10 @@ class QuizAnswer extends StatelessWidget{
   final String answerText;
   final Function selectHandler;
   final Color primaryColor;
+  final int answerScore;
+  final String correct;
 
-  QuizAnswer(this.selectHandler, this.answerText, this.primaryColor);
+  QuizAnswer(this.selectHandler, this.answerText, this.primaryColor, this.answerScore, this.correct);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -15,7 +18,23 @@ class QuizAnswer extends StatelessWidget{
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: InkWell(
-        onTap: selectHandler,
+        onTap: (){
+          if(answerScore == 10){
+            CoolAlert.show(
+                context: context,
+                type: CoolAlertType.success,
+                title: "Correct!",
+                onConfirmBtnTap: selectHandler);
+          }
+          else if(answerScore == 0){
+            CoolAlert.show(
+                context: context,
+                type: CoolAlertType.error,
+                title: "Incorrect!",
+                text: 'The correct answer is $correct',
+                onConfirmBtnTap: selectHandler);
+          }
+        },
         child: Column(
           children: [
             Container(
