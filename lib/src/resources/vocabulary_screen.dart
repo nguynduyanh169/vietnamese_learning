@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 class VocabularyScreen extends StatefulWidget {
   VocabularyScreen({Key key}) : super(key: key);
@@ -31,7 +30,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     setState(() {
       _vocabularyIndex = _vocabularyIndex + 1;
     });
-    print('VocabularyIndex:$_vocabularyIndex');
   }
 
   @override
@@ -42,6 +40,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     String vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
     String english = _vocabularies[_vocabularyIndex]['english'];
     String img = _vocabularies[_vocabularyIndex]['img'];
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

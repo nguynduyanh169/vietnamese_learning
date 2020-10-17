@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -71,6 +72,9 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
     }
   ];
 
+  TextEditingController txtInputVocabulary = new TextEditingController();
+  String input = "";
+
   void nextQuestion() {
     setState(() {
       _vocabularyIndex = _vocabularyIndex + 1;
@@ -80,6 +84,7 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays ([]);
     // TODO: implement build
     SizeConfig().init(context);
     var percent = _vocabularyIndex * 0.1;
@@ -88,7 +93,7 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Container(
+        body: _vocabularyIndex < 10 ? Container(
           padding: EdgeInsets.only(
               top: SizeConfig.blockSizeVertical * 3,
               left: SizeConfig.blockSizeHorizontal * 5,
@@ -150,6 +155,7 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 70,
                     child: TextField(
+                      controller: txtInputVocabulary,
                       decoration: InputDecoration(
                           hintText: 'Type Vietnamese Meaning',
                           hintStyle: GoogleFonts.dmSans(
@@ -164,12 +170,22 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
                         borderRadius: BorderRadius.circular(30)),
                     child: RaisedButton(
                         onPressed: () {
-                          CoolAlert.show(
-                            context: context,
-                            type: CoolAlertType.success,
-                            title: "Correct!",
-                            onConfirmBtnTap: nextQuestion
-                          );
+                          input = txtInputVocabulary.text;
+                          if(input == vietnamese){
+                            CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.success,
+                                title: "Correct!",
+                                onConfirmBtnTap: nextQuestion);
+                          }
+                          else if(input != vietnamese){
+                            CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.error,
+                                title: "Incorrect!",
+                                onConfirmBtnTap: null);
+                          }
+
                         },
                         child: Container(
                           width: SizeConfig.blockSizeHorizontal * 70,
@@ -188,6 +204,24 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
               )
             ],
           ),
+        ) :
+        Container(
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 20),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('Congratulation', style: TextStyle(fontSize: 40),),
+                  SizedBox(height: SizeConfig.blockSizeVertical * 3,),
+                  Text('You has completed vocabulary part of Introduction'),
+                  SizedBox(height: SizeConfig.blockSizeVertical * 4,),
+                  Image(width: SizeConfig.blockSizeHorizontal * 40, height: SizeConfig.blockSizeVertical * 30,image: AssetImage('assets/images/vocabulary_logo.png'),),
+                  MaterialButton(
+                    onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),
+                    child: Text("Back to Lesson Introduction"),)
+                ],
+              ),
+            )
         ),
       ),
     );
