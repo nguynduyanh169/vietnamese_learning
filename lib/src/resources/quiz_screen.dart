@@ -18,98 +18,108 @@ class _QuizScreenState extends State<QuizScreen> {
 
   final _questions = const [
     {
-      'questionText': 'Which\'s capital of India?',
+      'type': 'Choose the correct meaning',
+      'questionText': 'Which one of these is “bread”?',
       'answers': [
-        {'text': 'Mumbai', 'score': 0, 'color': Colors.white},
-        {'text': 'New Delhi', 'score': 10, 'color': Colors.white},
-        {'text': 'Jaipur', 'score': 0, 'color': Colors.white},
-        {'text': 'Pune', 'score': 0, 'color': Colors.white}
+        {'text': 'Con chó', 'score': 0, 'color': Colors.white},
+        {'text': 'Con mèo', 'score': 0, 'color': Colors.white},
+        {'text': 'Bánh mì', 'score': 10, 'color': Colors.white},
+        {'text': 'Cái điện thoại', 'score': 0, 'color': Colors.white}
       ]
     },
     {
-      'questionText': 'Which\'s mother toung of India?',
+      'type': 'Choose the correct meaning',
+      'questionText': 'Which one of these is “apple”?',
       'answers': [
-        {'text': 'Marathi', 'score': 0, 'color': Colors.white},
-        {'text': 'Gujarati', 'score': 0, 'color': Colors.white},
-        {'text': 'Tamil', 'score': 0, 'color': Colors.white},
-        {'text': 'Hindi', 'score': 10, 'color': Colors.white}
+        {'text': 'Quả táo', 'score': 0, 'color': Colors.white},
+        {'text': 'Gió', 'score': 0, 'color': Colors.white},
+        {'text': 'Con chó', 'score': 0, 'color': Colors.white},
+        {'text': 'Con mèo', 'score': 10, 'color': Colors.white}
       ]
     },
     {
-      'questionText': 'Who\'s prime ministor of India?',
+      'type': 'Translate this to Vietnamese',
+      'questionText': 'Hello, what is your name?',
       'answers': [
-        {'text': 'Narendra Modi', 'score': 10, 'color': Colors.white},
-        {'text': 'Amit Shah', 'score': 0, 'color': Colors.white},
-        {'text': 'Sonia Gandhi', 'score': 0, 'color': Colors.white},
-        {'text': 'Rahul Gandhi', 'score': 0, 'color': Colors.white}
+        {'text': 'Xin chào, bạn tên gì?', 'score': 10, 'color': Colors.white},
+        {'text': 'Xin chào, bạn khoẻ không?', 'score': 0, 'color': Colors.white},
+        {'text': 'Tạm biệt. Mai gặp lại nhé?', 'score': 0, 'color': Colors.white},
+        {'text': 'Xin chào, nhà bạn ở đâu?', 'score': 0, 'color': Colors.white}
       ]
     },
     {
-      'questionText': 'Who\'s president of India?',
+      'type': 'Fill the blank',
+      'questionText': '______, what is your name?',
       'answers': [
-        {'text': 'Lalkrishna Advani', 'score': 0, 'color': Colors.white},
-        {'text': 'Barak Obama', 'score': 0, 'color': Colors.white},
-        {'text': 'Ramnath Kovind', 'score': 10, 'color': Colors.white},
-        {'text': 'Pratibha Patil', 'score': 0, 'color': Colors.white}
+        {'text': 'Hello', 'score': 10, 'color': Colors.white},
+        {'text': 'Goodbye', 'score': 0, 'color': Colors.white},
+        {'text': 'Bye', 'score': 0, 'color': Colors.white},
+        {'text': 'How are you', 'score': 0, 'color': Colors.white}
       ]
     },
     {
-      'questionText': 'Who\'s Chief Minister of Gujarat?',
+      'type': 'Choose the correct meaning',
+      'questionText': 'Which one of these is “dog”?',
       'answers': [
-        {'text': 'Nitin Patel', 'score': 0, 'color': Colors.white},
-        {'text': 'Vijay Rupani', 'score': 10, 'color': Colors.white},
-        {'text': 'Jayesh Radadiya', 'score': 0, 'color': Colors.white},
-        {'text': 'Paresh Dhanani', 'score': 0, 'color': Colors.white}
+        {'text': 'Con chó', 'score': 10, 'color': Colors.white},
+        {'text': 'Con mèo', 'score': 0, 'color': Colors.white},
+        {'text': 'Con gà', 'score': 0, 'color': Colors.white},
+        {'text': 'Bánh mì', 'score': 0, 'color': Colors.white}
       ]
     },
     {
+      'type': 'Choose the correct meaning',
       'questionText':
-          'Which of the following was the author of the Arthashastra?',
+          'Which one of these is “bread”?',
       'answers': [
-        {'text': 'Kalhan', 'score': 0, 'color': Colors.white},
-        {'text': 'Visakhadatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Bana Bhatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Chanakya', 'score': 10, 'color': Colors.white}
+        {'text': 'Con chó', 'score': 0, 'color': Colors.white},
+        {'text': 'Con mèo', 'score': 0, 'color': Colors.white},
+        {'text': 'Bánh mì', 'score': 10, 'color': Colors.white},
+        {'text': 'Cái điện thoại', 'score': 0, 'color': Colors.white}
       ]
     },
     {
+      'type': 'Choose the correct meaning',
       'questionText':
-          'Which of the following was the author of the Arthashastra?',
+          'Which one of these is “cat”?',
       'answers': [
-        {'text': 'Kalhan', 'score': 0, 'color': Colors.white},
-        {'text': 'Visakhadatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Bana Bhatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Chanakya', 'score': 10, 'color': Colors.white}
+        {'text': 'Bánh mì', 'score': 0, 'color': Colors.white},
+        {'text': 'Bánh ngọt', 'score': 0, 'color': Colors.white},
+        {'text': 'Con gà', 'score': 0, 'color': Colors.white},
+        {'text': 'Con mèo', 'score': 10, 'color': Colors.white}
       ]
     },
     {
+      'type': 'Choose the correct meaning',
       'questionText':
-          'Which of the following was the author of the Arthashastra?',
+          'Which one of these is “bird”?',
       'answers': [
-        {'text': 'Kalhan', 'score': 0, 'color': Colors.white},
-        {'text': 'Visakhadatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Bana Bhatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Chanakya', 'score': 10, 'color': Colors.white}
+        {'text': 'Con chuột', 'score': 0, 'color': Colors.white},
+        {'text': 'Con chim', 'score': 10, 'color': Colors.white},
+        {'text': 'Con rắn', 'score': 0, 'color': Colors.white},
+        {'text': 'Con gà', 'score': 0, 'color': Colors.white}
       ]
     },
     {
+      'type': 'Choose the correct meaning',
       'questionText':
-          'Which of the following was the author of the Arthashastra?',
+          'Which one of these is “mouse”?',
       'answers': [
-        {'text': 'Kalhan', 'score': 0, 'color': Colors.white},
-        {'text': 'Visakhadatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Bana Bhatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Chanakya', 'score': 10, 'color': Colors.white}
+        {'text': 'Con chuột', 'score': 10, 'color': Colors.white},
+        {'text': 'Con chim', 'score': 0, 'color': Colors.white},
+        {'text': 'Con rắn', 'score': 0, 'color': Colors.white},
+        {'text': 'Con gà', 'score': 0, 'color': Colors.white}
       ]
     },
     {
+      'type': 'Choose the correct meaning',
       'questionText':
-          'Which of the following was the author of the Arthashastra?',
+          'Which one of these is “chicken”?',
       'answers': [
-        {'text': 'Kalhan', 'score': 0, 'color': Colors.white},
-        {'text': 'Visakhadatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Bana Bhatta', 'score': 0, 'color': Colors.white},
-        {'text': 'Chanakya', 'score': 10, 'color': Colors.white}
+        {'text': 'Con gà', 'score': 10, 'color': Colors.white},
+        {'text': 'Nước', 'score': 0, 'color': Colors.white},
+        {'text': 'Xe đạp', 'score': 0, 'color': Colors.white},
+        {'text': 'Cái điện thoại', 'score': 0, 'color': Colors.white}
       ]
     },
   ];

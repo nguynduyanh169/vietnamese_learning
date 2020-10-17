@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class QuizAnswer extends StatelessWidget{
@@ -16,6 +17,7 @@ class QuizAnswer extends StatelessWidget{
       color: primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: Colors.black, width: 2.0)
       ),
       child: InkWell(
         onTap: (){
@@ -44,7 +46,9 @@ class QuizAnswer extends StatelessWidget{
               alignment: Alignment.center,
               child: Text(
                 answerText,
-                style: TextStyle(fontSize: 20.0),
+                style: GoogleFonts.dmSans(
+                  fontSize: 20
+                ),
               ),
             ),
           ],
