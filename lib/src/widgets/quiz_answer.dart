@@ -24,6 +24,7 @@ class QuizAnswer extends StatelessWidget{
                 context: context,
                 type: CoolAlertType.success,
                 title: "Correct!",
+                text: 'Your choice is: $answerText',
                 onConfirmBtnTap: selectHandler);
           }
           else if(answerScore == 0){
@@ -31,7 +32,7 @@ class QuizAnswer extends StatelessWidget{
                 context: context,
                 type: CoolAlertType.error,
                 title: "Incorrect!",
-                text: 'The correct answer is $correct',
+                text: 'The correct answer is $correct. Your choice is: $answerText',
                 onConfirmBtnTap: selectHandler);
           }
         },
