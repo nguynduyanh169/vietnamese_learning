@@ -214,14 +214,14 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('Congratulation', style: TextStyle(fontSize: 40),),
+                  Text('Congratulation', style: GoogleFonts.dmSans(fontSize: 40),),
                   SizedBox(height: SizeConfig.blockSizeVertical * 3,),
-                  Text('You has completed vocabulary part of Introduction'),
+                  Text('You has completed writing part of Vocabulary', style: GoogleFonts.dmSans(fontSize: 15),),
                   SizedBox(height: SizeConfig.blockSizeVertical * 4,),
                   Image(width: SizeConfig.blockSizeHorizontal * 40, height: SizeConfig.blockSizeVertical * 30,image: AssetImage('assets/images/vocabulary_logo.png'),),
                   MaterialButton(
                     onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),
-                    child: Text("Back to Lesson Introduction"),)
+                    child: Text("Back to Lesson Introduction", style: GoogleFonts.dmSans(fontSize: 20, color: Colors.blueAccent),),)
                 ],
               ),
             )

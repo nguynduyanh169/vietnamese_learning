@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/widgets/quiz_answer.dart';
@@ -27,6 +28,7 @@ class Quiz extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var percent = questionIndex * 0.1;
+    String type = questions[questionIndex]['type'];
     SizeConfig().init(context);
     return Container(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3, left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
@@ -45,17 +47,18 @@ class Quiz extends StatelessWidget {
                     lineHeight: 15.0,
                     percent: percent,
                     linearStrokeCap: LinearStrokeCap.roundAll,
-                    progressColor: Colors.green,
+                    progressColor: Colors.amberAccent,
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: SizeConfig.blockSizeVertical * 5,),
+          SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+          Text('$type', style: GoogleFonts.dmSans(fontSize: 25, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
           QuizQuestion(
             questions[questionIndex]['questionText'],
           ),
-          SizedBox(height: SizeConfig.blockSizeVertical * 9,),
+          SizedBox(height: SizeConfig.blockSizeVertical * 5,),
           Expanded(
               child: Column(
                 children: [
