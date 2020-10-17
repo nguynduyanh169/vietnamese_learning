@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/widgets/vocabulary.dart';
 import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
@@ -30,47 +31,406 @@ class _ConversationDetailState extends State<ConversationDetail> {
           backgroundColor: Colors.white,
           shadowColor: Colors.white,
         ),
-        body: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: entries.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-                height: 80,
-                // child: InkWell(
-                //   onTap: () => pushNewScreen(
-                //     context,
-                //     screen: ConversationDetail(),
-                //     withNavBar: true,
-                //   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: const ShapeDecoration(
-                          color: Colors.red,
-                          shape: CircleBorder(),
+        body: ListView(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+              ),
+              width: SizeConfig.blockSizeVertical *60,
+              height: SizeConfig.blockSizeHorizontal * 40,
+              child: Image(
+                image: AssetImage('assets/images/chaohoi.png'),
+              ),
+            ),
+            Container(
+                height: SizeConfig.blockSizeHorizontal *15,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.redAccent,
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.volume_up, color: Colors.white),
+                      ),
+                      width: SizeConfig.blockSizeHorizontal * 10,
+                      margin: const EdgeInsets.all(8),
+                    ),
+                    SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            "Xin chào",
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                          ),
                         ),
-                        child: IconButton(
-                          icon: Icon(Icons.volume_up, color: Colors.white,), onPressed: (null),
+                        Text(
+                          "Hello",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+            ),
+            Container(
+                height: SizeConfig.blockSizeHorizontal *15,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Xin chào, bạn tên gì?",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
-                      SizedBox(width: 10,),
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${entries[index]}', style: TextStyle(fontSize: 20, color: Colors.red),),
-                            SizedBox(height: 10,),
-                            Text('${english[index]}', style: TextStyle(fontSize: 15,),),
-                            SizedBox(height: 20,),
-                          ],
+                      Text(
+                        "Hello, what is your name?",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
                         ),
                       ),
                     ],
                   ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeHorizontal *15,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tôi tên Nam, còn bạn tên gì?",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "My name is Nam, what is you name?",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeHorizontal *15,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tôi tên là Mạnh",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "My name is Mạnh",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeHorizontal *15,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Bạn có khoẻ không?",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "How are you?",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeHorizontal *15,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tôi khỏe, cảm ơn. Còn bạn?",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "I'm fine, thank you. And you?",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeHorizontal *15,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tôi khỏe, cảm ",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "I'm fine, thanks",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeHorizontal *15,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tôi khỏe, cảm ơn. Còn bạn?",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "I'm fine, thank you. And you?",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeHorizontal *15,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.redAccent,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.white),
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tôi khỏe, cảm ơn",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        "I'm fine, thanks",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

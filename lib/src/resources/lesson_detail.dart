@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
 import 'package:vietnamese_learning/src/resources/conversation_screen.dart';
+import 'package:vietnamese_learning/src/resources/quiz_getstarted.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/resources/vocabulary_screen.dart';
 
@@ -162,7 +164,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder: (context, animation, secondaryAnimation) =>
-                                ConversationScreen(),
+                                ConversationDetail(),
                             transitionsBuilder:
                                 (context, animation, secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);
@@ -230,7 +232,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder: (context, animation, secondaryAnimation) =>
-                                QuizScreen(),
+                                QuizGetStarted(),
                             transitionsBuilder:
                                 (context, animation, secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

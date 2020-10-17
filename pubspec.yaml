@@ -57,4 +57,5 @@ flutter:
      - assets/images/owlwithclassescolor.png
      - assets/images/backgroundlevel.png
      - assets/images/backgroundlevel1.png
+     - assets/src.json
  

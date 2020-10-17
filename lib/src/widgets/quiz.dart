@@ -8,11 +8,15 @@ class Quiz extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
   final Function answerQuestions;
+  final Color primaryColor;
+
+
 
   Quiz(
       {@required this.questions,
       @required this.answerQuestions,
-      @required this.questionIndex});
+      @required this.questionIndex,
+      @required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +52,10 @@ class Quiz extends StatelessWidget {
           ),
           SizedBox(height: SizeConfig.blockSizeVertical * 9,),
           Expanded(
-              child: GridView.count(
-                  crossAxisCount: 2,
+              child: Column(
                 children: [
                   ...(questions[questionIndex]['answers'] as List<Map<String,Object>>).map((answers) {
-                    return QuizAnswer(() => answerQuestions(answers['score']), answers['text']);
+                    return QuizAnswer(() => answerQuestions(answers['score']), answers['text'], primaryColor);
                   }).toList()
                 ],
               )
