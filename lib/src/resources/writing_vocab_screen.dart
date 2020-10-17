@@ -183,6 +183,7 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
                                 context: context,
                                 type: CoolAlertType.error,
                                 title: "Incorrect!",
+                                text: 'The correct answer is: $vietnamese',
                                 onConfirmBtnTap: null);
                           }
 
