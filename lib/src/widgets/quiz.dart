@@ -39,7 +39,7 @@ class Quiz extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.cancel), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
+                IconButton(icon: Icon(Icons.clear), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
                 Container(
                   child: new LinearPercentIndicator(
                     width: SizeConfig.blockSizeHorizontal * 75,
