@@ -30,8 +30,8 @@ class _HomePageState extends State<HomePage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.home),
-        title: ("Home"),
+        icon: Icon(CupertinoIcons.book),
+        title: ("Lesson"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),
