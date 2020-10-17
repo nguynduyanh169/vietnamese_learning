@@ -78,9 +78,11 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
   void nextQuestion() {
     setState(() {
       _vocabularyIndex = _vocabularyIndex + 1;
+      txtInputVocabulary.clear();
     });
     print('VocabularyIndex:$_vocabularyIndex');
   }
+
 
   @override
   Widget build(BuildContext context) {
