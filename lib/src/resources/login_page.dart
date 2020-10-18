@@ -7,6 +7,9 @@ import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
 import 'package:vietnamese_learning/src/widgets/sign_in_button.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -17,6 +20,43 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+   bool _isLoggedIn = false;
+   Map user;
+   final facebookLogin = FacebookLogin();
+   
+   _logOnWithFb() async{
+     final result = await facebookLogin.logIn(['email']);
+     switch(result.status){
+       case FacebookLoginStatus.loggedIn:
+         final token = result.accessToken.token;
+         final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+         final profile = JSON.jsonDecode(graphResponse.body);
+         print(profile);
+         setState(() {
+           user = profile;
+           _isLoggedIn = true;
+         });
+         break;
+
+       case FacebookLoginStatus.cancelledByUser:
+         setState(() {
+           _isLoggedIn = false;
+         });
+         break;
+
+       case FacebookLoginStatus.error:
+         setState(() {
+           _isLoggedIn = false;
+         });
+     }
+   }
+
+   _logoutFacebook(){
+     facebookLogin.logOut();
+     setState(() {
+       _isLoggedIn = false;
+     });
+   }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -180,24 +220,27 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 60.0,
-                    width: 60.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromRGBO(58, 89, 152, 1.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 2),
-                          blurRadius: 6.0,
+                  InkWell(
+                    child: Container(
+                      height: 60.0,
+                      width: 60.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromRGBO(58, 89, 152, 1.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                        image: DecorationImage(
+                          scale: 13,
+                          image: AssetImage('assets/images/facebook_logo.png'),
                         ),
-                      ],
-                      image: DecorationImage(
-                        scale: 13,
-                        image: AssetImage('assets/images/facebook_logo.png'),
                       ),
                     ),
+                    onTap: () => _logOnWithFb(),
                   ),
                   SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
                   InkWell(
