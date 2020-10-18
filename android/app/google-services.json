@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "893217620112",
+    "firebase_url": "https://vn-learning.firebaseio.com",
+    "project_id": "vn-learning",
+    "storage_bucket": "vn-learning.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893217620112:android:102a622fb0914d1bd11815",
+        "android_client_info": {
+          "package_name": "com.capstone.vietnamese_learning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893217620112-b9p6hps8jhg9e1kuorc7uqv1okvaibn1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.capstone.vietnamese_learning",
+            "certificate_hash": "f489e39ca05e21e865ef8098764d3a9e94128fa3"
+          }
+        },
+        {
+          "client_id": "893217620112-7llp79iud55uah3jm3c256pjuh79slb1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO2ewt7YUN1urGhfmk-G8aEBSho3iSGJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893217620112-7llp79iud55uah3jm3c256pjuh79slb1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

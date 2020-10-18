@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/firebase/authentication.dart';
 import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
@@ -199,24 +200,27 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
-                  Container(
-                    height: 60.0,
-                    width: 60.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 2),
-                          blurRadius: 6.0,
+                  InkWell(
+                    child: Container(
+                      height: 60.0,
+                      width: 60.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                        image: DecorationImage(
+                          scale: 13,
+                          image: AssetImage('assets/images/google_logo.png'),
                         ),
-                      ],
-                      image: DecorationImage(
-                        scale: 13,
-                        image: AssetImage('assets/images/google_logo.png'),
                       ),
                     ),
+                    onTap: () => googleSignIn(),
                   ),
                 ],
               ),
