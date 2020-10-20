@@ -14,9 +14,11 @@ class HomeScreen extends StatefulWidget{
 }
 
 class _HomeScreenState extends State<HomeScreen>{
+  BuildContext _ctx;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    _ctx = context;
     // TODO: implement build
     return Scaffold(
       body: Stack(children: <Widget>[

@@ -5,15 +5,19 @@ import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LevelScreen extends StatefulWidget {
+  static final String routeName = "level";
+
   LevelScreen({Key key}) : super(key: key);
 
   _LevelScreenState createState() => _LevelScreenState();
 }
 
 class _LevelScreenState extends State<LevelScreen> {
+  BuildContext _ctx;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    _ctx = context;
     SizeConfig().init(context);
     return Scaffold(
       body: Container(
