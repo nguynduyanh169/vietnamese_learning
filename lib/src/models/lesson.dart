@@ -4,7 +4,7 @@ class Lesson {
   String lessonImage;
   String progressStatus;
   int progressId;
-  int quizMark;
+  double quizMark;
 
   Lesson(
       {this.lessonId,

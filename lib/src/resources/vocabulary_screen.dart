@@ -12,6 +12,7 @@ class VocabularyScreen extends StatefulWidget {
 
 class _VocabularyScreenState extends State<VocabularyScreen> {
   var _vocabularyIndex = 0;
+  bool isNew = true;
   final _vocabularies = const [
     {
       'english': 'Bird',

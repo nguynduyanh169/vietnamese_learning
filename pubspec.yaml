@@ -27,9 +27,10 @@ dependencies:
   flip_card: ^0.4.4
   draggable_widget: ^1.0.1
   cool_alert: ^1.0.1
-  bloc: ^6.1.0
   shared_preferences: ^0.5.12+2
+  sweetalert: ^0.0.1
   http: ^0.12.2
+  flutter_colored_progress_indicators: ^1.2.0
 
 
 dev_dependencies:

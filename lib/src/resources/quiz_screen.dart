@@ -12,6 +12,7 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   var _questionIndex = 0;
   var _totalScore = 0;
+  bool isNew = true;
   Color primaryColor = Colors.white;
   Color right = Colors.green;
   Color wrong = Colors.red;
@@ -31,10 +32,10 @@ class _QuizScreenState extends State<QuizScreen> {
       'type': 'Choose the correct meaning',
       'questionText': 'Which one of these is “apple”?',
       'answers': [
-        {'text': 'Quả táo', 'score': 0, 'color': Colors.white},
+        {'text': 'Quả táo', 'score': 10, 'color': Colors.white},
         {'text': 'Gió', 'score': 0, 'color': Colors.white},
         {'text': 'Con chó', 'score': 0, 'color': Colors.white},
-        {'text': 'Con mèo', 'score': 10, 'color': Colors.white}
+        {'text': 'Con mèo', 'score': 0, 'color': Colors.white}
       ]
     },
     {

@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
               alignment: Alignment.topLeft,
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
-                "Email",
+                "Username",
               ),
             ),
             Container(

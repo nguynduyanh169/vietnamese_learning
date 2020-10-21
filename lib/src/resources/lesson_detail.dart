@@ -8,13 +8,15 @@ import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/resources/vocab_detail_screen.dart';
 
 class LessonDetail extends StatefulWidget {
-  LessonDetail({Key key}) : super(key: key);
-
+  String lessonName;
+  LessonDetail({Key key, this.lessonName}) : super(key: key);
   @override
-  _LessonDetailState createState() => _LessonDetailState();
+  _LessonDetailState createState() => _LessonDetailState(title: lessonName);
 }
 
 class _LessonDetailState extends State<LessonDetail> {
+    String title;
+  _LessonDetailState({this.title});
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -33,7 +35,7 @@ class _LessonDetailState extends State<LessonDetail> {
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     Text(
-                      "Greeting",
+                      "$title",
                       style: TextStyle(fontSize: 20),
                     )
                   ],

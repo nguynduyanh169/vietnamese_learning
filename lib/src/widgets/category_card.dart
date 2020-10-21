@@ -7,6 +7,7 @@ class CategoryCard extends StatelessWidget {
   final String svgSrc;
   final String title;
   final Function press;
+
   const CategoryCard({
     Key key,
     this.svgSrc,
@@ -17,6 +18,9 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    int startIndex = svgSrc.indexOf('file/d/') + 7;
+    int endIndex = svgSrc.indexOf('/view?usp=sharing');
+    String imgLink = svgSrc.substring(startIndex, endIndex);
     return ClipRRect(
       borderRadius: BorderRadius.circular(13),
       child: Container(
@@ -38,13 +42,14 @@ class CategoryCard extends StatelessWidget {
           child: InkWell(
             onTap: press,
             child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20.0, top: 10, bottom: 0),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20.0, top: 10, bottom: 0),
               child: Column(
                 children: <Widget>[
                   Container(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.center,
                     child: Text(
-                      title,
+                      title.trim(),
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -53,13 +58,16 @@ class CategoryCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Spacer(),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Container(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.center,
                     child: Image(
-                      width: 150,
-                      height: 150,
-                      image: AssetImage(svgSrc),
+                      width: 90,
+                      height: 90,
+                      image: NetworkImage(
+                          'https://drive.google.com/uc?export=view&id=$imgLink'),
                     ),
                   )
                 ],
