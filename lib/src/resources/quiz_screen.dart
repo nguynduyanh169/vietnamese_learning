@@ -19,7 +19,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   final _questions = const [
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 1',
       'questionText': 'Which one of these is “bread”?',
       'answers': [
         {'text': 'Con chó', 'score': 0, 'color': Colors.white},
@@ -29,7 +29,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 2',
       'questionText': 'Which one of these is “apple”?',
       'answers': [
         {'text': 'Quả táo', 'score': 10, 'color': Colors.white},
@@ -39,7 +39,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Translate this to Vietnamese',
+      'type': 'Question 3',
       'questionText': 'Hello, what is your name?',
       'answers': [
         {'text': 'Xin chào, bạn tên gì?', 'score': 10, 'color': Colors.white},
@@ -49,7 +49,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Fill the blank',
+      'type': 'Question 4',
       'questionText': '______, what is your name?',
       'answers': [
         {'text': 'Hello', 'score': 10, 'color': Colors.white},
@@ -59,7 +59,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 5',
       'questionText': 'Which one of these is “dog”?',
       'answers': [
         {'text': 'Con chó', 'score': 10, 'color': Colors.white},
@@ -69,7 +69,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 6',
       'questionText':
           'Which one of these is “bread”?',
       'answers': [
@@ -80,7 +80,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 7',
       'questionText':
           'Which one of these is “cat”?',
       'answers': [
@@ -91,7 +91,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 8',
       'questionText':
           'Which one of these is “bird”?',
       'answers': [
@@ -102,7 +102,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 9',
       'questionText':
           'Which one of these is “mouse”?',
       'answers': [
@@ -113,7 +113,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'type': 'Choose the correct meaning',
+      'type': 'Question 10',
       'questionText':
           'Which one of these is “chicken”?',
       'answers': [

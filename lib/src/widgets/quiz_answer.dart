@@ -28,12 +28,16 @@ class QuizAnswer extends StatelessWidget {
                 type: CoolAlertType.success,
                 title: "Correct!",
                 text: 'Your choice is: $answerText',
+                confirmBtnText: 'Continue',
+                confirmBtnColor: Colors.green,
                 onConfirmBtnTap: selectHandler);
           } else if (answerScore == 0) {
             CoolAlert.show(
                 context: context,
                 type: CoolAlertType.error,
                 title: "Incorrect!",
+                confirmBtnColor: Colors.red,
+                confirmBtnText: 'Continue',
                 text:
                     'The correct answer is $correct. Your choice is: $answerText',
                 onConfirmBtnTap: selectHandler);

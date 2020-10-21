@@ -157,7 +157,7 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
                           height: SizeConfig.blockSizeVertical * 15,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal * 70,
+                          width: SizeConfig.blockSizeHorizontal * 80,
                           child: TextField(
                             controller: txtInputVocabulary,
                             decoration: InputDecoration(
@@ -180,6 +180,8 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
                                       context: context,
                                       type: CoolAlertType.success,
                                       title: "Correct!",
+                                      confirmBtnText: 'Continue',
+                                      confirmBtnColor: Colors.green,
                                       onConfirmBtnTap: nextQuestion);
                                 } else if (input != vietnamese) {
                                   CoolAlert.show(
@@ -188,6 +190,8 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
                                       title: "Incorrect!",
                                       text:
                                           'The correct answer is: $vietnamese',
+                                      confirmBtnText: 'Try again',
+                                      confirmBtnColor: Colors.red,
                                       onConfirmBtnTap: null);
                                 }
                               },
