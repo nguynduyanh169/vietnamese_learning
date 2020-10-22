@@ -10,12 +10,12 @@ class Quiz extends StatelessWidget {
   final int questionIndex;
   final Function answerQuestions;
   final Color primaryColor;
-
+  final BuildContext rootContext;
   Quiz(
       {@required this.questions,
       @required this.answerQuestions,
       @required this.questionIndex,
-      @required this.primaryColor});
+      @required this.primaryColor, this.rootContext});
 
   String correctAns(){
     for (var answer in questions[questionIndex]['answers']){
@@ -63,7 +63,7 @@ class Quiz extends StatelessWidget {
               child: Column(
                 children: [
                   ...(questions[questionIndex]['answers'] as List<Map<String,Object>>).map((answers) {
-                    return QuizAnswer(() => answerQuestions(answers['score']), answers['text'], primaryColor, answers['score'], correctAns());
+                    return QuizAnswer(() => answerQuestions(answers['score']), answers['text'], primaryColor, answers['score'], correctAns(), rootContext);
                   }).toList()
                 ],
               )

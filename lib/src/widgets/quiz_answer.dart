@@ -9,9 +9,39 @@ class QuizAnswer extends StatelessWidget {
   final Color primaryColor;
   final int answerScore;
   final String correct;
+  final BuildContext rootContext;
 
   QuizAnswer(this.selectHandler, this.answerText, this.primaryColor,
-      this.answerScore, this.correct);
+      this.answerScore, this.correct, this.rootContext);
+
+  Widget _loadDialog(BuildContext buildContext){
+    if (answerScore == 10) {
+      CoolAlert.show(
+          context: buildContext,
+          type: CoolAlertType.success,
+          title: "Correct!",
+          text: 'Your choice is: $answerText',
+          confirmBtnText: 'Continue',
+          confirmBtnColor: Colors.green,
+          onConfirmBtnTap: (){
+            selectHandler();
+            Navigator.pop(buildContext);
+          });
+    } else if (answerScore == 0) {
+      CoolAlert.show(
+          context: buildContext,
+          type: CoolAlertType.error,
+          title: "Incorrect!",
+          confirmBtnColor: Colors.red,
+          confirmBtnText: 'Continue',
+          text:
+          'The correct answer is $correct. Your choice is: $answerText',
+          onConfirmBtnTap: (){
+            selectHandler();
+            Navigator.pop(buildContext);
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +52,7 @@ class QuizAnswer extends StatelessWidget {
           side: BorderSide(color: Colors.black, width: 2.0)),
       child: InkWell(
         onTap: () {
-          if (answerScore == 10) {
-            CoolAlert.show(
-                context: context,
-                type: CoolAlertType.success,
-                title: "Correct!",
-                text: 'Your choice is: $answerText',
-                confirmBtnText: 'Continue',
-                confirmBtnColor: Colors.green,
-                onConfirmBtnTap: selectHandler);
-          } else if (answerScore == 0) {
-            CoolAlert.show(
-                context: context,
-                type: CoolAlertType.error,
-                title: "Incorrect!",
-                confirmBtnColor: Colors.red,
-                confirmBtnText: 'Continue',
-                text:
-                    'The correct answer is $correct. Your choice is: $answerText',
-                onConfirmBtnTap: selectHandler);
-          }
+          _loadDialog(rootContext);
         },
         child: Column(
           children: [

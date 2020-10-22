@@ -152,7 +152,8 @@ class _QuizScreenState extends State<QuizScreen> {
                 questions: _questions,
                 primaryColor: primaryColor,
                 answerQuestions: _answerQuestions,
-                questionIndex: _questionIndex)
+                questionIndex: _questionIndex,
+        rootContext: context,)
             : QuizResult(_totalScore, _resetQuiz),
       ),
     );

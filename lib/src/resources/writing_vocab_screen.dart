@@ -14,6 +14,8 @@ class WritingVocabScreen extends StatefulWidget {
 class _WritingVocabScreenState extends State<WritingVocabScreen> {
   var _vocabularyIndex = 0;
   bool isNew;
+  String vietnamese;
+  String english;
   final _vocabularies = const [
     {
       'english': 'Bird',
@@ -79,9 +81,34 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
     setState(() {
       _vocabularyIndex = _vocabularyIndex + 1;
       txtInputVocabulary.clear();
-      isNew = true;
     });
     print('VocabularyIndex:$_vocabularyIndex');
+  }
+
+
+  Widget _loadDialog(BuildContext dialogContext){
+    if (input == vietnamese) {
+      CoolAlert.show(
+          context: dialogContext,
+          type: CoolAlertType.success,
+          title: "Correct!",
+          confirmBtnText: 'Continue',
+          confirmBtnColor: Colors.green,
+          onConfirmBtnTap: (){
+            nextQuestion();
+            Navigator.pop(dialogContext);
+          });
+    } else if (input != vietnamese) {
+      CoolAlert.show(
+          context: dialogContext,
+          type: CoolAlertType.error,
+          title: "Incorrect!",
+          text:
+          'The correct answer is: $vietnamese',
+          confirmBtnText: 'Try again',
+          confirmBtnColor: Colors.red,
+          onConfirmBtnTap: null);
+    }
   }
 
   @override
@@ -90,8 +117,8 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
     // TODO: implement build
     SizeConfig().init(context);
     var percent = _vocabularyIndex * 0.1;
-    String vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
-    String english = _vocabularies[_vocabularyIndex]['english'];
+    vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
+    english = _vocabularies[_vocabularyIndex]['english'];
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -175,25 +202,7 @@ class _WritingVocabScreenState extends State<WritingVocabScreen> {
                           child: RaisedButton(
                               onPressed: () {
                                 input = txtInputVocabulary.text;
-                                if (input == vietnamese) {
-                                  CoolAlert.show(
-                                      context: context,
-                                      type: CoolAlertType.success,
-                                      title: "Correct!",
-                                      confirmBtnText: 'Continue',
-                                      confirmBtnColor: Colors.green,
-                                      onConfirmBtnTap: nextQuestion);
-                                } else if (input != vietnamese) {
-                                  CoolAlert.show(
-                                      context: context,
-                                      type: CoolAlertType.error,
-                                      title: "Incorrect!",
-                                      text:
-                                          'The correct answer is: $vietnamese',
-                                      confirmBtnText: 'Try again',
-                                      confirmBtnColor: Colors.red,
-                                      onConfirmBtnTap: null);
-                                }
+                                _loadDialog(context);
                               },
                               child: Container(
                                 width: SizeConfig.blockSizeHorizontal * 70,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 Widget button(title, BuildContext context, uri,
     [color = const Color.fromRGBO(68, 68, 76, .8)]) {
   return Container(
