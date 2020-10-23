@@ -18,7 +18,6 @@ class HomeScreenPresenter {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
-      print(token);
       List<Lesson> listLessons = await _lessonRepository.getLessonsByLevelId(token);
       _view.onLoadLessonSuccess(listLessons);
     } catch (e) {

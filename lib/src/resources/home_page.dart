@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/resources/home_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/resources/game_screen.dart';
+import 'package:vietnamese_learning/src/resources/list_game_screen.dart';
 import 'package:vietnamese_learning/src/resources/profile_screen2.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,8 +22,8 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     return [
       HomeScreen(),
-      GameScreen(),
-      ProfileScreen2()
+      ListGameScreen(),
+      ProfileScreen2(),
     ];
   }
 

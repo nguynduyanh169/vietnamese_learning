@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/level_screen.dart';
 
 class SignUpScreen extends StatelessWidget{
   @override
@@ -82,6 +83,11 @@ class SignUpScreen extends StatelessWidget{
                   ),
                 ),
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LevelScreen()),
+                  );
                 },
                 color: Colors.blue,
               ),

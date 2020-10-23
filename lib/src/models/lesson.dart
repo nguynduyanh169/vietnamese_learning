@@ -15,7 +15,7 @@ class Lesson {
       this.quizMark});
 
   Lesson.fromJson(Map<String, dynamic> json) {
-    lessonId = json['lessonId'];
+    lessonId = json['lessonID'];
     lessonName = json['lessonName'];
     lessonImage = json['lessonImage'];
     progressStatus = json['progressStatus'];
@@ -25,7 +25,7 @@ class Lesson {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lessonId'] = this.lessonId;
+    data['lessonID'] = this.lessonId;
     data['lessonName'] = this.lessonName;
     data['lessonImage'] = this.lessonImage;
     data['progressId'] = this.progressId;

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -197,31 +198,28 @@ class _ProfileScreenState2 extends State<ProfileScreen2> {
                                   children: <Widget>[
                                     Card(
                                         child: ListTile(
-                                      leading: Icon(Icons.feedback),
+                                      leading: Icon(CupertinoIcons.reply),
                                       title: Text("Feedback"),
                                       trailing: Icon(Icons.arrow_forward_ios),
                                     )),
                                     Card(
                                         child: ListTile(
-                                      leading: Icon(Icons.language),
-                                      title: Text("Language"),
+                                      leading: Icon(CupertinoIcons.settings),
+                                      title: Text("Level"),
                                       trailing: Icon(Icons.arrow_forward_ios),
                                     )),
                                     Card(
                                         child: ListTile(
-                                      leading: Icon(Icons.notifications),
+                                      leading: Icon(CupertinoIcons.bell_solid),
                                       title: Text("Notification Setting"),
                                       trailing:
                                           Switch(value: false, onChanged: null),
                                     )),
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 3,
-                                    ),
                                     Card(
                                       child: InkWell(
                                         onTap: logout,
                                         child: ListTile(
-                                          leading: Icon(Icons.perm_identity),
+                                          leading: Icon(CupertinoIcons.person_solid),
                                           title: Text("Sign out"),
                                           trailing:
                                               Icon(Icons.arrow_forward_ios),

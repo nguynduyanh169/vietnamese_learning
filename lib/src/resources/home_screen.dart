@@ -88,10 +88,16 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenContract {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 13),
               alignment: Alignment.center,
-              child: Image(
-                  width: 50,
-                  height: 50,
-                  image: AssetImage('assets/images/VLwithout.png')),
+              child: Column(
+                children: <Widget>[
+                  Text('Lesson', style: GoogleFonts.sansita(
+                    fontSize: 20,
+                  ),),
+                  Text('Beginner Level', style: GoogleFonts.sansita(
+                    fontSize: 15
+                  ),),
+                ],
+              ),
             ),
             Expanded(
               child: GridView.count(
@@ -104,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenContract {
                         title: _listLessons[index].lessonName,
                         svgSrc: _listLessons[index].lessonImage,
                         press: () => pushNewScreen(context,
-                            screen: LessonDetail(lessonName: _listLessons[index].lessonName.trim(),),
+                            screen: LessonDetail(lessonName: _listLessons[index].lessonName.trim(),lessonId: _listLessons[index].lessonId),
                             withNavBar: false,
                             pageTransitionAnimation:
                                 PageTransitionAnimation.cupertino));

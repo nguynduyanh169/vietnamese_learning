@@ -31,11 +31,17 @@ dependencies:
   sweetalert: ^0.0.1
   http: ^0.12.2
   flutter_colored_progress_indicators: ^1.2.0
+  retrofit: any
+  json_annotation: any
+  dio: any
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  retrofit_generator: any
+  build_runner: any
+  json_serializable: ^3.3.0
 
 flutter:
   uses-material-design: true
