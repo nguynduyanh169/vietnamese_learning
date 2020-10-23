@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -44,9 +45,7 @@ class _ProfileScreenState2 extends State<ProfileScreen2> {
                   right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 10,
-                  ),
+                  SizedBox(height: SizeConfig.blockSizeVertical * 5,),
                   Row(
                     children: <Widget>[
                       Container(
@@ -200,13 +199,13 @@ class _ProfileScreenState2 extends State<ProfileScreen2> {
                                         child: ListTile(
                                       leading: Icon(CupertinoIcons.reply),
                                       title: Text("Feedback"),
-                                      trailing: Icon(Icons.arrow_forward_ios),
+                                      trailing: Icon(CupertinoIcons.forward),
                                     )),
                                     Card(
                                         child: ListTile(
                                       leading: Icon(CupertinoIcons.settings),
                                       title: Text("Level"),
-                                      trailing: Icon(Icons.arrow_forward_ios),
+                                      trailing: Icon(CupertinoIcons.forward),
                                     )),
                                     Card(
                                         child: ListTile(
@@ -222,7 +221,7 @@ class _ProfileScreenState2 extends State<ProfileScreen2> {
                                           leading: Icon(CupertinoIcons.person_solid),
                                           title: Text("Sign out"),
                                           trailing:
-                                              Icon(Icons.arrow_forward_ios),
+                                          Icon(CupertinoIcons.forward),
                                         ),
                                       ),
                                     ),
