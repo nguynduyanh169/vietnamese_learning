@@ -45,7 +45,7 @@ class _ProfileScreenState2 extends State<ProfileScreen2> {
                   right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: SizeConfig.blockSizeVertical * 5,),
+                  SizedBox(height: SizeConfig.blockSizeVertical * 7,),
                   Row(
                     children: <Widget>[
                       Container(
