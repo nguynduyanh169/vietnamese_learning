@@ -33,10 +33,10 @@ class _GamePageState extends State<GamePage> {
     gameOver = false;
     score = 0;
     items = [
-      ItemModel(icon: FontAwesomeIcons.coffee, name: "Coffee", value: "Coffee"),
-      ItemModel(icon: FontAwesomeIcons.dog, name: "Dog", value: "Dog"),
-      ItemModel(icon: FontAwesomeIcons.cat, name: "Cat", value: "Cat"),
-      ItemModel(icon: FontAwesomeIcons.bus, name: "Bus", value: "Bus"),
+      ItemModel(icon: FontAwesomeIcons.coffee, name: "Cà phê", value: "Cà phê"),
+      ItemModel(icon: FontAwesomeIcons.dog, name: "Con chó", value: "Con chó"),
+      ItemModel(icon: FontAwesomeIcons.cat, name: "Con mèo", value: "Con mèo"),
+      ItemModel(icon: FontAwesomeIcons.bus, name: "Xe Buýt", value: "Xe Buýt"),
     ];
     items2 = List<ItemModel>.from(items);
     items.shuffle();

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/game_screen.dart';
+import 'package:vietnamese_learning/src/resources/memory_game.dart';
 
 class ListGameScreen extends StatefulWidget{
 
@@ -96,6 +97,10 @@ class _ListGameScreenState extends State<ListGameScreen>{
                                 ),
                               ]),
                         ),
+                        onTap: () => pushNewScreen(context,
+                            screen: MemoryGamePage(),
+                            withNavBar: false,
+                            pageTransitionAnimation: PageTransitionAnimation.cupertino),
                       ),
                     ),
                   ],
