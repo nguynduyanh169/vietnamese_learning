@@ -21,7 +21,6 @@ class VocabularyScreenPresenter{
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
       List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesByLessonId(lessonId, token);
-
       _view.onLoadVocabularySuccess(vocabularies);
     }catch(e){
       _view.onLoadVocabularyError(e.toString());

@@ -10,7 +10,6 @@ class VocabularyProvider {
 
   Future<List<Vocabulary>> getVocabularyByLessonId(
       String lessonId, String token) async {
-    print(lessonId);
     Map<String, String> header = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
