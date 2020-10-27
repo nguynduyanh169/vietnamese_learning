@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colored_progress_indicators/flutter_colored_progress_indicators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/cubit/vocabularies_cubit.dart';
+import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
-import 'package:vietnamese_learning/src/presenters/vocabulary_screen_presenter.dart';
 import 'package:vietnamese_learning/src/resources/vocabulary_screen.dart';
 import 'package:vietnamese_learning/src/resources/writing_vocab_screen.dart';
+import 'package:vietnamese_learning/src/states/vocabularies_state.dart';
 
 class VocabDetailScreen extends StatefulWidget {
   String lessonId;
@@ -16,46 +19,51 @@ class VocabDetailScreen extends StatefulWidget {
   _VocabDetailScreenState createState() => _VocabDetailScreenState(lessonId: lessonId, title: lessonName);
 }
 
-class _VocabDetailScreenState extends State<VocabDetailScreen> implements VocabularyScreenContract {
-  bool isLoading = true;
-  List<Vocabulary> _vocabularies;
-  VocabularyScreenPresenter _presenter;
+class _VocabDetailScreenState extends State<VocabDetailScreen>{
   String lessonId;
   String title;
 
-  _VocabDetailScreenState({this.lessonId, this.title}){
-    _presenter = new VocabularyScreenPresenter(this);
-  }
+  _VocabDetailScreenState({this.lessonId, this.title});
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _loadVocabularies();
   }
 
-  void _loadVocabularies(){
-    _presenter.loadVocabularyByLessonId(lessonId);
-  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-        backgroundColor: Colors.green,
-        appBar: AppBar(
-          title: Text(
-            "Vocabulary",
-            style: TextStyle(color: Colors.white70),
-          ),
-          leading: IconButton(icon: Icon(Icons.arrow_back_ios, color: Colors.white70),  onPressed: () => Navigator.of(context).pop(),),
+    return BlocProvider(
+      create: (context) => VocabulariesCubit(VocabularyRepository())..loadVocabulariesByLessonId(lessonId),
+      child: Scaffold(
           backgroundColor: Colors.green,
-          shadowColor: Colors.green,
-        ),
-        body: isLoading == true ? _loadingVocabularies() : _VocabDetails()
+          appBar: AppBar(
+            title: Text(
+              "Vocabulary",
+              style: TextStyle(color: Colors.white70),
+            ),
+            leading: IconButton(icon: Icon(Icons.arrow_back_ios, color: Colors.white70),  onPressed: () => Navigator.of(context).pop(),),
+            backgroundColor: Colors.green,
+            shadowColor: Colors.green,
+          ),
+          body: BlocBuilder<VocabulariesCubit, VocabulariesState>(
+            builder: (context, state){
+              if(state is VocabulariesLoaded){
+                return _vocabDetails(state.vocabularies);
+              }else if(state is VocabulariesLoadError){
+                return Center(
+                  child: Text('Something went wrong!'),
+                );
+              }else{
+                return _loadingVocabularies();
+              }
+            },
+          )
+      ),
     );
   }
 
-  Widget _VocabDetails(){
+  Widget _vocabDetails(List<Vocabulary> _vocabularies){
     int numOfVocabs = _vocabularies.length;
     return Container(
       width: SizeConfig.blockSizeHorizontal * 99,
@@ -153,17 +161,4 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> implements Vocabu
     );
   }
 
-  @override
-  void onLoadVocabularyError(String error) {
-    print(error);
-  }
-
-  @override
-  void onLoadVocabularySuccess(List<Vocabulary> vocabularies) {
-    print('success');
-    setState(() {
-      isLoading = false;
-      _vocabularies = vocabularies;
-    });
-  }
 }

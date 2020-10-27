@@ -34,6 +34,8 @@ dependencies:
   retrofit: any
   json_annotation: any
   dio: any
+  bloc: any
+  flutter_bloc: any
 
 
 dev_dependencies:

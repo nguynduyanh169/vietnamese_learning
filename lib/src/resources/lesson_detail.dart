@@ -101,7 +101,6 @@ class _LessonDetailState extends State<LessonDetail> {
                     ]),
                   ),
                   onTap: () {
-                    print(lessonId);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

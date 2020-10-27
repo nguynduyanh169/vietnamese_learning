@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/models/login_respone.dart';
-import 'package:vietnamese_learning/src/presenters/login_screen_presenter.dart';
+import 'package:vietnamese_learning/src/cubit/login_cubit.dart';
+import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
+import 'package:vietnamese_learning/src/states/login_state.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -16,7 +18,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
+class _LoginPageState extends State<LoginPage> {
   BuildContext _ctx;
   TextEditingController _usernameController, _passwordController;
   bool isLoggedIn = false;
@@ -33,9 +35,6 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
   void autoLogIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String username = prefs.getString('username');
-    final String token = prefs.getString('accessToken');
-    print(token);
-    print(username);
     if (username != null) {
       setState(() {
         isLoggedIn = true;
@@ -45,30 +44,19 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
       return;
     }
   }
+
   final formKey = new GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   String _password, _username;
 
-  LoginScreenPresenter _presenter;
-
-  _LoginPageState() {
-    _presenter = new LoginScreenPresenter(this);
-  }
-
-  void _submit() {
+  void _submit(BuildContext context) {
     _username = _usernameController.text;
     _password = _passwordController.text;
-    _presenter.doLogin(_username, _password);
+    BlocProvider.of<LoginCubit>(context).doLogin(_username, _password);
   }
-
-  void _showSnackBar(String text) {
-    scaffoldKey.currentState
-        .showSnackBar(new SnackBar(content: new Text(text)));
-  }
-
   final color = const Color(0xffF2CE5E);
 
-  Widget _loginScreen() {
+  Widget _loginScreen(BuildContext context) {
     return Container(
       child: Center(
         child: Column(
@@ -179,7 +167,9 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
                   ),
                 ),
               ),
-              onPressed: _submit,
+              onPressed: (){
+                _submit(context);
+              },
               color: Colors.blue,
             ),
             SizedBox(height: SizeConfig.blockSizeVertical * 2),
@@ -301,26 +291,28 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
     SystemChrome.setEnabledSystemUIOverlays([]);
     SizeConfig().init(context);
     _ctx = context;
-    return Scaffold(
-      key: scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      body: _loginScreen(),
+    return BlocProvider(
+      create: (context) => LoginCubit(UserRepository()),
+      child: Scaffold(
+        key: scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        body: BlocConsumer<LoginCubit, LoginState>(
+          listener: (context, state) {
+            if (state is LoginError) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            } else if(state is LoginProcess){
+              Navigator.of(_ctx).pushReplacementNamed("/home");
+            }
+          },
+          builder: (context, state) {
+            return _loginScreen(context);
+          },
+        ),
+      ),
     );
-  }
-
-  @override
-  void onLoginError(String errorTxt) {
-    _showSnackBar(errorTxt);
-  }
-
-  @override
-  Future<void> onLoginSuccess(LoginResponse response) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _showSnackBar("Login successful!");
-    Navigator.of(_ctx).pushReplacementNamed("/home");
-    setState(() {
-      name = prefs.getString('username');
-      isLoggedIn = true;
-    });
   }
 }

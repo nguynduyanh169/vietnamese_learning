@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colored_progress_indicators/flutter_colored_progress_indicators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
+import 'package:vietnamese_learning/src/data/lesson_repository.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
-import 'package:vietnamese_learning/src/presenters/home_screen_presenter.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
+import 'package:vietnamese_learning/src/states/lessons_state.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,52 +18,32 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> implements HomeScreenContract {
-  BuildContext _ctx;
-  bool isLoading = true;
-  List<Lesson> _listLessons;
-  HomeScreenPresenter _presenter;
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    isLoading = true;
-    loadLesson();
-  }
-
-  _HomeScreenState() {
-    _presenter = new HomeScreenPresenter(this);
-  }
-
-  void loadLesson() {
-    _presenter.loadLessonByLevel();
-  }
-
-  void _showSnackBar(String text) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-      ),
-      duration: Duration(seconds: 3),
-      backgroundColor: Colors.blue,
-    ));
-  }
-
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    _ctx = context;
-    return Scaffold(
-      key: scaffoldKey,
-      body: isLoading == true ? _loadingLessons() : _GridLesson(),
+    return BlocProvider(
+      create: (context) =>
+          LessonsCubit(LessonRepository())..loadLessonByLevel(),
+      child: Scaffold(
+        body: BlocBuilder<LessonsCubit, LessonsState>(
+          builder: (context, state) {
+             if (state is LessonsLoaded) {
+              return _gridLesson(state.lessons);
+            } else if (state is LessonLoadError) {
+              return Center(
+                child: Text('Something went wrong!'),
+              );
+            } else {
+              return _loadingLessons(context);
+            }
+          },
+        ),
+      ),
     );
   }
 
-  Widget _loadingLessons() {
+  Widget _loadingLessons(BuildContext context) {
     return Container(
       child: Center(
         child: Column(
@@ -78,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenContract {
     );
   }
 
-  Widget _GridLesson() {
+  Widget _gridLesson(List<Lesson> _listLessons) {
     return Stack(children: <Widget>[
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -90,12 +73,16 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenContract {
               alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  Text('Lesson', style: GoogleFonts.sansita(
-                    fontSize: 20,
-                  ),),
-                  Text('Beginner Level', style: GoogleFonts.sansita(
-                    fontSize: 15
-                  ),),
+                  Text(
+                    'Lesson',
+                    style: GoogleFonts.sansita(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Text(
+                    'Beginner Level',
+                    style: GoogleFonts.sansita(fontSize: 15),
+                  ),
                 ],
               ),
             ),
@@ -110,7 +97,10 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenContract {
                         title: _listLessons[index].lessonName,
                         svgSrc: _listLessons[index].lessonImage,
                         press: () => pushNewScreen(context,
-                            screen: LessonDetail(lessonName: _listLessons[index].lessonName.trim(),lessonId: _listLessons[index].lessonId),
+                            screen: LessonDetail(
+                                lessonName:
+                                    _listLessons[index].lessonName.trim(),
+                                lessonId: _listLessons[index].lessonId),
                             withNavBar: false,
                             pageTransitionAnimation:
                                 PageTransitionAnimation.cupertino));
@@ -120,18 +110,5 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenContract {
         ),
       ),
     ]);
-  }
-
-  @override
-  void onLoadLessonError(String errorText) {
-    print(errorText);
-  }
-
-  @override
-  void onLoadLessonSuccess(List<Lesson> listLessons) {
-    setState(() {
-      isLoading = false;
-      _listLessons = listLessons;
-    });
   }
 }
