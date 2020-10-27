@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: List.generate(_listLessons.length, (index) {
                     return CategoryCard(
                         title: _listLessons[index].lessonName,
-                        svgSrc: _listLessons[index].lessonImage,
+                        img: _listLessons[index].lessonImage,
                         press: () => pushNewScreen(context,
                             screen: LessonDetail(
                                 lessonName:

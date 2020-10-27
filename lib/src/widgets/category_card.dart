@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/utils/image_utils.dart';
 
 class CategoryCard extends StatelessWidget {
-  final String svgSrc;
+  final String img;
   final String title;
   final Function press;
 
   const CategoryCard({
     Key key,
-    this.svgSrc,
+    this.img,
     this.title,
     this.press,
   }) : super(key: key);
@@ -18,9 +18,6 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    int startIndex = svgSrc.indexOf('file/d/') + 7;
-    int endIndex = svgSrc.indexOf('/view?usp=sharing');
-    String imgLink = svgSrc.substring(startIndex, endIndex);
     return ClipRRect(
       borderRadius: BorderRadius.circular(13),
       child: Container(
@@ -67,7 +64,7 @@ class CategoryCard extends StatelessWidget {
                       width: 90,
                       height: 90,
                       image: NetworkImage(
-                          'https://drive.google.com/uc?export=view&id=$imgLink'),
+                          GoogleImageUtil.editUrl(img)),
                     ),
                   )
                 ],
