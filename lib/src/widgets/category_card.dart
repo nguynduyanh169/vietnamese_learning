@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/utils/image_utils.dart';
 
 class CategoryCard extends StatelessWidget {
   final String img;
   final String title;
+  final String progressStatus;
   final Function press;
 
-  const CategoryCard({
-    Key key,
-    this.img,
-    this.title,
-    this.press,
-  }) : super(key: key);
+  const CategoryCard(
+      {Key key, this.img, this.title, this.press, this.progressStatus})
+      : super(key: key);
+
+  Widget _lock() {
+    print(progressStatus);
+    if (progressStatus == 'lock') {
+      return Container(
+          alignment: Alignment.center,
+          child: IconButton(icon: Icon(Icons.lock), onPressed: null)
+      );
+    }else{
+      return Container();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +56,10 @@ class CategoryCard extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       title.trim(),
-                      style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
+                      style: TextStyle(
+                          fontFamily: 'Helvetica',
                           fontSize: 15,
-                        ),
-                      ),
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                   SizedBox(
@@ -63,10 +70,10 @@ class CategoryCard extends StatelessWidget {
                     child: Image(
                       width: 90,
                       height: 90,
-                      image: NetworkImage(
-                          GoogleImageUtil.editUrl(img)),
+                      image: NetworkImage(GoogleImageUtil.editUrl(img)),
                     ),
-                  )
+                  ),
+                  _lock()
                 ],
               ),
             ),

@@ -41,7 +41,7 @@ class _LessonDetailState extends State<LessonDetail> {
                 ),
                 Text(
                   "$title",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                 )
               ],
             ),
@@ -66,12 +66,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             top: SizeConfig.blockSizeVertical * 2),
                         child: Text(
                           'Vocabulary',
-                          style: GoogleFonts.sansita(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
+                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                       ),
                       Padding(
@@ -90,11 +85,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             bottom: SizeConfig.blockSizeVertical * 2),
                         child: Text(
                           'Vocabulary is the key to mastering a language',
-                          style: GoogleFonts.notoSans(
-                            textStyle: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
+                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
                       )
@@ -120,12 +111,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             top: SizeConfig.blockSizeVertical * 2),
                         child: Text(
                           'Conversation',
-                          style: GoogleFonts.sansita(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
+                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                       ),
                       Padding(
@@ -144,11 +130,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             bottom: SizeConfig.blockSizeVertical * 2),
                         child: Text(
                           'Conversation makes you feel more confident',
-                          style: GoogleFonts.notoSans(
-                            textStyle: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
+                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
                       )
@@ -187,12 +169,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             top: SizeConfig.blockSizeVertical * 2),
                         child: Text(
                           'Quiz',
-                          style: GoogleFonts.sansita(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
+                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                       ),
                       Padding(
@@ -212,11 +189,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             right: 4.0),
                         child: Text(
                           'Do the quiz to test your memory',
-                          style: GoogleFonts.notoSans(
-                            textStyle: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
+                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
                       )

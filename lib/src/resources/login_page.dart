@@ -13,7 +13,6 @@ import 'package:vietnamese_learning/src/states/login_state.dart';
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
   final String title;
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -74,6 +73,9 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
                 "Username",
+                style: TextStyle(
+                    fontFamily: 'Helvetica'
+                ),
               ),
             ),
             Container(
@@ -84,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                   labelText: 'Enter your Username',
+                  labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
                   prefixIcon: Icon(Icons.person),
                 ),
               ),
@@ -95,6 +98,9 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
                 "Password",
+                style: TextStyle(
+                  fontFamily: 'Helvetica'
+                ),
               ),
             ),
             Container(
@@ -106,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     labelText: 'Enter your Password',
+                    labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
                     prefixIcon: Icon(Icons.lock)),
               ),
             ),
@@ -118,8 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     "Forgot password?",
                     style: TextStyle(
-                        color: Colors.blueAccent[100],
-                        fontWeight: FontWeight.bold),
+                        fontFamily: 'Helvetica',
+                        color: Colors.blueAccent[100],),
                   ),
                 ),
                 onTap: () {
@@ -161,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18.0,
-                          fontFamily: 'OpenSans'),
+                          fontFamily: 'Helvetica'),
                     ),
                     padding: new EdgeInsets.only(left: 0.0),
                   ),
@@ -177,8 +184,9 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "- OR -",
                 style: TextStyle(
+                  fontFamily: 'Helvetica',
                   color: Colors.black,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -187,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "Sign in with",
                 style: TextStyle(
+                  fontFamily: 'Helvetica',
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -246,14 +255,14 @@ class _LoginPageState extends State<LoginPage> {
                   EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
               child: Row(
                 children: <Widget>[
-                  Text("Don't have an Account? "),
+                  Text("Don't have an Account?", style: TextStyle(fontFamily: 'Helvetica', fontSize: 13),),
                   SizedBox(
                     width: 5,
                   ),
                   InkWell(
                     child: Text(
                       "Sign Up",
-                      style: TextStyle(color: Colors.blueAccent),
+                      style: TextStyle(color: Colors.blueAccent, fontFamily: 'Helvetica', fontSize: 13),
                     ),
                     onTap: () {
                       Navigator.of(context).push(

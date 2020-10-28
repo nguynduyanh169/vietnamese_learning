@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
-
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 

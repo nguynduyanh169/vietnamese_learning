@@ -18,7 +18,7 @@ class Lesson {
     lessonId = json['lessonID'];
     lessonName = json['lessonName'];
     lessonImage = json['lessonImage'];
-    progressStatus = json['progressStatus'];
+    progressStatus = json['progresStatus'];
     progressId = json['progressId'];
     quizMark = json['quizMark'];
   }
@@ -29,7 +29,7 @@ class Lesson {
     data['lessonName'] = this.lessonName;
     data['lessonImage'] = this.lessonImage;
     data['progressId'] = this.progressId;
-    data['progressStatus'] = this.progressStatus;
+    data['progresStatus'] = this.progressStatus;
     data['quizMark'] = this.quizMark;
     return data;
   }

@@ -16,6 +16,7 @@ class LessonProvider {
     try {
       Response response =
           await _dio.get(LESSONSBYLEVEL, options: Options(headers: headers));
+      print(response.data);
       return (response.data as List).map((i) => Lesson.fromJson(i)).toList();
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");

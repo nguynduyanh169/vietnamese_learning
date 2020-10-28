@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
-import 'package:vietnamese_learning/src/widgets/quiz.dart';
-import 'package:vietnamese_learning/src/widgets/quiz1.dart';
 
 class QuizGetStarted extends StatefulWidget {
   QuizGetStarted({Key key}) : super(key: key);

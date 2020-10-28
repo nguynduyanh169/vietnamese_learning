@@ -82,3 +82,20 @@ flutter:
      - assets/images/demovocab/chicken.png
      - assets/images/demovocab/car.png
      - assets/images/demovocab/bike.png
+  fonts:
+    - family: Helvetica
+      fonts:
+        - asset: assets/fonts/helveticaneue.ttf
+        - asset: assets/fonts/helveticaneuebold.ttf
+          weight: 900
+        - asset: assets/fonts/helveticaneuebolditalic.ttf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/helveticaneueitalic.ttf
+          style: italic
+        - asset: assets/fonts/helveticaneuelight.ttf
+          weight: 500
+        - asset: assets/fonts/helveticaneuelightitalic.ttf
+          style: italic
+          weight: 500
+

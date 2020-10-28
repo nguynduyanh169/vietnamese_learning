@@ -28,11 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         body: BlocBuilder<LessonsCubit, LessonsState>(
           builder: (context, state) {
-             if (state is LessonsLoaded) {
+            if (state is LessonsLoaded) {
               return _gridLesson(state.lessons);
             } else if (state is LessonLoadError) {
               return Center(
-                child: Text('Something went wrong!'),
+                child: Text(
+                  'Something went wrong!',
+                ),
               );
             } else {
               return _loadingLessons(context);
@@ -94,16 +96,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSpacing: 20,
                   children: List.generate(_listLessons.length, (index) {
                     return CategoryCard(
-                        title: _listLessons[index].lessonName,
-                        img: _listLessons[index].lessonImage,
-                        press: () => pushNewScreen(context,
+                      title: _listLessons[index].lessonName,
+                      img: _listLessons[index].lessonImage,
+                      progressStatus: _listLessons[index].progressStatus.trim(),
+                      press: () {
+                        pushNewScreen(context,
                             screen: LessonDetail(
                                 lessonName:
                                     _listLessons[index].lessonName.trim(),
                                 lessonId: _listLessons[index].lessonId),
                             withNavBar: false,
                             pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino));
+                                PageTransitionAnimation.cupertino);
+                      },
+                    );
                   })),
             ),
           ],

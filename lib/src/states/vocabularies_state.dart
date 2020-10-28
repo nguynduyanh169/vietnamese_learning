@@ -17,6 +17,5 @@ class VocabulariesLoaded extends VocabulariesState{
 
 class VocabulariesLoadError extends VocabulariesState{
   final String error;
-
   const VocabulariesLoadError(this.error);
 }
