@@ -1,13 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/cubit/register_cubit.dart';
 import 'package:vietnamese_learning/src/resources/level_screen.dart';
+import 'package:vietnamese_learning/src/states/register_state.dart';
 
-class SignUpScreen extends StatelessWidget{
+import '../data/user_repository.dart';
+import 'level_screen.dart';
+
+class SignUpScreen extends StatefulWidget {
+  SignUpScreen({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUpScreen>{
+  TextEditingController _emailController, _passwordController, _usernameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = new TextEditingController();
+    _passwordController = new TextEditingController();
+    _usernameController = new TextEditingController();
+  }
+
+  String _password, _username, _email;
+  void _submit(BuildContext context) {
+    _username = _usernameController.text;
+    _password = _passwordController.text;
+    _email = _emailController.text;
+    BlocProvider.of<RegisterCubit>(context).doRegister(_username, _password, _email);
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    // TODO: implement build
+    return BlocProvider(
+      create: (context) => RegisterCubit(UserRepository()),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: BlocConsumer<RegisterCubit, RegisterState>(
+          listener: (context, state) {
+            if (state is RegistedError) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            } else if(state is RegistedSuccess){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LevelScreen()
+              ));
+            }
+          },
+          builder: (context, state) {
+            return _registerScreen(context);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _registerScreen(BuildContext context){
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -22,10 +82,11 @@ class SignUpScreen extends StatelessWidget{
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
+                  controller: _usernameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Name',
+                    labelText: 'Username',
                   ),
                 ),
               ),
@@ -33,6 +94,7 @@ class SignUpScreen extends StatelessWidget{
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
@@ -44,6 +106,7 @@ class SignUpScreen extends StatelessWidget{
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -83,11 +146,7 @@ class SignUpScreen extends StatelessWidget{
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LevelScreen()),
-                  );
+                  _submit(context);
                 },
                 color: Colors.blue,
               ),
@@ -113,5 +172,4 @@ class SignUpScreen extends StatelessWidget{
       ),
     );
   }
-
 }

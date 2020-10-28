@@ -9,4 +9,8 @@ class UserRepository {
   Future<LoginResponse> login(String username, String password) {
     return _userProvider.login(username, password);
   }
+
+  Future<LoginResponse> register(String username, String password, String email) {
+    return _userProvider.register(username, password, email);
+  }
 }
