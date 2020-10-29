@@ -8,7 +8,6 @@ import 'package:vietnamese_learning/src/cubit/vocabularies_cubit.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/resources/vocabulary_screen.dart';
-import 'package:vietnamese_learning/src/resources/writing_vocab_screen.dart';
 import 'package:vietnamese_learning/src/states/vocabularies_state.dart';
 
 class VocabDetailScreen extends StatefulWidget {
@@ -102,7 +101,7 @@ class _VocabDetailScreenState extends State<VocabDetailScreen>{
               ),
               child: InkWell(
                 child: Center( child: Text(
-                  'FlashCard',
+                  'Learn now',
                   style: GoogleFonts.sansita(
                     fontSize: 40,
                     color: Colors.white,
@@ -115,29 +114,6 @@ class _VocabDetailScreenState extends State<VocabDetailScreen>{
               ),
             ),
           ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 2,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 70.0,
-            child: Card(
-              color: Colors.yellow[700],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: InkWell(
-                  child: Center(child: Text('Writing',
-                    style: GoogleFonts.sansita(
-                      fontSize: 40,
-                      color: Colors.white,
-                    ),
-                  ),),
-                  onTap: () => pushNewScreen(
-                    context,
-                    screen: WritingVocabScreen(),
-                  )),
-            ),)
         ],
       ),
     );
