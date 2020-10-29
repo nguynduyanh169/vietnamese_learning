@@ -17,8 +17,10 @@ class SignUpScreen extends StatefulWidget {
   _SignUpState createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUpScreen>{
-  TextEditingController _emailController, _passwordController, _usernameController;
+class _SignUpState extends State<SignUpScreen> {
+  TextEditingController _emailController,
+      _passwordController,
+      _usernameController;
 
   @override
   void initState() {
@@ -33,7 +35,8 @@ class _SignUpState extends State<SignUpScreen>{
     _username = _usernameController.text;
     _password = _passwordController.text;
     _email = _emailController.text;
-    BlocProvider.of<RegisterCubit>(context).doRegister(_username, _password, _email);
+    BlocProvider.of<RegisterCubit>(context)
+        .doRegister(_username, _password, _email);
   }
 
   @override
@@ -51,12 +54,9 @@ class _SignUpState extends State<SignUpScreen>{
                   content: Text(state.message),
                 ),
               );
-            } else if(state is RegistedSuccess){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LevelScreen()
-              ));
+            } else if (state is RegistedSuccess) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LevelScreen()));
             }
           },
           builder: (context, state) {
@@ -67,7 +67,7 @@ class _SignUpState extends State<SignUpScreen>{
     );
   }
 
-  Widget _registerScreen(BuildContext context){
+  Widget _registerScreen(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -75,10 +75,15 @@ class _SignUpState extends State<SignUpScreen>{
         child: Center(
           child: Column(
             children: <Widget>[
-              Text('Sign Up here', style: GoogleFonts.secularOne(
-                fontSize: 25,
-              ),),
-              SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
+              Text(
+                'Sign Up here',
+                style: GoogleFonts.secularOne(
+                  fontSize: 25,
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 1.5,
+              ),
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
@@ -90,7 +95,9 @@ class _SignUpState extends State<SignUpScreen>{
                   ),
                 ),
               ),
-              SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 1.5,
+              ),
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
@@ -102,7 +109,9 @@ class _SignUpState extends State<SignUpScreen>{
                   ),
                 ),
               ),
-              SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 1.5,
+              ),
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
@@ -115,7 +124,9 @@ class _SignUpState extends State<SignUpScreen>{
                   ),
                 ),
               ),
-              SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 1.5,
+              ),
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextField(
@@ -127,7 +138,9 @@ class _SignUpState extends State<SignUpScreen>{
                   ),
                 ),
               ),
-              SizedBox(height: SizeConfig.blockSizeVertical * 7,),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 7,
+              ),
               MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0),
@@ -150,15 +163,23 @@ class _SignUpState extends State<SignUpScreen>{
                 },
                 color: Colors.blue,
               ),
-              SizedBox(height: SizeConfig.blockSizeVertical * 7,),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 7,
+              ),
               Container(
-                padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
+                padding:
+                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
                 child: Row(
                   children: <Widget>[
                     Text("Already a member? "),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     InkWell(
-                      child: Text("Sign In here", style: TextStyle(color: Colors.blueAccent),),
+                      child: Text(
+                        "Sign In here",
+                        style: TextStyle(color: Colors.blueAccent),
+                      ),
                       onTap: () {
                         Navigator.of(context).pop();
                       },
