@@ -82,6 +82,9 @@ flutter:
      - assets/images/demovocab/chicken.png
      - assets/images/demovocab/car.png
      - assets/images/demovocab/bike.png
+     - assets/images/signupbackground.png
+     - assets/images/matchinggame.png
+     - assets/images/matchingcard.png
   fonts:
     - family: Helvetica
       fonts:

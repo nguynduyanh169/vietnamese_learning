@@ -71,124 +71,144 @@ class _SignUpState extends State<SignUpScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Text(
-                'Sign Up here',
-                style: GoogleFonts.secularOne(
-                  fontSize: 25,
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 1.5,
-              ),
-              Container(
-                width: SizeConfig.blockSizeHorizontal * 85,
-                child: TextField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Username',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 1.5,
-              ),
-              Container(
-                width: SizeConfig.blockSizeHorizontal * 85,
-                child: TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Email',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 1.5,
-              ),
-              Container(
-                width: SizeConfig.blockSizeHorizontal * 85,
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 1.5,
-              ),
-              Container(
-                width: SizeConfig.blockSizeHorizontal * 85,
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    labelText: 'Confirm Password',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 7,
-              ),
-              MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  height: 50.0,
-                  child: Center(
-                    child: Padding(
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                      padding: new EdgeInsets.only(left: 0.0),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  _submit(context);
-                },
-                color: Colors.blue,
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 7,
-              ),
-              Container(
-                padding:
-                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
-                child: Row(
-                  children: <Widget>[
-                    Text("Already a member? "),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    InkWell(
-                      child: Text(
-                        "Sign In here",
-                        style: TextStyle(color: Colors.blueAccent),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ),
-              )
-            ],
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/signupbackground.png"),
+            fit: BoxFit.fill,
           ),
+        ),
+        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding:
+                  EdgeInsets.only(right: SizeConfig.blockSizeVertical * 26),
+              child: Text(
+                'Sign Up Here',
+                style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 5,
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 85,
+              child: TextField(
+                style: TextStyle(fontFamily: 'Helvetica'),
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  labelText: 'Username',
+                  prefixIcon: Icon(Icons.person),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 1.5,
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 85,
+              child: TextField(
+                style: TextStyle(fontFamily: 'Helvetica'),
+                controller: _emailController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.mail),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 1.5,
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 85,
+              child: TextField(
+                style: TextStyle(fontFamily: 'Helvetica'),
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
+                ),
+              ),
+            ),
+            // SizedBox(
+            //   height: SizeConfig.blockSizeVertical * 1.5,
+            // ),
+            // Container(
+            //   width: SizeConfig.blockSizeHorizontal * 85,
+            //   child: TextField(
+            //     obscureText: true,
+            //     decoration: InputDecoration(
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(20.0)),
+            //       labelText: 'Confirm Password',
+            //     ),
+            //   ),
+            // ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 7,
+            ),
+            MaterialButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: 50.0,
+                child: Center(
+                  child: Padding(
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        fontFamily: 'Helvetica',
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    padding: new EdgeInsets.only(left: 0.0),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                _submit(context);
+              },
+              color: Colors.blue,
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 7,
+            ),
+            Container(
+              padding:
+                  EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
+              child: Row(
+                children: <Widget>[
+                  Text("Already a member? "),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  InkWell(
+                    child: Text(
+                      "Sign In here",
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
