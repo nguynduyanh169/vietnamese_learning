@@ -65,13 +65,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _gridLesson(List<Lesson> _listLessons) {
     return Stack(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(255, 239, 204, 100),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: 13),
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.only(bottomRight: Radius.circular(45)),
+                color: const Color.fromRGBO(255, 190, 51, 100),
+              ),
               alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
@@ -87,6 +94,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: SizeConfig.blockSizeHorizontal * 12,
             ),
             Expanded(
               child: GridView.count(
