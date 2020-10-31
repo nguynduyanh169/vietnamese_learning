@@ -36,6 +36,7 @@ dependencies:
   dio: any
   bloc: any
   flutter_bloc: any
+  reorderables: any
 
 
 dev_dependencies:

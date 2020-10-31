@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/learn_vocabulary_cubit.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
@@ -17,9 +18,11 @@ class VocabularyScreen extends StatefulWidget {
 
 class _VocabularyScreenState extends State<VocabularyScreen> {
   var _vocabularyIndex = 0;
-  bool isNew = true;
+  List<String> chars = new List();
+  List<Widget> elements = [];
   TextEditingController txtInputVocabulary = new TextEditingController();
-  String input = "";
+  String input = '';
+  String check = '';
   final _vocabularies = const [
     {
       'english': 'Bird',
@@ -82,10 +85,36 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     SizeConfig().init(context);
-    var percent = 0.0;
     String vietnamese;
     String english;
     String img;
+
+    Widget _percentBar(var percent) {
+      return Container(
+        padding: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 1),
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () =>
+                  Navigator.of(context, rootNavigator: true).pop(context),
+            ),
+            Container(
+              child: new LinearPercentIndicator(
+                width: SizeConfig.blockSizeHorizontal * 78,
+                animation: false,
+                lineHeight: 15.0,
+                percent: percent,
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                progressColor: Colors.amberAccent,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     Widget _flashCard(BuildContext context) {
       return Container(
@@ -99,32 +128,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true)
-                              .pop(context),
-                    ),
-                    Container(
-                      child: new LinearPercentIndicator(
-                        width: SizeConfig.blockSizeHorizontal * 75,
-                        animation: false,
-                        lineHeight: 15.0,
-                        percent: percent,
-                        linearStrokeCap: LinearStrokeCap.roundAll,
-                        progressColor: Colors.amberAccent,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 3,
-              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -225,14 +228,16 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                               ),
                               Container(
                                 child: Text('$vietnamese',
-                                    style: TextStyle(fontFamily: 'Helvetica', fontSize: 30)),
+                                    style: TextStyle(
+                                        fontFamily: 'Helvetica', fontSize: 30)),
                               ),
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical * 5,
                               ),
                               Text(
                                 '$english (n)',
-                                style: TextStyle(fontFamily: 'Helvetica', fontSize: 25),
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 25),
                               ),
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical * 20,
@@ -317,9 +322,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                               'Continue',
                               style: TextStyle(
                                   fontFamily: 'Helvetica',
-                                fontSize: 20,
-                                color: Colors.white
-                              ),
+                                  fontSize: 20,
+                                  color: Colors.white),
                             ),
                           ),
                         )),
@@ -329,6 +333,57 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ],
           ));
     }
+
+    Widget _card(String content) {
+      return Container(
+        width: 30,
+        height: 30,
+        child: Center(
+          child: Text(
+            '$content',
+            style: TextStyle(fontFamily: 'Helvetica'),
+          ),
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(3)),
+          shape: BoxShape.rectangle,
+          border: Border.all(
+            color: Colors.amber,
+            width: 1,
+          ),
+        ),
+      );
+    }
+
+    void _onReorder(int oldIndex, int newIndex) {
+      setState(() {
+        Widget row = elements.removeAt(oldIndex);
+        String char = chars.removeAt(oldIndex);
+        elements.insert(newIndex, row);
+        chars.insert(newIndex, char);
+      });
+    }
+
+    var wrap = ReorderableWrap(
+        spacing: 8.0,
+        runSpacing: 4.0,
+        padding: const EdgeInsets.all(8),
+        children: elements,
+        onReorder: _onReorder,
+        onNoReorder: (int index) {
+          debugPrint(
+              '${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');
+        },
+        onReorderStarted: (int index) {
+          debugPrint(
+              '${DateTime.now().toString().substring(5, 22)} reorder started: index:$index');
+        });
+
+    var column = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[wrap],
+    );
 
     Widget _result() {
       return Container(
@@ -371,7 +426,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     }
 
     Widget _loadDialog(BuildContext dialogContext) {
-      if (input == vietnamese) {
+      if (input.toLowerCase() == vietnamese.toLowerCase()) {
         CoolAlert.show(
             context: dialogContext,
             type: CoolAlertType.success,
@@ -381,10 +436,10 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             onConfirmBtnTap: () {
               print(_vocabularyIndex);
               BlocProvider.of<LearnVocabularyCubit>(dialogContext)
-                  .learnFlashCard(_vocabularyIndex + 1);
+                  .learnMatching(_vocabularyIndex);
               Navigator.pop(context);
             });
-      } else if (input != vietnamese) {
+      } else if (input.toLowerCase() != vietnamese.toLowerCase()) {
         CoolAlert.show(
             context: dialogContext,
             type: CoolAlertType.error,
@@ -394,6 +449,96 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             confirmBtnColor: Colors.red,
             onConfirmBtnTap: null);
       }
+    }
+
+    Widget _loadDialogForMatching(BuildContext dialogContext) {
+      if (check.toLowerCase() == vietnamese.toLowerCase()) {
+        CoolAlert.show(
+            context: dialogContext,
+            type: CoolAlertType.success,
+            title: "Correct!",
+            confirmBtnText: 'Continue',
+            confirmBtnColor: Colors.green,
+            onConfirmBtnTap: () {
+              chars.clear();
+              elements.clear();
+              BlocProvider.of<LearnVocabularyCubit>(dialogContext)
+                  .learnFlashCard(_vocabularyIndex + 1);
+              Navigator.pop(context);
+            });
+      } else if (check.toLowerCase() != vietnamese.toLowerCase()) {
+        CoolAlert.show(
+            context: dialogContext,
+            type: CoolAlertType.error,
+            title: "Incorrect!",
+            text: 'The correct answer is: $vietnamese',
+            confirmBtnText: 'Try again',
+            confirmBtnColor: Colors.red,
+            onConfirmBtnTap: null);
+      }
+    }
+
+    Widget _matchingVocabulary(BuildContext context) {
+      return Container(
+        padding: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 3,
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 100,
+        height: SizeConfig.blockSizeVertical * 90,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Match Vietnamese meaning',
+              style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontSize: 25,
+                  fontWeight: FontWeight.w400),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 5,
+            ),
+            Text(
+              '$english',
+              style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 15,
+            ),
+            column,
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 26.5,
+            ),
+            ButtonTheme(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              child: RaisedButton(
+                  onPressed: () {
+                    check = chars.join('');
+                    _loadDialogForMatching(context);
+                  },
+                  child: Container(
+                    width: SizeConfig.blockSizeHorizontal * 70,
+                    height: SizeConfig.blockSizeVertical * 8,
+                    child: Center(
+                      child: Text(
+                        'Check',
+                        style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontSize: 20,
+                            color: Colors.white),
+                      ),
+                    ),
+                  )),
+            )
+          ],
+        ),
+      );
     }
 
     Widget _writingVocabulary(BuildContext context) {
@@ -408,45 +553,26 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () =>
-                        Navigator.of(context, rootNavigator: true).pop(context),
-                  ),
-                  Container(
-                    child: new LinearPercentIndicator(
-                      width: SizeConfig.blockSizeHorizontal * 75,
-                      animation: false,
-                      lineHeight: 15.0,
-                      percent: percent,
-                      linearStrokeCap: LinearStrokeCap.roundAll,
-                      progressColor: Colors.amberAccent,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 3,
-            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
                   'Write Vietnamese meaning',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 25, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontSize: 25,
+                      fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 5,
                 ),
                 Text(
                   '$english',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 30, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 15,
@@ -456,21 +582,16 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   child: TextField(
                     controller: txtInputVocabulary,
                     decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.amberAccent
-                        )
-                      ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amberAccent)),
                         hintText: 'Type Vietnamese Meaning',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontSize: 17
-                        ),
+                        hintStyle:
+                            TextStyle(fontFamily: 'Helvetica', fontSize: 17),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15))),
                   ),
                 ),
-                SizedBox(height: SizeConfig.blockSizeVertical * 20),
+                SizedBox(height: SizeConfig.blockSizeVertical * 26.5),
                 ButtonTheme(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
@@ -485,7 +606,10 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         child: Center(
                           child: Text(
                             'Check',
-                            style: TextStyle(fontFamily: 'Helvetica', fontSize: 20, color: Colors.white),
+                            style: TextStyle(
+                                fontFamily: 'Helvetica',
+                                fontSize: 20,
+                                color: Colors.white),
                           ),
                         ),
                       )),
@@ -512,13 +636,37 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
                 english = _vocabularies[_vocabularyIndex]['english'];
                 img = _vocabularies[_vocabularyIndex]['img'];
-                percent = _vocabularyIndex * 0.1;
-                return _flashCard(context);
+                var percent = _vocabularyIndex * 0.1;
+                return Column(
+                  children: [_percentBar(percent), _flashCard(context)],
+                );
               } else if (state is LearnVocabularyWriting) {
+                txtInputVocabulary.clear();
                 _vocabularyIndex = state.vocabulariesIndex;
                 vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
                 english = _vocabularies[_vocabularyIndex]['english'];
-                return _writingVocabulary(context);
+                var percent = _vocabularyIndex * 0.1;
+                return Column(
+                  children: [_percentBar(percent), _writingVocabulary(context)],
+                );
+              } else if (state is LearnVocabularyPuzzle) {
+                _vocabularyIndex = state.vocabulariesIndex;
+                print('$_vocabularyIndex');
+                vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
+                english = _vocabularies[_vocabularyIndex]['english'];
+                var percent = _vocabularyIndex * 0.1;
+                if (chars.isEmpty == true) {
+                  chars = vietnamese.split('').toList();
+                  chars.shuffle();
+                } else {
+                  elements.clear();
+                }
+                for (String item in chars) {
+                  elements.add(_card(item.toUpperCase()));
+                }
+                return Column(
+                  children: [_percentBar(percent), _matchingVocabulary(context)],
+                );
               } else {
                 return _result();
               }
