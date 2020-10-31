@@ -16,10 +16,15 @@ class CategoryCard extends StatelessWidget {
     print(progressStatus);
     if (progressStatus == 'lock') {
       return Container(
-          alignment: Alignment.center,
-          child: IconButton(icon: Icon(Icons.lock), onPressed: null)
+        child: IconButton(
+          icon: Icon(
+            Icons.lock,
+            color: Colors.black,
+          ),
+          onPressed: null,
+        ),
       );
-    }else{
+    } else {
       return Container();
     }
   }
@@ -47,36 +52,60 @@ class CategoryCard extends StatelessWidget {
           color: Colors.white,
           child: InkWell(
             onTap: press,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20.0, top: 10, bottom: 0),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      title.trim(),
-                      style: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
+            // child: Padding(
+            //   padding: const EdgeInsets.only(
+            //       left: 20, right: 20.0, top: 10, bottom: 0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(bottom: 3),
+                  child: Container(
+                    width: 180,
+                    height: 110,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromRGBO(230, 157, 0, 30),
+                    ),
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: _lock(),
+                    ),
+                    // child: Image(
+                    //   width: 90,
+                    //   height: 90,
+                    //   image: NetworkImage(GoogleImageUtil.editUrl(img)),
+                    // ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 4),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    title.trim(),
+                    style: TextStyle(
+                        fontFamily: 'Helvetica',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "3 Courses",
+                    style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontSize: 13,
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Image(
-                      width: 90,
-                      height: 90,
-                      image: NetworkImage(GoogleImageUtil.editUrl(img)),
-                    ),
-                  ),
-                  _lock()
-                ],
-              ),
+                ),
+              ],
             ),
+            // ),
           ),
         ),
       ),
