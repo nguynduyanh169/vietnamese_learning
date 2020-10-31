@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
-class QuizResult extends StatelessWidget{
+class QuizResult extends StatelessWidget {
   final int resultScore;
   final Function resetHandlar;
 
-  QuizResult(this.resultScore,this.resetHandlar);
+  QuizResult(this.resultScore, this.resetHandlar);
 
   String get resultPhrase {
     String resultText;
@@ -33,19 +33,44 @@ class QuizResult extends StatelessWidget{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text('Congratulation', style: GoogleFonts.dmSans(fontSize: 40),),
-              SizedBox(height: SizeConfig.blockSizeVertical * 3,),
-              Text('You has completed quiz part of Greeting', style: GoogleFonts.dmSans(fontSize: 15),),
-              SizedBox(height: SizeConfig.blockSizeVertical * 4,),
-              Image(width: SizeConfig.blockSizeHorizontal * 40, height: SizeConfig.blockSizeVertical * 30,image: AssetImage('assets/images/quiz_logo.png'),),
-              Text('Correct: $correct', style: GoogleFonts.dmSans(fontSize: 16),),
-              Text('Incorrect: $incorrect', style: GoogleFonts.dmSans(fontSize: 16),),
+              Text(
+                'Congratulation',
+                style: GoogleFonts.dmSans(fontSize: 40),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 3,
+              ),
+              Text(
+                'You has completed quiz part of Greeting',
+                style: GoogleFonts.dmSans(fontSize: 15),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 4,
+              ),
+              Image(
+                width: SizeConfig.blockSizeHorizontal * 40,
+                height: SizeConfig.blockSizeVertical * 30,
+                image: AssetImage('assets/images/quiz_logo.png'),
+              ),
+              Text(
+                'Correct: $correct',
+                style: GoogleFonts.dmSans(fontSize: 16),
+              ),
+              Text(
+                'Incorrect: $incorrect',
+                style: GoogleFonts.dmSans(fontSize: 16),
+              ),
               MaterialButton(
-                onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),
-                child: Text("Back to Lesson Greeting", style: GoogleFonts.dmSans(fontSize: 20, color: Colors.blueAccent),),)
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(context),
+                child: Text(
+                  "Back to Lesson Greeting",
+                  style: GoogleFonts.dmSans(
+                      fontSize: 20, color: Colors.blueAccent),
+                ),
+              )
             ],
           ),
-        )
-    );
+        ));
   }
 }

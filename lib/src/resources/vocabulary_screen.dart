@@ -8,6 +8,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/learn_vocabulary_cubit.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
+import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 class VocabularyScreen extends StatefulWidget {
   VocabularyScreen({Key key}) : super(key: key);
@@ -225,14 +226,16 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                               ),
                               Container(
                                 child: Text('$vietnamese',
-                                    style: TextStyle(fontFamily: 'Helvetica', fontSize: 30)),
+                                    style: TextStyle(
+                                        fontFamily: 'Helvetica', fontSize: 30)),
                               ),
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical * 5,
                               ),
                               Text(
                                 '$english (n)',
-                                style: TextStyle(fontFamily: 'Helvetica', fontSize: 25),
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 25),
                               ),
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical * 20,
@@ -317,9 +320,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                               'Continue',
                               style: TextStyle(
                                   fontFamily: 'Helvetica',
-                                fontSize: 20,
-                                color: Colors.white
-                              ),
+                                  fontSize: 20,
+                                  color: Colors.white),
                             ),
                           ),
                         )),
@@ -327,46 +329,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 ],
               )
             ],
-          ));
-    }
-
-    Widget _result() {
-      return Container(
-          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 20),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Congratulation',
-                  style: GoogleFonts.dmSans(fontSize: 40),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 3,
-                ),
-                Text(
-                  'You has completed flashcard part of Vocabulary',
-                  style: GoogleFonts.dmSans(fontSize: 15),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 4,
-                ),
-                Image(
-                  width: SizeConfig.blockSizeHorizontal * 40,
-                  height: SizeConfig.blockSizeVertical * 30,
-                  image: AssetImage('assets/images/vocabulary_logo.png'),
-                ),
-                MaterialButton(
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: true).pop(context),
-                  child: Text(
-                    "Back to Lesson Introduction",
-                    style: GoogleFonts.dmSans(
-                        fontSize: 20, color: Colors.blueAccent),
-                  ),
-                )
-              ],
-            ),
           ));
     }
 
@@ -439,14 +401,20 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               children: <Widget>[
                 Text(
                   'Write Vietnamese meaning',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 25, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontSize: 25,
+                      fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 5,
                 ),
                 Text(
                   '$english',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 30, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 15,
@@ -456,16 +424,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   child: TextField(
                     controller: txtInputVocabulary,
                     decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.amberAccent
-                        )
-                      ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amberAccent)),
                         hintText: 'Type Vietnamese Meaning',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontSize: 17
-                        ),
+                        hintStyle:
+                            TextStyle(fontFamily: 'Helvetica', fontSize: 17),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15))),
                   ),
@@ -485,7 +448,10 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         child: Center(
                           child: Text(
                             'Check',
-                            style: TextStyle(fontFamily: 'Helvetica', fontSize: 20, color: Colors.white),
+                            style: TextStyle(
+                                fontFamily: 'Helvetica',
+                                fontSize: 20,
+                                color: Colors.white),
                           ),
                         ),
                       )),
@@ -520,7 +486,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 english = _vocabularies[_vocabularyIndex]['english'];
                 return _writingVocabulary(context);
               } else {
-                return _result();
+                return VocabularyResult();
               }
             },
           ),

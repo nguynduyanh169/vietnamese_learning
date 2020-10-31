@@ -85,6 +85,10 @@ flutter:
      - assets/images/signupbackground.png
      - assets/images/matchinggame.png
      - assets/images/matchingcard.png
+     - assets/images/splashscreen1.png
+     - assets/images/splashscreen2.png
+     - assets/images/splashscreen3.png
+     - assets/images/splashscreen4.png
   fonts:
     - family: Helvetica
       fonts:
