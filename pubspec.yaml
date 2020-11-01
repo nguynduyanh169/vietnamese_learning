@@ -43,9 +43,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  retrofit_generator: any
-  build_runner: any
   json_serializable: ^3.3.0
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/images/app_icon.png"
+  image_path_android: "assets/images/app_icon.png"
 
 flutter:
   uses-material-design: true
@@ -85,6 +90,8 @@ flutter:
      - assets/images/demovocab/car.png
      - assets/images/demovocab/bike.png
      - assets/images/signupbackground.png
+     - assets/images/app_icon.png
+     - assets/images/background_icon.png
      - assets/images/matchinggame.png
      - assets/images/matchingcard.png
      - assets/images/splashscreen1.png
