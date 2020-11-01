@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/login_cubit.dart';
 import 'package:vietnamese_learning/src/data/user_repository.dart';
@@ -308,11 +309,7 @@ class _LoginPageState extends State<LoginPage> {
         body: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginError) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
+              Toast.show("Login Failed!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP, backgroundColor: Colors.red, textColor: Colors.white);
             } else if(state is LoginProcess){
               Navigator.of(_ctx).pushReplacementNamed("/home");
             }

@@ -13,9 +13,7 @@ class QuizQuestion extends StatelessWidget {
         margin: EdgeInsets.all(10),
         child: Text(
           questionText,
-          style: GoogleFonts.dmSans(
-            fontSize: 20,
-          ),
+          style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
           textAlign: TextAlign.center,
         ));
   }

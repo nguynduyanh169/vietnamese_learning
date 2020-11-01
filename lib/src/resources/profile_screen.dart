@@ -89,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     style: TextStyle(fontSize: 9, fontFamily: 'Helvetica'),
                                   ),
                                   linearStrokeCap: LinearStrokeCap.roundAll,
-                                  progressColor: Colors.blueAccent,
+                                  progressColor: Colors.amberAccent,
                                 ),
                               ),
                               SizedBox(
@@ -98,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Container(
                                 child: Text(
                                   "Learning Progress",
-                                  style: TextStyle(fontSize: 10, fontFamily: 'Helvetica'),
+                                  style: TextStyle(fontSize: 12, fontFamily: 'Helvetica'),
                                 ),
                                 padding: EdgeInsets.only(
                                     left: SizeConfig.blockSizeHorizontal * 1),
@@ -174,6 +174,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   children: <Widget>[
                                     Card(
                                         child: ListTile(
+                                          leading: Icon(CupertinoIcons.pencil),
+                                          title: Text("Edit Profile", style: TextStyle(fontFamily: 'Helvetica'),),
+                                          trailing: Icon(CupertinoIcons.forward),
+                                          onTap: (){
+
+                                          },
+                                        )),
+                                    Card(
+                                        child: ListTile(
                                       leading: Icon(CupertinoIcons.reply),
                                       title: Text("Feedback", style: TextStyle(fontFamily: 'Helvetica'),),
                                       trailing: Icon(CupertinoIcons.forward),
@@ -195,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       child: InkWell(
                                         onTap: logout,
                                         child: ListTile(
-                                          leading: Icon(CupertinoIcons.person_solid),
+                                          leading: Icon(CupertinoIcons.person),
                                           title: Text("Sign out"),
                                           trailing:
                                           Icon(CupertinoIcons.forward),

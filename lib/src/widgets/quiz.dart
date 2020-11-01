@@ -54,7 +54,7 @@ class Quiz extends StatelessWidget {
             ),
           ),
           SizedBox(height: SizeConfig.blockSizeVertical * 2,),
-          Text('$type', style: GoogleFonts.dmSans(fontSize: 25, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+          Text('$type', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
           QuizQuestion(
             questions[questionIndex]['questionText'],
           ),

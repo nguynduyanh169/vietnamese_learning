@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -104,7 +105,7 @@ class _SignUpState extends State<SignUpScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                   labelText: 'Username',
-                  prefixIcon: Icon(Icons.person),
+                  prefixIcon: Icon(CupertinoIcons.person),
                 ),
               ),
             ),
@@ -120,7 +121,7 @@ class _SignUpState extends State<SignUpScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                   labelText: 'Email',
-                  prefixIcon: Icon(Icons.mail),
+                  prefixIcon: Icon(CupertinoIcons.mail),
                 ),
               ),
             ),

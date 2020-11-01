@@ -17,6 +17,11 @@ class LearnVocabularyWriting extends LearnVocabularyState{
   const LearnVocabularyWriting(this.vocabulariesIndex);
 }
 
+class LearnVocabularyPuzzle extends LearnVocabularyState{
+  final int vocabulariesIndex;
+  const LearnVocabularyPuzzle(this.vocabulariesIndex);
+}
+
 class LearnVocabularyDone extends LearnVocabularyState{
   const LearnVocabularyDone();
 }
