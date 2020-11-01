@@ -62,7 +62,7 @@ class QuizAnswer extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 answerText,
-                style: GoogleFonts.dmSans(fontSize: 20),
+                style: TextStyle(fontFamily: 'Helvetica', fontSize: 20),
               ),
             ),
           ],

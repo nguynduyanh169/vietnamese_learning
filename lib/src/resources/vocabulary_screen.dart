@@ -2,6 +2,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -175,7 +176,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                             SizeConfig.blockSizeVertical * 10,
                                         child: Center(
                                           child: Icon(
-                                            Icons.volume_up,
+                                            CupertinoIcons.volume_up,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -198,7 +199,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                             SizeConfig.blockSizeVertical * 10,
                                         child: Center(
                                           child: Icon(
-                                            Icons.mic,
+                                            CupertinoIcons.mic,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -255,7 +256,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                             SizeConfig.blockSizeVertical * 10,
                                         child: Center(
                                           child: Icon(
-                                            Icons.volume_up,
+                                            CupertinoIcons.volume_up,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -278,7 +279,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                             SizeConfig.blockSizeVertical * 10,
                                         child: Center(
                                           child: Icon(
-                                            Icons.mic,
+                                            CupertinoIcons.mic,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -301,7 +302,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   Text(
                     'Touch to flip card',
                     style:
-                        GoogleFonts.dmSans(textStyle: TextStyle(fontSize: 24)),
+                        TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
@@ -491,7 +492,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Match Vietnamese meaning',
+              'Correct the vocabulary',
               style: TextStyle(
                   fontFamily: 'Helvetica',
                   fontSize: 25,
@@ -641,7 +642,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   children: [_percentBar(percent), _flashCard(context)],
                 );
               } else if (state is LearnVocabularyWriting) {
-                txtInputVocabulary.clear();
                 _vocabularyIndex = state.vocabulariesIndex;
                 vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
                 english = _vocabularies[_vocabularyIndex]['english'];
