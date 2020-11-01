@@ -346,11 +346,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         ),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(3)),
+          borderRadius: BorderRadius.all(Radius.circular(4)),
           shape: BoxShape.rectangle,
           border: Border.all(
             color: Colors.amber,
-            width: 1,
+            width: 2,
           ),
         ),
       );
@@ -539,15 +539,18 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 ),
                 Container(
                   width: SizeConfig.blockSizeHorizontal * 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15)
+                  ),
                   child: TextField(
                     controller: txtInputVocabulary,
                     decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.amberAccent)),
                         hintText: 'Type Vietnamese Meaning',
                         hintStyle:
                             TextStyle(fontFamily: 'Helvetica', fontSize: 17),
                         border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amberAccent),
                             borderRadius: BorderRadius.circular(15))),
                   ),
                 ),
