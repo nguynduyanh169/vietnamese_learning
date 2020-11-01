@@ -31,6 +31,7 @@ class Quiz extends StatelessWidget {
     String type = questions[questionIndex]['type'];
     SizeConfig().init(context);
     return Container(
+      color: Color.fromRGBO(255, 239, 204, 100),
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3, left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
       child: Column(
         children: [

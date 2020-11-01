@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
 import 'package:vietnamese_learning/src/widgets/slide_model.dart';
 
@@ -36,6 +37,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Container(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(255, 239, 204, 1),
@@ -156,7 +158,7 @@ class SlideTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 10),
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
