@@ -10,6 +10,7 @@ import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/learn_vocabulary_cubit.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
+import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 class VocabularyScreen extends StatefulWidget {
   VocabularyScreen({Key key}) : super(key: key);
@@ -425,7 +426,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ),
           ));
     }
-
     Widget _loadDialog(BuildContext dialogContext) {
       if (input.toLowerCase() == vietnamese.toLowerCase()) {
         CoolAlert.show(
@@ -668,7 +668,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   children: [_percentBar(percent), _matchingVocabulary(context)],
                 );
               } else {
-                return _result();
+                return VocabularyResult();
               }
             },
           ),
