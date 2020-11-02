@@ -214,6 +214,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           onTap: () {},
                                         )),
                                     Card(
+                                        color: const Color.fromRGBO(
+                                            255, 190, 50, 30),
                                         child: ListTile(
                                       leading: Icon(CupertinoIcons.reply),
                                       title: Text(
