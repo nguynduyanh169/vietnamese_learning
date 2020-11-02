@@ -38,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         future: _loadUsername(),
         builder: (context, snapshot) {
           return Scaffold(
+            backgroundColor: Color.fromRGBO(255, 239, 204, 100),
             body: Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(255, 239, 215, 100),

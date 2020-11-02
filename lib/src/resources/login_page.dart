@@ -27,22 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    autoLogIn();
     _usernameController = new TextEditingController();
     _passwordController = new TextEditingController();
-  }
-
-  void autoLogIn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String username = prefs.getString('username');
-    if (username != null) {
-      setState(() {
-        isLoggedIn = true;
-        name = username;
-      });
-      Navigator.of(_ctx).pushReplacementNamed("/home");
-      return;
-    }
   }
 
   final formKey = new GlobalKey<FormState>();

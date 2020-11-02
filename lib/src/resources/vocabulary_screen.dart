@@ -2,7 +2,6 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -302,8 +301,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   ),
                   Text(
                     'Touch to flip card',
-                    style:
-                        TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                    style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
@@ -338,8 +336,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
     Widget _card(String content) {
       return Container(
-        width: 30,
-        height: 30,
+        width: SizeConfig.blockSizeHorizontal * 9,
+        height: SizeConfig.blockSizeVertical * 6,
         child: Center(
           child: Text(
             '$content',
@@ -347,11 +345,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           ),
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(3)),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(4)),
           shape: BoxShape.rectangle,
           border: Border.all(
             color: Colors.amber,
-            width: 1,
+            width: 2,
           ),
         ),
       );
@@ -369,7 +368,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     var wrap = ReorderableWrap(
         spacing: 8.0,
         runSpacing: 4.0,
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(3),
         children: elements,
         onReorder: _onReorder,
         onNoReorder: (int index) {
@@ -386,46 +385,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[wrap],
     );
-
-    Widget _result() {
-      return Container(
-          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 20),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Congratulation',
-                  style: GoogleFonts.dmSans(fontSize: 40),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 3,
-                ),
-                Text(
-                  'You has completed flashcard part of Vocabulary',
-                  style: GoogleFonts.dmSans(fontSize: 15),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 4,
-                ),
-                Image(
-                  width: SizeConfig.blockSizeHorizontal * 40,
-                  height: SizeConfig.blockSizeVertical * 30,
-                  image: AssetImage('assets/images/vocabulary_logo.png'),
-                ),
-                MaterialButton(
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: true).pop(context),
-                  child: Text(
-                    "Back to Lesson Introduction",
-                    style: GoogleFonts.dmSans(
-                        fontSize: 20, color: Colors.blueAccent),
-                  ),
-                )
-              ],
-            ),
-          ));
-    }
     Widget _loadDialog(BuildContext dialogContext) {
       if (input.toLowerCase() == vietnamese.toLowerCase()) {
         CoolAlert.show(
@@ -580,15 +539,18 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 ),
                 Container(
                   width: SizeConfig.blockSizeHorizontal * 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15)
+                  ),
                   child: TextField(
                     controller: txtInputVocabulary,
                     decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.amberAccent)),
                         hintText: 'Type Vietnamese Meaning',
                         hintStyle:
                             TextStyle(fontFamily: 'Helvetica', fontSize: 17),
                         border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amberAccent),
                             borderRadius: BorderRadius.circular(15))),
                   ),
                 ),
@@ -622,58 +584,66 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       );
     }
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          body: Container(
-              child: BlocProvider(
-        create: (context) =>
-            LearnVocabularyCubit()..learnFlashCard(_vocabularyIndex),
-        child: Scaffold(
-          body: BlocBuilder<LearnVocabularyCubit, LearnVocabularyState>(
-            builder: (context, state) {
-              if (state is LearnVocabularyFlashCard) {
-                _vocabularyIndex = state.vocabulariesIndex;
-                vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
-                english = _vocabularies[_vocabularyIndex]['english'];
-                img = _vocabularies[_vocabularyIndex]['img'];
-                var percent = _vocabularyIndex * 0.1;
-                return Column(
-                  children: [_percentBar(percent), _flashCard(context)],
-                );
-              } else if (state is LearnVocabularyWriting) {
-                _vocabularyIndex = state.vocabulariesIndex;
-                vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
-                english = _vocabularies[_vocabularyIndex]['english'];
-                var percent = _vocabularyIndex * 0.1;
-                return Column(
-                  children: [_percentBar(percent), _writingVocabulary(context)],
-                );
-              } else if (state is LearnVocabularyPuzzle) {
-                _vocabularyIndex = state.vocabulariesIndex;
-                print('$_vocabularyIndex');
-                vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
-                english = _vocabularies[_vocabularyIndex]['english'];
-                var percent = _vocabularyIndex * 0.1;
-                if (chars.isEmpty == true) {
-                  chars = vietnamese.split('').toList();
-                  chars.shuffle();
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+            child: BlocProvider(
+          create: (context) =>
+              LearnVocabularyCubit()..learnFlashCard(_vocabularyIndex),
+          child: Scaffold(
+            backgroundColor: Color.fromRGBO(255, 239, 204, 100),
+            body: BlocBuilder<LearnVocabularyCubit, LearnVocabularyState>(
+              builder: (context, state) {
+                if (state is LearnVocabularyFlashCard) {
+                  _vocabularyIndex = state.vocabulariesIndex;
+                  vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
+                  english = _vocabularies[_vocabularyIndex]['english'];
+                  img = _vocabularies[_vocabularyIndex]['img'];
+                  var percent = _vocabularyIndex * 0.1;
+                  return Column(
+                    children: [_percentBar(percent), _flashCard(context)],
+                  );
+                } else if (state is LearnVocabularyWriting) {
+                  _vocabularyIndex = state.vocabulariesIndex;
+                  vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
+                  english = _vocabularies[_vocabularyIndex]['english'];
+                  var percent = _vocabularyIndex * 0.1;
+                  return SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        _percentBar(percent),
+                        _writingVocabulary(context)
+                      ],
+                    ),
+                  );
+                } else if (state is LearnVocabularyPuzzle) {
+                  _vocabularyIndex = state.vocabulariesIndex;
+                  print('$_vocabularyIndex');
+                  vietnamese = _vocabularies[_vocabularyIndex]['vietnamese'];
+                  english = _vocabularies[_vocabularyIndex]['english'];
+                  var percent = _vocabularyIndex * 0.1;
+                  if (chars.isEmpty == true) {
+                    chars = vietnamese.split('').toList();
+                    chars.shuffle();
+                  } else {
+                    elements.clear();
+                  }
+                  for (String item in chars) {
+                    elements.add(_card(item.toUpperCase()));
+                  }
+                  return Column(
+                    children: [
+                      _percentBar(percent),
+                      _matchingVocabulary(context)
+                    ],
+                  );
                 } else {
-                  elements.clear();
+                  return VocabularyResult();
                 }
-                for (String item in chars) {
-                  elements.add(_card(item.toUpperCase()));
-                }
-                return Column(
-                  children: [_percentBar(percent), _matchingVocabulary(context)],
-                );
-              } else {
-                return VocabularyResult();
-              }
-            },
+              },
+            ),
           ),
-        ),
-      ))),
-    );
+        )));
   }
 }
