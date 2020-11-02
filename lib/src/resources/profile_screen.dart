@@ -39,12 +39,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (context, snapshot) {
           return Scaffold(
             body: Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 239, 215, 100),
+              ),
               padding: EdgeInsets.only(
                   left: SizeConfig.blockSizeHorizontal * 5,
                   right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: SizeConfig.blockSizeVertical * 7,),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 7,
+                  ),
                   Row(
                     children: <Widget>[
                       Container(
@@ -69,7 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Container(
                                 child: Text(
                                   '$_username',
-                                  style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                                  style: TextStyle(
+                                      fontSize: 20, fontFamily: 'Helvetica'),
                                 ),
                                 padding: EdgeInsets.only(
                                     left: SizeConfig.blockSizeHorizontal * 1),
@@ -86,7 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   percent: 0.2,
                                   center: Text(
                                     "20.0%",
-                                    style: TextStyle(fontSize: 9, fontFamily: 'Helvetica'),
+                                    style: TextStyle(
+                                        fontSize: 9, fontFamily: 'Helvetica'),
                                   ),
                                   linearStrokeCap: LinearStrokeCap.roundAll,
                                   progressColor: Colors.blueAccent,
@@ -98,7 +105,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Container(
                                 child: Text(
                                   "Learning Progress",
-                                  style: TextStyle(fontSize: 10, fontFamily: 'Helvetica'),
+                                  style: TextStyle(
+                                      fontSize: 10, fontFamily: 'Helvetica'),
                                 ),
                                 padding: EdgeInsets.only(
                                     left: SizeConfig.blockSizeHorizontal * 1),
@@ -119,6 +127,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: InkWell(
                           child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(255, 190, 51, 60),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                             width: SizeConfig.blockSizeHorizontal * 40,
                             height: SizeConfig.blockSizeVertical * 15,
                             child: Column(
@@ -127,9 +139,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text(
                                   "3",
                                   style: TextStyle(
-                                      color: Colors.green, fontSize: 25, fontFamily: 'Helvetica'),
+                                      color: Colors.green,
+                                      fontSize: 25,
+                                      fontFamily: 'Helvetica'),
                                 ),
-                                Text("Days learn", style: TextStyle(fontFamily: 'Helvetica'),)
+                                Text(
+                                  "Days learn",
+                                  style: TextStyle(fontFamily: 'Helvetica'),
+                                )
                               ],
                             ),
                           ),
@@ -141,6 +158,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: InkWell(
                           child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(255, 190, 51, 60),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                             width: SizeConfig.blockSizeHorizontal * 40,
                             height: SizeConfig.blockSizeVertical * 15,
                             child: Column(
@@ -149,9 +170,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text(
                                   "1",
                                   style: TextStyle(
-                                      color: Colors.blue, fontSize: 25, fontFamily: 'Helvetica'),
+                                      color: Colors.blue,
+                                      fontSize: 25,
+                                      fontFamily: 'Helvetica'),
                                 ),
-                                Text("Lessons done", style: TextStyle(fontFamily: 'Helvetica'),)
+                                Text(
+                                  "Lessons done",
+                                  style: TextStyle(fontFamily: 'Helvetica'),
+                                )
                               ],
                             ),
                           ),
@@ -173,32 +199,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Column(
                                   children: <Widget>[
                                     Card(
+                                        color: const Color.fromRGBO(
+                                            255, 190, 50, 30),
                                         child: ListTile(
-                                      leading: Icon(CupertinoIcons.reply),
-                                      title: Text("Feedback", style: TextStyle(fontFamily: 'Helvetica'),),
-                                      trailing: Icon(CupertinoIcons.forward),
-                                    )),
+                                          leading: Icon(CupertinoIcons.reply),
+                                          title: Text(
+                                            "Feedback",
+                                            style: TextStyle(
+                                                fontFamily: 'Helvetica'),
+                                          ),
+                                          trailing:
+                                              Icon(CupertinoIcons.forward),
+                                        )),
                                     Card(
+                                        color: const Color.fromRGBO(
+                                            255, 190, 50, 30),
                                         child: ListTile(
-                                      leading: Icon(CupertinoIcons.settings),
-                                      title: Text("Level", style: TextStyle(fontFamily: 'Helvetica'),),
-                                      trailing: Icon(CupertinoIcons.forward),
-                                    )),
+                                          leading:
+                                              Icon(CupertinoIcons.settings),
+                                          title: Text(
+                                            "Level",
+                                            style: TextStyle(
+                                                fontFamily: 'Helvetica'),
+                                          ),
+                                          trailing:
+                                              Icon(CupertinoIcons.forward),
+                                        )),
                                     Card(
+                                        color: const Color.fromRGBO(
+                                            255, 190, 50, 30),
                                         child: ListTile(
-                                      leading: Icon(CupertinoIcons.bell_solid),
-                                      title: Text("Notification Setting", style: TextStyle(fontFamily: 'Helvetica'),),
-                                      trailing:
-                                          Switch(value: false, onChanged: null),
-                                    )),
+                                          leading:
+                                              Icon(CupertinoIcons.bell_solid),
+                                          title: Text(
+                                            "Notification Setting",
+                                            style: TextStyle(
+                                                fontFamily: 'Helvetica'),
+                                          ),
+                                          trailing: Switch(
+                                              value: false, onChanged: null),
+                                        )),
                                     Card(
+                                      color: const Color.fromRGBO(
+                                          255, 190, 50, 30),
                                       child: InkWell(
                                         onTap: logout,
                                         child: ListTile(
-                                          leading: Icon(CupertinoIcons.person_solid),
+                                          leading:
+                                              Icon(CupertinoIcons.person_solid),
                                           title: Text("Sign out"),
                                           trailing:
-                                          Icon(CupertinoIcons.forward),
+                                              Icon(CupertinoIcons.forward),
                                         ),
                                       ),
                                     ),
@@ -220,7 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('username', null);
     prefs.setString('accessToken', null);
-    Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new LoginPage()));
-
+    Navigator.of(context, rootNavigator: true).pushReplacement(
+        MaterialPageRoute(builder: (context) => new LoginPage()));
   }
 }

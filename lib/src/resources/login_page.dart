@@ -53,10 +53,14 @@ class _LoginPageState extends State<LoginPage> {
     _password = _passwordController.text;
     BlocProvider.of<LoginCubit>(context).doLogin(_username, _password);
   }
+
   final color = const Color(0xffF2CE5E);
 
   Widget _loginScreen(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(255, 239, 215, 100),
+      ),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -73,9 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
                 "Username",
-                style: TextStyle(
-                    fontFamily: 'Helvetica'
-                ),
+                style: TextStyle(fontFamily: 'Helvetica'),
               ),
             ),
             Container(
@@ -98,9 +100,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
                 "Password",
-                style: TextStyle(
-                  fontFamily: 'Helvetica'
-                ),
+                style: TextStyle(fontFamily: 'Helvetica'),
               ),
             ),
             Container(
@@ -112,7 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     labelText: 'Enter your Password',
-                    labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
+                    labelStyle:
+                        TextStyle(fontFamily: 'Helvetica', fontSize: 15),
                     prefixIcon: Icon(Icons.lock)),
               ),
             ),
@@ -125,8 +126,9 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     "Forgot password?",
                     style: TextStyle(
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent[100],),
+                      fontFamily: 'Helvetica',
+                      color: Colors.blueAccent[100],
+                    ),
                   ),
                 ),
                 onTap: () {
@@ -166,18 +168,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       "Sign in",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontFamily: 'Helvetica'),
+                        color: Colors.grey[700],
+                        fontSize: 23.0,
+                        fontFamily: 'Helvetica',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     padding: new EdgeInsets.only(left: 0.0),
                   ),
                 ),
               ),
-              onPressed: (){
+              onPressed: () {
                 _submit(context);
               },
-              color: Colors.blue,
+              color: const Color.fromRGBO(255, 190, 51, 60),
             ),
             SizedBox(height: SizeConfig.blockSizeVertical * 2),
             Container(
@@ -255,14 +259,20 @@ class _LoginPageState extends State<LoginPage> {
                   EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 28),
               child: Row(
                 children: <Widget>[
-                  Text("Don't have an Account?", style: TextStyle(fontFamily: 'Helvetica', fontSize: 13),),
+                  Text(
+                    "Don't have an Account?",
+                    style: TextStyle(fontFamily: 'Helvetica', fontSize: 13),
+                  ),
                   SizedBox(
                     width: 5,
                   ),
                   InkWell(
                     child: Text(
                       "Sign Up",
-                      style: TextStyle(color: Colors.blueAccent, fontFamily: 'Helvetica', fontSize: 13),
+                      style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontFamily: 'Helvetica',
+                          fontSize: 13),
                     ),
                     onTap: () {
                       Navigator.of(context).push(
@@ -313,7 +323,7 @@ class _LoginPageState extends State<LoginPage> {
                   content: Text(state.message),
                 ),
               );
-            } else if(state is LoginProcess){
+            } else if (state is LoginProcess) {
               Navigator.of(_ctx).pushReplacementNamed("/home");
             }
           },
@@ -324,6 +334,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-
 }

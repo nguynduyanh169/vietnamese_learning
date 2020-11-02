@@ -20,6 +20,9 @@ class _ListGameScreenState extends State<ListGameScreen> {
     // TODO: implement build
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(255, 239, 215, 100),
+        ),
         child: Column(
           children: <Widget>[
             Container(

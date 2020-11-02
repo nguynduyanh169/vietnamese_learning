@@ -38,7 +38,7 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 239, 204, 1),
+        backgroundColor: Color.fromRGBO(255, 239, 215, 1),
         body: Container(
           height: MediaQuery.of(context).size.height - 100,
           child: PageView(

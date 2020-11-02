@@ -47,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _loadingLessons(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(255, 239, 215, 100),
+      ),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Stack(children: <Widget>[
       Container(
         decoration: BoxDecoration(
-          color: Color.fromRGBO(255, 239, 204, 100),
+          color: Color.fromRGBO(255, 239, 215, 100),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,14 +121,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       img: _listLessons[index].lessonImage,
                       progressStatus: _listLessons[index].progressStatus.trim(),
                       press: () {
-                        pushNewScreen(context,
-                            screen: LessonDetail(
-                                lessonName:
-                                    _listLessons[index].lessonName.trim(),
-                                lessonId: _listLessons[index].lessonId),
-                            withNavBar: false,
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino);
+                        if (_listLessons[index].progressStatus.trim() ==
+                            "lock") {
+                        } else {
+                          pushNewScreen(context,
+                              screen: LessonDetail(
+                                  lessonName:
+                                      _listLessons[index].lessonName.trim(),
+                                  lessonId: _listLessons[index].lessonId),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
+                        }
                       },
                     );
                   })),
