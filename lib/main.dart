@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vietnamese_learning/src/resources/intro_screen.dart';
-import 'package:vietnamese_learning/src/resources/level_screen.dart';
-import 'package:vietnamese_learning/src/resources/login_page.dart';
 import 'package:vietnamese_learning/src/route.dart';
 
 void main() => runApp(MyApp());
