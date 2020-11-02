@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontSize: 9, fontFamily: 'Helvetica'),
                                   ),
                                   linearStrokeCap: LinearStrokeCap.roundAll,
-                                  progressColor: Colors.blueAccent,
+                                  progressColor: Colors.amberAccent,
                                 ),
                               ),
                               SizedBox(
@@ -106,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Text(
                                   "Learning Progress",
                                   style: TextStyle(
-                                      fontSize: 10, fontFamily: 'Helvetica'),
+                                      fontSize: 12, fontFamily: 'Helvetica'),
                                 ),
                                 padding: EdgeInsets.only(
                                     left: SizeConfig.blockSizeHorizontal * 1),
@@ -202,15 +202,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: const Color.fromRGBO(
                                             255, 190, 50, 30),
                                         child: ListTile(
-                                          leading: Icon(CupertinoIcons.reply),
+                                          leading: Icon(CupertinoIcons.pencil),
                                           title: Text(
-                                            "Feedback",
+                                            "Edit Profile",
                                             style: TextStyle(
                                                 fontFamily: 'Helvetica'),
                                           ),
                                           trailing:
                                               Icon(CupertinoIcons.forward),
+                                          onTap: () {},
                                         )),
+                                    Card(
+                                        child: ListTile(
+                                      leading: Icon(CupertinoIcons.reply),
+                                      title: Text(
+                                        "Feedback",
+                                        style:
+                                            TextStyle(fontFamily: 'Helvetica'),
+                                      ),
+                                      trailing: Icon(CupertinoIcons.forward),
+                                    )),
                                     Card(
                                         color: const Color.fromRGBO(
                                             255, 190, 50, 30),
@@ -245,8 +256,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       child: InkWell(
                                         onTap: logout,
                                         child: ListTile(
-                                          leading:
-                                              Icon(CupertinoIcons.person_solid),
+                                          leading: Icon(CupertinoIcons.person),
                                           title: Text("Sign out"),
                                           trailing:
                                               Icon(CupertinoIcons.forward),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colored_progress_indicators/flutter_colored_progress_indicators.dart';
@@ -55,10 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ColoredCircularProgressIndicator(),
+            CupertinoActivityIndicator(
+              radius: 20,
+            ),
             Text(
               'Loading....',
-              style: GoogleFonts.dmSans(fontSize: 20),
+              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
             )
           ],
         ),
