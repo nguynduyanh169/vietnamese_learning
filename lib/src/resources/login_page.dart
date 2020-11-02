@@ -319,12 +319,6 @@ class _LoginPageState extends State<LoginPage> {
         body: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginError) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            } else if (state is LoginProcess) {
               Toast.show("Login Failed!", context,
                   duration: Toast.LENGTH_LONG,
                   gravity: Toast.TOP,
