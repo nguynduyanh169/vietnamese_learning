@@ -16,12 +16,26 @@ class CategoryCard extends StatelessWidget {
     print(progressStatus);
     if (progressStatus == 'lock') {
       return Container(
-        child: IconButton(
-          icon: Icon(
-            Icons.lock,
-            color: Colors.black,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color.fromRGBO(0, 0, 0, 100),
           ),
-          onPressed: null,
+          child: Column(
+            children: [
+              Container(
+                width: SizeConfig.blockSizeHorizontal * 80,
+                child: IconButton(
+                  alignment: Alignment.topRight,
+                  icon: Icon(
+                    Icons.lock,
+                    color: Colors.white,
+                  ),
+                  onPressed: null,
+                ),
+              )
+            ],
+          ),
         ),
       );
     } else {
@@ -64,9 +78,11 @@ class CategoryCard extends StatelessWidget {
                     width: 180,
                     height: 110,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromRGBO(230, 157, 0, 30),
-                    ),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color.fromRGBO(230, 157, 0, 30),
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/matchingcard.png"),
+                            fit: BoxFit.fill)),
                     child: Container(
                       alignment: Alignment.topRight,
                       child: _lock(),

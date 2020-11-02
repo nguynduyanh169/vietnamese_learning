@@ -6,7 +6,7 @@ class VocabularyResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
-        color: Color.fromRGBO(255, 239, 204, 100),
+        color: Color.fromRGBO(255, 239, 215, 100),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,7 +45,7 @@ class VocabularyResult extends StatelessWidget {
                       height: 160,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color.fromRGBO(255, 239, 204, 10),
+                        color: Color.fromRGBO(255, 239, 215, 10),
                       ),
                       child: Center(
                         child: Text(

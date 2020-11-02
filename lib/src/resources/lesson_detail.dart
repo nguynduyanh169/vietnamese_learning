@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
+import 'package:vietnamese_learning/src/resources/conversation_getstarted.dart';
 import 'package:vietnamese_learning/src/resources/quiz_getstarted.dart';
 import 'package:vietnamese_learning/src/resources/vocab_detail_screen.dart';
 
@@ -27,7 +28,9 @@ class _LessonDetailState extends State<LessonDetail> {
     SizeConfig().init(context);
     return Scaffold(
       body: Container(
-          color: Color.fromRGBO(255, 239, 204, 100),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(255, 239, 215, 100),
+          ),
           child: Column(
             children: <Widget>[
               Container(
@@ -152,8 +155,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    ConversationDetail(),
+                                (context, animation, secondaryAnimation) =>   ConversationGetStarted(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

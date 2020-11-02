@@ -171,9 +171,10 @@ class _SignUpState extends State<SignUpScreen> {
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         fontFamily: 'Helvetica',
-                        color: Colors.white,
-                        fontSize: 20,
+                        color: Colors.grey[700],
+                        fontSize: 23,
                       ),
                     ),
                     padding: new EdgeInsets.only(left: 0.0),
@@ -183,7 +184,7 @@ class _SignUpState extends State<SignUpScreen> {
               onPressed: () {
                 _submit(context);
               },
-              color: Colors.blue,
+              color: const Color.fromRGBO(255, 190, 51, 60),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 7,
