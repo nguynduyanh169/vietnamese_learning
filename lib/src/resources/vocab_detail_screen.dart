@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colored_progress_indicators/flutter_colored_progress_indicators.dart';
@@ -14,12 +15,15 @@ import 'package:vietnamese_learning/src/states/vocabularies_state.dart';
 class VocabDetailScreen extends StatefulWidget {
   String lessonId;
   String lessonName;
-  VocabDetailScreen({Key key, this.lessonId, this.lessonName}) : super(key: key);
 
-  _VocabDetailScreenState createState() => _VocabDetailScreenState(lessonId: lessonId, title: lessonName);
+  VocabDetailScreen({Key key, this.lessonId, this.lessonName})
+      : super(key: key);
+
+  _VocabDetailScreenState createState() =>
+      _VocabDetailScreenState(lessonId: lessonId, title: lessonName);
 }
 
-class _VocabDetailScreenState extends State<VocabDetailScreen>{
+class _VocabDetailScreenState extends State<VocabDetailScreen> {
   String lessonId;
   String title;
 
@@ -34,43 +38,52 @@ class _VocabDetailScreenState extends State<VocabDetailScreen>{
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return BlocProvider(
-      create: (context) => VocabulariesCubit(VocabularyRepository())..loadVocabulariesByLessonId(lessonId),
+      create: (context) => VocabulariesCubit(VocabularyRepository())
+        ..loadVocabulariesByLessonId(lessonId),
       child: Scaffold(
-          backgroundColor: Colors.green,
-          appBar: AppBar(
-            title: Text(
-              "Vocabulary",
-              style: TextStyle(color: Colors.white70),
-            ),
-            leading: IconButton(icon: Icon(Icons.arrow_back_ios, color: Colors.white70),  onPressed: () => Navigator.of(context).pop(),),
-            backgroundColor: Colors.green,
-            shadowColor: Colors.green,
-          ),
           body: BlocBuilder<VocabulariesCubit, VocabulariesState>(
-            builder: (context, state){
-              if(state is VocabulariesLoaded){
+            builder: (context, state) {
+              if (state is VocabulariesLoaded) {
                 return _vocabDetails(state.vocabularies);
-              }else if(state is VocabulariesLoadError){
+              } else if (state is VocabulariesLoadError) {
                 return Center(
                   child: Text('Something went wrong!'),
                 );
-              }else{
+              } else {
                 return _loadingVocabularies();
               }
             },
-          )
-      ),
+          )),
     );
   }
 
-  Widget _vocabDetails(List<Vocabulary> _vocabularies){
+  Widget _vocabDetails(List<Vocabulary> _vocabularies) {
     int numOfVocabs = _vocabularies.length;
     return Container(
-      width: SizeConfig.blockSizeHorizontal * 99,
+      color: Color.fromRGBO(255, 239, 204, 100),
+      width: SizeConfig.blockSizeHorizontal * 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          SizedBox(
+            height: SizeConfig.blockSizeVertical * 2,
+          ),
+          Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              Text(
+                'Vocabulary',
+                style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+              )
+            ],
+          ),
+          SizedBox(
+            height: SizeConfig.blockSizeVertical * 15,
+          ),
           Container(
             child: Image(
               image: AssetImage('assets/images/vocabulary_logo.png'),
@@ -78,66 +91,44 @@ class _VocabDetailScreenState extends State<VocabDetailScreen>{
               height: 160,
             ),
           ),
+          SizedBox(height: SizeConfig.blockSizeVertical * 5,),
           Container(
-            margin: EdgeInsets.only(top: 20),
             child: Text(
-              "Lesson $title | $numOfVocabs Vocabulary ",
-              style: GoogleFonts.sansita(
-                textStyle: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
+              "Lesson $title",
+              style: TextStyle(fontFamily: 'Helvetica', fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+          ),
+          Container(
+            child: Text(
+              "$numOfVocabs Vocabularies",
+              style: TextStyle(fontFamily: 'Helvetica', fontSize: 18, fontWeight: FontWeight.w500),
             ),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 13,
+            height: SizeConfig.blockSizeVertical * 20,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 70.0,
-            child: Card(
-              color: Colors.yellow[700],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: InkWell(
-                child: Center( child: Text(
-                  'Learn now',
-                  style: GoogleFonts.sansita(
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),),),
-                onTap: () => pushNewScreen(
-                  context,
-                  screen: VocabularyScreen(),
+          MaterialButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100.0),
+            ),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.75,
+              height: 50.0,
+              child: Center(
+                child: Padding(
+                  child: Text(
+                    "Learn Now",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontFamily: 'Helvetica'),
+                  ),
+                  padding: new EdgeInsets.only(left: 0.0),
                 ),
-
               ),
             ),
-          ),
-          SizedBox(height: SizeConfig.blockSizeVertical * 3,),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 70.0,
-            child: Card(
-              color: Colors.yellow[700],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: InkWell(
-                child: Center( child: Text(
-                  'Demo',
-                  style: GoogleFonts.sansita(
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),),),
-                onTap: () => pushNewScreen(
-                  context,
-                  screen: DemoMatchVocab(),
-                ),
-
-              ),
-            ),
+            onPressed: () => pushNewScreen(context, screen: VocabularyScreen()),
+            color: Colors.blueAccent,
           ),
         ],
       ),
@@ -146,20 +137,22 @@ class _VocabDetailScreenState extends State<VocabDetailScreen>{
 
   Widget _loadingVocabularies() {
     return Container(
+      color: Color.fromRGBO(255, 239, 204, 100),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ColoredCircularProgressIndicator(),
+            CupertinoActivityIndicator(
+              radius: 20,
+            ),
             Text(
               'Loading....',
-              style: GoogleFonts.dmSans(fontSize: 20),
+              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
             )
           ],
         ),
       ),
     );
   }
-
 }
