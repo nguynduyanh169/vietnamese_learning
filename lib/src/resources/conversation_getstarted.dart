@@ -20,9 +20,13 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
       home: Scaffold(
         backgroundColor: Colors.amber[400],
         body: Column(
-          children: [
+          children: <Widget>[
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 2,
+            ),
             Row(
               children: <Widget>[
+                SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () => Navigator.of(context).pop(),
@@ -44,7 +48,7 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Text(
-                "Lesson 1: Greeting",
+                "Lesson Greeting",
                 style: GoogleFonts.sansita(
                   textStyle: TextStyle(
                     fontWeight: FontWeight.bold,

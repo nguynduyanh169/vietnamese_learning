@@ -105,7 +105,7 @@ class _SignUpState extends State<SignUpScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                   labelText: 'Username',
-                  prefixIcon: Icon(CupertinoIcons.person),
+                  prefixIcon: Icon(CupertinoIcons.person_solid),
                 ),
               ),
             ),
@@ -121,7 +121,7 @@ class _SignUpState extends State<SignUpScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                   labelText: 'Email',
-                  prefixIcon: Icon(CupertinoIcons.mail),
+                  prefixIcon: Icon(CupertinoIcons.mail_solid),
                 ),
               ),
             ),

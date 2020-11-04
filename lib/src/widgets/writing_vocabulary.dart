@@ -10,9 +10,9 @@ class WritingVocabulary extends StatelessWidget{
   String input;
   Function checkWriting;
   BuildContext vocabularyContext;
-  TextEditingController txtInputVocabulary = new TextEditingController();
+  TextEditingController txtInputVocabulary;
 
-  WritingVocabulary({this.vietnamese, this.english, this.checkWriting, this.vocabularyContext});
+  WritingVocabulary({this.vietnamese, this.english, this.checkWriting, this.vocabularyContext, this.input, this.txtInputVocabulary});
 
   Widget _loadDialog(BuildContext dialogContext) {
     if (input.toLowerCase() == vietnamese.toLowerCase()) {

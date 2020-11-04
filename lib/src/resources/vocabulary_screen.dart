@@ -30,6 +30,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   List<String> chars = new List();
   List<Widget> elements = new List();
   String check;
+  String input;
+  TextEditingController txtInputVocabulary = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     }
 
     void checkWritingButton(BuildContext dialogContext) {
+      txtInputVocabulary.clear();
       BlocProvider.of<LearnVocabularyCubit>(dialogContext)
           .learnMatching(_vocabularyIndex);
       Navigator.pop(context);
@@ -235,7 +238,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   english = vocabularies[_vocabularyIndex].description;
                   img = vocabularies[_vocabularyIndex].image;
                   audio = vocabularies[_vocabularyIndex].voice_link;
-                  var percent = _vocabularyIndex * (1 / 17);
+                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
                   return Column(
                     children: [
                       _percentBar(percent),
@@ -253,7 +256,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
-                  var percent = _vocabularyIndex * (1 / 17);
+                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
                   return SingleChildScrollView(
                     physics: NeverScrollableScrollPhysics(),
                     child: Column(
@@ -263,7 +266,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                             vietnamese: vietnamese,
                             english: english,
                             vocabularyContext: context,
-                            checkWriting: checkWritingButton)
+                            checkWriting: checkWritingButton, input: input, txtInputVocabulary: txtInputVocabulary,)
                       ],
                     ),
                   );
@@ -271,7 +274,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
-                  var percent = _vocabularyIndex * (1 / 17);
+                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
                   if (chars.isEmpty == true) {
                     chars = vietnamese.split('').toList();
                     chars.shuffle();

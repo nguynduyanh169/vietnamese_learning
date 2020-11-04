@@ -13,20 +13,25 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    SizeConfig().init(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.lightBlue,
         body: Column(
-          children: [
+          children: <Widget>[
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 2,
+            ),
             Row(
               children: <Widget>[
+                SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 Text(
-                  'Conversation',
+                  'Quiz',
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: 'Helvetica',
@@ -45,7 +50,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Text(
-                "Lesson 1: Greeting",
+                "Lesson Greeting",
                 style: GoogleFonts.sansita(
                   textStyle: TextStyle(
                     fontWeight: FontWeight.bold,

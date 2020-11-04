@@ -1,7 +1,6 @@
 import 'package:vietnamese_learning/src/models/login_respone.dart';
 
 import '../models/login_respone.dart';
-import '../models/user.dart';
 
 abstract class RegisterState {
   const RegisterState();
