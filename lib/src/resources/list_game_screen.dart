@@ -5,6 +5,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/game_screen.dart';
 import 'package:vietnamese_learning/src/resources/memory_game.dart';
+import 'package:vietnamese_learning/src/resources/memory_game_level.dart';
 
 class ListGameScreen extends StatefulWidget {
   ListGameScreen({Key key}) : super(key: key);
@@ -27,14 +28,42 @@ class _ListGameScreenState extends State<ListGameScreen> {
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 7),
               alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  Text(
-                    'Game',
-                    style: GoogleFonts.sansita(
-                        fontSize: 30, fontWeight: FontWeight.bold),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(255, 239, 215, 100),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 13),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.only(bottomRight: Radius.circular(45)),
+                            color: const Color.fromRGBO(255, 190, 51, 100),
+                          ),
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'Game',
+                                style: GoogleFonts.sansita(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Text(
+                                '',
+                                style: GoogleFonts.sansita(fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 5,
@@ -88,7 +117,7 @@ class _ListGameScreenState extends State<ListGameScreen> {
                     ),
                     child: InkWell(
                       onTap: () => pushNewScreen(context,
-                          screen: MemoryGamePage(),
+                          screen: MemoryGameLevelPage(),
                           withNavBar: false,
                           pageTransitionAnimation:
                               PageTransitionAnimation.cupertino),

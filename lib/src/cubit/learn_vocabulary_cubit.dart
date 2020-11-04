@@ -2,11 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
 
 class LearnVocabularyCubit extends Cubit<LearnVocabularyState>{
-  LearnVocabularyCubit() : super(LearnVocabularyInitial());
+  int vocabulariesLength;
+  LearnVocabularyCubit(this.vocabulariesLength) : super(LearnVocabularyInitial());
 
   Future<void> learnFlashCard(int vocabulariesIndex) async{
-    if(vocabulariesIndex > 10){
-      emit(LearnVocabularyDone());
+    print(vocabulariesIndex);
+    if(vocabulariesIndex > vocabulariesLength -1 ){
+      print(vocabulariesIndex);
+      emit(LearnVocabularyDone(vocabulariesLength));
     }
     else {
       emit(LearnVocabularyFlashCard(vocabulariesIndex));
@@ -14,8 +17,8 @@ class LearnVocabularyCubit extends Cubit<LearnVocabularyState>{
   }
 
   Future<void> learnWriting(int vocabulariesIndex) async{
-    if(vocabulariesIndex > 10){
-      emit(LearnVocabularyDone());
+    if(vocabulariesIndex > vocabulariesLength - 1){
+      emit(LearnVocabularyDone(vocabulariesLength));
     }
     else {
       emit(LearnVocabularyWriting(vocabulariesIndex));
@@ -23,8 +26,8 @@ class LearnVocabularyCubit extends Cubit<LearnVocabularyState>{
   }
 
   Future<void> learnMatching(int vocabulariesIndex) async{
-    if(vocabulariesIndex > 10){
-      emit(LearnVocabularyDone());
+    if(vocabulariesIndex > vocabulariesLength - 1){
+      emit(LearnVocabularyDone(vocabulariesLength));
     }
     else {
       emit(LearnVocabularyPuzzle(vocabulariesIndex));

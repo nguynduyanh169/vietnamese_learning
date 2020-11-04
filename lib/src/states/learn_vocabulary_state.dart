@@ -23,5 +23,6 @@ class LearnVocabularyPuzzle extends LearnVocabularyState{
 }
 
 class LearnVocabularyDone extends LearnVocabularyState{
-  const LearnVocabularyDone();
+  final int vocabulariesLength;
+  const LearnVocabularyDone(this.vocabulariesLength);
 }

@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_colored_progress_indicators/flutter_colored_progress_indicators.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/vocabularies_cubit.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
-import 'package:vietnamese_learning/src/resources/demo_match_vocab.dart';
 import 'package:vietnamese_learning/src/resources/vocabulary_screen.dart';
 import 'package:vietnamese_learning/src/states/vocabularies_state.dart';
 
@@ -60,7 +57,7 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
   Widget _vocabDetails(List<Vocabulary> _vocabularies) {
     int numOfVocabs = _vocabularies.length;
     return Container(
-      color: Color.fromRGBO(255, 239, 204, 100),
+      color: Colors.green,
       width: SizeConfig.blockSizeHorizontal * 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -107,29 +104,39 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
           SizedBox(
             height: SizeConfig.blockSizeVertical * 20,
           ),
-          MaterialButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0),
-            ),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.75,
-              height: 50.0,
-              child: Center(
-                child: Padding(
-                  child: Text(
-                    "Learn Now",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontFamily: 'Helvetica'),
-                  ),
-                  padding: new EdgeInsets.only(left: 0.0),
-                ),
-              ),
-            ),
-            onPressed: () => pushNewScreen(context, screen: VocabularyScreen()),
-            color: Colors.blueAccent,
+      Container(
+        width: MediaQuery.of(context).size.width * .85,
+        height: 80.0,
+        child: Card(
+          color: Colors.yellow[700],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
           ),
+          child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => VocabularyScreen(vocabularies: _vocabularies,),
+                ));
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Learn Now",
+                        style: GoogleFonts.sansita(
+                          fontSize: 40,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )),
+        ),
+      ),
         ],
       ),
     );
@@ -137,7 +144,7 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
 
   Widget _loadingVocabularies() {
     return Container(
-      color: Color.fromRGBO(255, 239, 204, 100),
+      color: Colors.green,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

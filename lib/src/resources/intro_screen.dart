@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -38,19 +40,8 @@ class _IntroScreenState extends State<IntroScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    autoLogIn();
     mySLides = getSlides();
     controller = new PageController();
-  }
-
-  void autoLogIn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String username = prefs.getString('username');
-    final String token= prefs.getString('accessToken');
-    if (username != null || token != null) {
-      Navigator.of(_ctx).pushReplacementNamed("/home");
-      return;
-    }
   }
 
   Widget _intro(BuildContext context){
@@ -164,13 +155,53 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
     );
   }
+
+  Widget _loading(){
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(255, 239, 215, 100),
+      ),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CupertinoActivityIndicator(
+              radius: 20,
+            ),
+            Text(
+              'Loading....',
+              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+            )
+          ],
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     _ctx = context;
+    SystemChrome.setEnabledSystemUIOverlays([]);
     SizeConfig().init(context);
-    return Scaffold(
-      body: _intro(context),
-        
+    return BlocProvider(
+      create: (context) => IntroCubit()..autoLoading(),
+      child: Scaffold(
+        body: BlocConsumer<IntroCubit, IntroState>(
+          listener: (context, state){
+            if(state is AutoLoginSuccess){
+              Navigator.of(_ctx).pushReplacementNamed("/home");
+            }
+          },
+          builder: (context, state){
+            if(state is AutoLoginFailed){
+              return _intro(context);
+            }else {
+              return _loading();
+            }
+          },
+        ),
+
+      ),
     );
   }
 }

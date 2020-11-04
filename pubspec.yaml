@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: any
   reorderables: any
   toast: ^0.1.5
+  assets_audio_player: ^2.0.12
 
 
 dev_dependencies:
@@ -98,6 +99,7 @@ flutter:
      - assets/images/splashscreen2.png
      - assets/images/splashscreen3.png
      - assets/images/splashscreen4.png
+     - assets/images/quest.png
   fonts:
     - family: Helvetica
       fonts:

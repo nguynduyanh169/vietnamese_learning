@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class VocabularyResult extends StatelessWidget {
+  int words;
+  VocabularyResult({this.words});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +51,7 @@ class VocabularyResult extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          "10 Words",
+                          "$words Words",
                           style: TextStyle(
                             fontSize: 27,
                             color: Colors.grey[700],

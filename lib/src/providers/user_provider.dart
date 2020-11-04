@@ -24,7 +24,7 @@ class UserProvider{
       LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
       return _loginResponse;
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -43,7 +43,7 @@ class UserProvider{
       LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
       return _loginResponse;
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 

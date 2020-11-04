@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/utils/image_utils.dart';
+import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class CategoryCard extends StatelessWidget {
   final String img;
@@ -49,7 +49,6 @@ class CategoryCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(13),
       child: Container(
-        // padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.blueGrey[50],
           borderRadius: BorderRadius.circular(13),
@@ -81,17 +80,12 @@ class CategoryCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromRGBO(230, 157, 0, 30),
                         image: DecorationImage(
-                            image: AssetImage("assets/images/matchingcard.png"),
+                            image: NetworkImage(UrlUtils.editImgUrl(img)),
                             fit: BoxFit.fill)),
                     child: Container(
                       alignment: Alignment.topRight,
                       child: _lock(),
                     ),
-                    // child: Image(
-                    //   width: 90,
-                    //   height: 90,
-                    //   image: NetworkImage(GoogleImageUtil.editUrl(img)),
-                    // ),
                   ),
                 ),
                 SizedBox(
