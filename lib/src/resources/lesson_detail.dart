@@ -155,7 +155,8 @@ class _LessonDetailState extends State<LessonDetail> {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
-                                (context, animation, secondaryAnimation) =>   ConversationGetStarted(),
+                                (context, animation, secondaryAnimation) =>
+                                    ConversationGetStarted(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

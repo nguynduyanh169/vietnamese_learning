@@ -19,20 +19,20 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.amber[400],
-        appBar: AppBar(
-          title: Text(
-            "Conversation",
-            style: TextStyle(color: Colors.white70),
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white70),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          backgroundColor: Colors.amber[400],
-          shadowColor: Colors.amber[400],
-        ),
         body: Column(
           children: [
+            Row(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                Text(
+                  'Conversation',
+                  style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                )
+              ],
+            ),
             Container(
               alignment: Alignment.topCenter,
               margin: EdgeInsets.only(top: 50, left: 77, right: 80),
