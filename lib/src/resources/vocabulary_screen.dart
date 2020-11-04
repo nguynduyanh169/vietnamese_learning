@@ -79,12 +79,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
     Widget _card(String content) {
       return Container(
-        width: SizeConfig.blockSizeHorizontal * 9,
-        height: SizeConfig.blockSizeVertical * 6,
+        width: SizeConfig.blockSizeHorizontal * 10,
+        height: SizeConfig.blockSizeVertical * 7,
         child: Center(
           child: Text(
             '$content',
-            style: TextStyle(fontFamily: 'Helvetica'),
+            style: TextStyle(fontFamily: 'Helvetica', fontWeight: FontWeight.w600, fontSize: 20),
           ),
         ),
         decoration: BoxDecoration(

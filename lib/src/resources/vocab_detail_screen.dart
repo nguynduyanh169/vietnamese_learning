@@ -68,6 +68,7 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
           ),
           Row(
             children: <Widget>[
+              SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
               IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () => Navigator.of(context).pop(),

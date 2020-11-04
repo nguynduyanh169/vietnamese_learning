@@ -7,7 +7,7 @@ class LearnVocabularyCubit extends Cubit<LearnVocabularyState>{
 
   Future<void> learnFlashCard(int vocabulariesIndex) async{
     print(vocabulariesIndex);
-    if(vocabulariesIndex > vocabulariesLength -1 ){
+    if(vocabulariesIndex > vocabulariesLength - 1){
       print(vocabulariesIndex);
       emit(LearnVocabularyDone(vocabulariesLength));
     }
