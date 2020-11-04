@@ -10,10 +10,8 @@ class IntroCubit extends Cubit<IntroState>{
     final String username = prefs.getString('username');
     final String token= prefs.getString('accessToken');
     if (username != null || token != null) {
-      print('loading success');
       emit(AutoLoginSuccess());
     }else{
-      print('loading failed');
       emit(AutoLoginFailed());
     }
   }

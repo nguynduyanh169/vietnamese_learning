@@ -4,15 +4,13 @@ class Lesson {
   String lessonImage;
   String progressStatus;
   int progressId;
-  double quizMark;
 
   Lesson(
       {this.lessonId,
       this.lessonImage,
       this.lessonName,
       this.progressId,
-      this.progressStatus,
-      this.quizMark});
+      this.progressStatus,});
 
   Lesson.fromJson(Map<String, dynamic> json) {
     lessonId = json['lessonID'];
@@ -20,7 +18,6 @@ class Lesson {
     lessonImage = json['lessonImage'];
     progressStatus = json['progresStatus'];
     progressId = json['progressId'];
-    quizMark = json['quizMark'];
   }
 
   Map<String, dynamic> toJson() {
@@ -30,7 +27,6 @@ class Lesson {
     data['lessonImage'] = this.lessonImage;
     data['progressId'] = this.progressId;
     data['progresStatus'] = this.progressStatus;
-    data['quizMark'] = this.quizMark;
     return data;
   }
 }

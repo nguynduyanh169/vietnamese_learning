@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
 import 'package:vietnamese_learning/src/data/lesson_repository.dart';
@@ -104,12 +105,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: SizeConfig.blockSizeHorizontal * 12,
+              height: SizeConfig.blockSizeHorizontal * 15,
             ),
             Expanded(
               child: GridView.count(
@@ -125,6 +126,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       press: () {
                         if (_listLessons[index].progressStatus.trim() ==
                             "lock") {
+                          String lessonBefore =
+                              _listLessons[index - 1].lessonName;
+                          Toast.show(
+                              "You must finish lesson $lessonBefore!", context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM,
+                              backgroundColor: Colors.blueAccent,
+                              textColor: Colors.white);
                         } else {
                           pushNewScreen(context,
                               screen: LessonDetail(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -180,6 +181,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     _ctx = context;
+    SystemChrome.setEnabledSystemUIOverlays([]);
     SizeConfig().init(context);
     return BlocProvider(
       create: (context) => IntroCubit()..autoLoading(),
@@ -187,7 +189,6 @@ class _IntroScreenState extends State<IntroScreen> {
         body: BlocConsumer<IntroCubit, IntroState>(
           listener: (context, state){
             if(state is AutoLoginSuccess){
-              print('home');
               Navigator.of(_ctx).pushReplacementNamed("/home");
             }
           },
