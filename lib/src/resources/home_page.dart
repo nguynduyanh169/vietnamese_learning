@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vietnamese_learning/src/resources/forum_screen.dart';
 import 'package:vietnamese_learning/src/resources/home_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/resources/game_screen.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     return [
       HomeScreen(),
+      ForumScreen(),
       ListGameScreen(),
       ProfileScreen(),
     ];
@@ -33,6 +35,12 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.book),
         title: ("Lesson"),
+        activeColor: CupertinoColors.activeBlue,
+        inactiveColor: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.create),
+        title: ("Discuss"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),

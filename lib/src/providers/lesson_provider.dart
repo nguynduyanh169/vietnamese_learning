@@ -10,7 +10,7 @@ class LessonProvider {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'student_token': '$token',
+      'studentToken': '$token',
       'Authorization': 'Bearer $token'
     };
     try {
