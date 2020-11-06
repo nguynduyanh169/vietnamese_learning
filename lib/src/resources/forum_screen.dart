@@ -1,10 +1,10 @@
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:floating_menu/floating_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/forum_notification_screen.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
 
 class ForumScreen extends StatefulWidget {
@@ -75,9 +75,12 @@ class _ForumScreenState extends State<ForumScreen> {
                           )
                         ],
                       ),
-                      onPressed: () {
-                        print('create post');
-                      }),
+                      onPressed: () => pushNewScreen(context,
+                          screen: ForumNotificationScreen(),
+                          withNavBar: false,
+                          pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino),
+                  ),
                 ],
               ),
             ),
