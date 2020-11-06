@@ -15,12 +15,12 @@ class _ViewPostState extends State<ViewPost> {
     // TODO: implement build
     SizeConfig().init(context);
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: true,
+      resizeToAvoidBottomInset: false,
+      //resizeToAvoidBottomPadding: false,
       body: Container(
         padding: EdgeInsets.only(
             left: SizeConfig.blockSizeHorizontal * 4,
-            right: SizeConfig.blockSizeHorizontal * 4),
+            right: SizeConfig.blockSizeHorizontal * 3),
         color: Color.fromRGBO(255, 239, 215, 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,78 +40,83 @@ class _ViewPostState extends State<ViewPost> {
                 ],
               ),
             ),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Container(
-                padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal * 5,
-                    right: SizeConfig.blockSizeHorizontal * 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 3,
-                    ),
-                    Text(
-                      'Phan nan ve dich vu',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Helvetica'),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 1,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 2,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Ho Quang Bao',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Helvetica'),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 1,
-                            ),
-                            Text(
-                              '20/11/2020',
-                              style: TextStyle(
-                                  fontSize: 10, fontFamily: 'Helvetica'),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      'Những người đầu tiên dùng thử Starlink, hệ thống '
-                      'internet cung cấp bởi dàn vệ tinh trên quỹ đạo, '
-                      'đã đang chia sẻ những cảm nhận đầu tiên; nhìn chung, '
-                      'những phản hồi tích cực đều cho thấy internet tốc độ và độ trễ thấp, '
-                      'ngay cả khi chảo Starlink được đặt ở vùng ngoại ô. Người dùng Reddit có tên Wandering-coder mang hệ thống Starlink ra vùng công viên quốc gia tại Idaho và nhận thấy tốc độ download lên được tới 120 Mbps. ',
-                      style: TextStyle(fontFamily: 'Helvetica'),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 4,
-                    )
-                  ],
-                ),
+            Container(
+              padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 6,
+                  right: SizeConfig.blockSizeHorizontal * 8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black26.withOpacity(0.05),
+                        offset: Offset(0.0, 6.0),
+                        blurRadius: 10.0,
+                        spreadRadius: 0.10)
+                  ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 3,
+                  ),
+                  Text(
+                    'Phan nan ve dich vu',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        fontFamily: 'Helvetica'),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 1,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage:
+                        AssetImage('assets/images/profile.png'),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Ho Quang Bao',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Helvetica'),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Text(
+                            '20/11/2020',
+                            style: TextStyle(
+                                fontSize: 10, fontFamily: 'Helvetica'),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
+                  Text(
+                    'Những người đầu tiên dùng thử Starlink, hệ thống '
+                        'internet cung cấp bởi dàn vệ tinh trên quỹ đạo, '
+                        'đã đang chia sẻ những cảm nhận đầu tiên; nhìn chung, '
+                        'những phản hồi tích cực đều cho thấy internet tốc độ và độ trễ thấp, '
+                        'ngay cả khi chảo Starlink được đặt ở vùng ngoại ô. Người dùng Reddit có tên Wandering-coder mang hệ thống Starlink ra vùng công viên quốc gia tại Idaho và nhận thấy tốc độ download lên được tới 120 Mbps. ',
+                    style: TextStyle(fontFamily: 'Helvetica'),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 4,
+                  )
+                ],
               ),
             ),
             Container(
@@ -179,60 +184,69 @@ class _ViewPostState extends State<ViewPost> {
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 0.5),
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
-                          AssetImage('assets/images/profile.png'),
+                              AssetImage('assets/images/profile.png'),
                         ),
                       ),
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig.blockSizeHorizontal * 2),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26.withOpacity(0.05),
+                                  offset: Offset(0.0, 6.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 0.10)
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Ho Xuan Cuong',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w600),
                               ),
-                              Container(
-                                child: Text(
-                                  'Ho Xuan Cuong',
-                                  style: TextStyle(
-                                      fontFamily: 'Helvetica',
-                                      fontWeight: FontWeight.w600),
-                                ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Với chảo vệ tinh đặt tại khoảng đất rung',
+                                style: TextStyle(fontFamily: 'Helvetica'),
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                '2 mins ago',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 10),
                               ),
-                              Container(
-                                child: Text(
-                                  'Với chảo vệ tinh đặt tại khoảng đất rung',
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                              Container(
-                                child: Text(
-                                  '2 mins ago',
-                                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -241,6 +255,7 @@ class _ViewPostState extends State<ViewPost> {
                     ],
                   ),
                 ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
                 Container(
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
@@ -252,7 +267,8 @@ class _ViewPostState extends State<ViewPost> {
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 0.5),
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
@@ -262,50 +278,58 @@ class _ViewPostState extends State<ViewPost> {
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig.blockSizeHorizontal * 2),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26.withOpacity(0.05),
+                                  offset: Offset(0.0, 6.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 0.10)
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Ho Xuan Cuong',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w600),
                               ),
-                              Container(
-                                child: Text(
-                                  'Ho Xuan Cuong',
-                                  style: TextStyle(
-                                      fontFamily: 'Helvetica',
-                                      fontWeight: FontWeight.w600),
-                                ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Với chảo vệ tinh đặt tại khoảng đất rung',
+                                style: TextStyle(fontFamily: 'Helvetica'),
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                '2 mins ago',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 10),
                               ),
-                              Container(
-                                child: Text(
-                                  'Với chảo vệ tinh đặt tại khoảng đất rung',
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                              Container(
-                                child: Text(
-                                  '2 mins ago',
-                                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -314,6 +338,7 @@ class _ViewPostState extends State<ViewPost> {
                     ],
                   ),
                 ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
                 Container(
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
@@ -325,7 +350,8 @@ class _ViewPostState extends State<ViewPost> {
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 0.5),
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
@@ -335,50 +361,58 @@ class _ViewPostState extends State<ViewPost> {
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig.blockSizeHorizontal * 2),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26.withOpacity(0.05),
+                                  offset: Offset(0.0, 6.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 0.10)
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Ho Xuan Cuong',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w600),
                               ),
-                              Container(
-                                child: Text(
-                                  'Ho Xuan Cuong',
-                                  style: TextStyle(
-                                      fontFamily: 'Helvetica',
-                                      fontWeight: FontWeight.w600),
-                                ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Với chảo vệ tinh đặt tại khoảng đất rung',
+                                style: TextStyle(fontFamily: 'Helvetica'),
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                '2 mins ago',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 10),
                               ),
-                              Container(
-                                child: Text(
-                                  'Với chảo vệ tinh đặt tại khoảng đất rung',
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                              Container(
-                                child: Text(
-                                  '2 mins ago',
-                                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -387,6 +421,7 @@ class _ViewPostState extends State<ViewPost> {
                     ],
                   ),
                 ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
                 Container(
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
@@ -398,7 +433,8 @@ class _ViewPostState extends State<ViewPost> {
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 0.5),
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
@@ -408,50 +444,58 @@ class _ViewPostState extends State<ViewPost> {
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig.blockSizeHorizontal * 2),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26.withOpacity(0.05),
+                                  offset: Offset(0.0, 6.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 0.10)
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Ho Xuan Cuong',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w600),
                               ),
-                              Container(
-                                child: Text(
-                                  'Ho Xuan Cuong',
-                                  style: TextStyle(
-                                      fontFamily: 'Helvetica',
-                                      fontWeight: FontWeight.w600),
-                                ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Với chảo vệ tinh đặt tại khoảng đất rung',
+                                style: TextStyle(fontFamily: 'Helvetica'),
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                '2 mins ago',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 10),
                               ),
-                              Container(
-                                child: Text(
-                                  'Với chảo vệ tinh đặt tại khoảng đất rung',
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                              Container(
-                                child: Text(
-                                  '2 mins ago',
-                                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -460,6 +504,7 @@ class _ViewPostState extends State<ViewPost> {
                     ],
                   ),
                 ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 1.5,),
                 Container(
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
@@ -471,7 +516,8 @@ class _ViewPostState extends State<ViewPost> {
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 0.5),
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
@@ -481,50 +527,58 @@ class _ViewPostState extends State<ViewPost> {
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 1.5,
                       ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig.blockSizeHorizontal * 2),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26.withOpacity(0.05),
+                                  offset: Offset(0.0, 6.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 0.10)
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Ho Xuan Cuong',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w600),
                               ),
-                              Container(
-                                child: Text(
-                                  'Ho Xuan Cuong',
-                                  style: TextStyle(
-                                      fontFamily: 'Helvetica',
-                                      fontWeight: FontWeight.w600),
-                                ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                'Với chảo vệ tinh đặt tại khoảng đất rung',
+                                style: TextStyle(fontFamily: 'Helvetica'),
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                            Container(
+                              child: Text(
+                                '2 mins ago',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 10),
                               ),
-                              Container(
-                                child: Text(
-                                  'Với chảo vệ tinh đặt tại khoảng đất rung',
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                              Container(
-                                child: Text(
-                                  '2 mins ago',
-                                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 0.5,
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 0.5,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -536,10 +590,41 @@ class _ViewPostState extends State<ViewPost> {
               ],
             )),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 5,
+              height: SizeConfig.blockSizeVertical * 1.5,
             ),
-            TextField(
-              decoration: InputDecoration.collapsed(hintText: "Start typing ..."),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: SizeConfig.blockSizeHorizontal * 79,
+                  height: SizeConfig.blockSizeVertical * 7,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),),
+                      hintText: 'Write your comment',
+                      hintStyle:
+                          TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+                    ),
+                  ),
+                ),
+                SizedBox(width: SizeConfig.blockSizeHorizontal * 0.9,),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0)
+                  ),
+                  child:  IconButton(
+                      icon: Icon(Icons.send, color: Colors.blueAccent, size: 30,),
+                      onPressed: () {
+                        print('comment');
+                      }),
+                ),
+
+              ],
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 1.5,
             ),
           ],
         ),
