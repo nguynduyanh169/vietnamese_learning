@@ -3,6 +3,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vietnamese_learning/src/resources/qualification_quiz.dart';
+import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 
 class LevelScreen extends StatefulWidget {
   static final String routeName = "level";
@@ -48,41 +50,60 @@ class _LevelScreenState extends State<LevelScreen> {
                 ),
               ),
             ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 3,
+            ),
             Container(
               width: MediaQuery.of(context).size.width * 1,
-              height: 80.0,
+              height: 130.0,
               child: Card(
-                color: Colors.green,
+                color: Colors.yellow[700],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: InkWell(
                     onTap: () => pushNewScreen(
                           context,
-                          screen: HomePage(),
+                          screen: null,
                           withNavBar: true,
                         ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Row(
                           children: [
-                            Text(
-                              "Beginner",
-                              style: GoogleFonts.sansita(
-                                fontSize: 45,
-                                color: Colors.white,
-                              ),
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "Beginner",
+                                  style: GoogleFonts.sansita(
+                                    fontSize: 33,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  "Start learning from the begin",
+                                  style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontSize: 17,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 30,
+                              width: SizeConfig.blockSizeHorizontal * 11,
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 13.5,
+                              width: SizeConfig.blockSizeHorizontal * 15.5,
                               height: SizeConfig.blockSizeVertical * 10,
                               child: Image(
-                                image: AssetImage('assets/images/owlcolor.png'),
+                                image: AssetImage(
+                                    'assets/images/owlexpertcolor.png'),
                               ),
                             ),
                           ],
@@ -96,79 +117,60 @@ class _LevelScreenState extends State<LevelScreen> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 1,
-              height: 80.0,
+              height: 130.0,
               child: Card(
-                  color: Colors.yellow[700],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 60,
-                            child: Image(
-                              image: AssetImage(
-                                  'assets/images/owlexpertcolor.png'),
+                color: Colors.red[700],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: InkWell(
+                    onTap: () => pushNewScreen(
+                          context,
+                          screen: QualificationQuiz(),
+                          withNavBar: true,
+                        ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              child: Image(
+                                image: AssetImage(
+                                    'assets/images/owlwithclassescolor.png'),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: SizeConfig.blockSizeHorizontal * 4,
-                          ),
-                          Text("Intermediate",
-                              style: GoogleFonts.sansita(
-                                fontSize: 45,
-                                color: Colors.white,
-                              )),
-                        ],
-                      ),
-                    ],
-                  )),
+                            SizedBox(
+                              width: SizeConfig.blockSizeVertical * 10,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "Advanced",
+                                  style: GoogleFonts.sansita(
+                                    fontSize: 33,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  "Test your qualification",
+                                  style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontSize: 17,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              ),
             ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 2,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: 80.0,
-              child: Card(
-                  color: Colors.red[700],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 60,
-                            child: Image(
-                              image: AssetImage(
-                                  'assets/images/owlwithclassescolor.png'),
-                            ),
-                          ),
-                          SizedBox(
-                            width: SizeConfig.blockSizeVertical * 13,
-                          ),
-                          Text(
-                            "Advanced",
-                            style: GoogleFonts.sansita(
-                              fontSize: 45,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
-            )
           ],
         ),
       ),

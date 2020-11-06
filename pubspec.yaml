@@ -101,6 +101,7 @@ flutter:
      - assets/images/splashscreen3.png
      - assets/images/splashscreen4.png
      - assets/images/quest.png
+     - assets/images/qualification.png
   fonts:
     - family: Helvetica
       fonts:
