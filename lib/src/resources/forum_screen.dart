@@ -523,16 +523,9 @@ class _ForumScreenState extends State<ForumScreen> {
             label: "New post",
             icon: CupertinoIcons.create,
             size: Size(45, 45),
-            onPress: () {
-              showFlexibleBottomSheet(
-                minHeight: 0,
-                initHeight: 0.5,
-                maxHeight: 1,
-                context: context,
-                builder: _buildBottomSheet,
-                anchors: [0, 0.5, 1],
-              );
-            },
+            onPress: (){
+              print('post');
+            }
           ),
           FloatingButtonModel(
             locationDegree: 270,
@@ -559,20 +552,6 @@ class _ForumScreenState extends State<ForumScreen> {
             },
           ),
         ],
-      ),
-    );
-  }
-  Widget _buildBottomSheet(
-      BuildContext context,
-      ScrollController scrollController,
-      double bottomSheetOffset,
-      ) {
-    return SafeArea(
-      child: Material(
-        child: Container(
-          height: 600,
-          child: Text('Hello')
-        ),
       ),
     );
   }
