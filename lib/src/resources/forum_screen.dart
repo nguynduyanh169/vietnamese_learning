@@ -1,11 +1,14 @@
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:floating_menu/floating_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/login_page.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
+import 'package:vietnamese_learning/src/widgets/create_post.dart';
+import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 class ForumScreen extends StatefulWidget {
   ForumScreen({Key key}) : super(key: key);
@@ -83,424 +86,424 @@ class _ForumScreenState extends State<ForumScreen> {
             ),
             Expanded(
                 child: ListView(
-                  children: <Widget>[
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 5,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 5,
-                          right: SizeConfig.blockSizeHorizontal * 5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black26.withOpacity(0.05),
-                                offset: Offset(0.0, 6.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 0.10)
-                          ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 3,
-                          ),
-                          InkWell(
-                            child: Text(
-                              'Phan nan ve dich vu',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  fontFamily: 'Helvetica'),
-                            ),
-                            onTap: () => pushNewScreen(context,
-                                screen: ViewPost(),
-                                withNavBar: false,
-                                pageTransitionAnimation:
+              children: <Widget>[
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 5,
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 5,
+                      right: SizeConfig.blockSizeHorizontal * 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26.withOpacity(0.05),
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.10)
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 3,
+                      ),
+                      InkWell(
+                        child: Text(
+                          'Phan nan ve dich vu',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontFamily: 'Helvetica'),
+                        ),
+                        onTap: () => pushNewScreen(context,
+                            screen: ViewPost(),
+                            withNavBar: false,
+                            pageTransitionAnimation:
                                 PageTransitionAnimation.cupertino),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                AssetImage('assets/images/profile.png'),
-                              ),
-                              SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 2,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Ho Quang Bao',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Helvetica'),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 1,
-                                  ),
-                                  Text(
-                                    '20/11/2020',
-                                    style: TextStyle(
-                                        fontSize: 10, fontFamily: 'Helvetica'),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Circle or Circular images always look cool. Really, like we are'
-                                ' used to seeing them almost everywhere, and as I could not '
-                                'find any simple example code for doing this...',
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.heart,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '10',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.conversation_bubble,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '20',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
-                            ],
-                          )
-                        ],
                       ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 2,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 5,
-                          right: SizeConfig.blockSizeHorizontal * 5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black26.withOpacity(0.05),
-                                offset: Offset(0.0, 6.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 0.10)
-                          ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1,
+                      ),
+                      Row(
                         children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 3,
-                          ),
-                          Text(
-                            'Phan nan ve dich vu',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Helvetica'),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
                                 AssetImage('assets/images/profile.png'),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica'),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 2,
+                                height: SizeConfig.blockSizeVertical * 1,
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Ho Quang Bao',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Helvetica'),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 1,
-                                  ),
-                                  Text(
-                                    '20/11/2020',
-                                    style: TextStyle(
-                                        fontSize: 10, fontFamily: 'Helvetica'),
-                                  )
-                                ],
+                              Text(
+                                '20/11/2020',
+                                style: TextStyle(
+                                    fontSize: 10, fontFamily: 'Helvetica'),
                               )
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Circle or Circular images always look cool. Really, like we are'
-                                ' used to seeing them almost everywhere, and as I could not '
-                                'find any simple example code for doing this...',
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.heart,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '10',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.conversation_bubble,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '20',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
                             ],
                           )
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 2,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 5,
-                          right: SizeConfig.blockSizeHorizontal * 5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black26.withOpacity(0.05),
-                                offset: Offset(0.0, 6.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 0.10)
-                          ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 2,
+                      ),
+                      Text(
+                        'Circle or Circular images always look cool. Really, like we are'
+                        ' used to seeing them almost everywhere, and as I could not '
+                        'find any simple example code for doing this...',
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 3,
-                          ),
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.heart,
+                              ),
+                              onPressed: null),
                           Text(
-                            'Phan nan ve dich vu',
+                            '10',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Helvetica'),
+                                fontSize: 15, fontFamily: 'Helvetica'),
                           ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                AssetImage('assets/images/profile.png'),
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.conversation_bubble,
                               ),
-                              SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 2,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Ho Quang Bao',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Helvetica'),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 1,
-                                  ),
-                                  Text(
-                                    '20/11/2020',
-                                    style: TextStyle(
-                                        fontSize: 10, fontFamily: 'Helvetica'),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
+                              onPressed: null),
                           Text(
-                            'Circle or Circular images always look cool. Really, like we are'
-                                ' used to seeing them almost everywhere, and as I could not '
-                                'find any simple example code for doing this...',
-                            style: TextStyle(fontFamily: 'Helvetica'),
+                            '20',
+                            style: TextStyle(
+                                fontSize: 15, fontFamily: 'Helvetica'),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.heart,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '10',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.conversation_bubble,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '20',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
-                            ],
-                          )
                         ],
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 5,
+                      right: SizeConfig.blockSizeHorizontal * 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26.withOpacity(0.05),
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.10)
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 3,
                       ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 2,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 5,
-                          right: SizeConfig.blockSizeHorizontal * 5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black26.withOpacity(0.05),
-                                offset: Offset(0.0, 6.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 0.10)
-                          ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Text(
+                        'Phan nan ve dich vu',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Helvetica'),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1,
+                      ),
+                      Row(
                         children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 3,
-                          ),
-                          Text(
-                            'Phan nan ve dich vu',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Helvetica'),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
                                 AssetImage('assets/images/profile.png'),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica'),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 2,
+                                height: SizeConfig.blockSizeVertical * 1,
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Ho Quang Bao',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Helvetica'),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 1,
-                                  ),
-                                  Text(
-                                    '20/11/2020',
-                                    style: TextStyle(
-                                        fontSize: 10, fontFamily: 'Helvetica'),
-                                  )
-                                ],
+                              Text(
+                                '20/11/2020',
+                                style: TextStyle(
+                                    fontSize: 10, fontFamily: 'Helvetica'),
                               )
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Circle or Circular images always look cool. Really, like we are'
-                                ' used to seeing them almost everywhere, and as I could not '
-                                'find any simple example code for doing this...',
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.heart,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '10',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
-                              IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.conversation_bubble,
-                                  ),
-                                  onPressed: null),
-                              Text(
-                                '20',
-                                style: TextStyle(
-                                    fontSize: 15, fontFamily: 'Helvetica'),
-                              ),
                             ],
                           )
                         ],
                       ),
-                    ),
-                  ],
-                )),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 2,
+                      ),
+                      Text(
+                        'Circle or Circular images always look cool. Really, like we are'
+                        ' used to seeing them almost everywhere, and as I could not '
+                        'find any simple example code for doing this...',
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.heart,
+                              ),
+                              onPressed: null),
+                          Text(
+                            '10',
+                            style: TextStyle(
+                                fontSize: 15, fontFamily: 'Helvetica'),
+                          ),
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.conversation_bubble,
+                              ),
+                              onPressed: null),
+                          Text(
+                            '20',
+                            style: TextStyle(
+                                fontSize: 15, fontFamily: 'Helvetica'),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 5,
+                      right: SizeConfig.blockSizeHorizontal * 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26.withOpacity(0.05),
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.10)
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 3,
+                      ),
+                      Text(
+                        'Phan nan ve dich vu',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Helvetica'),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                                AssetImage('assets/images/profile.png'),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica'),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              Text(
+                                '20/11/2020',
+                                style: TextStyle(
+                                    fontSize: 10, fontFamily: 'Helvetica'),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 2,
+                      ),
+                      Text(
+                        'Circle or Circular images always look cool. Really, like we are'
+                        ' used to seeing them almost everywhere, and as I could not '
+                        'find any simple example code for doing this...',
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.heart,
+                              ),
+                              onPressed: null),
+                          Text(
+                            '10',
+                            style: TextStyle(
+                                fontSize: 15, fontFamily: 'Helvetica'),
+                          ),
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.conversation_bubble,
+                              ),
+                              onPressed: null),
+                          Text(
+                            '20',
+                            style: TextStyle(
+                                fontSize: 15, fontFamily: 'Helvetica'),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 5,
+                      right: SizeConfig.blockSizeHorizontal * 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26.withOpacity(0.05),
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.10)
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 3,
+                      ),
+                      Text(
+                        'Phan nan ve dich vu',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Helvetica'),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                                AssetImage('assets/images/profile.png'),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica'),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              Text(
+                                '20/11/2020',
+                                style: TextStyle(
+                                    fontSize: 10, fontFamily: 'Helvetica'),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 2,
+                      ),
+                      Text(
+                        'Circle or Circular images always look cool. Really, like we are'
+                        ' used to seeing them almost everywhere, and as I could not '
+                        'find any simple example code for doing this...',
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.heart,
+                              ),
+                              onPressed: null),
+                          Text(
+                            '10',
+                            style: TextStyle(
+                                fontSize: 15, fontFamily: 'Helvetica'),
+                          ),
+                          IconButton(
+                              icon: Icon(
+                                CupertinoIcons.conversation_bubble,
+                              ),
+                              onPressed: null),
+                          Text(
+                            '20',
+                            style: TextStyle(
+                                fontSize: 15, fontFamily: 'Helvetica'),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            )),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 4,
             )
@@ -516,17 +519,21 @@ class _ForumScreenState extends State<ForumScreen> {
         floatingButtonShape: BoxShape.circle,
         floatingButtons: [
           FloatingButtonModel(
-            locationDegree: 270,
-            locationDistance: 70,
-            shape: BoxShape.circle,
-            color: Colors.blueAccent,
-            label: "New post",
-            icon: CupertinoIcons.create,
-            size: Size(45, 45),
-            onPress: (){
-              print('post');
-            }
-          ),
+              locationDegree: 270,
+              locationDistance: 70,
+              shape: BoxShape.circle,
+              color: Colors.blueAccent,
+              label: "New post",
+              icon: CupertinoIcons.create,
+              size: Size(45, 45),
+              onPress: () {
+                showBarModalBottomSheet(
+                  expand: true,
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (context, scrollController) => CreatePost(),
+                );
+              }),
           FloatingButtonModel(
             locationDegree: 270,
             locationDistance: 130,
