@@ -5,10 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/resources/login_page.dart';
+import 'package:vietnamese_learning/src/resources/forum_notification_screen.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
 import 'package:vietnamese_learning/src/widgets/create_post.dart';
-import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 class ForumScreen extends StatefulWidget {
   ForumScreen({Key key}) : super(key: key);
@@ -48,39 +47,42 @@ class _ForumScreenState extends State<ForumScreen> {
                     width: SizeConfig.blockSizeHorizontal * 24,
                   ),
                   IconButton(
-                      icon: Stack(
-                        children: <Widget>[
-                          Icon(
-                            CupertinoIcons.bell_solid,
-                            size: 30,
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: new Container(
-                              padding: EdgeInsets.all(1),
-                              decoration: new BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              constraints: BoxConstraints(
-                                minWidth: 12,
-                                minHeight: 12,
-                              ),
-                              child: new Text(
-                                '10',
-                                style: new TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: 'Helvetica'),
-                                textAlign: TextAlign.center,
-                              ),
+                    icon: Stack(
+                      children: <Widget>[
+                        Icon(
+                          CupertinoIcons.bell_solid,
+                          size: 30,
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: new Container(
+                            padding: EdgeInsets.all(1),
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                          )
-                        ],
-                      ),
-                      onPressed: () {
-                        print('create post');
-                      }),
+                            constraints: BoxConstraints(
+                              minWidth: 12,
+                              minHeight: 12,
+                            ),
+                            child: new Text(
+                              '10',
+                              style: new TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontFamily: 'Helvetica'),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    onPressed: () => pushNewScreen(context,
+                        screen: ForumNotificationScreen(),
+                        withNavBar: false,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino),
+                  ),
                 ],
               ),
             ),
