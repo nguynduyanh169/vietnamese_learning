@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:vietnamese_learning/src/models/Message.dart';
+import 'package:vietnamese_learning/src/models/message.dart';
 
 class MessagingWidget extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class MessagingWidget extends StatefulWidget {
 }
 
 class _MessagingWidgetState extends State<MessagingWidget> {
-  final FirebaseMessaging  _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final List<Message> messages = [];
 
   @override
@@ -21,11 +21,10 @@ class _MessagingWidgetState extends State<MessagingWidget> {
         final notification = message['notification'];
         setState(() {
           messages.add(Message(
-            title: notification['title'], body: notification['body']
-          ));
+              title: notification['title'], body: notification['body']));
         });
       },
-      onLaunch: (Map<String, dynamic> message) async{
+      onLaunch: (Map<String, dynamic> message) async {
         print("onLauch: $message");
         final notification = message['data'];
         setState(() {
@@ -35,21 +34,19 @@ class _MessagingWidgetState extends State<MessagingWidget> {
           ));
         });
       },
-      onResume: (Map<String, dynamic> message) async{
+      onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge:  true, alert: true)
-    );
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
   }
-  @override
-  Widget build(BuildContext context) => ListView(
 
-  );
+  @override
+  Widget build(BuildContext context) => ListView();
 
   Widget buildMessage(Message message) => ListTile(
-    title: Text(message.title),
-    subtitle: Text(message.body),
-  );
+        title: Text(message.title),
+        subtitle: Text(message.body),
+      );
 }
