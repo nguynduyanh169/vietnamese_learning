@@ -43,6 +43,7 @@ class _LessonDetailState extends State<LessonDetail> {
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
+                    SizedBox(width: SizeConfig.blockSizeHorizontal * 21,),
                     Text(
                       "$title",
                       style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),

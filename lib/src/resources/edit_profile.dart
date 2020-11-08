@@ -62,10 +62,26 @@ class EditProfileScreen extends StatelessWidget{
             ),
             SizedBox(height: SizeConfig.blockSizeVertical * 2,),
             Container(
-              child: CircleAvatar(
-                radius: 45,
-                backgroundImage:
-                AssetImage('assets/images/profile.png'),
+              child: Stack(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 45,
+                    backgroundImage:
+                    AssetImage('assets/images/profile.png'),
+                  ),
+                  Positioned(
+                    left: SizeConfig.blockSizeHorizontal * 17,
+                    bottom: SizeConfig.blockSizeVertical * 8,
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 6,
+                      height: SizeConfig.blockSizeVertical * 7,
+                      child: Icon(CupertinoIcons.pen, size: 15, color: Colors.white,),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.redAccent),
+                    )
+                    )
+                ],
               ),
             ),
             SizedBox(height: SizeConfig.blockSizeVertical * 3,),

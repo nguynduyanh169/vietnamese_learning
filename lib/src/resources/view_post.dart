@@ -18,10 +18,10 @@ class _ViewPostState extends State<ViewPost> {
         context: fatherContext,
         builder: (BuildContext buildContext) {
           return CupertinoActionSheet(
-            title: Text('Choose option'),
+            title: Text('Choose option for this post', style: TextStyle(fontFamily: 'Helvetica'),),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                child: Text('Edit post'),
+                child: Text('Edit', style: TextStyle(fontFamily: 'Helvetica'),),
                 onPressed: () {
                   showBarModalBottomSheet(
                     expand: true,
@@ -34,23 +34,23 @@ class _ViewPostState extends State<ViewPost> {
                 },
               ),
               CupertinoActionSheetAction(
-                child: Text('Delete post'),
+                child: Text('Delete',style: TextStyle(fontFamily: 'Helvetica', color: Colors.red),),
                 onPressed: () {
                   showDialog(
                     useRootNavigator: true,
                     context: fatherContext,
                     builder: (BuildContext context) => new CupertinoAlertDialog(
-                      title: new Text("Alert"),
-                      content: new Text("Do you want to delete this post?"),
+                      title: new Text("Confirm delete", style: TextStyle(fontFamily: 'Helvetica'),),
+                      content: new Text("Do you want to delete this post?", style: TextStyle(fontFamily: 'Helvetica'),),
                       actions: [
                         CupertinoDialogAction(
-                          child: Text('Confirm'),
+                          child: Text('Confirm', style: TextStyle(fontFamily: 'Helvetica'),),
                           onPressed: () {
                             Navigator.of(fatherContext).pop();
                           },
                         ),
                         CupertinoDialogAction(
-                          child: Text('Cancel'),
+                          child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica'),),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -65,7 +65,7 @@ class _ViewPostState extends State<ViewPost> {
             ],
             cancelButton: CupertinoActionSheetAction(
               isDefaultAction: true,
-              child: Text('Cancel'),
+              child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica'),),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -73,6 +73,100 @@ class _ViewPostState extends State<ViewPost> {
           );
         });
   }
+
+  void _showListActionForComment(BuildContext fatherContext){
+    showCupertinoModalPopup(
+        context: fatherContext,
+        builder: (BuildContext buildContext) {
+          return CupertinoActionSheet(
+            title: Text('Choose option for this comment', style: TextStyle(fontFamily: 'Helvetica'),),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                child: Text('Copy', style: TextStyle(fontFamily: 'Helvetica'),),
+                onPressed: () {
+                  showBarModalBottomSheet(
+                    expand: true,
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context, scrollController) => EditPostScreen(),
+                  ).then((value) {
+                    Navigator.of(fatherContext).pop();
+                  });
+                },
+              ),
+              CupertinoActionSheetAction(
+                child: Text('Delete', style: TextStyle(fontFamily: 'Helvetica', color: Colors.red)),
+                onPressed: () {
+                  showDialog(
+                    useRootNavigator: true,
+                    context: fatherContext,
+                    builder: (BuildContext context) => new CupertinoAlertDialog(
+                      title: new Text("Confirm delete",style: TextStyle(fontFamily: 'Helvetica'),),
+                      content: new Text("Do you want to delete this comment?", style: TextStyle(fontFamily: 'Helvetica'),),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text('Confirm', style: TextStyle(fontFamily: 'Helvetica'),),
+                          onPressed: () {
+                            Navigator.of(fatherContext).pop();
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text('Cancel',style: TextStyle(fontFamily: 'Helvetica'),),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  ).then((value) {
+                    Navigator.of(fatherContext).pop();
+                  });
+                },
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              isDefaultAction: true,
+              child: Text('Cancel',style: TextStyle(fontFamily: 'Helvetica')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        });
+  }
+
+  void _showListActionForOtherComment(BuildContext fatherContext) {
+    showCupertinoModalPopup(
+        context: fatherContext,
+        builder: (BuildContext buildContext) {
+          return CupertinoActionSheet(
+            title: Text('Choose option for this comment', style: TextStyle(fontFamily: 'Helvetica'),),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                child: Text('Copy', style: TextStyle(fontFamily: 'Helvetica'),),
+                onPressed: () {
+                  showBarModalBottomSheet(
+                    expand: true,
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context, scrollController) => EditPostScreen(),
+                  ).then((value) {
+                    Navigator.of(fatherContext).pop();
+                  });
+                },
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              isDefaultAction: true,
+              child: Text('Cancel',style: TextStyle(fontFamily: 'Helvetica')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -273,61 +367,67 @@ class _ViewPostState extends State<ViewPost> {
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 1.5,
                             ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 2),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26.withOpacity(0.05),
-                                        offset: Offset(0.0, 6.0),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 0.10)
-                                  ]),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      'Ho Xuan Cuong',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontWeight: FontWeight.w600),
+                            InkWell(
+                              onLongPress: (){
+                                _showListActionForOtherComment(context);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 2),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26.withOpacity(0.05),
+                                          offset: Offset(0.0, 6.0),
+                                          blurRadius: 10.0,
+                                          spreadRadius: 0.10)
+                                    ]),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      'Với chảo vệ tinh đặt tại khoảng đất rung',
-                                      style: TextStyle(fontFamily: 'Helvetica'),
+                                    Container(
+                                      child: Text(
+                                        'Ho Xuan Cuong',
+                                        style: TextStyle(
+                                            fontFamily: 'Helvetica',
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      '2 mins ago',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 10),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                ],
+                                    Container(
+                                      child: Text(
+                                        'Với chảo vệ tinh đặt tại khoảng đất rung',
+                                        style: TextStyle(fontFamily: 'Helvetica'),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        '2 mins ago',
+                                        style: TextStyle(
+                                            fontFamily: 'Helvetica',
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
+
                             SizedBox(
                               height: SizeConfig.blockSizeVertical * 5,
                             )
@@ -565,7 +665,7 @@ class _ViewPostState extends State<ViewPost> {
                                   ),
                                   Container(
                                     child: Text(
-                                      'Với chảo vệ tinh đặt tại khoảng đất rung',
+                                      'Với chảo vệ tinh đặt tại khoảng đất',
                                       style: TextStyle(fontFamily: 'Helvetica'),
                                     ),
                                   ),
@@ -617,59 +717,64 @@ class _ViewPostState extends State<ViewPost> {
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 1.5,
                             ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 2),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26.withOpacity(0.05),
-                                        offset: Offset(0.0, 6.0),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 0.10)
-                                  ]),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      'Ho Xuan Cuong',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontWeight: FontWeight.w600),
+                            InkWell(
+                              onLongPress: (){
+                                _showListActionForComment(context);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 2),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26.withOpacity(0.05),
+                                          offset: Offset(0.0, 6.0),
+                                          blurRadius: 10.0,
+                                          spreadRadius: 0.10)
+                                    ]),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      'Với chảo vệ tinh đặt tại khoảng đất rung',
-                                      style: TextStyle(fontFamily: 'Helvetica'),
+                                    Container(
+                                      child: Text(
+                                        'haihl',
+                                        style: TextStyle(
+                                            fontFamily: 'Helvetica',
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      '2 mins ago',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 10),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                ],
+                                    Container(
+                                      child: Text(
+                                        'Like',
+                                        style: TextStyle(fontFamily: 'Helvetica'),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        '2 mins ago',
+                                        style: TextStyle(
+                                            fontFamily: 'Helvetica',
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 0.5,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             SizedBox(

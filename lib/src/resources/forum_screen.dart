@@ -18,9 +18,9 @@ class ForumScreen extends StatefulWidget {
 
 class _ForumScreenState extends State<ForumScreen> {
   final Map<int, Widget> logoWidgets = const <int, Widget>{
-    0: Text('All Post'),
-    1: Text('My Post'),
-    2: Text('Follow Post'),
+    0: Text('All Post', style: TextStyle(fontFamily: 'Helvetica'),),
+    1: Text('My Post', style: TextStyle(fontFamily: 'Helvetica')),
+    2: Text('Follow Post', style: TextStyle(fontFamily: 'Helvetica')),
   };
   final Map<int, Widget> icons = <int, Widget>{
     0: ForumTab(),
