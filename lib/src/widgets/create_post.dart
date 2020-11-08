@@ -62,7 +62,7 @@ class CreatePost extends StatelessWidget {
                         ),
                       )),
                   onTap: () {
-                    print('create');
+                    Navigator.of(context).pop();
                   },
                 )
               ],

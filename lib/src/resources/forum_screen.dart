@@ -148,56 +148,16 @@ class _ForumScreenState extends State<ForumScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingMenu(
-        isMainButton: true,
-        mainButtonColor: Colors.redAccent,
-        mainButtonIcon: Icons.menu,
-        mainButtonShape: BoxShape.circle,
-        floatingType: FloatingType.RightCurve,
-        floatingButtonShape: BoxShape.circle,
-        floatingButtons: [
-          FloatingButtonModel(
-              locationDegree: 270,
-              locationDistance: 70,
-              shape: BoxShape.circle,
-              color: Colors.blueAccent,
-              label: "New post",
-              icon: CupertinoIcons.create,
-              size: Size(45, 45),
-              onPress: () {
-                showBarModalBottomSheet(
-                  expand: true,
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context, scrollController) => CreatePost(),
-                );
-              }),
-          FloatingButtonModel(
-            locationDegree: 270,
-            locationDistance: 130,
-            shape: BoxShape.circle,
-            color: Colors.indigoAccent,
-            label: "My posts",
-            icon: CupertinoIcons.person,
-            size: Size(45, 45),
-            onPress: () {
-              print("My posts");
-            },
-          ),
-          FloatingButtonModel(
-            locationDegree: 270,
-            locationDistance: 190,
-            shape: BoxShape.circle,
-            color: Colors.blueAccent,
-            label: "Notification",
-            icon: CupertinoIcons.bell_solid,
-            size: Size(45, 45),
-            onPress: () {
-              print("New post");
-            },
-          ),
-        ],
-      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          showBarModalBottomSheet(
+            expand: true,
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (context, scrollController) => CreatePost(),
+          );
+        },
+        child: Icon(CupertinoIcons.pen),),
     );
   }
 }
