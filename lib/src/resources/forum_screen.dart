@@ -7,6 +7,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/forum_notification_screen.dart';
 import 'package:vietnamese_learning/src/resources/forum_tab.dart';
+import 'package:vietnamese_learning/src/resources/forum_tab_2.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
 import 'package:vietnamese_learning/src/widgets/create_post.dart';
 import 'package:vietnamese_learning/src/widgets/search.dart';
@@ -19,14 +20,12 @@ class ForumScreen extends StatefulWidget {
 
 class _ForumScreenState extends State<ForumScreen> {
   final Map<int, Widget> logoWidgets = const <int, Widget>{
-    0: Text('All Post', style: TextStyle(fontFamily: 'Helvetica'),),
-    1: Text('My Post', style: TextStyle(fontFamily: 'Helvetica')),
-    2: Text('Follow Post', style: TextStyle(fontFamily: 'Helvetica')),
+    0: Text('All Posts', style: TextStyle(fontFamily: 'Helvetica'),),
+    1: Text('My Posts', style: TextStyle(fontFamily: 'Helvetica')),
   };
   final Map<int, Widget> icons = <int, Widget>{
     0: ForumTab(),
-    1: null,
-    2: null,
+    1: ForumTab2(),
   };
 
   int sharedValue = 0;

@@ -87,7 +87,7 @@ class CreatePost extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Ho Quang Bao',
+                      'haihl',
                       style: TextStyle(
                           fontWeight: FontWeight.w600, fontFamily: 'Helvetica'),
                     ),
@@ -95,7 +95,7 @@ class CreatePost extends StatelessWidget {
                       height: SizeConfig.blockSizeVertical * 1,
                     ),
                     Container(
-                      width: 80,
+                      width: 110,
                       height: 20,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(3),
@@ -106,7 +106,7 @@ class CreatePost extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          '20/11/2020',
+                          '20/11/2020 at 12:00am',
                           style: TextStyle(
                             fontSize: 10,
                             fontFamily: 'Helvetica',

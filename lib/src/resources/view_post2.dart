@@ -3,77 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
 
-class ViewPost extends StatefulWidget {
-  ViewPost({Key key}) : super(key: key);
+import 'edit_post_screen.dart';
 
-  _ViewPostState createState() => _ViewPostState();
+class ViewPost2 extends StatefulWidget {
+  ViewPost2({Key key}) : super(key: key);
+
+  _ViewPost2State createState() => _ViewPost2State();
 }
 
-class _ViewPostState extends State<ViewPost> {
-
-  void _showListAction(BuildContext fatherContext){
-    showCupertinoModalPopup(
-        context: fatherContext,
-        builder: (BuildContext buildContext) {
-          return CupertinoActionSheet(
-            title: Text('Choose option for this post', style: TextStyle(fontFamily: 'Helvetica'),),
-            actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: Text('Edit', style: TextStyle(fontFamily: 'Helvetica'),),
-                onPressed: () {
-                  showBarModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(),
-                  ).then((value) {
-                    Navigator.of(fatherContext).pop();
-                  });
-                },
-              ),
-              CupertinoActionSheetAction(
-                child: Text('Delete',style: TextStyle(fontFamily: 'Helvetica', color: Colors.red),),
-                onPressed: () {
-                  showDialog(
-                    useRootNavigator: true,
-                    context: fatherContext,
-                    builder: (BuildContext context) => new CupertinoAlertDialog(
-                      title: new Text("Confirm delete", style: TextStyle(fontFamily: 'Helvetica'),),
-                      content: new Text("Do you want to delete this post?", style: TextStyle(fontFamily: 'Helvetica'),),
-                      actions: [
-                        CupertinoDialogAction(
-                          child: Text('Confirm', style: TextStyle(fontFamily: 'Helvetica'),),
-                          onPressed: () {
-                            Navigator.of(fatherContext).pop();
-                          },
-                        ),
-                        CupertinoDialogAction(
-                          child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica'),),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  ).then((value) {
-                    Navigator.of(fatherContext).pop();
-                  });
-                },
-              ),
-            ],
-            cancelButton: CupertinoActionSheetAction(
-              isDefaultAction: true,
-              child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica'),),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          );
-        });
-  }
-
+class _ViewPost2State extends State<ViewPost2> {
   void _showListActionForComment(BuildContext fatherContext){
     showCupertinoModalPopup(
         context: fatherContext,
@@ -196,14 +135,6 @@ class _ViewPostState extends State<ViewPost> {
                     'View Post',
                     style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                   ),
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 20,
-                  ),
-                  IconButton(
-                      icon: Icon(Icons.more_horiz),
-                      onPressed: () {
-                        _showListAction(context);
-                      }),
                 ],
               ),
             ),
@@ -234,7 +165,7 @@ class _ViewPostState extends State<ViewPost> {
                           height: SizeConfig.blockSizeVertical * 3,
                         ),
                         Text(
-                          'những câu nói hay về cuộc sống',
+                          'My feeling after finishing the course (And learning tips!)',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -248,7 +179,7 @@ class _ViewPostState extends State<ViewPost> {
                             CircleAvatar(
                               radius: 20,
                               backgroundImage:
-                                  AssetImage('assets/images/profile.png'),
+                              AssetImage('assets/images/profile.png'),
                             ),
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 2,
@@ -258,7 +189,7 @@ class _ViewPostState extends State<ViewPost> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'haihl',
+                                  'Baoho',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontFamily: 'Helvetica'),
@@ -267,7 +198,7 @@ class _ViewPostState extends State<ViewPost> {
                                   height: SizeConfig.blockSizeVertical * 1,
                                 ),
                                 Text(
-                                  '20/11/2020 at 3:15pm',
+                                  '20/11/2020 at 11:15pm',
                                   style: TextStyle(
                                       fontSize: 10, fontFamily: 'Helvetica'),
                                 )
@@ -279,10 +210,7 @@ class _ViewPostState extends State<ViewPost> {
                           height: SizeConfig.blockSizeVertical * 2,
                         ),
                         Text(
-                          "Thế giới bạn không bước vào được thì đừng cố chen vào, làm khó người khác, lỡ dở mình, hà tất chứ?"
-                              "\nĐôi khi, không cẩn thận biết một số chuyện, mới phát hiện ra rằng những điều bản thân để tâm lại nực cười đến thế.Đừng bao giờ thay đổi mình vì người khác. "
-                              "\nNếu họ không thể tiếp nhận một con người nhiều điểm xấu là bạn, thì cũng không xứng để có được một con người với nhiều điểm tốt là bạn."
-                              "\nĐôi khi sự đấu tranh luôn cần phải có trong cuộc sống. Nếu cuộc sống trôi qua thật suôn sẻ, chúng ta sẽ không hiểu được cuộc sống, không có được bản lĩnh, nghị lực như chúng ta cần phải có, cuộc sống thật công bằng, không phải vô cớ mà mọi điều xảy đến với ta.",
+                          "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
                           style: TextStyle(fontFamily: 'Helvetica'),
                         ),
                         SizedBox(
@@ -360,7 +288,7 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
@@ -404,7 +332,7 @@ class _ViewPostState extends State<ViewPost> {
                                     ),
                                     Container(
                                       child: Text(
-                                        'ko hay ok',
+                                        'rat hay! minh thich',
                                         style: TextStyle(fontFamily: 'Helvetica'),
                                       ),
                                     ),
@@ -452,7 +380,7 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
@@ -481,7 +409,7 @@ class _ViewPostState extends State<ViewPost> {
                                   ),
                                   Container(
                                     child: Text(
-                                      'anhtt',
+                                      'wibu',
                                       style: TextStyle(
                                           fontFamily: 'Helvetica',
                                           fontWeight: FontWeight.w600),
@@ -492,7 +420,7 @@ class _ViewPostState extends State<ViewPost> {
                                   ),
                                   Container(
                                     child: Text(
-                                      'cung dc',
+                                      'chu Bao noi hay the. like',
                                       style: TextStyle(fontFamily: 'Helvetica'),
                                     ),
                                   ),
@@ -538,93 +466,7 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
-                              ),
-                            ),
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 1.5,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 2),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26.withOpacity(0.05),
-                                        offset: Offset(0.0, 6.0),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 0.10)
-                                  ]),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      'baobao1',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      'viết có dấu dùm mình :)))',
-                                      style: TextStyle(fontFamily: 'Helvetica'),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      '2 mins ago',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 10),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 0.5,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 5,
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 1.5,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 2,
-                            right: SizeConfig.blockSizeHorizontal * 2),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 1.5,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 0.5),
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
@@ -664,7 +506,7 @@ class _ViewPostState extends State<ViewPost> {
                                   ),
                                   Container(
                                     child: Text(
-                                      'Kê',
+                                      'Wibu',
                                       style: TextStyle(fontFamily: 'Helvetica'),
                                     ),
                                   ),
@@ -710,7 +552,93 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
+                              ),
+                            ),
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 1.5,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 2),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black26.withOpacity(0.05),
+                                        offset: Offset(0.0, 6.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 0.10)
+                                  ]),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      'Ho Xuan Cuong',
+                                      style: TextStyle(
+                                          fontFamily: 'Helvetica',
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      'dc',
+                                      style: TextStyle(fontFamily: 'Helvetica'),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      '2 mins ago',
+                                      style: TextStyle(
+                                          fontFamily: 'Helvetica',
+                                          fontSize: 10),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 5,
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1.5,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 1.5,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 0.5),
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundImage:
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
@@ -804,7 +732,7 @@ class _ViewPostState extends State<ViewPost> {
                       ),
                       hintText: 'Write your comment',
                       hintStyle:
-                          TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+                      TextStyle(fontFamily: 'Helvetica', fontSize: 12),
                     ),
                   ),
                 ),
@@ -813,7 +741,7 @@ class _ViewPostState extends State<ViewPost> {
                 ),
                 Container(
                   decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
+                  BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
                   child: IconButton(
                       icon: Icon(
                         Icons.send,

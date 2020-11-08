@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/view_post.dart';
 
 class ForumNotificationScreen extends StatefulWidget {
   ForumNotificationScreen({Key key}) : super(key: key);
@@ -39,7 +40,7 @@ class _ForumNotificationState extends State<ForumNotificationScreen> {
             Expanded(child: ListView(
               padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1.5, right: SizeConfig.blockSizeHorizontal * 1.5),
               children: <Widget>[
-                Container(
+                InkWell(child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(1.0),
@@ -67,7 +68,7 @@ class _ForumNotificationState extends State<ForumNotificationScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Ho Quang Bao',
+                            'Ho Xuan Cuong',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Helvetica'),
@@ -83,7 +84,12 @@ class _ForumNotificationState extends State<ForumNotificationScreen> {
                       Text('2 minutes ago', style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),)
                     ],
                   ),
-                ),
+                ), onTap: (){
+                  Navigator.of(context).pushReplacement(CupertinoPageRoute(
+                    builder: (context) => ViewPost(),
+                  ));
+                },),
+
                 SizedBox(height: SizeConfig.blockSizeVertical * 0.3,),
                 Container(
                   decoration: BoxDecoration(
