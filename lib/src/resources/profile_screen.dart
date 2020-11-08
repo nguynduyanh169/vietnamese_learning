@@ -211,18 +211,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: const Color.fromRGBO(
                                             255, 190, 50, 30),
                                         child: ListTile(
-                                      leading: Icon(CupertinoIcons.reply),
-                                      title: Text(
-                                        "Feedback",
-                                        style:
-                                            TextStyle(fontFamily: 'Helvetica'),
-                                      ),
-                                      trailing: Icon(CupertinoIcons.forward),
-                                    )),
-                                    Card(
-                                        color: const Color.fromRGBO(
-                                            255, 190, 50, 30),
-                                        child: ListTile(
                                           leading:
                                               Icon(CupertinoIcons.settings),
                                           title: Text(
