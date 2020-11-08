@@ -14,194 +14,652 @@ class _SearchResultState extends State<SearchResult> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 239, 215, 1),
       body: Column(
         children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.black26,
+                  width: 1.0,
+                ),
+              ),
+            ),
+            child: Row(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                Text(
+                  'Search Result',
+                  style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                )
+              ],
+            ),
+          ),
           Expanded(
             child: ListView(children: <Widget>[
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_ios),
-                    onPressed: () => Navigator.of(context).pop(),
+              Container(
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Text(
-                    'Search Result',
-                    style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 1,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 12),
-                child: Row(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage('assets/images/profile.png'),
-                    ),
-                    SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 2,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Phan nan ve dich vu',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Helvetica',
-                            fontSize: 20,
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
                           ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 1,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              '2 days ago by ',
-                              style: TextStyle(
-                                  fontSize: 13, fontFamily: 'Helvetica'),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
                             ),
-                            Text(
-                              'Ho Quang Bao',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.comment),
-                      onPressed: () => null,
-                    ),
-                    Text("113")
-                  ],
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 2,
+                height: SizeConfig.blockSizeVertical * .1,
               ),
               Container(
-                margin: EdgeInsets.only(left: 12),
-                child: Row(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage('assets/images/profile.png'),
-                    ),
-                    SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 2,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Phan nan ve dich vu',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Helvetica',
-                            fontSize: 20,
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
                           ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 1,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              '2 days ago by ',
-                              style: TextStyle(
-                                  fontSize: 13, fontFamily: 'Helvetica'),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
                             ),
-                            Text(
-                              'Ho Quang Bao',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.comment),
-                      onPressed: () => null,
-                    ),
-                    Text("113")
-                  ],
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 2,
+                height: SizeConfig.blockSizeVertical * .1,
               ),
               Container(
-                margin: EdgeInsets.only(left: 12),
-                child: Row(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage('assets/images/profile.png'),
-                    ),
-                    SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 2,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Phan nan ve dich vu',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Helvetica',
-                            fontSize: 20,
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
                           ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 1,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              '2 days ago by ',
-                              style: TextStyle(
-                                  fontSize: 13, fontFamily: 'Helvetica'),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
                             ),
-                            Text(
-                              'Ho Quang Bao',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * .1,
+              ),
+              Container(
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.comment),
-                      onPressed: () => null,
-                    ),
-                    Text("113")
-                  ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * .1,
+              ),
+              Container(
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * .1,
+              ),
+              Container(
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * .1,
+              ),
+              Container(
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * .1,
+              ),
+              Container(
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          Text(
+                            'Phan nan ve dich vu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'Ho Quang Bao',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () => null,
+                      ),
+                      Text("113")
+                    ],
+                  ),
                 ),
               ),
             ]),

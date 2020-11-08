@@ -14,7 +14,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 239, 215, 12),
+      backgroundColor: Color.fromRGBO(255, 239, 215, 1),
       body: Container(
         child: Column(
           children: [
