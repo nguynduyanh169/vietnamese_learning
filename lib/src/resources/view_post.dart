@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
 
 class ViewPost extends StatefulWidget {
   ViewPost({Key key}) : super(key: key);
@@ -10,6 +12,67 @@ class ViewPost extends StatefulWidget {
 }
 
 class _ViewPostState extends State<ViewPost> {
+
+  void _showListAction(BuildContext fatherContext){
+    showCupertinoModalPopup(
+        context: fatherContext,
+        builder: (BuildContext buildContext) {
+          return CupertinoActionSheet(
+            title: Text('Choose option'),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                child: Text('Edit post'),
+                onPressed: () {
+                  showBarModalBottomSheet(
+                    expand: true,
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context, scrollController) => EditPostScreen(),
+                  ).then((value) {
+                    Navigator.of(fatherContext).pop();
+                  });
+                },
+              ),
+              CupertinoActionSheetAction(
+                child: Text('Delete post'),
+                onPressed: () {
+                  showDialog(
+                    useRootNavigator: true,
+                    context: fatherContext,
+                    builder: (BuildContext context) => new CupertinoAlertDialog(
+                      title: new Text("Alert"),
+                      content: new Text("Do you want to delete this post?"),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text('Confirm'),
+                          onPressed: () {
+                            Navigator.of(fatherContext).pop();
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  ).then((value) {
+                    Navigator.of(fatherContext).pop();
+                  });
+                },
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              isDefaultAction: true,
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -45,36 +108,7 @@ class _ViewPostState extends State<ViewPost> {
                   IconButton(
                       icon: Icon(Icons.more_horiz),
                       onPressed: () {
-                        showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CupertinoActionSheet(
-                                title: Text('Choose option'),
-                                actions: <Widget>[
-                                  CupertinoActionSheetAction(
-                                    child: Text('Edit post'),
-                                    onPressed: () {
-                                      print('edit');
-                                    },
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: Text('Delete post'),
-                                    onPressed: () {/** */},
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: Text('Save post'),
-                                    onPressed: () {/** */},
-                                  ),
-                                ],
-                                cancelButton: CupertinoActionSheetAction(
-                                  isDefaultAction: true,
-                                  child: Text('Cancel'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              );
-                            });
+                        _showListAction(context);
                       }),
                 ],
               ),

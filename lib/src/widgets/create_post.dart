@@ -24,25 +24,46 @@ class CreatePost extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(
-                  width: SizeConfig.blockSizeHorizontal * 2,
+                  width: SizeConfig.blockSizeHorizontal * 4,
                 ),
                 Text(
-                  "Create New Post",
+                  "Create Post",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                     fontFamily: 'Helvetica',
                   ),
                 ),
                 SizedBox(
-                  width: SizeConfig.blockSizeHorizontal * 44,
+                  width: SizeConfig.blockSizeHorizontal * 53,
                 ),
-                Text(
-                  "Post",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Helvetica',
-                    color: Colors.blue,
-                  ),
+                InkWell(
+                  child: Container(
+                      height: SizeConfig.blockSizeVertical * 5,
+                      width: SizeConfig.blockSizeHorizontal * 15,
+                      decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26.withOpacity(0.05),
+                                offset: Offset(0.0, 6.0),
+                                blurRadius: 10.0,
+                                spreadRadius: 0.10)
+                          ]),
+                      child: Center(
+                        child: Text(
+                          "Post",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Helvetica',
+                            color: Colors.black45,
+                          ),
+                        ),
+                      )),
+                  onTap: () {
+                    print('create');
+                  },
                 )
               ],
             ),
@@ -105,14 +126,20 @@ class CreatePost extends StatelessWidget {
             width: SizeConfig.blockSizeHorizontal * 95,
             height: SizeConfig.blockSizeVertical * 20,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: Colors.white,
-            ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black26.withOpacity(0.05),
+                      offset: Offset(0.0, 6.0),
+                      blurRadius: 10.0,
+                      spreadRadius: 0.10)
+                ]),
             child: TextField(
               maxLines: 5,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 labelText: 'Enter title here',
                 labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
@@ -126,17 +153,23 @@ class CreatePost extends StatelessWidget {
             width: SizeConfig.blockSizeHorizontal * 95,
             height: SizeConfig.blockSizeVertical * 43,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: Colors.white,
-            ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black26.withOpacity(0.05),
+                      offset: Offset(0.0, 6.0),
+                      blurRadius: 10.0,
+                      spreadRadius: 0.10)
+                ]),
             child: TextField(
               maxLines: 13,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 labelText: 'Enter content here',
-                labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
+                labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15,),
               ),
             ),
           ),

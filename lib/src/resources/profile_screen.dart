@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/edit_profile.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -122,70 +124,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(255, 190, 51, 60),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            width: SizeConfig.blockSizeHorizontal * 40,
-                            height: SizeConfig.blockSizeVertical * 15,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "3",
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 25,
-                                      fontFamily: 'Helvetica'),
-                                ),
-                                Text(
-                                  "Days learn",
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                )
-                              ],
-                            ),
+                      InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(255, 190, 51, 60),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          width: SizeConfig.blockSizeHorizontal * 40,
+                          height: SizeConfig.blockSizeVertical * 15,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "3",
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 25,
+                                    fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                "Days learn",
+                                style: TextStyle(fontFamily: 'Helvetica'),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(255, 190, 51, 60),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            width: SizeConfig.blockSizeHorizontal * 40,
-                            height: SizeConfig.blockSizeVertical * 15,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "1",
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 25,
-                                      fontFamily: 'Helvetica'),
-                                ),
-                                Text(
-                                  "Lessons done",
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                )
-                              ],
-                            ),
+                      SizedBox(width: SizeConfig.blockSizeHorizontal * 2,),
+                      InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(255, 190, 51, 60),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          width: SizeConfig.blockSizeHorizontal * 40,
+                          height: SizeConfig.blockSizeVertical * 15,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "1",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 25,
+                                    fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                "Lessons done",
+                                style: TextStyle(fontFamily: 'Helvetica'),
+                              )
+                            ],
                           ),
                         ),
                       ),
                     ],
                   ),
+                  SizedBox(height: SizeConfig.blockSizeVertical * 2,),
                   Expanded(
                     child: ListView(
                       children: <Widget>[
@@ -211,7 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           trailing:
                                               Icon(CupertinoIcons.forward),
-                                          onTap: () {},
+                                          onTap: () => pushNewScreen(context, screen: EditProfileScreen(), withNavBar: false, pageTransitionAnimation: PageTransitionAnimation.cupertino),
                                         )),
                                     Card(
                                         color: const Color.fromRGBO(
@@ -244,7 +238,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             255, 190, 50, 30),
                                         child: ListTile(
                                           leading:
-                                              Icon(CupertinoIcons.bell_solid),
+                                              Icon(CupertinoIcons.bell),
                                           title: Text(
                                             "Notification Setting",
                                             style: TextStyle(
