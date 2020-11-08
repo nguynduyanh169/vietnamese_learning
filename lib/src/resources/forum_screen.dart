@@ -9,6 +9,7 @@ import 'package:vietnamese_learning/src/resources/forum_notification_screen.dart
 import 'package:vietnamese_learning/src/resources/forum_tab.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
 import 'package:vietnamese_learning/src/widgets/create_post.dart';
+import 'package:vietnamese_learning/src/widgets/search.dart';
 
 class ForumScreen extends StatefulWidget {
   ForumScreen({Key key}) : super(key: key);
@@ -106,7 +107,7 @@ class _ForumScreenState extends State<ForumScreen> {
                       ],
                     ),
                     onPressed: () => pushNewScreen(context,
-                        screen: ForumNotificationScreen(),
+                        screen: Search(),
                         withNavBar: false,
                         pageTransitionAnimation:
                             PageTransitionAnimation.cupertino),
@@ -149,7 +150,7 @@ class _ForumScreenState extends State<ForumScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           showBarModalBottomSheet(
             expand: true,
             context: context,
@@ -157,7 +158,8 @@ class _ForumScreenState extends State<ForumScreen> {
             builder: (context, scrollController) => CreatePost(),
           );
         },
-        child: Icon(CupertinoIcons.pen),),
+        child: Icon(CupertinoIcons.pen),
+      ),
     );
   }
 }
