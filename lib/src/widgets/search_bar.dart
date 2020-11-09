@@ -20,6 +20,7 @@ class SearchBar extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
           hintText: "Search",
+          hintStyle: TextStyle(fontFamily: 'Helvetica'),
           border: InputBorder.none,
         ),
         onSubmitted: (value) {

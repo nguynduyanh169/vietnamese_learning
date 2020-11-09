@@ -1,18 +1,21 @@
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class WritingVocabulary extends StatelessWidget{
   String vietnamese;
   String english;
   String input;
+  String audioInput;
   Function checkWriting;
   BuildContext vocabularyContext;
   TextEditingController txtInputVocabulary;
 
-  WritingVocabulary({this.vietnamese, this.english, this.checkWriting, this.vocabularyContext, this.input, this.txtInputVocabulary});
+  WritingVocabulary({this.vietnamese, this.english, this.checkWriting, this.vocabularyContext, this.input, this.txtInputVocabulary, this.audioInput});
 
   Widget _loadDialog(BuildContext dialogContext) {
     if (input.toLowerCase() == vietnamese.toLowerCase()) {
@@ -57,7 +60,7 @@ class WritingVocabulary extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Write Vietnamese meaning',
+                'Type what you have listen',
                 style: TextStyle(
                     fontFamily: 'Helvetica',
                     fontSize: 25,
@@ -66,12 +69,25 @@ class WritingVocabulary extends StatelessWidget{
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 5,
               ),
-              Text(
-                '$english',
-                style: TextStyle(
-                    fontFamily: 'Helvetica',
-                    fontSize: 30,
-                    fontWeight: FontWeight.w600),
+              InkWell(
+                child: ClipOval(
+                  child: Container(
+                    color: Colors.amberAccent,
+                    width:
+                    SizeConfig.blockSizeHorizontal * 18,
+                    height:
+                    SizeConfig.blockSizeVertical * 10,
+                    child: Center(
+                      child: Icon(
+                        CupertinoIcons.volume_up,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audioInput)));
+                },
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 15,

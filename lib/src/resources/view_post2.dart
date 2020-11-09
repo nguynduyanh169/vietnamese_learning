@@ -23,14 +23,7 @@ class _ViewPost2State extends State<ViewPost2> {
               CupertinoActionSheetAction(
                 child: Text('Copy', style: TextStyle(fontFamily: 'Helvetica'),),
                 onPressed: () {
-                  showBarModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(),
-                  ).then((value) {
-                    Navigator.of(fatherContext).pop();
-                  });
+                  Navigator.of(fatherContext).pop();
                 },
               ),
               CupertinoActionSheetAction(

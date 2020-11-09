@@ -256,6 +256,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
+                  audio = vocabularies[_vocabularyIndex].voice_link;
                   var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
                   return SingleChildScrollView(
                     physics: NeverScrollableScrollPhysics(),
@@ -266,7 +267,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                             vietnamese: vietnamese,
                             english: english,
                             vocabularyContext: context,
-                            checkWriting: checkWritingButton, input: input, txtInputVocabulary: txtInputVocabulary,)
+                            checkWriting: checkWritingButton, input: input, txtInputVocabulary: txtInputVocabulary, audioInput: audio,)
                       ],
                     ),
                   );

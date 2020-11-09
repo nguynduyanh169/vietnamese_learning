@@ -84,15 +84,8 @@ class _ViewPostState extends State<ViewPost> {
               CupertinoActionSheetAction(
                 child: Text('Copy', style: TextStyle(fontFamily: 'Helvetica'),),
                 onPressed: () {
-                  showBarModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(),
-                  ).then((value) {
-                    Navigator.of(fatherContext).pop();
-                  });
-                },
+                  Navigator.of(fatherContext).pop();
+                }
               ),
               CupertinoActionSheetAction(
                 child: Text('Delete', style: TextStyle(fontFamily: 'Helvetica', color: Colors.red)),
@@ -145,14 +138,7 @@ class _ViewPostState extends State<ViewPost> {
               CupertinoActionSheetAction(
                 child: Text('Copy', style: TextStyle(fontFamily: 'Helvetica'),),
                 onPressed: () {
-                  showBarModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(),
-                  ).then((value) {
-                    Navigator.of(fatherContext).pop();
-                  });
+                  Navigator.of(context).pop();
                 },
               ),
             ],
