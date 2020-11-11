@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_detail.dart';
@@ -29,8 +30,9 @@ class ConversationLeft extends StatelessWidget {
               width: SizeConfig.blockSizeHorizontal * 10,
               margin: const EdgeInsets.all(8),
             ),
-            SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 3,
+            child: IconButton(
+              icon: Icon(CupertinoIcons.volume_up, color: Colors.white),
+              onPressed: null,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

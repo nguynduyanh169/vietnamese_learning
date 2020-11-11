@@ -1,0 +1,15 @@
+import 'package:vietnamese_learning/src/models/question.dart';
+import 'package:vietnamese_learning/src/models/quiz.dart';
+import 'package:vietnamese_learning/src/providers/quiz_provider.dart';
+
+class QuizRepository {
+  QuizProvider _quizProvider = new QuizProvider();
+
+  Future<List<Quiz>> getQuizByLessonId(String token, String lessonId) {
+    return _quizProvider.getQuizByLessonId(token, lessonId);
+  }
+
+  Future<List<Question>> getQuestionsByQuizId(String token, int quizId) {
+    return _quizProvider.getQuestionsByQuizId(token, quizId);
+  }
+}

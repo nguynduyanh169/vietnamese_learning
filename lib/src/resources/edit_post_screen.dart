@@ -9,8 +9,11 @@ class EditPostScreen extends StatefulWidget{
 }
 
 class _EditPostState extends State<EditPostScreen>{
-  TextEditingController txtTitle = new TextEditingController(text: 'Phan nan ve dich vu');
-  TextEditingController txtContent = new TextEditingController(text: 'Phan nan ve dich vu');
+  TextEditingController txtTitle = new TextEditingController(text: 'những câu nói hay về cuộc sống');
+  TextEditingController txtContent = new TextEditingController(text: "Thế giới bạn không bước vào được thì đừng cố chen vào, làm khó người khác, lỡ dở mình, hà tất chứ?"
+      "\nĐôi khi, không cẩn thận biết một số chuyện, mới phát hiện ra rằng những điều bản thân để tâm lại nực cười đến thế.Đừng bao giờ thay đổi mình vì người khác. "
+      "\nNếu họ không thể tiếp nhận một con người nhiều điểm xấu là bạn, thì cũng không xứng để có được một con người với nhiều điểm tốt là bạn."
+      "\nĐôi khi sự đấu tranh luôn cần phải có trong cuộc sống. Nếu cuộc sống trôi qua thật suôn sẻ, chúng ta sẽ không hiểu được cuộc sống, không có được bản lĩnh, nghị lực như chúng ta cần phải có, cuộc sống thật công bằng, không phải vô cớ mà mọi điều xảy đến với ta.");
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -98,7 +101,7 @@ class _EditPostState extends State<EditPostScreen>{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Ho Quang Bao',
+                        'haihl',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontFamily: 'Helvetica'),
                       ),
@@ -106,7 +109,7 @@ class _EditPostState extends State<EditPostScreen>{
                         height: SizeConfig.blockSizeVertical * 1,
                       ),
                       Container(
-                        width: 80,
+                        width: 110,
                         height: 20,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(3),
@@ -117,7 +120,7 @@ class _EditPostState extends State<EditPostScreen>{
                         ),
                         child: Center(
                           child: Text(
-                            '20/11/2020',
+                            '20/11/2020 at 12:00am',
                             style: TextStyle(
                               fontSize: 10,
                               fontFamily: 'Helvetica',

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
@@ -40,7 +41,7 @@ class ConversationRight extends StatelessWidget {
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: Color.fromRGBO(255, 190, 51, 5)),
             child: IconButton(
-              icon: Icon(Icons.volume_up, color: Colors.white),
+              icon: Icon(CupertinoIcons.volume_up, color: Colors.white),
               onPressed: null,
             ),
             width: SizeConfig.blockSizeHorizontal * 10,

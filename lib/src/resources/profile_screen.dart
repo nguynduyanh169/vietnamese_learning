@@ -16,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String _username = "";
+  bool isSwitch = false;
 
   @override
   void initState() {
@@ -211,18 +212,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: const Color.fromRGBO(
                                             255, 190, 50, 30),
                                         child: ListTile(
-                                      leading: Icon(CupertinoIcons.reply),
-                                      title: Text(
-                                        "Feedback",
-                                        style:
-                                            TextStyle(fontFamily: 'Helvetica'),
-                                      ),
-                                      trailing: Icon(CupertinoIcons.forward),
-                                    )),
-                                    Card(
-                                        color: const Color.fromRGBO(
-                                            255, 190, 50, 30),
-                                        child: ListTile(
                                           leading:
                                               Icon(CupertinoIcons.settings),
                                           title: Text(
@@ -245,7 +234,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 fontFamily: 'Helvetica'),
                                           ),
                                           trailing: Switch(
-                                              value: false, onChanged: null),
+                                              value: isSwitch, onChanged: (value){
+                                                isSwitch = value;
+                                                print(isSwitch);
+                                          }),
                                         )),
                                     Card(
                                       color: const Color.fromRGBO(

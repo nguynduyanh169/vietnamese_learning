@@ -54,17 +54,19 @@ class _SearchState extends State<Search> {
                     Text(
                       "Search history",
                       style: TextStyle(
+                        fontFamily: 'Helvetica',
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 56,
+                      width: SizeConfig.blockSizeHorizontal * 54,
                     ),
                     Text(
                       "CLEAR",
                       style: TextStyle(
                         fontSize: 15,
+                        fontFamily: 'Helvetica'
                       ),
                     ),
                   ],

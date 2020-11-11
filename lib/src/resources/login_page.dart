@@ -307,8 +307,8 @@ class _LoginPageState extends State<LoginPage> {
             if (state is LoginError) {
               Toast.show("Login Failed!", context,
                   duration: Toast.LENGTH_LONG,
-                  gravity: Toast.TOP,
-                  backgroundColor: Colors.red,
+                  gravity: Toast.BOTTOM,
+                  backgroundColor: Colors.redAccent,
                   textColor: Colors.white);
             } else if (state is LoginProcess) {
               Navigator.of(_ctx).pushReplacementNamed("/home");

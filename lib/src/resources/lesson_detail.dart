@@ -43,6 +43,7 @@ class _LessonDetailState extends State<LessonDetail> {
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
+                    SizedBox(width: SizeConfig.blockSizeHorizontal * 21,),
                     Text(
                       "$title",
                       style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
@@ -220,7 +221,7 @@ class _LessonDetailState extends State<LessonDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    QuizGetStarted(),
+                                    QuizGetStarted(lessonId: lessonId,),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

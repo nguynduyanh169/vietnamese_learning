@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/view_post.dart';
 import 'package:vietnamese_learning/src/widgets/search_bar.dart';
 
 class SearchResult extends StatefulWidget {
@@ -41,6 +42,89 @@ class _SearchResultState extends State<SearchResult> {
           ),
           Expanded(
             child: ListView(children: <Widget>[
+              InkWell(child: Container(
+                margin: EdgeInsets.all(6),
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                          AssetImage('assets/images/profile.png'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          Text(
+                            'Những câu nói hay',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica',
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '2 days ago by ',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Helvetica'),
+                              ),
+                              Text(
+                                'haihl',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 7,
+                      ),
+                      IconButton(
+                        icon: Icon(CupertinoIcons.conversation_bubble),
+                        onPressed: () => null,
+                      ),
+                      Text('113', style: TextStyle(fontFamily: 'Helvetica'),)
+                    ],
+                  ),
+                ),
+              ), onTap: (){
+                Navigator.of(context).pushReplacement(CupertinoPageRoute(
+                  builder: (context) => ViewPost(),
+                ));
+              },),
+
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * .1,
+              ),
               Container(
                 margin: EdgeInsets.all(6),
                 height: SizeConfig.blockSizeVertical * 12,
@@ -62,7 +146,7 @@ class _SearchResultState extends State<SearchResult> {
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
-                              AssetImage('assets/images/profile.png'),
+                          AssetImage('assets/images/profile.png'),
                         ),
                       ),
                       SizedBox(
@@ -76,11 +160,11 @@ class _SearchResultState extends State<SearchResult> {
                             height: SizeConfig.blockSizeVertical * 2,
                           ),
                           Text(
-                            'Phan nan ve dich vu',
+                            'Những câu nói hay',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Helvetica',
-                              fontSize: 20,
+                              fontSize: 15,
                             ),
                           ),
                           SizedBox(
@@ -94,7 +178,7 @@ class _SearchResultState extends State<SearchResult> {
                                     fontSize: 13, fontFamily: 'Helvetica'),
                               ),
                               Text(
-                                'Ho Quang Bao',
+                                'baohq',
                                 style: TextStyle(
                                     fontSize: 13,
                                     fontFamily: 'Helvetica',
@@ -108,10 +192,10 @@ class _SearchResultState extends State<SearchResult> {
                         width: SizeConfig.blockSizeHorizontal * 7,
                       ),
                       IconButton(
-                        icon: Icon(Icons.comment),
+                        icon: Icon(CupertinoIcons.conversation_bubble),
                         onPressed: () => null,
                       ),
-                      Text("113")
+                      Text('113', style: TextStyle(fontFamily: 'Helvetica'),)
                     ],
                   ),
                 ),
@@ -140,7 +224,7 @@ class _SearchResultState extends State<SearchResult> {
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
-                              AssetImage('assets/images/profile.png'),
+                          AssetImage('assets/images/profile.png'),
                         ),
                       ),
                       SizedBox(
@@ -154,11 +238,11 @@ class _SearchResultState extends State<SearchResult> {
                             height: SizeConfig.blockSizeVertical * 2,
                           ),
                           Text(
-                            'Phan nan ve dich vu',
+                            'Những câu nói hay',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Helvetica',
-                              fontSize: 20,
+                              fontSize: 15,
                             ),
                           ),
                           SizedBox(
@@ -172,7 +256,7 @@ class _SearchResultState extends State<SearchResult> {
                                     fontSize: 13, fontFamily: 'Helvetica'),
                               ),
                               Text(
-                                'Ho Quang Bao',
+                                'baohq',
                                 style: TextStyle(
                                     fontSize: 13,
                                     fontFamily: 'Helvetica',
@@ -186,10 +270,10 @@ class _SearchResultState extends State<SearchResult> {
                         width: SizeConfig.blockSizeHorizontal * 7,
                       ),
                       IconButton(
-                        icon: Icon(Icons.comment),
+                        icon: Icon(CupertinoIcons.conversation_bubble),
                         onPressed: () => null,
                       ),
-                      Text("113")
+                      Text('113', style: TextStyle(fontFamily: 'Helvetica'),)
                     ],
                   ),
                 ),
@@ -218,7 +302,7 @@ class _SearchResultState extends State<SearchResult> {
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
-                              AssetImage('assets/images/profile.png'),
+                          AssetImage('assets/images/profile.png'),
                         ),
                       ),
                       SizedBox(
@@ -232,11 +316,11 @@ class _SearchResultState extends State<SearchResult> {
                             height: SizeConfig.blockSizeVertical * 2,
                           ),
                           Text(
-                            'Phan nan ve dich vu',
+                            'Những câu nói hay',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Helvetica',
-                              fontSize: 20,
+                              fontSize: 15,
                             ),
                           ),
                           SizedBox(
@@ -250,7 +334,7 @@ class _SearchResultState extends State<SearchResult> {
                                     fontSize: 13, fontFamily: 'Helvetica'),
                               ),
                               Text(
-                                'Ho Quang Bao',
+                                'baohq',
                                 style: TextStyle(
                                     fontSize: 13,
                                     fontFamily: 'Helvetica',
@@ -264,403 +348,16 @@ class _SearchResultState extends State<SearchResult> {
                         width: SizeConfig.blockSizeHorizontal * 7,
                       ),
                       IconButton(
-                        icon: Icon(Icons.comment),
+                        icon: Icon(CupertinoIcons.conversation_bubble),
                         onPressed: () => null,
                       ),
-                      Text("113")
+                      Text('113', style: TextStyle(fontFamily: 'Helvetica'),)
                     ],
                   ),
                 ),
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * .1,
-              ),
-              Container(
-                margin: EdgeInsets.all(6),
-                height: SizeConfig.blockSizeVertical * 12,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        child: CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 2,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Phan nan ve dich vu',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Helvetica',
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '2 days ago by ',
-                                style: TextStyle(
-                                    fontSize: 13, fontFamily: 'Helvetica'),
-                              ),
-                              Text(
-                                'Ho Quang Bao',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 7,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.comment),
-                        onPressed: () => null,
-                      ),
-                      Text("113")
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * .1,
-              ),
-              Container(
-                margin: EdgeInsets.all(6),
-                height: SizeConfig.blockSizeVertical * 12,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        child: CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 2,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Phan nan ve dich vu',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Helvetica',
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '2 days ago by ',
-                                style: TextStyle(
-                                    fontSize: 13, fontFamily: 'Helvetica'),
-                              ),
-                              Text(
-                                'Ho Quang Bao',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 7,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.comment),
-                        onPressed: () => null,
-                      ),
-                      Text("113")
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * .1,
-              ),
-              Container(
-                margin: EdgeInsets.all(6),
-                height: SizeConfig.blockSizeVertical * 12,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        child: CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 2,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Phan nan ve dich vu',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Helvetica',
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '2 days ago by ',
-                                style: TextStyle(
-                                    fontSize: 13, fontFamily: 'Helvetica'),
-                              ),
-                              Text(
-                                'Ho Quang Bao',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 7,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.comment),
-                        onPressed: () => null,
-                      ),
-                      Text("113")
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * .1,
-              ),
-              Container(
-                margin: EdgeInsets.all(6),
-                height: SizeConfig.blockSizeVertical * 12,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        child: CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 2,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Phan nan ve dich vu',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Helvetica',
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '2 days ago by ',
-                                style: TextStyle(
-                                    fontSize: 13, fontFamily: 'Helvetica'),
-                              ),
-                              Text(
-                                'Ho Quang Bao',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 7,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.comment),
-                        onPressed: () => null,
-                      ),
-                      Text("113")
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * .1,
-              ),
-              Container(
-                margin: EdgeInsets.all(6),
-                height: SizeConfig.blockSizeVertical * 12,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        child: CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 2,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Text(
-                            'Phan nan ve dich vu',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Helvetica',
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '2 days ago by ',
-                                style: TextStyle(
-                                    fontSize: 13, fontFamily: 'Helvetica'),
-                              ),
-                              Text(
-                                'Ho Quang Bao',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 7,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.comment),
-                        onPressed: () => null,
-                      ),
-                      Text("113")
-                    ],
-                  ),
-                ),
               ),
             ]),
           ),
