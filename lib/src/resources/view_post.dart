@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
@@ -12,6 +13,7 @@ class ViewPost extends StatefulWidget {
 }
 
 class _ViewPostState extends State<ViewPost> {
+  bool _play = false;
 
   void _showListAction(BuildContext fatherContext){
     showCupertinoModalPopup(
@@ -271,6 +273,36 @@ class _ViewPostState extends State<ViewPost> {
                               "\nĐôi khi sự đấu tranh luôn cần phải có trong cuộc sống. Nếu cuộc sống trôi qua thật suôn sẻ, chúng ta sẽ không hiểu được cuộc sống, không có được bản lĩnh, nghị lực như chúng ta cần phải có, cuộc sống thật công bằng, không phải vô cớ mà mọi điều xảy đến với ta.",
                           style: TextStyle(fontFamily: 'Helvetica'),
                         ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 2,
+                        ),
+                        InkWell(
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            height: SizeConfig.blockSizeVertical * 8,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Color.fromRGBO(255, 190, 51, 1),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
+                                    CupertinoIcons.volume_up,
+                                    color: Colors.black54,
+                                  ),
+                                  iconSize: 20,
+                                ),
+                                Text('Press to listen', style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),)
+                              ],
+                            ),
+                          ),
+                          onTap: (){
+                            print('listen');
+                          },
+                        )
+                        ,
                         SizedBox(
                           height: SizeConfig.blockSizeVertical * 4,
                         )

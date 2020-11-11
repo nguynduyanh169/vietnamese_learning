@@ -25,24 +25,19 @@ dependencies:
   highlight_text: ^0.7.2
   avatar_glow: ^1.2.0
   flip_card: ^0.4.4
-  draggable_widget: ^1.0.1
   cool_alert: ^1.0.1
   shared_preferences: ^0.5.12+2
   sweetalert: ^0.0.1
-  http: ^0.12.2
-  flutter_colored_progress_indicators: ^1.2.0
-  retrofit: any
-  json_annotation: any
   dio: any
   bloc: any
   flutter_bloc: any
   reorderables: any
   toast: ^0.1.5
   assets_audio_player: ^2.0.12
-  floating_menu: ^0.1.0+hotfix.1
   like_button: ^1.0.4
   modal_bottom_sheet: ^0.2.2
   firebase_messaging: ^7.0.3
+  file_picker: ^2.0.12
   
 
 
@@ -86,7 +81,6 @@ flutter:
      - assets/images/owlwithclassescolor.png
      - assets/images/backgroundlevel.png
      - assets/images/backgroundlevel1.png
-     - assets/src.json
      - assets/images/demovocab/dog.png
      - assets/images/demovocab/mouse.png
      - assets/images/demovocab/bird.png
@@ -106,6 +100,7 @@ flutter:
      - assets/images/splashscreen4.png
      - assets/images/quest.png
      - assets/images/qualification.png
+     - assets/images/tryagain.png
   fonts:
     - family: Helvetica
       fonts:

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/data/game_data.dart';
 import 'package:vietnamese_learning/src/resources/memory_game_level.dart';
+import 'package:vietnamese_learning/src/widgets/game_result.dart';
 
 class MemoryGamePage extends StatefulWidget {
   // final Level _level;
@@ -62,7 +63,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
 
   int previouseIndex = -1;
   bool flip = false;
-  int time = 30;
+  int time = 60;
   Timer timer;
 
   startTimer() {
@@ -135,7 +136,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                               fontSize: 25)))
                   : Center(
                       child: Text(
-                        "Time out",
+                        "",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 30, fontFamily: 'Helvetica'),
                       ),
@@ -262,17 +263,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                         ),
                       ),
                     )
-                  : Center(
-                      child: RaisedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => MemoryGamePage()),
-                          );
-                        },
-                        child: Text("Play Again"),
-                      ),
-                    )
+                  : GameResult()
             ],
           ),
         )),
@@ -286,7 +277,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
         barrierDismissible: false,
         builder: (context) => AlertDialog(
               title: Text("You Won!!"),
-              content: Text("Time $time"),
+
               actions: <Widget>[
                 FlatButton(
                   onPressed: () {
@@ -307,6 +298,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                 )
               ],
             ));
+    timer.cancel();
   }
 
   restart() {

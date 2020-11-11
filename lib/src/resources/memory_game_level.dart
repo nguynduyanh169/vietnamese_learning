@@ -159,12 +159,14 @@ List<Details> _list = [
   Details(name: "Medium",
       primaryColor: Colors.orange[300],
       secondaryColor: Colors.orange,
-      noOfStar: 2
+      noOfStar: 2,
+      goto: MemoryGamePage()
   ),
   Details(name: "Hard",
       primaryColor: Colors.red,
       secondaryColor: Colors.red[300],
-      noOfStar: 3
+      noOfStar: 3,
+      goto: MemoryGamePage()
   ),
 
 ];

@@ -221,7 +221,7 @@ class _LessonDetailState extends State<LessonDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    QuizGetStarted(),
+                                    QuizGetStarted(lessonId: lessonId,),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

@@ -1,15 +1,13 @@
-import 'package:floating_menu/floating_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/create_post_screen.dart';
 import 'package:vietnamese_learning/src/resources/forum_notification_screen.dart';
 import 'package:vietnamese_learning/src/resources/forum_tab.dart';
 import 'package:vietnamese_learning/src/resources/forum_tab_2.dart';
-import 'package:vietnamese_learning/src/resources/view_post.dart';
-import 'package:vietnamese_learning/src/widgets/create_post.dart';
 import 'package:vietnamese_learning/src/widgets/search.dart';
 
 class ForumScreen extends StatefulWidget {
@@ -92,16 +90,16 @@ class _ForumScreenState extends State<ForumScreen> {
                             PageTransitionAnimation.cupertino),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 29,
+                    width: SizeConfig.blockSizeHorizontal * 19,
                   ),
                   Text(
-                    'Discuss',
+                    'Hello Vietnamese',
                     style: GoogleFonts.sansita(
                       fontSize: 20,
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 26,
+                    width: SizeConfig.blockSizeHorizontal * 15,
                   ),
                   IconButton(
                     icon: Stack(
@@ -162,7 +160,7 @@ class _ForumScreenState extends State<ForumScreen> {
             expand: true,
             context: context,
             backgroundColor: Colors.transparent,
-            builder: (context, scrollController) => CreatePost(),
+            builder: (context, scrollController) => CreatePostScreen(),
           );
         },
         child: Icon(CupertinoIcons.pen),

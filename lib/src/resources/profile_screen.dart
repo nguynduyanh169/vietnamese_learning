@@ -16,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String _username = "";
+  bool isSwitch = false;
 
   @override
   void initState() {
@@ -233,7 +234,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 fontFamily: 'Helvetica'),
                                           ),
                                           trailing: Switch(
-                                              value: false, onChanged: null),
+                                              value: isSwitch, onChanged: (value){
+                                                isSwitch = value;
+                                                print(isSwitch);
+                                          }),
                                         )),
                                     Card(
                                       color: const Color.fromRGBO(

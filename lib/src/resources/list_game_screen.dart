@@ -66,34 +66,34 @@ class _ListGameScreenState extends State<ListGameScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical * 5,
+                    height: SizeConfig.blockSizeVertical * 15,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/matchinggame.png"),
-                        fit: BoxFit.fill,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    width: SizeConfig.blockSizeHorizontal * 85,
-                    height: SizeConfig.blockSizeVertical * 30,
-                    child: InkWell(
-                      onTap: () => pushNewScreen(context,
-                          screen: GameScreen(),
-                          withNavBar: false,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino),
-                    ),
-                  ),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(15),
+                  //     image: DecorationImage(
+                  //       image: AssetImage("assets/images/matchinggame.png"),
+                  //       fit: BoxFit.fill,
+                  //     ),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //         color: Colors.grey.withOpacity(0.5),
+                  //         spreadRadius: 5,
+                  //         blurRadius: 7,
+                  //         offset: Offset(0, 3), // changes position of shadow
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   width: SizeConfig.blockSizeHorizontal * 85,
+                  //   height: SizeConfig.blockSizeVertical * 30,
+                  //   child: InkWell(
+                  //     onTap: () => pushNewScreen(context,
+                  //         screen: GameScreen(),
+                  //         withNavBar: false,
+                  //         pageTransitionAnimation:
+                  //             PageTransitionAnimation.cupertino),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 5,
                   ),
