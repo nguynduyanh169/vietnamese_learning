@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
 import 'package:vietnamese_learning/src/resources/conversation_screen.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
+import 'package:vietnamese_learning/src/widgets/conversation_detail.dart';
 
 class ConversationGetStarted extends StatefulWidget {
   ConversationGetStarted({Key key}) : super(key: key);
@@ -26,7 +27,9 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
             ),
             Row(
               children: <Widget>[
-                SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 4,
+                ),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () => Navigator.of(context).pop(),
@@ -82,7 +85,7 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
                 child: InkWell(
                     onTap: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => ConversationDetail(),
+                        builder: (context) => ConversationDetail1(),
                       ));
                     },
                     child: Column(

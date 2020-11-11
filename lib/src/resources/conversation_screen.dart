@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
 
 import 'home_screen.dart';
 
@@ -12,9 +12,16 @@ class ConversationScreen extends StatefulWidget {
 }
 
 class _ConversationScreenState extends State<ConversationScreen> {
-
-  final List<String> entries = <String>['Hello', 'How are you', 'Where do you live'];
-  final List<String> vietnamese = <String>['Xin chào', 'Bạn khỏe không', 'Bạn sống ở đâu'];
+  final List<String> entries = <String>[
+    'Hello',
+    'How are you',
+    'Where do you live'
+  ];
+  final List<String> vietnamese = <String>[
+    'Xin chào',
+    'Bạn khỏe không',
+    'Bạn sống ở đâu'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -27,65 +34,100 @@ class _ConversationScreenState extends State<ConversationScreen> {
             "Conversation",
             style: TextStyle(color: Colors.black),
           ),
-          leading: IconButton(icon: Icon(Icons.arrow_back_ios, color: Colors.black),  onPressed: () => Navigator.of(context).pop(),),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           backgroundColor: Colors.white,
           shadowColor: Colors.white,
         ),
-        body: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: entries.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              height: 100,
-              child: InkWell(
-                onTap: () => pushNewScreen(
-                  context,
-                  screen: ConversationDetail(),
-                  withNavBar: true,
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      child: Image(
-                        image: AssetImage('assets/images/chaohoi.png'),
+        body: Column(
+          children: [
+            ListView.separated(
+              padding: const EdgeInsets.all(8),
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    height: 100,
+                    child: InkWell(
+                      onTap: () => pushNewScreen(
+                        context,
+                        screen: ConversationDetail(),
+                        withNavBar: true,
                       ),
-                    ),
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
                         children: [
-                          Text('${entries[index]}', style: TextStyle(fontSize: 20),),
-                          Text('${vietnamese[index]}', style: TextStyle(fontSize: 20),),
-                          SizedBox(height: 20,),
                           Container(
-                            width: 80,
-                            height: 25,
-                            child: Center(
-                              child: Text(
-                                "Study Now",
-                                style: TextStyle(
-                                  color: Colors.redAccent
-                                ),
-                              ),
+                            child: Image(
+                              image: AssetImage('assets/images/chaohoi.png'),
                             ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.redAccent,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
+                          ),
+                          Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${entries[index]}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                Text(
+                                  '${vietnamese[index]}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  width: 80,
+                                  height: 25,
+                                  child: Center(
+                                    child: Text(
+                                      "Study Now",
+                                      style: TextStyle(color: Colors.redAccent),
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.redAccent,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
+                    ));
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+            ),
+            Center(
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                    width: SizeConfig.blockSizeHorizontal * 80,
+                    height: SizeConfig.blockSizeVertical * 9,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Color.fromRGBO(255, 190, 51, 30),
                     ),
-                  ],
-                ),
-              )
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontFamily: "Helvetica",
+                        ),
+                      ),
+                    )),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_left.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_right.dart';
 
@@ -10,6 +11,7 @@ class ConversationDetail extends StatefulWidget {
 }
 
 class _ConversationDetailState extends State<ConversationDetail> {
+  int conversationIndex = 10;
   final List<String> entries = <String>[
     'Xin Chào',
     'Bạn tên gì',
@@ -92,7 +94,41 @@ class _ConversationDetailState extends State<ConversationDetail> {
                     ConversationRight(),
                   ],
                 ),
-              )
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 2,
+              ),
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => ConversationResult(
+                        words: conversationIndex,
+                      ),
+                    ));
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 80,
+                      height: SizeConfig.blockSizeVertical * 9,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color.fromRGBO(255, 190, 51, 30),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Finish",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontFamily: "Helvetica",
+                          ),
+                        ),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 2,
+              ),
             ],
           ),
         ),
