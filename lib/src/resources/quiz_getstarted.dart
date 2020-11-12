@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/cubit/quiz_cubit.dart';
 import 'package:vietnamese_learning/src/data/quiz_repository.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
-import 'package:vietnamese_learning/src/models/quiz.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/states/quiz_state.dart';
 
@@ -50,7 +49,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
 
   Widget _loadingQuiz() {
     return Container(
-      color: Colors.green,
+      color: Colors.lightBlue,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

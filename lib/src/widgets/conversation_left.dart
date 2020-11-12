@@ -30,10 +30,6 @@ class ConversationLeft extends StatelessWidget {
               width: SizeConfig.blockSizeHorizontal * 10,
               margin: const EdgeInsets.all(8),
             ),
-            child: IconButton(
-              icon: Icon(CupertinoIcons.volume_up, color: Colors.white),
-              onPressed: null,
-            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,

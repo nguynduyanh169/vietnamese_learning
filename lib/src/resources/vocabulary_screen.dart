@@ -9,6 +9,7 @@ import 'package:vietnamese_learning/src/cubit/learn_vocabulary_cubit.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
 import 'package:vietnamese_learning/src/widgets/flash_card.dart';
+import 'package:vietnamese_learning/src/widgets/speaking_vocabulary.dart';
 import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 import 'package:vietnamese_learning/src/widgets/writing_vocabulary.dart';
 
@@ -76,8 +77,14 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     void checkWritingButton(BuildContext dialogContext) {
       txtInputVocabulary.clear();
       BlocProvider.of<LearnVocabularyCubit>(dialogContext)
-          .learnMatching(_vocabularyIndex);
+          .learnSpeaking(_vocabularyIndex);
       Navigator.pop(context);
+    }
+
+    void speakingButton(BuildContext context){
+      print('speaking');
+      BlocProvider.of<LearnVocabularyCubit>(context)
+          .learnMatching(_vocabularyIndex);
     }
 
     Widget _card(String content) {
@@ -291,7 +298,20 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       _matchingVocabulary(context)
                     ],
                   );
-                } else {
+                } else if(state is LearnVocabularySpeaking){
+                  _vocabularyIndex = state.vocabulariesIndex;
+                  vietnamese = vocabularies[_vocabularyIndex].vocabulary;
+                  english = vocabularies[_vocabularyIndex].description;
+                  audio = vocabularies[_vocabularyIndex].voice_link;
+                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
+                  return Column(
+                    children: <Widget>[
+                      _percentBar(percent),
+                      SpeakingVocabulary(vietnamese: vietnamese, english: english, next: speakingButton, audioInput: audio, vocabularyContext: context,)
+                    ],
+                  );
+                }
+                else {
                   return VocabularyResult(
                     words: vocabularies.length,
                   );
