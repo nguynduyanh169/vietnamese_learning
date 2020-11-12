@@ -6,16 +6,15 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 class QuizAnswer extends StatelessWidget {
   final String answerText;
   final Function selectHandler;
-  final Color primaryColor;
-  final int answerScore;
+  final bool checkCorrect;
   final String correct;
   final BuildContext rootContext;
 
-  QuizAnswer(this.selectHandler, this.answerText, this.primaryColor,
-      this.answerScore, this.correct, this.rootContext);
+  QuizAnswer(this.selectHandler, this.answerText,
+      this.checkCorrect, this.correct, this.rootContext);
 
   Widget _loadDialog(BuildContext buildContext){
-    if (answerScore == 10) {
+    if (checkCorrect == true) {
       CoolAlert.show(
           context: buildContext,
           type: CoolAlertType.success,
@@ -27,7 +26,7 @@ class QuizAnswer extends StatelessWidget {
             selectHandler();
             Navigator.pop(buildContext);
           });
-    } else if (answerScore == 0) {
+    } else if (checkCorrect == false) {
       CoolAlert.show(
           context: buildContext,
           type: CoolAlertType.error,
@@ -46,7 +45,7 @@ class QuizAnswer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: primaryColor,
+      color: Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
           side: BorderSide(color: Colors.black, width: 2.0)),

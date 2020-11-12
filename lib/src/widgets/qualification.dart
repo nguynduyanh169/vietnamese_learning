@@ -73,9 +73,9 @@ class Qualification extends StatelessWidget {
                 fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          QuizQuestion(
-            questions[questionIndex]['questionText'],
-          ),
+          // QuizQuestion(
+          //   questions[questionIndex]['questionText'],
+          // ),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 5,
           ),
@@ -88,7 +88,6 @@ class Qualification extends StatelessWidget {
                 return QuizAnswer(
                     () => answerQuestions(answers['score']),
                     answers['text'],
-                    primaryColor,
                     answers['score'],
                     correctAns(),
                     rootContext);
