@@ -140,7 +140,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
               child: InkWell(
                   onTap: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => QuizScreen(),
+                      builder: (context) => QuizScreen(questions: questions,),
                     ));
                   },
                   child: Column(

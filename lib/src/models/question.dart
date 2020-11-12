@@ -21,6 +21,6 @@ class Question{
     data['question'] = this.question;
     data['quizId'] = this.quizId;
     data['quizType'] = this.quizType;
-    data['options'] = this.options;
+    data['options'] = List<dynamic>.from(options.map((x) => x.toJson()));
   }
 }
