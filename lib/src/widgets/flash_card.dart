@@ -22,185 +22,144 @@ class FlashCard extends StatelessWidget{
     SizeConfig().init(context);
     return Container(
         padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 3,
             left: SizeConfig.blockSizeHorizontal * 5,
             right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 100,
-        height: SizeConfig.blockSizeVertical * 90,
+        height: SizeConfig.blockSizeVertical * 83,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                FlipCard(
-                  front: Container(
-                      width: SizeConfig.blockSizeHorizontal * 85,
-                      height: SizeConfig.blockSizeVertical * 58,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 4,
+                Container(
+                  width: SizeConfig.blockSizeHorizontal * 100,
+                  height: SizeConfig.blockSizeVertical * 69,
+                  child: FlipCard(
+                  front: Stack(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeHorizontal * 5),
+                          width: SizeConfig.blockSizeHorizontal * 85,
+                          height: SizeConfig.blockSizeVertical * 59,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal * 40,
-                              height: SizeConfig.blockSizeVertical * 30,
-                              child: Image(image: NetworkImage(UrlUtils.editImgUrl(img))),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 4,
-                            ),
-                            Text(
-                              '$vietnamese',
-                              style: GoogleFonts.dmSans(
-                                  textStyle: TextStyle(fontSize: 25)),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 2,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  child: ClipOval(
-                                    child: Container(
-                                      color: Colors.amberAccent,
-                                      width:
-                                      SizeConfig.blockSizeHorizontal * 18,
-                                      height:
-                                      SizeConfig.blockSizeVertical * 10,
-                                      child: Center(
-                                        child: Icon(
-                                          CupertinoIcons.volume_up,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audio)));
-                                  },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 4,
+                                ),
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 40,
+                                  height: SizeConfig.blockSizeVertical * 30,
+                                  child: Image(image: NetworkImage(UrlUtils.editImgUrl(img))),
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal * 30,
+                                  height: SizeConfig.blockSizeVertical * 4,
                                 ),
-                                InkWell(
-                                  child: ClipOval(
-                                    child: Container(
-                                      color: Colors.amberAccent,
-                                      width:
-                                      SizeConfig.blockSizeHorizontal * 18,
-                                      height:
-                                      SizeConfig.blockSizeVertical * 10,
-                                      child: Center(
-                                        child: Icon(
-                                          CupertinoIcons.mic,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    print('Micro');
-                                  },
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      )),
-                  back: Container(
-                      width: SizeConfig.blockSizeHorizontal * 85,
-                      height: SizeConfig.blockSizeVertical * 58,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 10,
-                            ),
-                            Container(
-                              child: Text('$vietnamese',
-                                  style: TextStyle(
-                                      fontFamily: 'Helvetica', fontSize: 30)),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 5,
-                            ),
-                            Text(
-                              '$english',
-                              style: TextStyle(
-                                  fontFamily: 'Helvetica', fontSize: 25),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  child: ClipOval(
-                                    child: Container(
-                                      color: Colors.amberAccent,
-                                      width:
-                                      SizeConfig.blockSizeHorizontal * 18,
-                                      height:
-                                      SizeConfig.blockSizeVertical * 10,
-                                      child: Center(
-                                        child: Icon(
-                                          CupertinoIcons.volume_up,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audio)));
-                                  },
+                                Text(
+                                  '$english',
+                                  style: GoogleFonts.dmSans(
+                                      textStyle: TextStyle(fontSize: 25)),
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal * 30,
-                                ),
-                                InkWell(
-                                  child: ClipOval(
-                                    child: Container(
-                                      color: Colors.amberAccent,
-                                      width:
-                                      SizeConfig.blockSizeHorizontal * 18,
-                                      height:
-                                      SizeConfig.blockSizeVertical * 10,
-                                      child: Center(
-                                        child: Icon(
-                                          CupertinoIcons.mic,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    print('mic');
-                                  },
+                                  height: SizeConfig.blockSizeVertical * 2,
                                 ),
                               ],
-                            )
-                          ],
+                            ),
+                          )),
+                      Positioned(
+                        left: SizeConfig.blockSizeHorizontal * 37,
+                        top: SizeConfig.blockSizeVertical * 53,
+                        child: InkWell(
+                          child: ClipOval(
+                            child: Container(
+                              color: Colors.amberAccent,
+                              width:
+                              SizeConfig.blockSizeHorizontal * 18,
+                              height:
+                              SizeConfig.blockSizeVertical * 10,
+                              child: Center(
+                                child: Icon(
+                                  CupertinoIcons.volume_up,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audio)));
+                          },
                         ),
-                      )),
+                      )
+                    ],
+                  ),
+                  back: Stack(children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeHorizontal * 5),
+                        width: SizeConfig.blockSizeHorizontal * 85,
+                        height: SizeConfig.blockSizeVertical * 59,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 10,
+                              ),
+                              Container(
+                                child: Text('$vietnamese',
+                                    style: TextStyle(
+                                        fontFamily: 'Helvetica', fontSize: 30)),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 5,
+                              ),
+                              Text(
+                                '$english',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 25),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 20,
+                              ),
+                            ],
+                          ),
+                        )),
+                    Positioned(
+                      left: SizeConfig.blockSizeHorizontal * 37,
+                      top: SizeConfig.blockSizeVertical * 53,
+                      child: InkWell(
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.amberAccent,
+                            width:
+                            SizeConfig.blockSizeHorizontal * 18,
+                            height:
+                            SizeConfig.blockSizeVertical * 10,
+                            child: Center(
+                              child: Icon(
+                                CupertinoIcons.volume_up,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audio)));
+                        },
+                      ),
+                    )
+                  ],),
                   direction: FlipDirection.HORIZONTAL,
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 2,
-                ),
+                ),),
                 Text(
                   'Touch to flip card',
                   style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),

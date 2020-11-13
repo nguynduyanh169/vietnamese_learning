@@ -38,8 +38,8 @@ dependencies:
   modal_bottom_sheet: ^0.2.2
   firebase_messaging: ^7.0.3
   file_picker: ^2.0.12
-  
-
+  firebase_core: ^0.5.2
+  firebase_storage: ^5.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +17,7 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostState extends State<CreatePostScreen> {
   String _fileName;
+  File file;
 
   void getFilePath() async {
     try {
@@ -27,6 +31,7 @@ class _CreatePostState extends State<CreatePostScreen> {
       print("File path: " + file.path);
       setState(() {
         this._fileName = file.path;
+        this.file = file;
       });
     } on PlatformException catch (e) {
       print(e.message);
@@ -40,8 +45,28 @@ class _CreatePostState extends State<CreatePostScreen> {
     FilePicker.platform.clearTemporaryFiles();
     setState(() {
       _fileName = null;
+      file = null;
     });
     print(_fileName);
+  }
+
+  Future uploadFile() async {
+    await Firebase.initializeApp();
+    String url;
+    Reference reference = FirebaseStorage.instance
+        .ref()
+        .child('audio_for_user_post')
+        .child(basename(file.path) + '_' + DateTime.now().toString());
+
+    UploadTask uploadTask = reference.putFile(file);
+    uploadTask.whenComplete(() async {
+      try {
+        url = await reference.getDownloadURL();
+      } catch (onError) {
+        print("Error");
+      }
+      print(url);
+    });
   }
 
   @override
@@ -106,6 +131,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                           ),
                         )),
                     onTap: () {
+                      uploadFile();
                       Navigator.of(context).pop();
                     },
                   )
