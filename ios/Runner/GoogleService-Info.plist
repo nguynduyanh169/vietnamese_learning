@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>838310101316-kj8upbn54esdimbqrae7128glkodhdj5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.838310101316-kj8upbn54esdimbqrae7128glkodhdj5</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>838310101316-8r1a8va5h5cc6e59qoq5gjsct9u68a8e.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyApVVr3SeXQFdbWgQ7c5dTe27IgL2UwRhw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>838310101316</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.capstone.vietnameseLearning</string>
+	<key>PROJECT_ID</key>
+	<string>master-vietnamese</string>
+	<key>STORAGE_BUCKET</key>
+	<string>master-vietnamese.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:838310101316:ios:eaf9a38ae9a5faf6a5d711</string>
+	<key>DATABASE_URL</key>
+	<string>https://master-vietnamese.firebaseio.com</string>
+</dict>
+</plist>
