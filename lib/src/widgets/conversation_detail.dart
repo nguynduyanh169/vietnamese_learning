@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
+import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
 
 class ConversationDetail1 extends StatefulWidget {
@@ -246,7 +247,9 @@ class _ConversationDetail1State extends State<ConversationDetail1> {
                 ],
               ),
             )
-          : ConversationDetail(),
+          : ConversationResult(
+              words: conversationIndex,
+            ),
     );
   }
 }

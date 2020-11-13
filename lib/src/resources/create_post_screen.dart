@@ -251,6 +251,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                                 ]),
                             child: IconButton(
                               icon: Icon(CupertinoIcons.volume_up),
+                              onPressed: null,
                             ),
                           ),
                           Positioned(
@@ -277,34 +278,43 @@ class _CreatePostState extends State<CreatePostScreen> {
                     ],
                   )
                 : Row(
-              children: <Widget>[
-                SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
-                Container(
-                  width: SizeConfig.blockSizeHorizontal * 20,
-                  height: SizeConfig.blockSizeVertical * 15,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black54),
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.0),
-                        topLeft: Radius.circular(5.0),
-                        bottomRight: Radius.circular(5.0),
-                        bottomLeft: Radius.circular(5.0)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      IconButton(icon: Icon(CupertinoIcons.add_circled), onPressed: (){
-                        getFilePath();
-                      },),
-                      Text('Choose audio file',
-                          style: TextStyle(
-                            fontFamily: 'Helvetica', fontSize: 10, ), textAlign: TextAlign.center,)
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 4,
+                      ),
+                      Container(
+                          width: SizeConfig.blockSizeHorizontal * 20,
+                          height: SizeConfig.blockSizeVertical * 15,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black54),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20.0),
+                                topLeft: Radius.circular(5.0),
+                                bottomRight: Radius.circular(5.0),
+                                bottomLeft: Radius.circular(5.0)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(CupertinoIcons.add_circled),
+                                onPressed: () {
+                                  getFilePath();
+                                },
+                              ),
+                              Text(
+                                'Choose audio file',
+                                style: TextStyle(
+                                  fontFamily: 'Helvetica',
+                                  fontSize: 10,
+                                ),
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          )),
                     ],
                   )
-                ),
-              ],
-            )
           ],
         ),
       ),

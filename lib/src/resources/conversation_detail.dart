@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
+import 'package:vietnamese_learning/src/widgets/conversation_detail.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_left.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_right.dart';
 
 class ConversationDetail extends StatefulWidget {
-  ConversationDetail({Key key}) : super(key: key);
+  List<Conversation> conversations;
+  ConversationDetail({Key key, this.conversations}) : super(key: key);
 
-  _ConversationDetailState createState() => _ConversationDetailState();
+  _ConversationDetailState createState() =>
+      _ConversationDetailState(conversations: conversations);
 }
 
 class _ConversationDetailState extends State<ConversationDetail> {
-  int conversationIndex = 10;
-  final List<String> entries = <String>[
-    'Xin Chào',
-    'Bạn tên gì',
-    'Bạn bao nhiêu tuổi'
-  ];
-  final List<String> english = <String>[
-    'Hello',
-    'What is your name',
-    'How old are you'
-  ];
+  List<Conversation> conversations;
+  _ConversationDetailState({this.conversations});
+
+  var conversationIndex = 0;
+
+  List<String> words = new List();
+  List<Widget> elements = new List();
+
+  Widget _placeConversation(
+      String english, String vietnamese, int index, String voiceLink) {
+    if (index % 2 == 0) {
+      return ConversationLeft(
+        english: english,
+        vietnamese: vietnamese,
+        voiceLink: voiceLink,
+      );
+    } else if (index % 2 != 0) {
+      return ConversationRight(
+        english: english,
+        vietnamese: vietnamese,
+        voiceLink: voiceLink,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,46 +70,15 @@ class _ConversationDetailState extends State<ConversationDetail> {
                 ),
               ),
               Expanded(
-                child: ListView(
-                  children: [
-                    ConversationLeft(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationRight(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationLeft(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationRight(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationLeft(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationRight(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationLeft(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationRight(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationLeft(),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    ConversationRight(),
-                  ],
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return _placeConversation(
+                        conversations[index].description,
+                        conversations[index].conversation,
+                        index,
+                        conversations[index].voiceLink);
+                  },
+                  itemCount: conversations.length,
                 ),
               ),
               SizedBox(
@@ -102,9 +88,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => ConversationResult(
-                        words: conversationIndex,
-                      ),
+                      builder: (context) => ConversationDetail1(),
                     ));
                   },
                   child: Container(
@@ -116,7 +100,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                       ),
                       child: Center(
                         child: Text(
-                          "Finish",
+                          "Learn Now",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,
