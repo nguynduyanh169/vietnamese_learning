@@ -32,6 +32,9 @@ class Quiz extends StatelessWidget {
       return Text('Listen and answer the question', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
 
     }
+    else if(type == 3){
+      return Text('Answer the question', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
+    }
   }
 
   @override

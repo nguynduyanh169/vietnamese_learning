@@ -17,7 +17,7 @@ class QuizQuestion extends StatelessWidget {
         style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
         textAlign: TextAlign.center,
       );
-    }else{
+    }else if(questionType == 2){
       return InkWell(
         child: ClipOval(
           child: Container(
@@ -37,6 +37,12 @@ class QuizQuestion extends StatelessWidget {
         onTap: () {
           AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(questionText)));
         },
+      );
+    }else if(questionType == 3){
+      return Container(
+        width: SizeConfig.blockSizeHorizontal * 40,
+        height: SizeConfig.blockSizeVertical * 30,
+        child: Image(image: NetworkImage(UrlUtils.editImgUrl(questionText))),
       );
     }
   }
