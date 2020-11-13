@@ -1,7 +1,9 @@
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class SpeakingVocabulary extends StatelessWidget{
   String vietnamese;
@@ -24,7 +26,7 @@ class SpeakingVocabulary extends StatelessWidget{
           Container(
             margin: EdgeInsets.only(left: 15),
             child: Text(
-              "Speak this conversation",
+              "Speak this vocabulary",
               style: TextStyle(
                   fontFamily: "Helvetica",
                   fontSize: 20,
@@ -60,7 +62,9 @@ class SpeakingVocabulary extends StatelessWidget{
                     CupertinoIcons.volume_up,
                     color: Colors.white,
                   ),
-                  onPressed: null,
+                  onPressed: () {
+                    AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audioInput)));
+                  }
                 ),
               ),
               Container(

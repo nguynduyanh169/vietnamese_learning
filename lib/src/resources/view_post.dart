@@ -299,7 +299,7 @@ class _ViewPostState extends State<ViewPost> {
                             ),
                           ),
                           onTap: (){
-                            print('listen');
+                            AssetsAudioPlayer.playAndForget(Audio.network('https://firebasestorage.googleapis.com/v0/b/demouploadfile-9e268.appspot.com/o/demo%2Fvinafountain.mp3?alt=media&token=1a317a0a-5218-4344-9f2e-b35247305952'));
                           },
                         )
                         ,

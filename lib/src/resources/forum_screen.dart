@@ -31,7 +31,6 @@ class _ForumScreenState extends State<ForumScreen> {
       child: ForumTab2(),
     ),
   };
-
   int sharedValue = 0;
   @override
   Widget build(BuildContext context) {
