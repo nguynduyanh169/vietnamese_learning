@@ -40,8 +40,8 @@ class QuizQuestion extends StatelessWidget {
       );
     }else if(questionType == 3){
       return Container(
-        width: SizeConfig.blockSizeHorizontal * 40,
-        height: SizeConfig.blockSizeVertical * 30,
+        width: SizeConfig.blockSizeHorizontal * 25,
+        height: SizeConfig.blockSizeVertical * 15,
         child: Image(image: NetworkImage(UrlUtils.editImgUrl(questionText))),
       );
     }
