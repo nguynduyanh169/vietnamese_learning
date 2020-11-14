@@ -68,13 +68,13 @@ class Quiz extends StatelessWidget {
           ),
           SizedBox(height: SizeConfig.blockSizeVertical * 2,),
           _questionType(type),
+          SizedBox(height: SizeConfig.blockSizeVertical * 2,),
           QuizQuestion(questionText: questions[questionIndex].question, questionType: type,),
-          SizedBox(height: SizeConfig.blockSizeVertical * 5,),
           Expanded(
               child: Column(
                 children: [
                   ...(questions[questionIndex].options as List<Option>).map((answers) {
-                    return QuizAnswer(() => answerQuestions(10), answers.optionName, answers.checkCorrect, correctAns(), rootContext);
+                    return QuizAnswer(() => answerQuestions(answers.checkCorrect, answers.optionID), answers.optionName, answers.checkCorrect, correctAns(), rootContext);
                   }).toList()
                 ],
               )

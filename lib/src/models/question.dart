@@ -10,7 +10,7 @@ class Question{
   Question.fromJson(Map<String, dynamic> json){
     questionID = json['questionID'];
     question = json['question'];
-    quizId = json['quizId'];
+    quizId = json['quizID'];
     quizType = json['quizType'];
     options = List<Option>.from(json["options"].map((i) => Option.fromJson(i)));
   }
@@ -19,7 +19,7 @@ class Question{
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['questionID'] = this.questionID;
     data['question'] = this.question;
-    data['quizId'] = this.quizId;
+    data['quizID'] = this.quizId;
     data['quizType'] = this.quizType;
     data['options'] = List<dynamic>.from(options.map((x) => x.toJson()));
   }

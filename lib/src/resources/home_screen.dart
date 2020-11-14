@@ -139,7 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               screen: LessonDetail(
                                   lessonName:
                                       _listLessons[index].lessonName.trim(),
-                                  lessonId: _listLessons[index].lessonId),
+                                  lessonId: _listLessons[index].lessonId,
+                              progressId: _listLessons[index].progressId,),
                               withNavBar: false,
                               pageTransitionAnimation:
                                   PageTransitionAnimation.cupertino);

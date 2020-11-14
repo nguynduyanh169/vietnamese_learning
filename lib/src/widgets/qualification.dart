@@ -85,12 +85,12 @@ class Qualification extends StatelessWidget {
               ...(questions[questionIndex]['answers']
                       as List<Map<String, Object>>)
                   .map((answers) {
-                return QuizAnswer(
-                    () => answerQuestions(answers['score']),
-                    answers['text'],
-                    answers['score'],
-                    correctAns(),
-                    rootContext);
+                // return QuizAnswer(
+                //     () => answerQuestions(answers['score']),
+                //     answers['text'],
+                //     answers['score'],
+                //     correctAns(),
+                //     rootContext);
               }).toList()
             ],
           ))

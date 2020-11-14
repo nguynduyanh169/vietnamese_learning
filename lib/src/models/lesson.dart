@@ -17,7 +17,7 @@ class Lesson {
     lessonName = json['lessonName'];
     lessonImage = json['lessonImage'];
     progressStatus = json['progresStatus'];
-    progressId = json['progressId'];
+    progressId = json['progressID'];
   }
 
   Map<String, dynamic> toJson() {

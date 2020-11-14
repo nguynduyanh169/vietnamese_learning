@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
 import 'package:vietnamese_learning/src/models/quiz.dart';
+import 'package:vietnamese_learning/src/models/quiz_submit.dart';
 
 class QuizProvider {
   static final String BASE_URL = "https://vn-learning.azurewebsites.net";
   static final String GETQUIZ = BASE_URL + "/api/quiz/";
   static final String GETQUESTIONS = BASE_URL + "/api/question/";
+  static final String SUBMITQUIZ = BASE_URL + "/api/history";
   final Dio _dio = new Dio();
 
   Future<List<Quiz>> getQuizByLessonId(String token, String lessonId) async{
@@ -34,6 +39,27 @@ class QuizProvider {
       Response response = await _dio.get('$GETQUESTIONS$quizId', options: Options(headers: header));
       print(response.data.toString());
       return (response.data as List).map((i) => Question.fromJson(i)).toList();
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+    }
+  }
+
+  Future<bool> submitQuiz(String token, QuizSubmit quizSubmit) async{
+    print(token);
+    Map<String, String> header = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'studentToken' : '$token'
+    };
+    try {
+      Response response = await _dio.post(SUBMITQUIZ, options: Options(headers: header), data: quizSubmit.toJson());
+      if(response.statusCode == 200){
+        return true;
+      }
+      else{
+        return false;
+      }
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
     }
