@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
@@ -28,7 +29,7 @@ class CategoryCard extends StatelessWidget {
                 child: IconButton(
                   alignment: Alignment.topRight,
                   icon: Icon(
-                    Icons.lock,
+                    CupertinoIcons.lock_fill,
                     color: Colors.white,
                   ),
                   onPressed: null,
