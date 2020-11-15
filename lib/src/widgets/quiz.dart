@@ -30,9 +30,10 @@ class Quiz extends StatelessWidget {
 
     }else if(type == 2){
       return Text('Listen and answer the question', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
-
     }
     else if(type == 3){
+      return Text('Which one of these is the meaning of this image ?', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
+    }else if(type == 4){
       return Text('Answer the question', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
     }
   }
@@ -68,13 +69,13 @@ class Quiz extends StatelessWidget {
           ),
           SizedBox(height: SizeConfig.blockSizeVertical * 2,),
           _questionType(type),
+          SizedBox(height: SizeConfig.blockSizeVertical * 2,),
           QuizQuestion(questionText: questions[questionIndex].question, questionType: type,),
-          SizedBox(height: SizeConfig.blockSizeVertical * 5,),
           Expanded(
               child: Column(
                 children: [
                   ...(questions[questionIndex].options as List<Option>).map((answers) {
-                    return QuizAnswer(() => answerQuestions(10), answers.optionName, answers.checkCorrect, correctAns(), rootContext);
+                    return QuizAnswer(() => answerQuestions(answers.checkCorrect, answers.optionID), answers.optionName, answers.checkCorrect, correctAns(), rootContext);
                   }).toList()
                 ],
               )

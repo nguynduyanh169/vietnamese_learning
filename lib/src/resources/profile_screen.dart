@@ -24,6 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  _ProfileScreenState();
   BuildContext _ctx;
 
   Future<void> _loadUsername() async {
@@ -213,9 +214,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             255, 190, 50, 30),
                                         child: ListTile(
                                           leading:
-                                              Icon(CupertinoIcons.settings),
+                                              Icon(CupertinoIcons.lock_fill),
                                           title: Text(
-                                            "Level",
+                                            "Change Password",
                                             style: TextStyle(
                                                 fontFamily: 'Helvetica'),
                                           ),
@@ -227,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             255, 190, 50, 30),
                                         child: ListTile(
                                           leading:
-                                              Icon(CupertinoIcons.bell),
+                                              Icon(CupertinoIcons.bell_fill),
                                           title: Text(
                                             "Notification Setting",
                                             style: TextStyle(
@@ -270,7 +271,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('username', null);
     prefs.setString('accessToken', null);
-    Navigator.of(context, rootNavigator: true).pushReplacement(
-        MaterialPageRoute(builder: (context) => new LoginPage()));
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginPage()),
+            (route) => false);
+    // Navigator.of(context, rootNavigator: true).pushReplacement(
+    //     MaterialPageRoute(builder: (context) => new LoginPage()));
   }
 }

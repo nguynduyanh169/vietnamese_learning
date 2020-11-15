@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
-              child: TextField(
+              child: TextFormField(
                 controller: _usernameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
-              child: TextField(
+              child: TextFormField(
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(

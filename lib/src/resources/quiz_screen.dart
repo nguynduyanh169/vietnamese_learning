@@ -5,19 +5,24 @@ import 'package:vietnamese_learning/src/widgets/quiz_result.dart';
 
 class QuizScreen extends StatefulWidget {
   List<Question> questions;
+  int progressId;
+  int quizId;
 
-  QuizScreen({Key key, this.questions}) : super(key: key);
+  QuizScreen({Key key, this.questions, this.progressId, this.quizId}) : super(key: key);
 
   @override
-  _QuizScreenState createState() => _QuizScreenState(questions: questions);
+  _QuizScreenState createState() => _QuizScreenState(questions: questions, progressId: progressId, quizId: quizId);
 }
 
 class _QuizScreenState extends State<QuizScreen> {
   var _questionIndex = 0;
-  var _totalScore = 0;
+  double _totalScore = 0;
   List<Question> questions;
+  int progressId;
+  int quizId;
+  List<int> optionIds = new List();
 
-  _QuizScreenState({this.questions});
+  _QuizScreenState({this.questions, this.progressId, this.quizId});
 
   void _resetQuiz() {
     setState(() {
@@ -26,8 +31,13 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  void _answerQuestions(int score) {
-    _totalScore += score;
+  void _answerQuestions(bool checkCorrect, int optionId) {
+    double score = 10 / questions.length;
+    if(checkCorrect == false){
+      _totalScore += 0;
+    }else {
+      _totalScore += score;
+    }
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -46,7 +56,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 questionIndex: _questionIndex,
                 rootContext: context,
               )
-            : QuizResult(_totalScore, _resetQuiz),
+            : QuizResult(_totalScore, _resetQuiz, quizId, progressId, optionIds),
       ),
     );
   }

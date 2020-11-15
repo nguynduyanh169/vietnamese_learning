@@ -9,19 +9,22 @@ import 'package:vietnamese_learning/src/resources/vocab_detail_screen.dart';
 class LessonDetail extends StatefulWidget {
   String lessonName;
   String lessonId;
+  int progressId;
 
-  LessonDetail({Key key, this.lessonName, this.lessonId}) : super(key: key);
+  LessonDetail({Key key, this.lessonName, this.lessonId, this.progressId})
+      : super(key: key);
 
   @override
-  _LessonDetailState createState() =>
-      _LessonDetailState(title: lessonName, lessonId: lessonId);
+  _LessonDetailState createState() => _LessonDetailState(
+      title: lessonName, lessonId: lessonId, progressId: progressId);
 }
 
 class _LessonDetailState extends State<LessonDetail> {
   String title;
   String lessonId;
+  int progressId;
 
-  _LessonDetailState({this.title, this.lessonId});
+  _LessonDetailState({this.title, this.lessonId, this.progressId});
 
   @override
   Widget build(BuildContext context) {
@@ -214,6 +217,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                 (context, animation, secondaryAnimation) =>
                                     QuizGetStarted(
                               lessonId: lessonId,
+                              progressId: progressId,
                             ),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {

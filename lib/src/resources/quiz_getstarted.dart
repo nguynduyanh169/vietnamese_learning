@@ -6,22 +6,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/cubit/quiz_cubit.dart';
 import 'package:vietnamese_learning/src/data/quiz_repository.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
+import 'package:vietnamese_learning/src/models/quiz.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/states/quiz_state.dart';
 
 class QuizGetStarted extends StatefulWidget {
   String lessonId;
+  int progressId;
 
-  QuizGetStarted({Key key, this.lessonId}) : super(key: key);
+  QuizGetStarted({Key key, this.lessonId, this.progressId}) : super(key: key);
 
   _QuizGetStartedState createState() =>
-      _QuizGetStartedState(lessonId: lessonId);
+      _QuizGetStartedState(lessonId: lessonId, progressId: progressId);
 }
 
 class _QuizGetStartedState extends State<QuizGetStarted> {
   String lessonId;
+  int progressId;
 
-  _QuizGetStartedState({this.lessonId});
+  _QuizGetStartedState({this.lessonId, this.progressId});
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +142,9 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
               ),
               child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => QuizScreen(questions: questions,),
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                      builder: (context) => QuizScreen(questions: questions, progressId: progressId, quizId: questions.asMap()[1].quizId,),
                     ));
                   },
                   child: Column(

@@ -15,9 +15,9 @@ class QuizCubit extends Cubit<QuizState>{
     try{
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
-      List<Quiz> quizs = await _quizRepository.getQuizByLessonId(token, lessonId);
-      List<Question> questions = await _quizRepository.getQuestionsByQuizId(token, quizs[0].quizID);
-      emit(QuizLoaded(quizs, questions));
+      List<Quiz> quizzes = await _quizRepository.getQuizByLessonId(token, lessonId);
+      List<Question> questions = await _quizRepository.getQuestionsByQuizId(token, quizzes[0].quizID);
+      emit(QuizLoaded(quizzes, questions));
     } on Exception{
       emit(QuizLoadError('Load Quiz Error!'));
     }
