@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
-import 'package:vietnamese_learning/src/widgets/conversation_detail.dart';
+import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
 
 class ConversationLeft extends StatelessWidget {
   String english, vietnamese, voiceLink;
@@ -11,8 +11,9 @@ class ConversationLeft extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.blockSizeVertical * 10,
-      width: SizeConfig.blockSizeHorizontal * 20,
+      height: SizeConfig.blockSizeHorizontal * 30,
+      width: MediaQuery.of(context).size.width,
+      alignment: Alignment.centerLeft,
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -40,20 +41,30 @@ class ConversationLeft extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "$vietnamese",
-                style: TextStyle(
-                    fontFamily: 'Helvetica',
-                    color: Colors.redAccent,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold),
+              FittedBox(
+                child: Container(
+                  width: SizeConfig.blockSizeHorizontal * 80,
+                  child: Text(
+                    "$vietnamese",
+                    style: TextStyle(
+                        fontFamily: 'Helvetica',
+                        color: Colors.redAccent,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-              Text(
-                "$english",
-                style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  color: Colors.black,
-                  fontSize: 14,
+              FittedBox(
+                child: Container(
+                  width: SizeConfig.blockSizeHorizontal * 80,
+                  child: Text(
+                    "$english",
+                    style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
               ),
             ],

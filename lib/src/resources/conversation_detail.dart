@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
-import 'package:vietnamese_learning/src/widgets/conversation_detail.dart';
+import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_left.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_right.dart';
 
@@ -88,7 +88,8 @@ class _ConversationDetailState extends State<ConversationDetail> {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => ConversationDetail1(),
+                      builder: (context) =>
+                          ConversationSpeaking(conversations: conversations),
                     ));
                   },
                   child: Container(

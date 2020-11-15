@@ -10,30 +10,54 @@ class ConversationRight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.blockSizeHorizontal * 15,
+      height: SizeConfig.blockSizeHorizontal * 30,
       width: MediaQuery.of(context).size.width,
-      color: Colors.white,
+      alignment: Alignment.centerRight,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black,
+            width: 1.0,
+          ),
+          top: BorderSide(
+            color: Colors.black,
+            width: 1.0,
+          ),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "$vietnamese",
-                style: TextStyle(
-                    fontFamily: 'Helvetica',
-                    color: Colors.redAccent,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold),
+              FittedBox(
+                child: Container(
+                  width: SizeConfig.blockSizeHorizontal * 80,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "$vietnamese",
+                    style: TextStyle(
+                        fontFamily: 'Helvetica',
+                        color: Colors.redAccent,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-              Text(
-                "$english",
-                style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  color: Colors.black,
-                  fontSize: 14,
+              FittedBox(
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  width: SizeConfig.blockSizeHorizontal * 80,
+                  child: Text(
+                    "$english",
+                    style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -48,10 +72,14 @@ class ConversationRight extends StatelessWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color.fromRGBO(255, 190, 51, 5)),
+                shape: BoxShape.circle,
+                color: Color.fromRGBO(255, 190, 51, 5),
+              ),
               child: IconButton(
-                icon: Icon(CupertinoIcons.volume_up, color: Colors.white),
+                icon: Icon(
+                  CupertinoIcons.volume_up,
+                  color: Colors.white,
+                ),
                 onPressed: null,
               ),
               width: SizeConfig.blockSizeHorizontal * 10,

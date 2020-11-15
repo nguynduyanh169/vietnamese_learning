@@ -81,7 +81,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       Navigator.pop(context);
     }
 
-    void speakingButton(BuildContext context){
+    void speakingButton(BuildContext context) {
       print('speaking');
       BlocProvider.of<LearnVocabularyCubit>(context)
           .learnMatching(_vocabularyIndex);
@@ -94,7 +94,10 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         child: Center(
           child: Text(
             '$content',
-            style: TextStyle(fontFamily: 'Helvetica', fontWeight: FontWeight.w600, fontSize: 20),
+            style: TextStyle(
+                fontFamily: 'Helvetica',
+                fontWeight: FontWeight.w600,
+                fontSize: 20),
           ),
         ),
         decoration: BoxDecoration(
@@ -245,7 +248,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   english = vocabularies[_vocabularyIndex].description;
                   img = vocabularies[_vocabularyIndex].image;
                   audio = vocabularies[_vocabularyIndex].voice_link;
-                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
+                  var percent =
+                      _vocabularyIndex * (1 / (vocabularies.length + 1));
                   return Column(
                     children: [
                       _percentBar(percent),
@@ -264,17 +268,22 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
                   audio = vocabularies[_vocabularyIndex].voice_link;
-                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
+                  var percent =
+                      _vocabularyIndex * (1 / (vocabularies.length + 1));
                   return SingleChildScrollView(
                     physics: NeverScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         _percentBar(percent),
                         WritingVocabulary(
-                            vietnamese: vietnamese,
-                            english: english,
-                            vocabularyContext: context,
-                            checkWriting: checkWritingButton, input: input, txtInputVocabulary: txtInputVocabulary, audioInput: audio,)
+                          vietnamese: vietnamese,
+                          english: english,
+                          vocabularyContext: context,
+                          checkWriting: checkWritingButton,
+                          input: input,
+                          txtInputVocabulary: txtInputVocabulary,
+                          audioInput: audio,
+                        )
                       ],
                     ),
                   );
@@ -282,7 +291,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
-                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
+                  var percent =
+                      _vocabularyIndex * (1 / (vocabularies.length + 1));
                   if (chars.isEmpty == true) {
                     chars = vietnamese.split('').toList();
                     chars.shuffle();
@@ -298,20 +308,26 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       _matchingVocabulary(context)
                     ],
                   );
-                } else if(state is LearnVocabularySpeaking){
+                } else if (state is LearnVocabularySpeaking) {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
                   audio = vocabularies[_vocabularyIndex].voice_link;
-                  var percent = _vocabularyIndex * (1 / (vocabularies.length + 1));
+                  var percent =
+                      _vocabularyIndex * (1 / (vocabularies.length + 1));
                   return Column(
                     children: <Widget>[
                       _percentBar(percent),
-                      SpeakingVocabulary(vietnamese: vietnamese, english: english, next: speakingButton, audioInput: audio, vocabularyContext: context,)
+                      SpeakingVocabulary(
+                        vietnamese: vietnamese,
+                        english: english,
+                        next: speakingButton,
+                        audioInput: audio,
+                        vocabularyContext: context,
+                      )
                     ],
                   );
-                }
-                else {
+                } else {
                   return VocabularyResult(
                     words: vocabularies.length,
                   );
