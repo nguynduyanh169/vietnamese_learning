@@ -18,7 +18,7 @@ class QuizQuestion extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Text(
-              questionText,
+              'Which one of these is “$questionText”?',
               style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
               textAlign: TextAlign.center,
             ),
@@ -66,21 +66,30 @@ class QuizQuestion extends StatelessWidget {
         height: SizeConfig.blockSizeVertical * 28,
         child: Column(
           children: <Widget>[
-            Text(
-              'Tap to listen',
-              style: TextStyle(fontSize: 12, fontFamily: 'Helvetica'),
-              textAlign: TextAlign.center,
-            ),
             SizedBox(height: SizeConfig.blockSizeVertical * 2,),
             Container(
-              width: SizeConfig.blockSizeHorizontal * 30,
-              height: SizeConfig.blockSizeVertical * 20,
+              width: SizeConfig.blockSizeHorizontal * 35,
+              height: SizeConfig.blockSizeVertical * 25,
               child: Image(
                   image: NetworkImage(UrlUtils.editImgUrl(questionText))
               ),
             )
           ],
         )
+      );
+    }else if(questionType == 4){
+      return Container(
+          width: SizeConfig.blockSizeHorizontal * 75,
+          height: SizeConfig.blockSizeVertical * 30,
+          child: Column(
+            children: <Widget>[
+              Text(
+                '$questionText',
+                style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          )
       );
     }
   }

@@ -30,9 +30,10 @@ class Quiz extends StatelessWidget {
 
     }else if(type == 2){
       return Text('Listen and answer the question', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
-
     }
     else if(type == 3){
+      return Text('Which one of these is the meaning of this image ?', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
+    }else if(type == 4){
       return Text('Answer the question', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
     }
   }

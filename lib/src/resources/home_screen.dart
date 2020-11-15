@@ -135,16 +135,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Colors.blueAccent,
                               textColor: Colors.white);
                         } else {
-                          pushNewScreen(context,
-                              screen: LessonDetail(
-                                  lessonName:
-                                      _listLessons[index].lessonName.trim(),
-                                  lessonId: _listLessons[index].lessonId,
-                              progressId: _listLessons[index].progressId,),
-                              withNavBar: false,
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino);
-                        }
+                          Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                              builder: (context) => LessonDetail(lessonName:
+                              _listLessons[index].lessonName.trim(),
+                                lessonId: _listLessons[index].lessonId,
+                                progressId: _listLessons[index].progressId,),
+                              settings : RouteSettings(name: '/lessonDetail'),
+                            ),
+                          );
+                          }
                       },
                     );
                   })),

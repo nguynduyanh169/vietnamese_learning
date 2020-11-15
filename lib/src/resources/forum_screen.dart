@@ -92,13 +92,13 @@ class _ForumScreenState extends State<ForumScreen> {
                     width: SizeConfig.blockSizeHorizontal * 19,
                   ),
                   Text(
-                    'Hello Vietnamese',
+                    'Xin chào Việt Nam',
                     style: GoogleFonts.sansita(
                       fontSize: 20,
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 15,
+                    width: SizeConfig.blockSizeHorizontal * 10,
                   ),
                   IconButton(
                     icon: Stack(

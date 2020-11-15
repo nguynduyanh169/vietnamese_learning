@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.create),
-        title: ("Hello VN"),
+        title: ("Xin chào VN"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),

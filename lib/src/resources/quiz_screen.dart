@@ -32,7 +32,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _answerQuestions(bool checkCorrect, int optionId) {
-    double score = 100 / questions.length;
+    double score = 10 / questions.length;
     if(checkCorrect == false){
       _totalScore += 0;
     }else {

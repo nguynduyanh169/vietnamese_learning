@@ -21,7 +21,6 @@ class QuizProvider {
     };
     try {
       Response response = await _dio.get('$GETQUIZ$lessonId', options: Options(headers: header));
-      print(response.data.toString());
       return (response.data as List).map((i) => Quiz.fromJson(i)).toList();
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -37,7 +36,6 @@ class QuizProvider {
     };
     try {
       Response response = await _dio.get('$GETQUESTIONS$quizId', options: Options(headers: header));
-      print(response.data.toString());
       return (response.data as List).map((i) => Question.fromJson(i)).toList();
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");

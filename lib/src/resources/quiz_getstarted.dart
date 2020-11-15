@@ -142,8 +142,8 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
               ),
               child: InkWell(
                   onTap: () {
-                    print(questions[0].quizId);
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
                       builder: (context) => QuizScreen(questions: questions, progressId: progressId, quizId: questions.asMap()[1].quizId,),
                     ));
                   },
