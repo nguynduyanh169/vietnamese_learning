@@ -277,6 +277,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                                 ]),
                             child: IconButton(
                               icon: Icon(CupertinoIcons.volume_up),
+                              onPressed: null,
                             ),
                           ),
                           Positioned(

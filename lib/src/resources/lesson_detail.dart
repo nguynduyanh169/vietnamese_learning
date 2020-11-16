@@ -11,11 +11,12 @@ class LessonDetail extends StatefulWidget {
   String lessonId;
   int progressId;
 
-  LessonDetail({Key key, this.lessonName, this.lessonId, this.progressId}) : super(key: key);
+  LessonDetail({Key key, this.lessonName, this.lessonId, this.progressId})
+      : super(key: key);
 
   @override
-  _LessonDetailState createState() =>
-      _LessonDetailState(title: lessonName, lessonId: lessonId, progressId: progressId);
+  _LessonDetailState createState() => _LessonDetailState(
+      title: lessonName, lessonId: lessonId, progressId: progressId);
 }
 
 class _LessonDetailState extends State<LessonDetail> {
@@ -45,7 +46,9 @@ class _LessonDetailState extends State<LessonDetail> {
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
-                    SizedBox(width: SizeConfig.blockSizeHorizontal * 21,),
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 21,
+                    ),
                     Text(
                       "$title",
                       style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
@@ -155,24 +158,13 @@ class _LessonDetailState extends State<LessonDetail> {
                         ]),
                       ),
                       onTap: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    ConversationGetStarted(),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              var begin = Offset(1.0, 0.0);
-                              var end = Offset.zero;
-                              var curve = Curves.ease;
-                              var tween = Tween(begin: begin, end: end)
-                                  .chain(CurveTween(curve: curve));
-                              return SlideTransition(
-                                position: animation.drive(tween),
-                                child: child,
-                              );
-                            },
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ConversationGetStarted(
+                                    lessonId: lessonId,
+                                    lessonName: title,
+                                  )),
                         );
                       },
                     ),
@@ -223,7 +215,10 @@ class _LessonDetailState extends State<LessonDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    QuizGetStarted(lessonId: lessonId, progressId: progressId,),
+                                    QuizGetStarted(
+                              lessonId: lessonId,
+                              progressId: progressId,
+                            ),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

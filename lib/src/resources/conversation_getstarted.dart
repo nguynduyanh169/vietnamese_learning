@@ -1,21 +1,59 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vietnamese_learning/src/cubit/conversation_cubit.dart';
+import 'package:vietnamese_learning/src/data/conversation_repository.dart';
+import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
-import 'package:vietnamese_learning/src/resources/conversation_screen.dart';
-import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
-import 'package:vietnamese_learning/src/widgets/conversation_detail.dart';
+import 'package:vietnamese_learning/src/states/conversation_state.dart';
+import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
 
 class ConversationGetStarted extends StatefulWidget {
-  ConversationGetStarted({Key key}) : super(key: key);
+  String lessonId;
+  String lessonName;
+  ConversationGetStarted({Key key, this.lessonId, this.lessonName})
+      : super(key: key);
 
-  _ConversationGetStartedState createState() => _ConversationGetStartedState();
+  _ConversationGetStartedState createState() =>
+      _ConversationGetStartedState(lessonId: lessonId, title: lessonName);
 }
 
 class _ConversationGetStartedState extends State<ConversationGetStarted> {
+  String lessonId;
+  String title;
+  _ConversationGetStartedState({this.lessonId, this.title});
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    SizeConfig().init(context);
+    return BlocProvider(
+      create: (context) => ConversationsCubit(ConversationRepository())
+        ..loadConversationsByLessonId(lessonId),
+      child: Scaffold(body: BlocBuilder<ConversationsCubit, ConversationState>(
+        builder: (context, state) {
+          if (state is ConversationsLoaded) {
+            return _conversationDetails(state.conversations);
+          } else if (state is ConversationLoadError) {
+            return Center(
+              child: Text('Something went wrong!'),
+            );
+          } else {
+            return _loadingConversation();
+          }
+        },
+      )),
+    );
+  }
+
+  Widget _conversationDetails(List<Conversation> _conversations) {
+    int numOfVocabs = _conversations.length;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -51,7 +89,7 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Text(
-                "Lesson Greeting",
+                "Lesson $title",
                 style: GoogleFonts.sansita(
                   textStyle: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -63,7 +101,7 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Text(
-                "Greeting Conversation",
+                "$numOfVocabs Conversation",
                 style: GoogleFonts.sansita(
                   textStyle: TextStyle(
                     fontSize: 16,
@@ -85,7 +123,8 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
                 child: InkWell(
                     onTap: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => ConversationDetail1(),
+                        builder: (context) =>
+                            ConversationDetail(conversations: _conversations),
                       ));
                     },
                     child: Column(
@@ -107,6 +146,27 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
                     )),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _loadingConversation() {
+    return Container(
+      color: Colors.amber[400],
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CupertinoActivityIndicator(
+              radius: 20,
+            ),
+            Text(
+              'Loading....',
+              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+            )
           ],
         ),
       ),

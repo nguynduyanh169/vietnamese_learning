@@ -18,7 +18,7 @@ class ConversationsCubit extends Cubit<ConversationState> {
           .getConversationsByLessonId(lessonId, token);
       emit(ConversationsLoaded(conversations));
     } on Exception {
-      emit(ConversationLoadError('Load Vocabularies Error!'));
+      emit(ConversationLoadError('Load Conversation Error!'));
     }
   }
 }
