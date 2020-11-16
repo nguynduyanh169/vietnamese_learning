@@ -30,7 +30,7 @@ class ConversationLeft extends StatelessWidget {
                 color: Color.fromRGBO(255, 190, 51, 5),
               ),
               child: IconButton(
-                icon: Icon(Icons.volume_up, color: Colors.white),
+                icon: Icon(CupertinoIcons.volume_up, color: Colors.white),
                 onPressed: null,
               ),
               width: SizeConfig.blockSizeHorizontal * 10,

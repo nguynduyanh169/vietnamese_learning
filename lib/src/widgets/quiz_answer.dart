@@ -16,6 +16,7 @@ class QuizAnswer extends StatelessWidget {
   Widget _loadDialog(BuildContext buildContext){
     if (checkCorrect == true) {
       CoolAlert.show(
+        barrierDismissible: false,
           context: buildContext,
           type: CoolAlertType.success,
           title: "Correct!",
@@ -28,6 +29,7 @@ class QuizAnswer extends StatelessWidget {
           });
     } else if (checkCorrect == false) {
       CoolAlert.show(
+        barrierDismissible: false,
           context: buildContext,
           type: CoolAlertType.error,
           title: "Incorrect!",
