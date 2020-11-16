@@ -24,6 +24,7 @@ class _ViewPost2State extends State<ViewPost2> {
         autoInitialize: true,
         autoPlay: false,
         looping: true,
+        aspectRatio: 16/9
     );
     super.initState();
   }
@@ -228,12 +229,12 @@ class _ViewPost2State extends State<ViewPost2> {
                             "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
                             style: TextStyle(fontFamily: 'Helvetica'),
                           ),
-                         Container(
-                           height: SizeConfig.blockSizeVertical * 20,
-                           child:  Chewie(
-                             controller: _chewieController,
-                           ),
-                         ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical * 20,
+                            child:  Chewie(
+                              controller: _chewieController,
+                            ),
+                          ),
                           SizedBox(
                             height: SizeConfig.blockSizeVertical * 4,
                           )

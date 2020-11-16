@@ -13,23 +13,24 @@ class ViewPost extends StatefulWidget {
 }
 
 class _ViewPostState extends State<ViewPost> {
-  bool _play = false;
 
-  void _showListAction(BuildContext fatherContext) {
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
+  @override
+  void dispose() {
+    assetsAudioPlayer.dispose();
+    super.dispose();
+
+  }
+  void _showListAction(BuildContext fatherContext){
     showCupertinoModalPopup(
         context: fatherContext,
         builder: (BuildContext buildContext) {
           return CupertinoActionSheet(
-            title: Text(
-              'Choose option for this post',
-              style: TextStyle(fontFamily: 'Helvetica'),
-            ),
+            title: Text('Choose option for this post', style: TextStyle(fontFamily: 'Helvetica'),),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                child: Text(
-                  'Edit',
-                  style: TextStyle(fontFamily: 'Helvetica'),
-                ),
+                child: Text('Edit', style: TextStyle(fontFamily: 'Helvetica'),),
                 onPressed: () {
                   showBarModalBottomSheet(
                     expand: true,
@@ -42,38 +43,23 @@ class _ViewPostState extends State<ViewPost> {
                 },
               ),
               CupertinoActionSheetAction(
-                child: Text(
-                  'Delete',
-                  style: TextStyle(fontFamily: 'Helvetica', color: Colors.red),
-                ),
+                child: Text('Delete',style: TextStyle(fontFamily: 'Helvetica', color: Colors.red),),
                 onPressed: () {
                   showDialog(
                     useRootNavigator: true,
                     context: fatherContext,
                     builder: (BuildContext context) => new CupertinoAlertDialog(
-                      title: new Text(
-                        "Confirm delete",
-                        style: TextStyle(fontFamily: 'Helvetica'),
-                      ),
-                      content: new Text(
-                        "Do you want to delete this post?",
-                        style: TextStyle(fontFamily: 'Helvetica'),
-                      ),
+                      title: new Text("Confirm delete", style: TextStyle(fontFamily: 'Helvetica'),),
+                      content: new Text("Do you want to delete this post?", style: TextStyle(fontFamily: 'Helvetica'),),
                       actions: [
                         CupertinoDialogAction(
-                          child: Text(
-                            'Confirm',
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
+                          child: Text('Confirm', style: TextStyle(fontFamily: 'Helvetica'),),
                           onPressed: () {
                             Navigator.of(fatherContext).pop();
                           },
                         ),
                         CupertinoDialogAction(
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
+                          child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica'),),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -88,10 +74,7 @@ class _ViewPostState extends State<ViewPost> {
             ],
             cancelButton: CupertinoActionSheetAction(
               isDefaultAction: true,
-              child: Text(
-                'Cancel',
-                style: TextStyle(fontFamily: 'Helvetica'),
-              ),
+              child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica'),),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -100,56 +83,37 @@ class _ViewPostState extends State<ViewPost> {
         });
   }
 
-  void _showListActionForComment(BuildContext fatherContext) {
+  void _showListActionForComment(BuildContext fatherContext){
     showCupertinoModalPopup(
         context: fatherContext,
         builder: (BuildContext buildContext) {
           return CupertinoActionSheet(
-            title: Text(
-              'Choose option for this comment',
-              style: TextStyle(fontFamily: 'Helvetica'),
-            ),
+            title: Text('Choose option for this comment', style: TextStyle(fontFamily: 'Helvetica'),),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                  child: Text(
-                    'Copy',
-                    style: TextStyle(fontFamily: 'Helvetica'),
-                  ),
+                  child: Text('Copy', style: TextStyle(fontFamily: 'Helvetica'),),
                   onPressed: () {
                     Navigator.of(fatherContext).pop();
-                  }),
+                  }
+              ),
               CupertinoActionSheetAction(
-                child: Text('Delete',
-                    style:
-                        TextStyle(fontFamily: 'Helvetica', color: Colors.red)),
+                child: Text('Delete', style: TextStyle(fontFamily: 'Helvetica', color: Colors.red)),
                 onPressed: () {
                   showDialog(
                     useRootNavigator: true,
                     context: fatherContext,
                     builder: (BuildContext context) => new CupertinoAlertDialog(
-                      title: new Text(
-                        "Confirm delete",
-                        style: TextStyle(fontFamily: 'Helvetica'),
-                      ),
-                      content: new Text(
-                        "Do you want to delete this comment?",
-                        style: TextStyle(fontFamily: 'Helvetica'),
-                      ),
+                      title: new Text("Confirm delete",style: TextStyle(fontFamily: 'Helvetica'),),
+                      content: new Text("Do you want to delete this comment?", style: TextStyle(fontFamily: 'Helvetica'),),
                       actions: [
                         CupertinoDialogAction(
-                          child: Text(
-                            'Confirm',
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
+                          child: Text('Confirm', style: TextStyle(fontFamily: 'Helvetica'),),
                           onPressed: () {
                             Navigator.of(fatherContext).pop();
                           },
                         ),
                         CupertinoDialogAction(
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
+                          child: Text('Cancel',style: TextStyle(fontFamily: 'Helvetica'),),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -164,7 +128,7 @@ class _ViewPostState extends State<ViewPost> {
             ],
             cancelButton: CupertinoActionSheetAction(
               isDefaultAction: true,
-              child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica')),
+              child: Text('Cancel',style: TextStyle(fontFamily: 'Helvetica')),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -178,16 +142,10 @@ class _ViewPostState extends State<ViewPost> {
         context: fatherContext,
         builder: (BuildContext buildContext) {
           return CupertinoActionSheet(
-            title: Text(
-              'Choose option for this comment',
-              style: TextStyle(fontFamily: 'Helvetica'),
-            ),
+            title: Text('Choose option for this comment', style: TextStyle(fontFamily: 'Helvetica'),),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                child: Text(
-                  'Copy',
-                  style: TextStyle(fontFamily: 'Helvetica'),
-                ),
+                child: Text('Copy', style: TextStyle(fontFamily: 'Helvetica'),),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -195,7 +153,7 @@ class _ViewPostState extends State<ViewPost> {
             ],
             cancelButton: CupertinoActionSheetAction(
               isDefaultAction: true,
-              child: Text('Cancel', style: TextStyle(fontFamily: 'Helvetica')),
+              child: Text('Cancel',style: TextStyle(fontFamily: 'Helvetica')),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -285,7 +243,7 @@ class _ViewPostState extends State<ViewPost> {
                             CircleAvatar(
                               radius: 20,
                               backgroundImage:
-                                  AssetImage('assets/images/profile.png'),
+                              AssetImage('assets/images/profile.png'),
                             ),
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 2,
@@ -317,9 +275,9 @@ class _ViewPostState extends State<ViewPost> {
                         ),
                         Text(
                           "Thế giới bạn không bước vào được thì đừng cố chen vào, làm khó người khác, lỡ dở mình, hà tất chứ?"
-                          "\nĐôi khi, không cẩn thận biết một số chuyện, mới phát hiện ra rằng những điều bản thân để tâm lại nực cười đến thế.Đừng bao giờ thay đổi mình vì người khác. "
-                          "\nNếu họ không thể tiếp nhận một con người nhiều điểm xấu là bạn, thì cũng không xứng để có được một con người với nhiều điểm tốt là bạn."
-                          "\nĐôi khi sự đấu tranh luôn cần phải có trong cuộc sống. Nếu cuộc sống trôi qua thật suôn sẻ, chúng ta sẽ không hiểu được cuộc sống, không có được bản lĩnh, nghị lực như chúng ta cần phải có, cuộc sống thật công bằng, không phải vô cớ mà mọi điều xảy đến với ta.",
+                              "\nĐôi khi, không cẩn thận biết một số chuyện, mới phát hiện ra rằng những điều bản thân để tâm lại nực cười đến thế.Đừng bao giờ thay đổi mình vì người khác. "
+                              "\nNếu họ không thể tiếp nhận một con người nhiều điểm xấu là bạn, thì cũng không xứng để có được một con người với nhiều điểm tốt là bạn."
+                              "\nĐôi khi sự đấu tranh luôn cần phải có trong cuộc sống. Nếu cuộc sống trôi qua thật suôn sẻ, chúng ta sẽ không hiểu được cuộc sống, không có được bản lĩnh, nghị lực như chúng ta cần phải có, cuộc sống thật công bằng, không phải vô cớ mà mọi điều xảy đến với ta.",
                           style: TextStyle(fontFamily: 'Helvetica'),
                         ),
                         SizedBox(
@@ -341,22 +299,18 @@ class _ViewPostState extends State<ViewPost> {
                                     CupertinoIcons.volume_up,
                                     color: Colors.black54,
                                   ),
-                                  onPressed: null,
                                   iconSize: 20,
                                 ),
-                                Text(
-                                  'Press to listen',
-                                  style: TextStyle(
-                                      fontFamily: 'Helvetica', fontSize: 12),
-                                )
+                                Text('Press to listen', style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),)
                               ],
                             ),
                           ),
-                          onTap: () {
-                            AssetsAudioPlayer.playAndForget(Audio.network(
-                                'https://firebasestorage.googleapis.com/v0/b/demouploadfile-9e268.appspot.com/o/demo%2Fvinafountain.mp3?alt=media&token=1a317a0a-5218-4344-9f2e-b35247305952'));
+                          onTap: (){
+                            assetsAudioPlayer.open(Audio.network('https://firebasestorage.googleapis.com/v0/b/demouploadfile-9e268.appspot.com/o/demo%2Fvinafountain.mp3?alt=media&token=1a317a0a-5218-4344-9f2e-b35247305952'));
+                            //AssetsAudioPlayer.playAndForget(Audio.network('https://firebasestorage.googleapis.com/v0/b/demouploadfile-9e268.appspot.com/o/demo%2Fvinafountain.mp3?alt=media&token=1a317a0a-5218-4344-9f2e-b35247305952'));
                           },
-                        ),
+                        )
+                        ,
                         SizedBox(
                           height: SizeConfig.blockSizeVertical * 4,
                         )
@@ -432,14 +386,14 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 1.5,
                             ),
                             InkWell(
-                              onLongPress: () {
+                              onLongPress: (){
                                 _showListActionForOtherComment(context);
                               },
                               child: Container(
@@ -451,8 +405,7 @@ class _ViewPostState extends State<ViewPost> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     boxShadow: [
                                       BoxShadow(
-                                          color:
-                                              Colors.black26.withOpacity(0.05),
+                                          color: Colors.black26.withOpacity(0.05),
                                           offset: Offset(0.0, 6.0),
                                           blurRadius: 10.0,
                                           spreadRadius: 0.10)
@@ -462,8 +415,7 @@ class _ViewPostState extends State<ViewPost> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                     Container(
                                       child: Text(
@@ -474,19 +426,16 @@ class _ViewPostState extends State<ViewPost> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                     Container(
                                       child: Text(
                                         'ko hay ok',
-                                        style:
-                                            TextStyle(fontFamily: 'Helvetica'),
+                                        style: TextStyle(fontFamily: 'Helvetica'),
                                       ),
                                     ),
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                     Container(
                                       child: Text(
@@ -497,13 +446,13 @@ class _ViewPostState extends State<ViewPost> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                   ],
                                 ),
                               ),
                             ),
+
                             SizedBox(
                               height: SizeConfig.blockSizeVertical * 5,
                             )
@@ -529,7 +478,7 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
@@ -615,7 +564,7 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
@@ -701,7 +650,7 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
@@ -787,14 +736,14 @@ class _ViewPostState extends State<ViewPost> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                               ),
                             ),
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 1.5,
                             ),
                             InkWell(
-                              onLongPress: () {
+                              onLongPress: (){
                                 _showListActionForComment(context);
                               },
                               child: Container(
@@ -806,8 +755,7 @@ class _ViewPostState extends State<ViewPost> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     boxShadow: [
                                       BoxShadow(
-                                          color:
-                                              Colors.black26.withOpacity(0.05),
+                                          color: Colors.black26.withOpacity(0.05),
                                           offset: Offset(0.0, 6.0),
                                           blurRadius: 10.0,
                                           spreadRadius: 0.10)
@@ -817,8 +765,7 @@ class _ViewPostState extends State<ViewPost> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                     Container(
                                       child: Text(
@@ -829,19 +776,16 @@ class _ViewPostState extends State<ViewPost> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                     Container(
                                       child: Text(
                                         'Like',
-                                        style:
-                                            TextStyle(fontFamily: 'Helvetica'),
+                                        style: TextStyle(fontFamily: 'Helvetica'),
                                       ),
                                     ),
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                     Container(
                                       child: Text(
@@ -852,8 +796,7 @@ class _ViewPostState extends State<ViewPost> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical * 0.5,
+                                      height: SizeConfig.blockSizeVertical * 0.5,
                                     ),
                                   ],
                                 ),
@@ -887,7 +830,7 @@ class _ViewPostState extends State<ViewPost> {
                       ),
                       hintText: 'Write your comment',
                       hintStyle:
-                          TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+                      TextStyle(fontFamily: 'Helvetica', fontSize: 12),
                     ),
                   ),
                 ),
@@ -896,7 +839,7 @@ class _ViewPostState extends State<ViewPost> {
                 ),
                 Container(
                   decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
+                  BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
                   child: IconButton(
                       icon: Icon(
                         Icons.send,

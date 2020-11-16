@@ -6,7 +6,7 @@ import 'package:vietnamese_learning/src/providers/quiz_provider.dart';
 class QuizRepository {
   QuizProvider _quizProvider = new QuizProvider();
 
-  Future<List<Quiz>> getQuizByLessonId(String token, String lessonId) {
+  Future<Quiz> getQuizByLessonId(String token, String lessonId) {
     return _quizProvider.getQuizByLessonId(token, lessonId);
   }
 

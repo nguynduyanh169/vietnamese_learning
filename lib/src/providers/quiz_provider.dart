@@ -13,7 +13,7 @@ class QuizProvider {
   static final String SUBMITQUIZ = BASE_URL + "/api/history";
   final Dio _dio = new Dio();
 
-  Future<List<Quiz>> getQuizByLessonId(String token, String lessonId) async{
+  Future<Quiz> getQuizByLessonId(String token, String lessonId) async{
     Map<String, String> header = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -21,7 +21,8 @@ class QuizProvider {
     };
     try {
       Response response = await _dio.get('$GETQUIZ$lessonId', options: Options(headers: header));
-      return (response.data as List).map((i) => Quiz.fromJson(i)).toList();
+      Quiz quiz = Quiz.fromJson(response.data);
+      return quiz;
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
     }
