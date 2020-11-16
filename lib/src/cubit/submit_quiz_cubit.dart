@@ -11,15 +11,13 @@ class SubmitQuizCubit extends Cubit<SubmitQuizState> {
 
   Future<void> submitQuiz({List<int> optionIDs, int processId, int quizId, double quizMark}) async {
     emit(SubmittingQuiz());
-    var date = new DateTime.now().toString();
-    var dateParse = DateTime.parse(date);
-    var formattedDate = "${dateParse.year}-${dateParse.month}-${dateParse.day}";
+    DateTime dateTime = DateTime.now();
     QuizSubmit quizSubmit = new QuizSubmit(
         quizId: quizId,
         processId: processId,
         optionIDs: optionIDs,
         quizMark: quizMark,
-        startDate: formattedDate);
+        startDate: dateTime.toIso8601String());
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');

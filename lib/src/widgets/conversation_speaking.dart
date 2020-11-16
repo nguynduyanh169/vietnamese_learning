@@ -12,6 +12,9 @@ import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/states/learn_converasation_state.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
+import '../config/size_config.dart';
+import 'chat_bubble.dart';
+
 class ConversationSpeaking extends StatefulWidget {
   List<Conversation> conversations;
   ConversationSpeaking({Key key, this.conversations}) : super(key: key);
@@ -104,15 +107,14 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
 
     Widget _card(String content) {
       return Container(
-        width: SizeConfig.blockSizeHorizontal * 20,
+        width: SizeConfig.blockSizeHorizontal * 15,
         height: SizeConfig.blockSizeVertical * 7,
         child: Center(
           child: Text(
             '$content',
             style: TextStyle(
                 fontFamily: 'Helvetica',
-                fontWeight: FontWeight.w600,
-                fontSize: 20),
+                fontSize: 12),
           ),
         ),
         decoration: BoxDecoration(
@@ -177,15 +179,30 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             SizedBox(
               height: SizeConfig.blockSizeVertical * 5,
             ),
-            Text(
-              '$english',
-              style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600),
+            Container(
+              child: Align(
+                alignment: Alignment.center, //Change this to Alignment.topRight or Alignment.topLeft
+                child: CustomPaint(
+                  painter: ChatBubble(color: Colors.amber, alignment: Alignment.center),
+                  child: Container(
+                    margin: EdgeInsets.all(20),
+                    child: Stack(
+                      children: <Widget>[
+                        Text(
+                          '$english',
+                          style: TextStyle(
+                              fontFamily: 'Helvetica',
+                              fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 15,
+              height: SizeConfig.blockSizeVertical * 10,
             ),
             column,
             SizedBox(
@@ -218,7 +235,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
       );
     }
 
-    var percent = conversationIndex * 0.1;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -230,7 +246,8 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             body: BlocBuilder<LearnConversationCubit, LearnConversationState>(
               builder: (context, state) {
                 if (state is LearnConversationSpeaking) {
-                  conversationIndex = conversationIndex;
+                  var percent =
+                      conversationIndex * (1 / (conversations.length + 1));
                   return Container(
                     color: Color.fromRGBO(255, 239, 215, 100),
                     child: Column(
