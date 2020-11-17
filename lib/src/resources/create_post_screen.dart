@@ -222,20 +222,12 @@ class _CreatePostState extends State<CreatePostScreen> {
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 95,
                     height: SizeConfig.blockSizeVertical * 20,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26.withOpacity(0.05),
-                              offset: Offset(0.0, 6.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 0.10)
-                        ]),
                     child: TextField(
                       controller: _titleController,
                       maxLines: 5,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         errorText: titleInvalid,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -252,20 +244,12 @@ class _CreatePostState extends State<CreatePostScreen> {
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 95,
                     height: SizeConfig.blockSizeVertical * 25,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26.withOpacity(0.05),
-                              offset: Offset(0.0, 6.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 0.10)
-                        ]),
                     child: TextField(
                       controller: _contentController,
                       maxLines: 13,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         errorText: contentInvalid,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
