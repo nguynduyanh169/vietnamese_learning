@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +9,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/create_post_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
+import 'package:vietnamese_learning/src/resources/view_post2.dart';
 import 'package:vietnamese_learning/src/states/create_post_state.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -25,6 +23,8 @@ class _CreatePostState extends State<CreatePostScreen> {
   File file;
   TextEditingController _titleController, _contentController;
   ProgressDialog pr;
+  BuildContext _context;
+  String titleInvalid, contentInvalid;
 
   @override
   void initState() {
@@ -64,53 +64,41 @@ class _CreatePostState extends State<CreatePostScreen> {
     print(_fileName);
   }
 
-  Future uploadFile() async {
-    await Firebase.initializeApp();
-    String url;
-    Reference reference = FirebaseStorage.instance
-        .ref()
-        .child('audio_for_user_post')
-        .child(basename(file.path) + '_' + DateTime.now().toString());
-
-    UploadTask uploadTask = reference.putFile(file);
-    uploadTask.whenComplete(() async {
-      try {
-        url = await reference.getDownloadURL();
-      } catch (onError) {
-        print("Error");
-      }
-      print(url);
-    });
-  }
-
-  void createPost(BuildContext context){
+  void createPost(BuildContext context) {
     String title, content;
     title = _titleController.text;
     content = _contentController.text;
-    BlocProvider.of<CreatePostCubit>(context).createPost(content: content, file: file, title: title);
+    BlocProvider.of<CreatePostCubit>(context)
+        .createPost(content: content, file: file, title: title);
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    _context = context;
     pr = new ProgressDialog(context, showLogs: true);
-    pr.style(message: 'Please wait...');
+    pr.style(
+        progressWidget: CircularProgressIndicator(), message: 'Please wait...');
     return BlocProvider(
       create: (context) => CreatePostCubit(PostRepository()),
       child: Scaffold(
         body: BlocConsumer<CreatePostCubit, CreatePostState>(
-          listener: (context, state){
-            if(state is CreatingPost){
+          listener: (context, state) {
+            if (state is CreatingPost) {
               pr.show();
+            } else if(state is ValidatePost){
+              titleInvalid = state.titleMessage;
+              contentInvalid = state.contentMessage;
             }
-            else if(state is CreatePostSuccess){
-              print(state.fileUrl);
-              Navigator.of(context).pop();
-            }else if(state is CreatePostError){
+            else if (state is CreatePostSuccess) {
+              pr.hide().whenComplete(() => {Navigator.pop(_context)});
+              print('create success');
+            } else if (state is CreatePostError) {
+              pr.hide();
               print('Create failed');
             }
           },
-          builder: (context, state){
+          builder: (context, state) {
             return Container(
               color: Color.fromRGBO(255, 239, 215, 1),
               child: Column(
@@ -184,7 +172,8 @@ class _CreatePostState extends State<CreatePostScreen> {
                       children: <Widget>[
                         CircleAvatar(
                           radius: 20,
-                          backgroundImage: AssetImage('assets/images/profile.png'),
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
                         ),
                         SizedBox(
                           width: SizeConfig.blockSizeHorizontal * 2,
@@ -247,11 +236,13 @@ class _CreatePostState extends State<CreatePostScreen> {
                       controller: _titleController,
                       maxLines: 5,
                       decoration: InputDecoration(
+                        errorText: titleInvalid,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         labelText: 'Enter title here',
-                        labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
+                        labelStyle:
+                            TextStyle(fontFamily: 'Helvetica', fontSize: 15),
                       ),
                     ),
                   ),
@@ -275,6 +266,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                       controller: _contentController,
                       maxLines: 13,
                       decoration: InputDecoration(
+                        errorText: contentInvalid,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -291,94 +283,95 @@ class _CreatePostState extends State<CreatePostScreen> {
                   ),
                   _fileName != null
                       ? Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 4,
-                      ),
-                      Stack(
-                        children: <Widget>[
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 20,
-                            height: SizeConfig.blockSizeVertical * 15,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20.0),
-                                    topLeft: Radius.circular(5.0),
-                                    bottomRight: Radius.circular(5.0),
-                                    bottomLeft: Radius.circular(5.0)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black26.withOpacity(0.05),
-                                      offset: Offset(0.0, 6.0),
-                                      blurRadius: 10.0,
-                                      spreadRadius: 0.10)
-                                ]),
-                            child: IconButton(
-                              icon: Icon(CupertinoIcons.volume_up),
+                          children: <Widget>[
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 4,
                             ),
-                          ),
-                          Positioned(
-                            left: SizeConfig.blockSizeHorizontal * 10,
-                            bottom: SizeConfig.blockSizeVertical * 9,
-                            child: new Container(
-                                padding: EdgeInsets.all(1),
-                                constraints: BoxConstraints(
-                                  minWidth: 12,
-                                  minHeight: 12,
-                                ),
-                                child: IconButton(
-                                  icon: Icon(
-                                    CupertinoIcons.clear_circled_solid,
-                                    color: Colors.redAccent,
+                            Stack(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 20,
+                                  height: SizeConfig.blockSizeVertical * 15,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(20.0),
+                                          topLeft: Radius.circular(5.0),
+                                          bottomRight: Radius.circular(5.0),
+                                          bottomLeft: Radius.circular(5.0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black26
+                                                .withOpacity(0.05),
+                                            offset: Offset(0.0, 6.0),
+                                            blurRadius: 10.0,
+                                            spreadRadius: 0.10)
+                                      ]),
+                                  child: IconButton(
+                                    icon: Icon(CupertinoIcons.paperclip),
                                   ),
-                                  onPressed: () {
-                                    clearCacheFile();
-                                  },
-                                )),
-                          )
-                        ],
-                      )
-                    ],
-                  )
-                      : Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 4,
-                      ),
-                      Container(
-                          width: SizeConfig.blockSizeHorizontal * 20,
-                          height: SizeConfig.blockSizeVertical * 15,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black54),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20.0),
-                                topLeft: Radius.circular(5.0),
-                                bottomRight: Radius.circular(5.0),
-                                bottomLeft: Radius.circular(5.0)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(CupertinoIcons.add_circled),
-                                onPressed: () {
-                                  getFilePath();
-                                },
-                              ),
-                              Text(
-                                'Choose audio file',
-                                style: TextStyle(
-                                  fontFamily: 'Helvetica',
-                                  fontSize: 10,
                                 ),
-                                textAlign: TextAlign.center,
-                              )
-                            ],
-                          )),
-                    ],
-                  )
+                                Positioned(
+                                  left: SizeConfig.blockSizeHorizontal * 10,
+                                  bottom: SizeConfig.blockSizeVertical * 9,
+                                  child: new Container(
+                                      padding: EdgeInsets.all(1),
+                                      constraints: BoxConstraints(
+                                        minWidth: 12,
+                                        minHeight: 12,
+                                      ),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          CupertinoIcons.clear_circled_solid,
+                                          color: Colors.redAccent,
+                                        ),
+                                        onPressed: () {
+                                          clearCacheFile();
+                                        },
+                                      )),
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      : Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 4,
+                            ),
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal * 20,
+                                height: SizeConfig.blockSizeVertical * 15,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black54),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20.0),
+                                      topLeft: Radius.circular(5.0),
+                                      bottomRight: Radius.circular(5.0),
+                                      bottomLeft: Radius.circular(5.0)),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(CupertinoIcons.add_circled),
+                                      onPressed: () {
+                                        getFilePath();
+                                      },
+                                    ),
+                                    Text(
+                                      'Choose audio or video file',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontSize: 10,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                )),
+                          ],
+                        )
                 ],
               ),
             );

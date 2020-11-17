@@ -12,7 +12,6 @@ class PostProvider {
       'Authorization': 'Bearer $token',
       'studentToken' : '$token'
     };
-    print(token);
     print(postSave.toJson());
     try {
       Response response = await _dio.post(CREATE_POST,

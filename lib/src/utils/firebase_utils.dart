@@ -9,20 +9,21 @@ class FireBaseUtils {
 
   static Future<String> uploadFile(File file) async{
     await Firebase.initializeApp();
-    String url;
+    String fileUrl;
     Reference reference = FirebaseStorage.instance
         .ref()
         .child('audio_for_user_post')
         .child(basename(file.path) + '_' + DateTime.now().toString());
 
     UploadTask uploadTask = reference.putFile(file);
-    uploadTask.whenComplete(() async {
-      try {
-        url = await reference.getDownloadURL();
-      } catch (onError) {
-        print("Error");
-      }
-      return url;
-    });
+    fileUrl = await reference.getDownloadURL();
+    // uploadTask.whenComplete(() async {
+    //   try {
+    //     fileUrl = await reference.getDownloadURL();
+    //   } catch (onError) {
+    //     print("Error");
+    //   }
+    //   print(fileUrl);
+    // });
   }
 }
