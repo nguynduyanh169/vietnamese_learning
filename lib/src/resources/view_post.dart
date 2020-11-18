@@ -842,7 +842,7 @@ class _ViewPostState extends State<ViewPost> {
                   BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
                   child: IconButton(
                       icon: Icon(
-                        CupertinoIcons.paperplane_fill,
+                        CupertinoIcons.bubble_left_fill,
                         color: Colors.blueAccent,
                         size: 30,
                       ),

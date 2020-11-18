@@ -206,7 +206,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             ),
             column,
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 14,
+              height: SizeConfig.blockSizeVertical * 20,
             ),
             ButtonTheme(
               shape: RoundedRectangleBorder(

@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
-import 'package:vietnamese_learning/src/states/lessons_state.dart';
 import 'package:vietnamese_learning/src/states/posts_state.dart';
 
 class PostsCubit extends Cubit<PostsState>{
