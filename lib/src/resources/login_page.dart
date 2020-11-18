@@ -10,6 +10,7 @@ import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
 import 'package:vietnamese_learning/src/states/login_state.dart';
+import 'package:vietnamese_learning/src/utils/firebase_util.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -217,24 +218,27 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
-                Container(
-                  height: 60.0,
-                  width: 60.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
+                InkWell(
+                  child: Container(
+                    height: 60.0,
+                    width: 60.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        scale: 13,
+                        image: AssetImage('assets/images/google_logo.png'),
                       ),
-                    ],
-                    image: DecorationImage(
-                      scale: 13,
-                      image: AssetImage('assets/images/google_logo.png'),
                     ),
                   ),
+                  //onTap: () => googleSignIn(),
                 ),
               ],
             ),
