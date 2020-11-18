@@ -28,14 +28,19 @@ class PostsCubit extends Cubit<PostsState>{
     }
   }
 
-  Future<void> loadMorePost(Post currentPage) async{
+  Future<void> loadMorePost(Post currentPage, int countPage, int totalPage) async{
     try{
       emit(LoadingMorePost());
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString('accessToken');
-      Post post = await _postRepository.loadNextPosts(token, currentPage);
-      List<Content> addContents = post.content;
-      emit(LoadMorePostSuccess(addContents, post));
+      if(countPage >= totalPage - 1){
+        emit(LoadMorePostDone());
+      }else {
+        countPage = countPage + 1;
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        String token = prefs.getString('accessToken');
+        Post post = await _postRepository.loadNextPosts(token, currentPage);
+        List<Content> addContents = post.content;
+        emit(LoadMorePostSuccess(addContents, post, countPage));
+      }
     } on Exception{
       emit(LoadPostsError());
     }

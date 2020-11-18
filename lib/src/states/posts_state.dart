@@ -27,9 +27,14 @@ class LoadingMorePost extends PostsState{
 }
 
 class LoadMorePostSuccess extends PostsState{
+  final int countPost;
   final Post post;
   final List<Content> contents;
-  const LoadMorePostSuccess(this.contents, this.post);
+  const LoadMorePostSuccess(this.contents, this.post, this.countPost);
+}
+
+class LoadMorePostDone extends PostsState{
+  const LoadMorePostDone();
 }
 
 class LoadMorePostError extends PostsState{

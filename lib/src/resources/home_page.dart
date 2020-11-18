@@ -33,13 +33,13 @@ class _HomePageState extends State<HomePage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.book),
+        icon: Icon(CupertinoIcons.book_solid),
         title: ("Lesson"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.create),
+        icon: Icon(CupertinoIcons.bubble_left_bubble_right_fill),
         title: ("Xin chào VN"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         inactiveColor: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.person),
+        icon: Icon(CupertinoIcons.person_alt),
         title: ("Profile"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
