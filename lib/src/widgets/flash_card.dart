@@ -168,6 +168,7 @@ class FlashCard extends StatelessWidget{
                   height: SizeConfig.blockSizeVertical * 2,
                 ),
                 ButtonTheme(
+                  buttonColor: Color.fromRGBO(255, 190, 51, 30),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   child: RaisedButton(

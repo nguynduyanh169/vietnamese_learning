@@ -209,6 +209,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
               height: SizeConfig.blockSizeVertical * 20,
             ),
             ButtonTheme(
+              buttonColor: Color.fromRGBO(255, 190, 51, 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
               child: RaisedButton(
@@ -377,27 +378,27 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical * 8,
+                          height: SizeConfig.blockSizeVertical * 20,
                         ),
                         Center(
-                          child: InkWell(
-                            onTap: () {
-                              speakingButton(context);
-                            },
-                            child: Container(
-                                width: SizeConfig.blockSizeHorizontal * 80,
-                                height: SizeConfig.blockSizeVertical * 9,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Color.fromRGBO(255, 190, 51, 30),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Check",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontFamily: "Helvetica",
+                          child: ButtonTheme(
+                            buttonColor: Color.fromRGBO(255, 190, 51, 30),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: RaisedButton(
+                                onPressed: (){
+                                  speakingButton(context);
+                                },
+                                child: Container(
+                                  width: SizeConfig.blockSizeHorizontal * 70,
+                                  height: SizeConfig.blockSizeVertical * 8,
+                                  child: Center(
+                                    child: Text(
+                                      'Learn now',
+                                      style: TextStyle(
+                                          fontFamily: 'Helvetica',
+                                          fontSize: 20,
+                                          color: Colors.white),
                                     ),
                                   ),
                                 )),

@@ -107,6 +107,7 @@ flutter:
      - assets/images/quest.png
      - assets/images/qualification.png
      - assets/images/tryagain.png
+     - assets/vnamese-master-c53480d8ac94.json
   fonts:
     - family: Helvetica
       fonts:

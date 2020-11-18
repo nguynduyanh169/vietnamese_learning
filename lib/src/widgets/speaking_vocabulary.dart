@@ -16,8 +16,6 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 
 
-
-
 class SpeakingVocabulary extends StatefulWidget {
   String vietnamese;
   String english;
@@ -201,24 +199,24 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             height: SizeConfig.blockSizeVertical * 8,
           ),
           Center(
-            child: InkWell(
-              onTap: (){
-                widget.next(widget.vocabularyContext);
-              },
-              child: Container(
-                  width: SizeConfig.blockSizeHorizontal * 80,
-                  height: SizeConfig.blockSizeVertical * 9,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Color.fromRGBO(255, 190, 51, 30),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Next",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: "Helvetica",
+            child: ButtonTheme(
+              buttonColor: Color.fromRGBO(255, 190, 51, 30),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              child: RaisedButton(
+                  onPressed: (){
+                    widget.next(widget.vocabularyContext);
+                  },
+                  child: Container(
+                    width: SizeConfig.blockSizeHorizontal * 70,
+                    height: SizeConfig.blockSizeVertical * 8,
+                    child: Center(
+                      child: Text(
+                        'Continue',
+                        style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontSize: 20,
+                            color: Colors.white),
                       ),
                     ),
                   )),

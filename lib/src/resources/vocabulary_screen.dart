@@ -206,6 +206,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               height: SizeConfig.blockSizeVertical * 26.5,
             ),
             ButtonTheme(
+              buttonColor: Color.fromRGBO(255, 190, 51, 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
               child: RaisedButton(

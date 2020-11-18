@@ -110,6 +110,7 @@ class WritingVocabulary extends StatelessWidget{
               ),
               SizedBox(height: SizeConfig.blockSizeVertical * 26.5),
               ButtonTheme(
+                buttonColor: Color.fromRGBO(255, 190, 51, 30),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 child: RaisedButton(
@@ -120,6 +121,7 @@ class WritingVocabulary extends StatelessWidget{
                     child: Container(
                       width: SizeConfig.blockSizeHorizontal * 70,
                       height: SizeConfig.blockSizeVertical * 8,
+
                       child: Center(
                         child: Text(
                           'Check',
