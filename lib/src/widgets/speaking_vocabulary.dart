@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +40,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   FlutterAudioRecorder _recorder;
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
+  bool _isRecording = false;
 
   @override
   void initState() {
@@ -57,6 +59,8 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
         children: [
           Container(
             margin: EdgeInsets.only(left: 15),
+            padding: EdgeInsets.only(top: 10),
+            child: Center(
             child: Text(
               "Speak this vocabulary",
               style: TextStyle(
@@ -66,11 +70,12 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                   color: Colors.black,
                   decoration: TextDecoration.none),
             ),
+            ),
           ),
           Row(
             children: [
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 6,
+                height: SizeConfig.blockSizeVertical * 8,
               ),
               Container(
                 width: 45,
@@ -113,69 +118,72 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             ],
           ),
           SizedBox(
+            height: SizeConfig.blockSizeVertical * 8,
+          ),
+          Center(
+            // child: Container(
+            //   width: 75,
+            //   height: 75,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(35),
+            //     color: Color.fromRGBO(255, 190, 51, 100),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Color.fromRGBO(255, 190, 51, 100)
+            //             .withOpacity(0.5),
+            //         spreadRadius: 1,
+            //         blurRadius: 1,
+            //         offset: Offset(0, 1), // changes position of shadow
+            //       ),
+            //     ],
+            //   ),
+            //   child: IconButton(
+            //     iconSize: 50,
+            //     icon: Icon(
+            //       CupertinoIcons.mic_solid,
+            //       color: Colors.white,
+            //     ),
+            //     onPressed: () => _start(),
+            //   ),
+            // ),
+            child: AvatarGlow(
+              animate: _isRecording,
+              glowColor: Theme.of(context).primaryColor,
+              endRadius: 100.0,
+              duration: const Duration(milliseconds: 2000),
+              repeatPauseDuration: const Duration(milliseconds: 100),
+              repeat: true,
+              child: Container(
+                width: 100,
+                height: 100,
+                child: FloatingActionButton(
+                onPressed: (){
+                  if(_isRecording == false) {
+                    print("Start");
+                    _start();
+                  }else {
+                    print("Stop");
+                    print(_isRecording);
+                    _stop();
+                  }
+                },
+                child: Icon(_isRecording ? Icons.stop_circle_outlined : Icons.mic, size: 50,),
+                  backgroundColor: Color.fromRGBO(255, 190, 51, 30),
+              ),
+              ),
+            ),
+          ),
+          SizedBox(
             height: SizeConfig.blockSizeVertical * 4,
           ),
           Center(
-            child: Container(
-              width: 75,
-              height: 75,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(35),
-                color: Color.fromRGBO(255, 190, 51, 100),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(255, 190, 51, 100)
-                        .withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: Offset(0, 1), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: IconButton(
-                iconSize: 50,
-                icon: Icon(
-                  CupertinoIcons.mic_solid,
-                  color: Colors.white,
-                ),
-                onPressed: () => _start(),
-              ),
-            ),
-            // child: showRecordingPlayer(context),
+            child: recognizing ?
+            Text("Your voice match: ") :
+            Text(""),
+
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 8,
-          ),
-          Center(
-            child: Container(
-              width: 75,
-              height: 75,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(35),
-                color: Color.fromRGBO(255, 190, 51, 100),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(255, 190, 51, 100)
-                        .withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: Offset(0, 1), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: IconButton(
-                iconSize: 50,
-                icon: Icon(
-                  CupertinoIcons.mic_solid,
-                  color: Colors.white,
-                ),
-                onPressed: () => _stop(),
-              ),
-            ),
-            // child: showRecordingPlayer(context),
-          ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 8,
+            height: SizeConfig.blockSizeVertical * 2,
           ),
           Center(
             child: Column(
@@ -227,18 +235,6 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     );
   }
 
-
-
-  Future<String> getPath() async {
-    if (path == null) {
-      final dir = await getApplicationDocumentsDirectory();
-      path = dir.path +
-          '/' +
-          DateTime.now().millisecondsSinceEpoch.toString() +
-          '.m4a';
-    }
-    return path;
-  }
 
   void recognize() async {
     setState(() {
@@ -337,6 +333,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
 
         var current = await _recorder.current(channel: 0);
         setState(() {
+          _isRecording = true;
           _current = current;
           _currentStatus = _current.status;
         });
@@ -353,6 +350,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     // File file = widget.localFileSystem.file(result.path);
     // print("File length: ${await file.length()}");
     setState(() {
+      _isRecording = false;
       path = result.path;
       _current = result;
       _currentStatus = _current.status;
@@ -375,7 +373,7 @@ class _RecognizeContent extends StatelessWidget {
             'The text recognized by the Google Speech Api:',
           ),
           SizedBox(
-            height: 16.0,
+            height: 8.0,
           ),
           Text(
             text,
