@@ -7,4 +7,13 @@ class PostRepository{
   Future<bool> createPost(String token, PostSave postSave){
     return _postProvider.createPost(token, postSave);
   }
+
+  Future<Post> loadInitPosts(String token){
+    return _postProvider.loadInitPosts(token);
+  }
+
+  Future<Post> loadNextPosts(String token, Post currentPage){
+    return _postProvider.loadNextPosts(token, currentPage);
+  }
+
 }
