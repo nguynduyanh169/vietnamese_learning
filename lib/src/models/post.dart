@@ -84,14 +84,14 @@ class Post {
 }
 
 class Content {
-  Content({
-    this.id,
-    this.numberOfComment,
-    this.postDate,
-    this.studentName,
-    this.text,
-    this.title,
-  });
+  Content(
+      {this.id,
+      this.numberOfComment,
+      this.postDate,
+      this.studentName,
+      this.text,
+      this.title,
+      this.link});
 
   int id;
   int numberOfComment;
@@ -99,6 +99,7 @@ class Content {
   String studentName;
   String text;
   String title;
+  String link;
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
         id: json["id"],
@@ -107,6 +108,7 @@ class Content {
         studentName: json["studentName"],
         text: json["text"],
         title: json["title"],
+        link: json["link"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -116,6 +118,7 @@ class Content {
         "studentName": studentName,
         "text": text,
         "title": title,
+        "link": link,
       };
 }
 

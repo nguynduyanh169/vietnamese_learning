@@ -154,7 +154,7 @@ class _ForumScreenState extends State<ForumScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showBarModalBottomSheet(
+           showBarModalBottomSheet(
             useRootNavigator: true,
             expand: true,
             context: context,

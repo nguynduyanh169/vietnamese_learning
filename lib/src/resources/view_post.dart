@@ -229,7 +229,7 @@ class _ViewPostState extends State<ViewPost> {
                           height: SizeConfig.blockSizeVertical * 3,
                         ),
                         Text(
-                          'những câu nói hay về cuộc sống',
+                          'cách phát âm',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -274,10 +274,7 @@ class _ViewPostState extends State<ViewPost> {
                           height: SizeConfig.blockSizeVertical * 2,
                         ),
                         Text(
-                          "Thế giới bạn không bước vào được thì đừng cố chen vào, làm khó người khác, lỡ dở mình, hà tất chứ?"
-                              "\nĐôi khi, không cẩn thận biết một số chuyện, mới phát hiện ra rằng những điều bản thân để tâm lại nực cười đến thế.Đừng bao giờ thay đổi mình vì người khác. "
-                              "\nNếu họ không thể tiếp nhận một con người nhiều điểm xấu là bạn, thì cũng không xứng để có được một con người với nhiều điểm tốt là bạn."
-                              "\nĐôi khi sự đấu tranh luôn cần phải có trong cuộc sống. Nếu cuộc sống trôi qua thật suôn sẻ, chúng ta sẽ không hiểu được cuộc sống, không có được bản lĩnh, nghị lực như chúng ta cần phải có, cuộc sống thật công bằng, không phải vô cớ mà mọi điều xảy đến với ta.",
+                          "Tôi phát âm đúng không mọi người ơi ?",
                           style: TextStyle(fontFamily: 'Helvetica'),
                         ),
                         SizedBox(
@@ -306,7 +303,7 @@ class _ViewPostState extends State<ViewPost> {
                             ),
                           ),
                           onTap: (){
-                            assetsAudioPlayer.open(Audio.network('https://firebasestorage.googleapis.com/v0/b/demouploadfile-9e268.appspot.com/o/demo%2Fvinafountain.mp3?alt=media&token=1a317a0a-5218-4344-9f2e-b35247305952'));
+                            assetsAudioPlayer.open(Audio.network('https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/audio_for_user_post%2Faudiotest.m4a_2020-11-18%2021%3A46%3A25.765811?alt=media&token=04a25072-823d-483b-8e0b-360dbc3ef48f'));
                             //AssetsAudioPlayer.playAndForget(Audio.network('https://firebasestorage.googleapis.com/v0/b/demouploadfile-9e268.appspot.com/o/demo%2Fvinafountain.mp3?alt=media&token=1a317a0a-5218-4344-9f2e-b35247305952'));
                           },
                         )
@@ -315,43 +312,6 @@ class _ViewPostState extends State<ViewPost> {
                           height: SizeConfig.blockSizeVertical * 4,
                         )
                       ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 2),
-                    child: LikeButton(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      size: 30,
-                      circleColor: CircleColor(
-                          start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                      bubblesColor: BubblesColor(
-                        dotPrimaryColor: Color(0xff33b5e5),
-                        dotSecondaryColor: Color(0xff0099cc),
-                      ),
-                      likeBuilder: (bool isLiked) {
-                        return Icon(
-                          CupertinoIcons.heart,
-                          color: isLiked ? Colors.redAccent : Colors.black,
-                          size: 30,
-                        );
-                      },
-                      likeCount: 10,
-                      countBuilder: (int count, bool isLiked, String text) {
-                        var color = isLiked ? Colors.redAccent : Colors.black;
-                        Widget result;
-                        if (count == 0) {
-                          result = Text(
-                            "love",
-                            style: TextStyle(color: color),
-                          );
-                        } else
-                          result = Text(
-                            text,
-                            style: TextStyle(color: color),
-                          );
-                        return result;
-                      },
                     ),
                   ),
                   SizedBox(

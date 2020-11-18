@@ -89,6 +89,11 @@ class WritingVocabulary extends StatelessWidget{
                   AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audioInput)));
                 },
               ),
+              Text(
+                'Tap to listen',
+                style: TextStyle(fontSize: 12, fontFamily: 'Helvetica'),
+                textAlign: TextAlign.center,
+              ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 15,
               ),
