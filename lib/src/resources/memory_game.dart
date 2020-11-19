@@ -86,10 +86,36 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
     super.dispose();
   }
 
+  void _showAlert(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Stack(
+          overflow: Overflow.visible,
+          children: <Widget>[
+            Positioned(
+              right: -40.0,
+              top: -40.0,
+              child: InkResponse(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: CircleAvatar(
+                  child: Icon(Icons.close),
+                  backgroundColor: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _showAlert(context);
     startTimer();
     data.shuffle();
   }
@@ -220,7 +246,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                                   color: Colors.white,
                                   image: DecorationImage(
                                     image: AssetImage(
-                                      "assets/images/quest.png",
+                                      "assets/images/matching_game_card.png",
                                     ),
                                   ),
                                   borderRadius: BorderRadius.circular(10),
@@ -277,7 +303,6 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
         barrierDismissible: false,
         builder: (context) => AlertDialog(
               title: Text("You Won!!"),
-
               actions: <Widget>[
                 FlatButton(
                   onPressed: () {

@@ -52,6 +52,8 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^3.3.0
   flutter_launcher_icons: ^0.8.1
+  flutter_gifimage: ^1.0.0
+
 
 flutter_icons:
   ios: true
@@ -107,7 +109,9 @@ flutter:
      - assets/images/quest.png
      - assets/images/qualification.png
      - assets/images/tryagain.png
+     - assets/images/cardgame.gif
      - assets/vnamese-master-c53480d8ac94.json
+     - assets/images/matching_game_card.png
   fonts:
     - family: Helvetica
       fonts:

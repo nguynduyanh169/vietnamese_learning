@@ -86,11 +86,10 @@ class _CreatePostState extends State<CreatePostScreen> {
           listener: (context, state) {
             if (state is CreatingPost) {
               pr.show();
-            } else if(state is ValidatePost){
+            } else if (state is ValidatePost) {
               titleInvalid = state.titleMessage;
               contentInvalid = state.contentMessage;
-            }
-            else if (state is CreatePostSuccess) {
+            } else if (state is CreatePostSuccess) {
               pr.hide().whenComplete(() => {Navigator.pop(_context)});
               print('create success');
             } else if (state is CreatePostError) {
@@ -293,6 +292,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                                       ]),
                                   child: IconButton(
                                     icon: Icon(CupertinoIcons.paperclip),
+                                    onPressed: null,
                                   ),
                                 ),
                                 Positioned(
