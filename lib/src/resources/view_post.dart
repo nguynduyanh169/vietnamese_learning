@@ -1,10 +1,12 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_video_player/cached_video_player.dart';
+import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/post_cubit.dart';
 import 'package:vietnamese_learning/src/data/comment_repository.dart';
@@ -12,6 +14,7 @@ import 'package:vietnamese_learning/src/models/comment.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
 import 'package:vietnamese_learning/src/states/view_post_state.dart';
+import 'package:vietnamese_learning/src/utils/auth_utils.dart';
 
 class ViewPost extends StatefulWidget {
   Content content;
@@ -24,9 +27,10 @@ class ViewPost extends StatefulWidget {
 class _ViewPostState extends State<ViewPost> {
   Content content;
   final assetsAudioPlayer = AssetsAudioPlayer();
-  CachedVideoPlayerController controller;
+  final FijkPlayer player = FijkPlayer();
   TextEditingController _txtComment;
   List<Widget> commentWidget = new List<Widget>();
+  bool isplaying = false;
 
   _ViewPostState({this.content});
 
@@ -35,19 +39,19 @@ class _ViewPostState extends State<ViewPost> {
     // TODO: implement initState
     super.initState();
     print(content.link);
-    if (content.link.toLowerCase().contains('mp4') ||
-        content.link.toLowerCase().contains('mov')) {
-      controller = CachedVideoPlayerController.network(content.link);
-      controller.initialize().then((_) {
-        setState(() {});
-        controller.play();
-      });
+    if (content.link != null) {
+      if (content.link.toLowerCase().contains('mp4') ||
+          content.link.toLowerCase().contains('mov')) {
+        player.setDataSource(
+            content.link, autoPlay: true);
+      }
     }
     _txtComment = new TextEditingController();
   }
 
   @override
   void dispose() {
+    player.dispose();
     assetsAudioPlayer.dispose();
     super.dispose();
   }
@@ -59,47 +63,48 @@ class _ViewPostState extends State<ViewPost> {
   }
 
   Widget _mediaPlayer(BuildContext context, String link) {
-    if (link.toLowerCase().contains('mp4') ||
-        link.toLowerCase().contains('mov')) {
-      print('aaa');
-      return Container(
-        height: SizeConfig.blockSizeVertical * 20,
-        child: AspectRatio(
-          child: CachedVideoPlayer(controller),
-          aspectRatio: controller.value.aspectRatio,
-        ),
-      );
-    } else {
-      return InkWell(
-        child: Container(
-          width: SizeConfig.blockSizeHorizontal * 35,
-          height: SizeConfig.blockSizeVertical * 8,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(10.0),
-            color: Color.fromRGBO(255, 190, 51, 1),
-          ),
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  CupertinoIcons.volume_up,
-                  color: Colors.black54,
+    if (link != null) {
+      if (link.toLowerCase().contains('mp4') ||
+          link.toLowerCase().contains('mov')) {
+        return FijkView(
+          fit: FijkFit(aspectRatio: -1, sizeFactor: 2),
+          width: SizeConfig.blockSizeHorizontal * 85,
+          height: SizeConfig.blockSizeVertical * 30,
+          player: player,
+        );
+      } else {
+        return InkWell(
+          child: Container(
+            width: SizeConfig.blockSizeHorizontal * 35,
+            height: SizeConfig.blockSizeVertical * 8,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(10.0),
+              color: Color.fromRGBO(255, 190, 51, 1),
+            ),
+            child: Row(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    CupertinoIcons.play_arrow_solid,
+                    color: Colors.black54,
+                  ),
+                  iconSize: 20,
                 ),
-                iconSize: 20,
-              ),
-              Text(
-                'Press to listen',
-                style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-              )
-            ],
+                Text(
+                  'Press to listen',
+                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+                )
+              ],
+            ),
           ),
-        ),
-        onTap: () {
-          assetsAudioPlayer.open(Audio.network(link));
-          //AssetsAudioPlayer.playAndForget(Audio.network('https://firebasestorage.googleapis.com/v0/b/demouploadfile-9e268.appspot.com/o/demo%2Fvinafountain.mp3?alt=media&token=1a317a0a-5218-4344-9f2e-b35247305952'));
-        },
-      );
+          onTap: () {
+            assetsAudioPlayer.open(Audio.network(link));
+          },
+        );
+      }
+    } else {
+      return Container();
     }
   }
 
@@ -147,28 +152,16 @@ class _ViewPostState extends State<ViewPost> {
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 0.5,
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          child: Text(
-                            comment.studentName,
-                            style: TextStyle(
-                                fontFamily: 'Helvetica',
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 1.5,
-                        ),
-                        Image(
-                          width: 22,
-                          height: 22,
-                          image: NetworkImage(content.nation),
-                        ),
-                      ],
+                    Container(
+                      child: Text(
+                        comment.studentName,
+                        style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
+                      height: SizeConfig.blockSizeVertical * 0.5,
                     ),
                     Container(
                       child: Text(
@@ -204,6 +197,20 @@ class _ViewPostState extends State<ViewPost> {
     );
   }
 
+  Widget _editPost(String name, BuildContext context){
+    if(name == 'haihl'){
+      return IconButton(
+        icon: Icon(CupertinoIcons.ellipsis),
+        onPressed: () {
+          _showListAction(context);
+        },
+      );
+    }
+    else{
+      return Container();
+    }
+  }
+
   void _showListAction(BuildContext fatherContext) {
     showCupertinoModalPopup(
         context: fatherContext,
@@ -224,7 +231,7 @@ class _ViewPostState extends State<ViewPost> {
                     expand: true,
                     context: context,
                     backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(),
+                    builder: (context, scrollController) => EditPostScreen(content: content,),
                   ).then((value) {
                     Navigator.of(fatherContext).pop();
                   });
@@ -447,6 +454,10 @@ class _ViewPostState extends State<ViewPost> {
                           style:
                               TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                         ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 22,
+                        ),
+                        _editPost(content.studentName, context)
                       ],
                     ),
                   ),
@@ -503,30 +514,15 @@ class _ViewPostState extends State<ViewPost> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Row(
-                                          children: [
-                                            Text(
-                                              content.studentName,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'Helvetica'),
-                                            ),
-                                            SizedBox(
-                                              width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  2,
-                                            ),
-                                            Image(
-                                              width: 22,
-                                              height: 22,
-                                              image:
-                                                  NetworkImage(content.nation),
-                                            ),
-                                          ],
+                                        Text(
+                                          content.studentName,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Helvetica'),
                                         ),
                                         SizedBox(
-                                          height: SizeConfig.blockSizeVertical *
-                                              0.2,
+                                          height:
+                                              SizeConfig.blockSizeVertical * 1,
                                         ),
                                         Text(
                                           DateFormat('dd/MM/yyyy-kk:mm')
@@ -546,12 +542,7 @@ class _ViewPostState extends State<ViewPost> {
                                   "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
                                   style: TextStyle(fontFamily: 'Helvetica'),
                                 ),
-                                // Container(
-                                //   height: SizeConfig.blockSizeVertical * 20,
-                                //   child:  Chewie(
-                                //     controller: _chewieController,
-                                //   ),
-                                // ),
+                                _mediaPlayer(context, content.link),
                                 SizedBox(
                                   height: SizeConfig.blockSizeVertical * 4,
                                 )
