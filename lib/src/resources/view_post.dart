@@ -42,8 +42,7 @@ class _ViewPostState extends State<ViewPost> {
     if (content.link != null) {
       if (content.link.toLowerCase().contains('mp4') ||
           content.link.toLowerCase().contains('mov')) {
-        player.setDataSource(
-            content.link, autoPlay: true);
+        player.setDataSource(content.link, autoPlay: true);
       }
     }
     _txtComment = new TextEditingController();
@@ -75,15 +74,18 @@ class _ViewPostState extends State<ViewPost> {
       } else {
         return InkWell(
           child: Container(
+            margin: EdgeInsets.only(top: 8),
             width: SizeConfig.blockSizeHorizontal * 35,
             height: SizeConfig.blockSizeVertical * 8,
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(10.0),
+              shape: BoxShape.circle,
               color: Color.fromRGBO(255, 190, 51, 1),
             ),
             child: Row(
               children: <Widget>[
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 3,
+                ),
                 IconButton(
                   icon: Icon(
                     CupertinoIcons.play_arrow_solid,
@@ -91,10 +93,11 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   iconSize: 20,
                 ),
-                Text(
-                  'Press to listen',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-                )
+
+                // Text(
+                //   'Press to listen',
+                //   style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+                // )
               ],
             ),
           ),
@@ -152,16 +155,26 @@ class _ViewPostState extends State<ViewPost> {
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 0.5,
                     ),
-                    Container(
-                      child: Text(
-                        comment.studentName,
-                        style: TextStyle(
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.w600),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          content.studentName,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Helvetica'),
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 2,
+                        ),
+                        Image(
+                          width: 22,
+                          height: 22,
+                          image: NetworkImage(content.nation),
+                        ),
+                      ],
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.5,
+                      height: SizeConfig.blockSizeVertical * 0.2,
                     ),
                     Container(
                       child: Text(
@@ -197,16 +210,15 @@ class _ViewPostState extends State<ViewPost> {
     );
   }
 
-  Widget _editPost(String name, BuildContext context){
-    if(name == 'haihl'){
+  Widget _editPost(String name, BuildContext context) {
+    if (name == 'haihl') {
       return IconButton(
         icon: Icon(CupertinoIcons.ellipsis),
         onPressed: () {
           _showListAction(context);
         },
       );
-    }
-    else{
+    } else {
       return Container();
     }
   }
@@ -231,7 +243,9 @@ class _ViewPostState extends State<ViewPost> {
                     expand: true,
                     context: context,
                     backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(content: content,),
+                    builder: (context, scrollController) => EditPostScreen(
+                      content: content,
+                    ),
                   ).then((value) {
                     Navigator.of(fatherContext).pop();
                   });
@@ -514,15 +528,30 @@ class _ViewPostState extends State<ViewPost> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          content.studentName,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Helvetica'),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              content.studentName,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'Helvetica'),
+                                            ),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  2,
+                                            ),
+                                            Image(
+                                              width: 22,
+                                              height: 22,
+                                              image:
+                                                  NetworkImage(content.nation),
+                                            ),
+                                          ],
                                         ),
                                         SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical * 1,
+                                          height: SizeConfig.blockSizeVertical *
+                                              0.2,
                                         ),
                                         Text(
                                           DateFormat('dd/MM/yyyy-kk:mm')
@@ -542,9 +571,71 @@ class _ViewPostState extends State<ViewPost> {
                                   "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
                                   style: TextStyle(fontFamily: 'Helvetica'),
                                 ),
-                                _mediaPlayer(context, content.link),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 70,
+                                      alignment: Alignment.centerLeft,
+                                      child:
+                                          _mediaPlayer(context, content.link),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      width: 60,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Colors.black26,
+                                            width: 3.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeHorizontal * 2,
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeVertical * 2,
+                                        ),
+                                        Icon(
+                                          Icons.volume_up,
+                                          size: 40,
+                                          color: Colors.black26,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeHorizontal * 2,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      width: 60,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Colors.black26,
+                                            width: 3.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeHorizontal * 2,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      height: 30,
+                                      child: Text("0:00"),
+                                    ),
+                                  ],
+                                ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical * 4,
+                                  height: SizeConfig.blockSizeVertical * 2,
                                 )
                               ],
                             ),
