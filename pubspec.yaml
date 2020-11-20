@@ -115,6 +115,9 @@ flutter:
      - assets/images/cardgame.gif
      - assets/vnamese-master-c53480d8ac94.json
      - assets/images/matching_game_card.png
+     - assets/images/vietnamflag.png
+     - assets/images/usaflag.png
+     - assets/images/franceflag.png
   fonts:
     - family: Helvetica
       fonts:
