@@ -395,209 +395,209 @@ class _ViewPostState extends State<ViewPost> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: BlocConsumer<PostCubit, ViewPostState>(
-          listener: (context, state) {
-            if (state is LoadingPost) {
-              print('loading');
-            } else if (state is LoadPostSuccess) {
-              print('success');
-              state.comments.forEach((comment) {
-                commentWidget.add(_comment(context, comment));
-              });
-            } else if (state is CommentPostSuccess) {
-              print('success');
-              commentWidget.clear();
-              _txtComment.clear();
-              state.comments.forEach((comment) {
-                commentWidget.add(_comment(context, comment));
-              });
-            }
-          },
-          builder: (context, state) {
-            if (state is LoadingPost) {
-              return _loadingPosts(context);
-            } else {
-              return Container(
-                padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal * 4,
-                    right: SizeConfig.blockSizeHorizontal * 3),
-                color: Color.fromRGBO(255, 239, 215, 100),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Row(
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.arrow_back_ios),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                          SizedBox(
-                            width: SizeConfig.blockSizeHorizontal * 22,
-                          ),
-                          Text(
-                            'View Post',
-                            style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 4,
-                    ),
-                    Expanded(
-                      child: Scrollbar(
-                        child: ListView(
+            listener: (context, state) {
+              if (state is LoadingPost) {
+                print('loading');
+              } else if (state is LoadPostSuccess) {
+                print('success');
+                state.comments.forEach((comment) {
+                  commentWidget.add(_comment(context, comment));
+                });
+              } else if (state is CommentPostSuccess) {
+                print('success');
+                commentWidget.clear();
+                _txtComment.clear();
+                state.comments.forEach((comment) {
+                  commentWidget.add(_comment(context, comment));
+                });
+              }
+            },
+            builder: (context, state) {
+              if (state is LoadingPost) {
+                return _loadingPosts(context);
+              } else {
+                return Container(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 4,
+                      right: SizeConfig.blockSizeHorizontal * 3),
+                  color: Color.fromRGBO(255, 239, 215, 100),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                        child: Row(
                           children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 6,
-                                  right: SizeConfig.blockSizeHorizontal * 8),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26.withOpacity(0.05),
-                                        offset: Offset(0.0, 6.0),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 0.10)
-                                  ]),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 3,
-                                  ),
-                                  Text(
-                                    content.title,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        fontFamily: 'Helvetica'),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 1,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        radius: 20,
-                                        backgroundImage:
-                                        AssetImage('assets/images/profile.png'),
-                                      ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal * 2,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            content.studentName,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Helvetica'),
-                                          ),
-                                          SizedBox(
-                                            height: SizeConfig.blockSizeVertical * 1,
-                                          ),
-                                          Text(
-                                            DateFormat('dd/MM/yyyy-kk:mm').format(content.postDate),
-                                            style: TextStyle(
-                                                fontSize: 10, fontFamily: 'Helvetica'),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 2,
-                                  ),
-                                  Text(
-                                    "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
-                                    style: TextStyle(fontFamily: 'Helvetica'),
-                                  ),
-                                  // Container(
-                                  //   height: SizeConfig.blockSizeVertical * 20,
-                                  //   child:  Chewie(
-                                  //     controller: _chewieController,
-                                  //   ),
-                                  // ),
-                                  SizedBox(
-                                    height: SizeConfig.blockSizeVertical * 4,
-                                  )
-                                ],
-                              ),
+                            IconButton(
+                              icon: Icon(Icons.arrow_back_ios),
+                              onPressed: () => Navigator.of(context).pop(),
                             ),
                             SizedBox(
-                              height: SizeConfig.blockSizeVertical * 1.5,
+                              width: SizeConfig.blockSizeHorizontal * 22,
                             ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2),
-                              child: Text(
-                                'Comments(5)',
-                                style: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
-                              ),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 1.5,
-                            ),
-                            Column(
-                              children: commentWidget,
+                            Text(
+                              'View Post',
+                              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 1.5,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 79,
-                          height: SizeConfig.blockSizeVertical * 6,
-                          child: TextField(
-                            controller: _txtComment,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 4,
+                      ),
+                      Expanded(
+                        child: Scrollbar(
+                          child: ListView(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 6,
+                                    right: SizeConfig.blockSizeHorizontal * 8),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26.withOpacity(0.05),
+                                          offset: Offset(0.0, 6.0),
+                                          blurRadius: 10.0,
+                                          spreadRadius: 0.10)
+                                    ]),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 3,
+                                    ),
+                                    Text(
+                                      content.title,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          fontFamily: 'Helvetica'),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 1,
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        CircleAvatar(
+                                          radius: 20,
+                                          backgroundImage:
+                                          AssetImage('assets/images/profile.png'),
+                                        ),
+                                        SizedBox(
+                                          width: SizeConfig.blockSizeHorizontal * 2,
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              content.studentName,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'Helvetica'),
+                                            ),
+                                            SizedBox(
+                                              height: SizeConfig.blockSizeVertical * 1,
+                                            ),
+                                            Text(
+                                              DateFormat('dd/MM/yyyy-kk:mm').format(content.postDate),
+                                              style: TextStyle(
+                                                  fontSize: 10, fontFamily: 'Helvetica'),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 2,
+                                    ),
+                                    Text(
+                                      "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
+                                      style: TextStyle(fontFamily: 'Helvetica'),
+                                    ),
+                                    // Container(
+                                    //   height: SizeConfig.blockSizeVertical * 20,
+                                    //   child:  Chewie(
+                                    //     controller: _chewieController,
+                                    //   ),
+                                    // ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 4,
+                                    )
+                                  ],
+                                ),
                               ),
-                              hintText: 'Write your comment',
-                              hintStyle:
-                              TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-                            ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 1.5,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 2),
+                                child: Text(
+                                  'Comments(5)',
+                                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
+                                ),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 1.5,
+                              ),
+                              Column(
+                                children: commentWidget,
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 0.9,
-                        ),
-                        Container(
-                          decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
-                          child: IconButton(
-                              icon: Icon(
-                                CupertinoIcons.bubble_left_fill,
-                                color: Colors.blueAccent,
-                                size: 30,
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1.5,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 79,
+                            height: SizeConfig.blockSizeVertical * 6,
+                            child: TextField(
+                              controller: _txtComment,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                hintText: 'Write your comment',
+                                hintStyle:
+                                TextStyle(fontFamily: 'Helvetica', fontSize: 12),
                               ),
-                              onPressed: () {
-                                comment(context, _txtComment.text, content.id);
-                              }),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 1.5,
-                    ),
-                  ],
-                ),
-              );
+                            ),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 0.9,
+                          ),
+                          Container(
+                            decoration:
+                            BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
+                            child: IconButton(
+                                icon: Icon(
+                                  CupertinoIcons.bubble_left_fill,
+                                  color: Colors.blueAccent,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  comment(context, _txtComment.text, content.id);
+                                }),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1.5,
+                      ),
+                    ],
+                  ),
+                );
+              }
             }
-          }
         ),
       ),
     );
