@@ -14,13 +14,14 @@ class PostsCubit extends Cubit<PostsState>{
       emit(LoadingPosts());
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
+      String username = prefs.getString('username');
       Post post = await _postRepository.loadInitPosts(token);
       print(post.toJson());
       List<Content> contents = post.content;
       if(contents.length == 0){
         emit(LoadPostsError());
       }else{
-        emit(LoadPostsSuccess(contents, post));
+        emit(LoadPostsSuccess(contents, post, username));
       }
     } on Exception{
       emit(LoadPostsError());

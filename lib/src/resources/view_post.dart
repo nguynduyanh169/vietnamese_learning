@@ -1,5 +1,4 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +13,9 @@ import 'package:vietnamese_learning/src/models/comment.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
 import 'package:vietnamese_learning/src/states/view_post_state.dart';
-import 'package:vietnamese_learning/src/utils/auth_utils.dart';
 
 class ViewPost extends StatefulWidget {
   Content content;
-
   ViewPost({Key key, this.content}) : super(key: key);
 
   _ViewPostState createState() => _ViewPostState(content: content);
@@ -31,6 +28,8 @@ class _ViewPostState extends State<ViewPost> {
   TextEditingController _txtComment;
   List<Widget> commentWidget = new List<Widget>();
   bool isplaying = false;
+  String username;
+  int numberOfComment;
 
   _ViewPostState({this.content});
 
@@ -46,6 +45,13 @@ class _ViewPostState extends State<ViewPost> {
       }
     }
     _txtComment = new TextEditingController();
+    _loadUsername();
+  }
+
+  void _loadUsername() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    username = sharedPreferences.getString('username');
   }
 
   @override
@@ -111,107 +117,201 @@ class _ViewPostState extends State<ViewPost> {
     }
   }
 
-  Widget _comment(BuildContext context, Comment comment) {
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 1.5,
-            ),
-            Container(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage('assets/images/profile.png'),
+  Widget _comment(BuildContext context, Comment comment, String name) {
+    if (name != username) {
+      return Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                width: SizeConfig.blockSizeHorizontal * 1.5,
               ),
-            ),
-            SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 1.5,
-            ),
-            InkWell(
-              onLongPress: () {
-                _showListActionForOtherComment(context);
-              },
-              child: Container(
-                padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal * 2,
-                    right: SizeConfig.blockSizeHorizontal * 2),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black26.withOpacity(0.05),
-                          offset: Offset(0.0, 6.0),
-                          blurRadius: 10.0,
-                          spreadRadius: 0.10)
-                    ]),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          content.studentName,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Helvetica'),
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 2,
-                        ),
-                        Image(
-                          width: 22,
-                          height: 22,
-                          image: NetworkImage(content.nation),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.2,
-                    ),
-                    Container(
-                      child: Text(
-                        comment.text,
-                        style: TextStyle(fontFamily: 'Helvetica'),
+              SizedBox(
+                width: SizeConfig.blockSizeHorizontal * 1.5,
+              ),
+              InkWell(
+                onLongPress: () {
+                  _showListActionForOtherComment(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26.withOpacity(0.05),
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.10)
+                      ]),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
                       ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.5,
-                    ),
-                    Container(
-                      child: Text(
-                        DateFormat('dd/MM/yyyy').format(comment.date),
-                        style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                      Row(
+                        children: [
+                          Text(
+                            content.studentName,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Helvetica'),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          Image(
+                            width: 22,
+                            height: 22,
+                            image: NetworkImage(content.nation),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 0.5,
-                    ),
-                  ],
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.2,
+                      ),
+                      Container(
+                        child: Text(
+                          comment.text,
+                          style: TextStyle(fontFamily: 'Helvetica'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
+                      ),
+                      Container(
+                        child: Text(
+                          comment.text,
+                          style: TextStyle(fontFamily: 'Helvetica'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
+                      ),
+                      Container(
+                        child: Text(
+                          DateFormat('dd/MM/yyyy').format(comment.date),
+                          style:
+                              TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 5,
-            )
-          ],
-        ),
-        SizedBox(
-          height: SizeConfig.blockSizeVertical * 1.5,
-        )
-      ],
-    );
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 5,
+              )
+            ],
+          ),
+          SizedBox(
+            height: SizeConfig.blockSizeVertical * 1.5,
+          )
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                width: SizeConfig.blockSizeHorizontal * 1.5,
+              ),
+              Container(
+                padding:
+                    EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage('assets/images/profile.png'),
+                ),
+              ),
+              SizedBox(
+                width: SizeConfig.blockSizeHorizontal * 1.5,
+              ),
+              InkWell(
+                onLongPress: () {
+                  _showListActionForComment(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26.withOpacity(0.05),
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.10)
+                      ]),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
+                      ),
+                      Container(
+                        child: Text(
+                          comment.studentName,
+                          style: TextStyle(
+                              fontFamily: 'Helvetica',
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
+                      ),
+                      Container(
+                        child: Text(
+                          comment.text,
+                          style: TextStyle(fontFamily: 'Helvetica'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
+                      ),
+                      Container(
+                        child: Text(
+                          DateFormat('dd/MM/yyyy').format(comment.date),
+                          style:
+                              TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.5,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 5,
+              )
+            ],
+          ),
+          SizedBox(
+            height: SizeConfig.blockSizeVertical * 1.5,
+          )
+        ],
+      );
+    }
   }
 
   Widget _editPost(String name, BuildContext context) {
-    if (name == 'haihl') {
+    if (name == username) {
       return IconButton(
         icon: Icon(CupertinoIcons.ellipsis),
         onPressed: () {
@@ -430,15 +530,19 @@ class _ViewPostState extends State<ViewPost> {
           } else if (state is LoadPostSuccess) {
             print('success');
             state.comments.forEach((comment) {
-              commentWidget.add(_comment(context, comment));
+              commentWidget
+                  .add(_comment(context, comment, comment.studentName));
             });
+            numberOfComment = state.comments.length;
           } else if (state is CommentPostSuccess) {
             print('success');
             commentWidget.clear();
             _txtComment.clear();
             state.comments.forEach((comment) {
-              commentWidget.add(_comment(context, comment));
+              commentWidget
+                  .add(_comment(context, comment, comment.studentName));
             });
+            numberOfComment = state.comments.length;
           }
         }, builder: (context, state) {
           if (state is LoadingPost) {
@@ -469,7 +573,7 @@ class _ViewPostState extends State<ViewPost> {
                               TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 22,
+                          width: SizeConfig.blockSizeHorizontal * 19,
                         ),
                         _editPost(content.studentName, context)
                       ],
@@ -568,7 +672,7 @@ class _ViewPostState extends State<ViewPost> {
                                   height: SizeConfig.blockSizeVertical * 2,
                                 ),
                                 Text(
-                                  "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
+                                  content.text,
                                   style: TextStyle(fontFamily: 'Helvetica'),
                                 ),
                                 Row(
@@ -647,7 +751,7 @@ class _ViewPostState extends State<ViewPost> {
                             padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeHorizontal * 2),
                             child: Text(
-                              'Comments(5)',
+                              'Comments($numberOfComment)',
                               style: TextStyle(
                                   fontFamily: 'Helvetica', fontSize: 15),
                             ),
