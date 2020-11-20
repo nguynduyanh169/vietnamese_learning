@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:google_speech/speech_to_text_beta.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
+import 'dart:math';
 
 
 class SpeakingVocabulary extends StatefulWidget {
@@ -41,6 +43,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
+  List<double> values =[];
 
   @override
   void initState() {
@@ -51,6 +54,11 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    MediaQueryData queryData = MediaQuery.of(context);
+    var rng = new Random();
+    for (var i = 0; i < 100; i++) {
+      values.add(rng.nextInt(70) * 1.0);
+    }
     return Container(
       color: Color.fromRGBO(255, 239, 215, 100),
       child: Column(
@@ -121,31 +129,6 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             height: SizeConfig.blockSizeVertical * 8,
           ),
           Center(
-            // child: Container(
-            //   width: 75,
-            //   height: 75,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(35),
-            //     color: Color.fromRGBO(255, 190, 51, 100),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Color.fromRGBO(255, 190, 51, 100)
-            //             .withOpacity(0.5),
-            //         spreadRadius: 1,
-            //         blurRadius: 1,
-            //         offset: Offset(0, 1), // changes position of shadow
-            //       ),
-            //     ],
-            //   ),
-            //   child: IconButton(
-            //     iconSize: 50,
-            //     icon: Icon(
-            //       CupertinoIcons.mic_solid,
-            //       color: Colors.white,
-            //     ),
-            //     onPressed: () => _start(),
-            //   ),
-            // ),
             child: AvatarGlow(
               animate: _isRecording,
               glowColor: Theme.of(context).primaryColor,
@@ -154,8 +137,8 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               repeatPauseDuration: const Duration(milliseconds: 100),
               repeat: true,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 150,
+                height: 150,
                 child: FloatingActionButton(
                 onPressed: (){
                   if(_isRecording == false) {
@@ -177,15 +160,6 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             height: SizeConfig.blockSizeVertical * 4,
           ),
           Center(
-            child: recognizing ?
-            Text("Your voice match: ") :
-            Text(""),
-
-          ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 2,
-          ),
-          Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -193,13 +167,15 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                   _RecognizeContent(
                     text: text,
                   ),
-                RaisedButton(
-                  onPressed: recognizing ? () {} : recognize,
-                  child: recognizing
-                      ? CircularProgressIndicator()
-                      : Text('Test with recognize'),
-                ),
-
+                // RaisedButton(
+                //   onPressed: recognizing ? () {} : recognize,
+                //   child: recognizing
+                //       ? CircularProgressIndicator()
+                //       : Text('Test with recognize'),
+                // ),
+                Center(
+                  child: recognizing ? CircularProgressIndicator() : Text(""),
+                )
               ],
             ),
           ),
@@ -255,6 +231,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     }).whenComplete(() => setState(() {
       recognizeFinished = true;
       recognizing = false;
+      _init();
     }));
     print(text);
   }
@@ -354,6 +331,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
       path = result.path;
       _current = result;
       _currentStatus = _current.status;
+      recognize();
     });
   }
 }
@@ -369,16 +347,34 @@ class _RecognizeContent extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
-          Text(
-            'The text recognized by the Google Speech Api:',
+          Center(
+            child: Text(
+              'The word we hear from your voice',
+            ),
           ),
           SizedBox(
-            height: 8.0,
+            height: 4.0,
           ),
-          Text(
-            text,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
+          Center(
+            child: Container(
+              margin: const EdgeInsets.all(2.0),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))
+              ),
+              child: Padding(padding: const EdgeInsets.all(4.0),
+                child: AutoSizeText(
+                  text,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  maxFontSize: 20,
+                  minFontSize: 15,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
