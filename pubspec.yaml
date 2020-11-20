@@ -135,6 +135,7 @@ flutter:
      - assets/images/6.png
      - assets/images/gallow.png
      - assets/images/hangman.png
+     - assets/images/win.png
      - res/hangman_words.txt
   fonts:
     - family: Helvetica

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/data/game_data.dart';
 import 'package:vietnamese_learning/src/resources/memory_game_level.dart';
@@ -148,8 +149,14 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                     Text(
                       'Memory Card Game',
                       style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-                    )
+                    ),
                   ],
+                ),
+              ),
+              Center(
+                child: Text(
+                  'Level Easy',
+                  style: TextStyle(fontSize: 20, fontFamily: 'Helvetica', fontStyle: FontStyle.italic),
                 ),
               ),
               (time > 0)
@@ -298,31 +305,30 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
   }
 
   showResult() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-              title: Text("You Won!!"),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => MemoryGamePage()),
-                    );
-                  },
-                  child: Text("Next"),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                          builder: (context) => MemoryGameLevelPage()),
-                    );
-                  },
-                  child: Text("Choose another level"),
-                )
-              ],
-            ));
+    Alert(
+      context: context,
+      title: "You won!!!",
+      image: Image.asset("assets/images/win.png"),
+      buttons: [
+        DialogButton(
+          child: Text("Next game"),
+          onPressed: (){
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => MemoryGamePage()),
+            );
+          },
+        ),
+        DialogButton(
+          child: Text("Choose another level"),
+          onPressed: (){
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => MemoryGameLevelPage()),
+            );
+          },
+        )
+      ],
+    ).show();
     timer.cancel();
   }
 

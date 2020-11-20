@@ -84,6 +84,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 8,
               ),
+
               Container(
                 width: 45,
                 height: 45,
@@ -131,13 +132,13 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             child: AvatarGlow(
               animate: _isRecording,
               glowColor: Theme.of(context).primaryColor,
-              endRadius: 100.0,
+              endRadius: 120.0,
               duration: const Duration(milliseconds: 2000),
               repeatPauseDuration: const Duration(milliseconds: 100),
               repeat: true,
               child: Container(
-                width: 150,
-                height: 150,
+                width: 125,
+                height: 125,
                 child: FloatingActionButton(
                 onPressed: (){
                   if(_isRecording == false) {
@@ -149,7 +150,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                     _stop();
                   }
                 },
-                child: Icon(_isRecording ? Icons.stop_circle_outlined : Icons.mic, size: 50,),
+                child: Icon(_isRecording ? Icons.stop_circle_outlined : Icons.mic, size: 60,),
                   backgroundColor: Color.fromRGBO(255, 190, 51, 30),
               ),
               ),
