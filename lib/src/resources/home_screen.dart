@@ -59,10 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
             CupertinoActivityIndicator(
               radius: 20,
             ),
-            Text(
-              'Loading....',
-              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-            )
           ],
         ),
       ),

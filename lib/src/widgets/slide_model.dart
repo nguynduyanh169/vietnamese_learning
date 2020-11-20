@@ -1,4 +1,3 @@
-
 class SliderModel {
   String imageAssetPath;
   String title;
@@ -56,7 +55,7 @@ List<SliderModel> getSlides() {
   //3
   sliderModel.setDesc(
       "We base on standar curriculum to make a quality lesson and make a best practice for your study");
-  sliderModel.setTitle("Standar Curriculum");
+  sliderModel.setTitle("Standard Curriculum");
   sliderModel.setImageAssetPath("assets/images/splashscreen3.png");
   slides.add(sliderModel);
 

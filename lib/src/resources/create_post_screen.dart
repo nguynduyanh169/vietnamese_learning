@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:camera_camera/camera_camera.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +10,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/create_post_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
-import 'package:vietnamese_learning/src/resources/view_post2.dart';
+import 'package:path/path.dart';
 import 'package:vietnamese_learning/src/states/create_post_state.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -55,7 +56,6 @@ class _CreatePostState extends State<CreatePostScreen> {
   }
 
   void clearCacheFile() {
-    print('clean');
     FilePicker.platform.clearTemporaryFiles();
     setState(() {
       _fileName = null;
@@ -86,11 +86,10 @@ class _CreatePostState extends State<CreatePostScreen> {
           listener: (context, state) {
             if (state is CreatingPost) {
               pr.show();
-            } else if(state is ValidatePost){
+            } else if (state is ValidatePost) {
               titleInvalid = state.titleMessage;
               contentInvalid = state.contentMessage;
-            }
-            else if (state is CreatePostSuccess) {
+            } else if (state is CreatePostSuccess) {
               pr.hide().whenComplete(() => {Navigator.pop(_context)});
               print('create success');
             } else if (state is CreatePostError) {
@@ -265,60 +264,77 @@ class _CreatePostState extends State<CreatePostScreen> {
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 5,
                   ),
-                  _fileName != null
-                      ? Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 4,
-                            ),
-                            Stack(
-                              children: <Widget>[
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal * 20,
-                                  height: SizeConfig.blockSizeVertical * 15,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(20.0),
-                                          topLeft: Radius.circular(5.0),
-                                          bottomRight: Radius.circular(5.0),
-                                          bottomLeft: Radius.circular(5.0)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black26
-                                                .withOpacity(0.05),
-                                            offset: Offset(0.0, 6.0),
-                                            blurRadius: 10.0,
-                                            spreadRadius: 0.10)
-                                      ]),
-                                  child: IconButton(
-                                    icon: Icon(CupertinoIcons.paperclip),
-                                  ),
+                  file != null
+                      ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 4,
+                          ),
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 20,
+                                height: SizeConfig.blockSizeVertical * 15,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(20.0),
+                                        topLeft: Radius.circular(5.0),
+                                        bottomRight: Radius.circular(5.0),
+                                        bottomLeft: Radius.circular(5.0)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26
+                                              .withOpacity(0.05),
+                                          offset: Offset(0.0, 6.0),
+                                          blurRadius: 10.0,
+                                          spreadRadius: 0.10)
+                                    ]),
+                                child: IconButton(
+                                  icon: Icon(CupertinoIcons.paperclip),
                                 ),
-                                Positioned(
-                                  left: SizeConfig.blockSizeHorizontal * 10,
-                                  bottom: SizeConfig.blockSizeVertical * 9,
-                                  child: new Container(
-                                      padding: EdgeInsets.all(1),
-                                      constraints: BoxConstraints(
-                                        minWidth: 12,
-                                        minHeight: 12,
+                              ),
+                              Positioned(
+                                left: SizeConfig.blockSizeHorizontal * 10,
+                                bottom: SizeConfig.blockSizeVertical * 9,
+                                child: new Container(
+                                    padding: EdgeInsets.all(1),
+                                    constraints: BoxConstraints(
+                                      minWidth: 12,
+                                      minHeight: 12,
+                                    ),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        CupertinoIcons.clear_circled_solid,
+                                        color: Colors.redAccent,
                                       ),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          CupertinoIcons.clear_circled_solid,
-                                          color: Colors.redAccent,
-                                        ),
-                                        onPressed: () {
-                                          clearCacheFile();
-                                        },
-                                      )),
-                                )
-                              ],
-                            )
-                          ],
-                        )
-                      : Row(
+                                      onPressed: () {
+                                        clearCacheFile();
+                                      },
+                                    )),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1.5,
+                      ),
+                      Row(children: [
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 5,
+                        ),
+                        Text(basename(file.path), style: TextStyle(
+                          fontFamily: 'Helvetica',
+                          fontSize: 12,
+                        ),)
+                      ],)
+
+                    ],
+                  ) : Row(
                           children: <Widget>[
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 4,
@@ -355,7 +371,22 @@ class _CreatePostState extends State<CreatePostScreen> {
                                   ],
                                 )),
                           ],
-                        )
+                        ),
+                  SizedBox(height: SizeConfig.blockSizeVertical * 1,),
+                  Row(
+                    children: [
+                      SizedBox(width: SizeConfig.blockSizeHorizontal * 65,),
+                      IconButton(
+                          icon: Icon(CupertinoIcons.mic_solid, size: 40, color: Colors.black,),
+                          onPressed: null),
+                      SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
+                      IconButton(
+                          icon: Icon(CupertinoIcons.camera_fill, size: 40, color: Colors.black),
+                          onPressed: () async{
+                             file = await Navigator.push(context, MaterialPageRoute(builder: (context) => Video()));
+                          })
+                    ],
+                  )
                 ],
               ),
             );

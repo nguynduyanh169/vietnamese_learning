@@ -34,17 +34,14 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     mySLides = getSlides();
     controller = new PageController();
   }
 
-  Widget _intro(BuildContext context){
+  Widget _intro(BuildContext context) {
     return Container(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(255, 239, 215, 1),
@@ -83,80 +80,80 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
         bottomSheet: slideIndex != 3
             ? Container(
-          height: 70,
-          decoration:
-          BoxDecoration(color: Color.fromRGBO(255, 190, 51, 10)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  controller.animateToPage(3,
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.linear);
-                },
-                splashColor: Colors.blue[50],
-                child: Text(
-                  "SKIP",
-                  style: TextStyle(
-                      color: Colors.grey[30],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 17),
-                ),
-              ),
-              Container(
+                height: 70,
+                decoration:
+                    BoxDecoration(color: Color.fromRGBO(255, 190, 51, 10)),
                 child: Row(
-                  children: [
-                    for (int i = 0; i < 4; i++)
-                      i == slideIndex
-                          ? _buildPageIndicator(true)
-                          : _buildPageIndicator(false),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        controller.animateToPage(3,
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.linear);
+                      },
+                      splashColor: Colors.blue[50],
+                      child: Text(
+                        "SKIP",
+                        style: TextStyle(
+                            color: Colors.grey[30],
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17),
+                      ),
+                    ),
+                    Container(
+                      child: Row(
+                        children: [
+                          for (int i = 0; i < 4; i++)
+                            i == slideIndex
+                                ? _buildPageIndicator(true)
+                                : _buildPageIndicator(false),
+                        ],
+                      ),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        print("this is slideIndex: $slideIndex");
+                        controller.animateToPage(slideIndex + 1,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.linear);
+                      },
+                      splashColor: Colors.blue[50],
+                      child: Text(
+                        "NEXT",
+                        style: TextStyle(
+                            color: Colors.grey[30],
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              FlatButton(
-                onPressed: () {
-                  print("this is slideIndex: $slideIndex");
-                  controller.animateToPage(slideIndex + 1,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.linear);
+              )
+            : InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 },
-                splashColor: Colors.blue[50],
-                child: Text(
-                  "NEXT",
-                  style: TextStyle(
+                child: Container(
+                  height: Platform.isIOS ? 70 : 60,
+                  color: Color.fromRGBO(255, 190, 51, 10),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "GET STARTED NOW",
+                    style: TextStyle(
                       color: Colors.grey[30],
                       fontWeight: FontWeight.w600,
-                      fontSize: 17),
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
               ),
-            ],
-          ),
-        )
-            : InkWell(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginPage()));
-          },
-          child: Container(
-            height: Platform.isIOS ? 70 : 60,
-            color: Color.fromRGBO(255, 190, 51, 10),
-            alignment: Alignment.center,
-            child: Text(
-              "GET STARTED NOW",
-              style: TextStyle(
-                color: Colors.grey[30],
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
 
-  Widget _loading(){
+  Widget _loading() {
     return Container(
       decoration: BoxDecoration(
         color: Color.fromRGBO(255, 239, 215, 100),
@@ -178,6 +175,7 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     _ctx = context;
@@ -187,20 +185,19 @@ class _IntroScreenState extends State<IntroScreen> {
       create: (context) => IntroCubit()..autoLoading(),
       child: Scaffold(
         body: BlocConsumer<IntroCubit, IntroState>(
-          listener: (context, state){
-            if(state is AutoLoginSuccess){
+          listener: (context, state) {
+            if (state is AutoLoginSuccess) {
               Navigator.of(_ctx).pushReplacementNamed("/home");
             }
           },
-          builder: (context, state){
-            if(state is AutoLoginFailed){
+          builder: (context, state) {
+            if (state is AutoLoginFailed) {
               return _intro(context);
-            }else {
+            } else {
               return _loading();
             }
           },
         ),
-
       ),
     );
   }
@@ -214,7 +211,8 @@ class SlideTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 10),
+      padding:
+          EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 10),
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

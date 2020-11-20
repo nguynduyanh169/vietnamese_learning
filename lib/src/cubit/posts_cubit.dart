@@ -30,6 +30,7 @@ class PostsCubit extends Cubit<PostsState>{
   Future<void> loadMorePost(Post currentPage, int countPage, int totalPage) async{
     try{
       emit(LoadingMorePost());
+      print(totalPage);
       if(countPage >= totalPage - 1){
         emit(LoadMorePostDone());
       }else {

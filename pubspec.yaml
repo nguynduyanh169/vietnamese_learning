@@ -41,17 +41,22 @@ dependencies:
   firebase_core: ^0.5.2
   firebase_storage: ^5.0.1
   progress_dialog: ^1.2.4
-  chewie: ^0.12.0
-  video_player: ^1.0.0
+  cached_video_player: ^1.0.3
+  neeko: ^0.0.10
+  video_player: ^0.10.9+1
   loadmore: ^1.0.4
   google_speech: ^1.2.1
   flutter_audio_recorder: ^0.5.5
   path_provider: ^1.6.24
+  camera_camera: ^1.0.34
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^3.3.0
   flutter_launcher_icons: ^0.8.1
+  flutter_gifimage: ^1.0.0
+
 
 flutter_icons:
   ios: true
@@ -107,7 +112,9 @@ flutter:
      - assets/images/quest.png
      - assets/images/qualification.png
      - assets/images/tryagain.png
+     - assets/images/cardgame.gif
      - assets/vnamese-master-c53480d8ac94.json
+     - assets/images/matching_game_card.png
   fonts:
     - family: Helvetica
       fonts:

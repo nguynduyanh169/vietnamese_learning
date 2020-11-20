@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loadmore/loadmore.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/posts_cubit.dart';
@@ -92,10 +91,7 @@ class ForumTabState extends State<ForumTab> {
                       }),
                       itemBuilder: (context, index) {
                         return _postCard(
-                            _contents[index].title,
-                            _contents[index].postDate,
-                            _contents[index].studentName,
-                            _contents[index].text);
+                            _contents[index]);
                       },
                       separatorBuilder: (context, index) => SizedBox(
                         height: SizeConfig.blockSizeVertical * 1.5,
@@ -112,9 +108,12 @@ class ForumTabState extends State<ForumTab> {
   }
 
   Widget _postCard(
-      String title, DateTime postDate, String studentName, String content) {
-    if(content.length > 100){
-      content = content.substring(0, 100) + "...";
+      Content content) {
+    String showContent;
+    if(content.text.length > 100){
+      showContent = content.text.substring(0, 100) + "...";
+    }else{
+      showContent = content.text;
     }
     return Container(
       padding: EdgeInsets.only(
@@ -138,14 +137,14 @@ class ForumTabState extends State<ForumTab> {
           ),
           InkWell(
             child: Text(
-              title,
+              content.title,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   fontFamily: 'Helvetica'),
             ),
             onTap: () => pushNewScreen(context,
-                screen: ViewPost(),
+                screen: ViewPost(content: content,),
                 withNavBar: false,
                 pageTransitionAnimation: PageTransitionAnimation.cupertino),
           ),
@@ -166,7 +165,7 @@ class ForumTabState extends State<ForumTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    studentName,
+                    content.studentName,
                     style: TextStyle(
                         fontWeight: FontWeight.w600, fontFamily: 'Helvetica'),
                   ),
@@ -174,7 +173,7 @@ class ForumTabState extends State<ForumTab> {
                     height: SizeConfig.blockSizeVertical * 1,
                   ),
                   Text(
-                    DateFormat('dd/MM/yyyy-kk:mm').format(postDate),
+                    DateFormat('dd/MM/yyyy-kk:mm').format(content.postDate),
                     style: TextStyle(fontSize: 10, fontFamily: 'Helvetica'),
                   )
                 ],
@@ -185,7 +184,7 @@ class ForumTabState extends State<ForumTab> {
             height: SizeConfig.blockSizeVertical * 2,
           ),
           Text(
-            content,
+            showContent,
             style: TextStyle(fontFamily: 'Helvetica'),
           ),
           Row(
@@ -197,7 +196,7 @@ class ForumTabState extends State<ForumTab> {
                   ),
                   onPressed: null),
               Text(
-                '20',
+                content.numberOfComment.toString(),
                 style: TextStyle(fontSize: 15, fontFamily: 'Helvetica'),
               ),
             ],

@@ -8,6 +8,8 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>NSAppleMusicUsageDescription</key>
     <string>Used to demonstrate file picker plugin</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Can I use the camera please?</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Can We Use Your Microphone Please</string>
 	<key>CFBundleIdentifier</key>
@@ -18,6 +20,11 @@
 	<string>vietnamese_learning</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
