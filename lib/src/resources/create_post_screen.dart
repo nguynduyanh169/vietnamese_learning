@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/create_post_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
@@ -36,14 +37,23 @@ class _CreatePostState extends State<CreatePostScreen> {
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
+  String username = 'user';
 
+  _CreatePostState();
 
   @override
   void initState() {
     super.initState();
     _init();
+    _loadUsername();
     _titleController = new TextEditingController();
     _contentController = new TextEditingController();
+  }
+
+  void _loadUsername() async {
+    final SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    username = sharedPreferences.getString('username');
   }
   void getFilePath() async {
     try {
@@ -359,7 +369,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'haihl',
+                              username,
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Helvetica'),

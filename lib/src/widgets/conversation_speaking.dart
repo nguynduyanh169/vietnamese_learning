@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
@@ -11,6 +15,15 @@ import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/states/learn_converasation_state.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io' as io;
+import 'package:google_speech/google_speech.dart';
+import 'package:google_speech/speech_to_text_beta.dart';
+import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
+import 'package:file/file.dart';
+import 'package:file/local.dart';
+import 'dart:math';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../config/size_config.dart';
 import 'chat_bubble.dart';
@@ -33,6 +46,19 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
   String vietnamese;
   String english;
   String check;
+  bool recognizing = false;
+  bool recognizeFinished = false;
+  bool checkText = false;
+  String text = '';
+  FlutterAudioRecorder _recorder;
+  Recording _current;
+  RecordingStatus _currentStatus = RecordingStatus.Unset;
+  bool _isRecording = false;
+  String path;
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   void nextQuestion() {
     setState(() {
@@ -298,7 +324,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                         Row(
                           children: [
                             SizedBox(
-                              height: SizeConfig.blockSizeVertical * 14,
+                              height: SizeConfig.blockSizeVertical * 10,
                             ),
                             Container(
                               width: 45,
@@ -347,38 +373,104 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                           ],
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical * 8,
+                          height: SizeConfig.blockSizeVertical * 2,
                         ),
                         Center(
-                          child: Container(
-                            width: 200,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(35),
-                              color: Color.fromRGBO(255, 190, 51, 100),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromRGBO(255, 190, 51, 100)
-                                      .withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 1,
-                                  offset: Offset(
-                                      0, 1), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: IconButton(
-                              iconSize: 100,
-                              icon: Icon(
-                                CupertinoIcons.mic_solid,
-                                color: Colors.white,
+                          // child: Container(
+                          //   width: 200,
+                          //   height: 200,
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(35),
+                          //     color: Color.fromRGBO(255, 190, 51, 100),
+                          //     boxShadow: [
+                          //       BoxShadow(
+                          //         color: Color.fromRGBO(255, 190, 51, 100)
+                          //             .withOpacity(0.5),
+                          //         spreadRadius: 1,
+                          //         blurRadius: 1,
+                          //         offset: Offset(
+                          //             0, 1), // changes position of shadow
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   child: IconButton(
+                          //     iconSize: 100,
+                          //     icon: Icon(
+                          //       CupertinoIcons.mic_solid,
+                          //       color: Colors.white,
+                          //     ),
+                          //     onPressed: null,
+                          //   ),
+                          // ),
+                          child: AvatarGlow(
+                            animate: _isRecording,
+                            glowColor: Theme.of(context).primaryColor,
+                            endRadius: 130.0,
+                            duration: const Duration(milliseconds: 2000),
+                            repeatPauseDuration: const Duration(milliseconds: 100),
+                            repeat: true,
+                            child: Container(
+                              width: 150,
+                              height: 150,
+                              child: FloatingActionButton(
+                                onPressed: (){
+                                  if(_isRecording == false) {
+                                    print("Start");
+                                    _start();
+                                  }else {
+                                    print("Stop");
+                                    print(_isRecording);
+                                    _stop();
+                                  }
+                                },
+                                child: Icon(_isRecording ? Icons.stop_circle_outlined : Icons.mic, size: 100,),
+                                backgroundColor: Color.fromRGBO(255, 190, 51, 30),
                               ),
-                              onPressed: null,
                             ),
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical * 20,
+                          height: SizeConfig.blockSizeVertical * 1,
+                        ),
+                        Center(
+                          // child: Container(
+                          //   child: checkText ?
+                          //       Container(
+                          //         margin: const EdgeInsets.all(2.0),
+                          //         decoration: BoxDecoration(
+                          //             border: Border.all(
+                          //               color: Colors.black,
+                          //             ),
+                          //             borderRadius: BorderRadius.all(Radius.circular(20.0))
+                          //         ),
+                          //         child: Padding(padding: const EdgeInsets.all(2.0),
+                          //         child: AutoSizeText(
+                          //           '$text',
+                          //           maxLines: 3,
+                          //           overflow: TextOverflow.ellipsis,
+                          //           maxFontSize: 20,
+                          //           minFontSize: 15,
+                          //         ),
+                          //         ),
+                          //       )
+                          //       : Text("$text"),
+                          //
+                          // ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              if (recognizeFinished)
+                                _RecognizeContent(
+                                  text: text,
+                                ),
+                              Center(
+                                child: recognizing ? CircularProgressIndicator() : Text(""),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 8,
                         ),
                         Center(
                           child: ButtonTheme(
@@ -437,6 +529,177 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             ),
           ),
         ),
+      ),
+    );
+  }
+  void recognize() async {
+    setState(() {
+      recognizing = true;
+    });
+    final serviceAccount = ServiceAccount.fromString(
+        '${(await rootBundle.loadString('assets/vnamese-master-c53480d8ac94.json'))}');
+    final speechToText = SpeechToText.viaServiceAccount(serviceAccount);
+    final config = _getConfig();
+    final audio = await _getAudioContent(path);
+    await speechToText.recognize(config, audio).then((value) {
+      setState(() {
+        text = value.results
+            .map((e) => e.alternatives.first.transcript)
+            .join('\n');
+      });
+
+    }).whenComplete(() => setState(() {
+      recognizeFinished = true;
+      recognizing = false;
+      _init();
+    }));
+    if(text.isEmpty){
+      checkText = false;
+    }else{
+      checkText = true;
+    }
+  }
+
+  RecognitionConfig _getConfig() => RecognitionConfig(
+      encoding: AudioEncoding.LINEAR16,
+      model: RecognitionModel.command_and_search,
+      enableAutomaticPunctuation: true,
+      sampleRateHertz: 16000,
+      languageCode: 'vi-VN');
+
+  Future<void> _copyFileFromAssets(String name) async {
+    var data = await rootBundle.load('assets/$name');
+    final directory = await getApplicationDocumentsDirectory();
+    final pathAudio = directory.path + '/$name';
+    await io.File(pathAudio).writeAsBytes(
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+  }
+
+
+
+  Future<List<int>> _getAudioContent(String name) async {
+    final directory = await getApplicationDocumentsDirectory();
+    // final pathAudio = directory.path + '/$name';
+    // if (!File(pathAudio).existsSync()) {
+    //   await _copyFileFromAssets(name);
+    // }
+    return io.File(name).readAsBytesSync().toList();
+  }
+
+  _init() async{
+    try{
+      if(await FlutterAudioRecorder.hasPermissions){
+        String customPath = '/flutter_audio_recorder_';
+        io.Directory appDocDicrectory;
+        if(io.Platform.isIOS){
+          appDocDicrectory = await getApplicationDocumentsDirectory();
+        }else{
+          appDocDicrectory = await getExternalStorageDirectory();
+        }
+
+        customPath = appDocDicrectory.path + customPath + DateTime.now().microsecondsSinceEpoch.toString();
+
+        _recorder = FlutterAudioRecorder(
+            customPath, audioFormat: AudioFormat.WAV, sampleRate: 16000
+        );
+
+        await _recorder.initialized;
+
+        var current = await _recorder.current(channel: 0);
+        print(current);
+        setState(() {
+          _current = current;
+          _currentStatus = current.status;
+          print(_currentStatus);
+        });
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
+  _start() async{
+    try{
+      await _recorder.start();
+      var recording = await _recorder.current(channel: 0);
+      setState(() {
+        _current = recording;
+      });
+
+      const tick = const Duration(milliseconds: 50);
+      new Timer.periodic(tick, (Timer t) async {
+        if(_currentStatus == RecordingStatus.Stopped){
+          t.cancel();
+        }
+
+        var current = await _recorder.current(channel: 0);
+        setState(() {
+          _isRecording = true;
+          _current = current;
+          _currentStatus = _current.status;
+        });
+      });
+    }catch(e){
+      print(e);
+    }
+  }
+
+  _stop() async{
+    var result = await _recorder.stop();
+    print("Stop recording: ${result.path}");
+    print("Stop recording: ${result.duration}");
+    // File file = widget.localFileSystem.file(result.path);
+    // print("File length: ${await file.length()}");
+    setState(() {
+      _isRecording = false;
+      path = result.path;
+      _current = result;
+      _currentStatus = _current.status;
+      recognize();
+    });
+  }
+}
+
+class _RecognizeContent extends StatelessWidget {
+  final String text;
+
+  const _RecognizeContent({Key key, this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: <Widget>[
+          Center(
+            child: Text(
+              'The conversation recognized from your voice',
+            ),
+          ),
+          SizedBox(
+            height: 4.0,
+          ),
+          Center(
+            child: Container(
+              margin: const EdgeInsets.all(2.0),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))
+              ),
+              child: Padding(padding: const EdgeInsets.all(4.0),
+                child: AutoSizeText(
+                  text,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  maxFontSize: 20,
+                  minFontSize: 15,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

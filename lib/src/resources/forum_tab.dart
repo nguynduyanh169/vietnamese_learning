@@ -25,6 +25,7 @@ class ForumTabState extends State<ForumTab> {
   bool isLoadingMore = false;
   int totalPages;
   int countPages = 0;
+  String username;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class ForumTabState extends State<ForumTab> {
         listener: (context, state) {
           if (state is LoadingPosts) {
           } else if (state is LoadPostsSuccess) {
+            username = state.username;
             _contents = state.contents;
             currentPost = state.post;
             totalPages = state.post.totalPages;
