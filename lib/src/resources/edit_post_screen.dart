@@ -1,19 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/models/post.dart';
 
 class EditPostScreen extends StatefulWidget{
-  EditPostScreen({Key key}): super(key: key);
+  Content content;
+  EditPostScreen({Key key, this.content}): super(key: key);
 
-  _EditPostState createState() => _EditPostState();
+  _EditPostState createState() => _EditPostState(content: content);
 }
 
 class _EditPostState extends State<EditPostScreen>{
-  TextEditingController txtTitle = new TextEditingController(text: 'những câu nói hay về cuộc sống');
-  TextEditingController txtContent = new TextEditingController(text: "Thế giới bạn không bước vào được thì đừng cố chen vào, làm khó người khác, lỡ dở mình, hà tất chứ?"
-      "\nĐôi khi, không cẩn thận biết một số chuyện, mới phát hiện ra rằng những điều bản thân để tâm lại nực cười đến thế.Đừng bao giờ thay đổi mình vì người khác. "
-      "\nNếu họ không thể tiếp nhận một con người nhiều điểm xấu là bạn, thì cũng không xứng để có được một con người với nhiều điểm tốt là bạn."
-      "\nĐôi khi sự đấu tranh luôn cần phải có trong cuộc sống. Nếu cuộc sống trôi qua thật suôn sẻ, chúng ta sẽ không hiểu được cuộc sống, không có được bản lĩnh, nghị lực như chúng ta cần phải có, cuộc sống thật công bằng, không phải vô cớ mà mọi điều xảy đến với ta.");
+  TextEditingController txtTitle;
+  TextEditingController txtContent;
+  Content content;
+  _EditPostState({this.content});
+
+  @override
+  void initState() {
+    txtTitle = new TextEditingController(text: content.title);
+    txtContent = new TextEditingController(text: content.text);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -56,7 +64,7 @@ class _EditPostState extends State<EditPostScreen>{
                         height: SizeConfig.blockSizeVertical * 5,
                         width: SizeConfig.blockSizeHorizontal * 15,
                         decoration: BoxDecoration(
-                            color: Colors.black12,
+                            color: Colors.blueAccent,
                             borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [
                               BoxShadow(
@@ -71,7 +79,7 @@ class _EditPostState extends State<EditPostScreen>{
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'Helvetica',
-                              color: Colors.black45,
+                              color: Colors.white,
                             ),
                           ),
                         )),

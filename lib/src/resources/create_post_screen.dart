@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/create_post_cubit.dart';
@@ -26,14 +30,21 @@ class _CreatePostState extends State<CreatePostScreen> {
   ProgressDialog pr;
   BuildContext _context;
   String titleInvalid, contentInvalid;
+  bool showPlayer;
+  String path;
+  FlutterAudioRecorder _recorder;
+  Recording _current;
+  RecordingStatus _currentStatus = RecordingStatus.Unset;
+  bool _isRecording = false;
+
 
   @override
   void initState() {
     super.initState();
+    _init();
     _titleController = new TextEditingController();
     _contentController = new TextEditingController();
   }
-
   void getFilePath() async {
     try {
       FilePickerResult result = await FilePicker.platform
@@ -72,6 +83,171 @@ class _CreatePostState extends State<CreatePostScreen> {
         .createPost(content: content, file: file, title: title);
   }
 
+  File _getAudioContent(String path)  {
+    return File(path);
+  }
+
+  _init() async{
+    try{
+      if(await FlutterAudioRecorder.hasPermissions){
+        String customPath = '/';
+        Directory appDocDicrectory;
+        if(Platform.isIOS){
+          appDocDicrectory = await getApplicationDocumentsDirectory();
+        }else{
+          appDocDicrectory = await getExternalStorageDirectory();
+        }
+        customPath = appDocDicrectory.path + customPath + DateTime.now().microsecondsSinceEpoch.toString();
+        _recorder = FlutterAudioRecorder(
+            customPath, audioFormat: AudioFormat.WAV, sampleRate: 16000
+        );
+        await _recorder.initialized;
+        var current = await _recorder.current(channel: 0);
+        print(current);
+        setState(() {
+          _current = current;
+          _currentStatus = current.status;
+          print(_currentStatus);
+        });
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
+  _start() async{
+    try{
+      await _recorder.start();
+      var recording = await _recorder.current(channel: 0);
+      setState(() {
+        _isRecording = true;
+        _current = recording;
+      });
+
+      const tick = const Duration(milliseconds: 50);
+      new Timer.periodic(tick, (Timer t) async {
+        if(_currentStatus == RecordingStatus.Stopped){
+          t.cancel();
+        }
+        var current = await _recorder.current(channel: 0);
+        setState(() {
+          _isRecording = true;
+          _current = current;
+          _currentStatus = _current.status;
+        });
+      });
+    }catch(e){
+      print(e);
+    }
+  }
+
+  _stop() async{
+    var result = await _recorder.stop();
+    print("Stop recording: ${result.path}");
+    print("Stop recording: ${result.duration}");
+    setState(() {
+      path = result.path;
+      _current = result;
+      _currentStatus = _current.status;
+      file = _getAudioContent(path);
+    });
+  }
+
+  _onTapImage(BuildContext context) {
+    return new AlertDialog(
+      content: new Container(
+        width: 260.0,
+        height: 230.0,
+        decoration: new BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: const Color(0xFFFFFF),
+          borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+        ),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            // dialog top
+            new Expanded(
+              child: new Row(
+                children: <Widget>[
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 18,),
+                  new Container(
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: new Text(
+                      'Record voice',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontFamily: 'Helvetica',
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // dialog centre
+            new Expanded(
+              child: AvatarGlow(
+                animate: _isRecording,
+                glowColor: Theme.of(context).primaryColor,
+                endRadius: 100.0,
+                duration: const Duration(milliseconds: 2000),
+                repeatPauseDuration: const Duration(milliseconds: 100),
+                repeat: true,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  child: FloatingActionButton(
+                    onPressed: (){
+                      if(_isRecording == false) {
+                        print("Start");
+                        _start();
+                      }else {
+                        print("Stop");
+                        _stop();
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Icon(_isRecording ? CupertinoIcons.stop : CupertinoIcons.mic, size: 50,),
+                    backgroundColor: Color.fromRGBO(255, 190, 51, 30),
+                  ),
+                ),
+              ),
+              flex: 2,
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical * 5,),
+            // dialog bottom
+            new Expanded(
+              child: InkWell(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: new EdgeInsets.all(16.0),
+                  decoration: new BoxDecoration(
+                    color: Colors.blueAccent,
+                  ),
+                  child: new Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.0,
+                      fontFamily: 'Helvetica',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -82,6 +258,7 @@ class _CreatePostState extends State<CreatePostScreen> {
     return BlocProvider(
       create: (context) => CreatePostCubit(PostRepository()),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: BlocConsumer<CreatePostCubit, CreatePostState>(
           listener: (context, state) {
             if (state is CreatingPost) {
@@ -136,7 +313,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                               height: SizeConfig.blockSizeVertical * 5,
                               width: SizeConfig.blockSizeHorizontal * 15,
                               decoration: BoxDecoration(
-                                  color: Colors.black12,
+                                  color: Colors.blueAccent,
                                   borderRadius: BorderRadius.circular(10.0),
                                   boxShadow: [
                                     BoxShadow(
@@ -151,7 +328,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'Helvetica',
-                                    color: Colors.black45,
+                                    color: Colors.white,
                                   ),
                                 ),
                               )),
@@ -320,19 +497,6 @@ class _CreatePostState extends State<CreatePostScreen> {
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 1.5,
-                      ),
-                      Row(children: [
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 5,
-                        ),
-                        Text(basename(file.path), style: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontSize: 12,
-                        ),)
-                      ],)
-
                     ],
                   ) : Row(
                           children: <Widget>[
@@ -343,33 +507,34 @@ class _CreatePostState extends State<CreatePostScreen> {
                                 width: SizeConfig.blockSizeHorizontal * 20,
                                 height: SizeConfig.blockSizeVertical * 15,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black54),
+                                  //border: Border.all(color: Colors.black54),
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(20.0),
                                       topLeft: Radius.circular(5.0),
                                       bottomRight: Radius.circular(5.0),
                                       bottomLeft: Radius.circular(5.0)),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Icon(CupertinoIcons.add_circled),
-                                      onPressed: () {
-                                        getFilePath();
-                                      },
-                                    ),
-                                    Text(
-                                      'Choose audio or video file',
-                                      style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                        fontSize: 10,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                )),
+                                // child: Column(
+                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: <Widget>[
+                                //     IconButton(
+                                //       icon: Icon(CupertinoIcons.add_circled),
+                                //       onPressed: () {
+                                //         getFilePath();
+                                //       },
+                                //     ),
+                                //     Text(
+                                //       'Choose audio or video file',
+                                //       style: TextStyle(
+                                //         fontFamily: 'Helvetica',
+                                //         fontSize: 10,
+                                //       ),
+                                //       textAlign: TextAlign.center,
+                                //     )
+                                //   ],
+                                // )
+                              ),
                           ],
                         ),
                   SizedBox(height: SizeConfig.blockSizeVertical * 1,),
@@ -377,11 +542,13 @@ class _CreatePostState extends State<CreatePostScreen> {
                     children: [
                       SizedBox(width: SizeConfig.blockSizeHorizontal * 65,),
                       IconButton(
-                          icon: Icon(CupertinoIcons.mic_solid, size: 40, color: Colors.black,),
-                          onPressed: null),
+                          icon: Icon(CupertinoIcons.mic_solid, size: 40, color: Colors.blueAccent,),
+                          onPressed: (){
+                            showDialog(context: context,builder: (context) => _onTapImage(context));
+                          }),
                       SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
                       IconButton(
-                          icon: Icon(CupertinoIcons.camera_fill, size: 40, color: Colors.black),
+                          icon: Icon(CupertinoIcons.camera_fill, size: 40, color: Colors.blueAccent),
                           onPressed: () async{
                              file = await Navigator.push(context, MaterialPageRoute(builder: (context) => Video()));
                           })
