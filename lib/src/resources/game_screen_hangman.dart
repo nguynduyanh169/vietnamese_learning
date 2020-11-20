@@ -243,6 +243,7 @@ class _GameScreenState extends State<GameScreen> {
         return Future(() => false);
       },
       child: Scaffold(
+        backgroundColor: Colors.deepPurple[800],
         body: SafeArea(
           child: Column(
             children: <Widget>[
@@ -333,7 +334,7 @@ class _GameScreenState extends State<GameScreen> {
                           alignment: Alignment.bottomCenter,
                           child: FittedBox(
                             child: Image.asset(
-                              'images/$hangState.png',
+                              'assets/images/$hangState.png',
                               height: 1001,
                               width: 991,
                               gaplessPlayback: true,
