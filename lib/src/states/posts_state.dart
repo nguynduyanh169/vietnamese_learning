@@ -14,8 +14,9 @@ class LoadingPosts extends PostsState{
 
 class LoadPostsSuccess extends PostsState{
   final Post post;
+  final String username;
   final List<Content> contents;
-  const LoadPostsSuccess(this.contents, this.post);
+  const LoadPostsSuccess(this.contents, this.post, this.username);
 }
 
 class LoadPostsError extends PostsState{
