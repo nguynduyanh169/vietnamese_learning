@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/game_screen.dart';
+import 'package:vietnamese_learning/src/resources/home_screen_hangman.dart';
 import 'package:vietnamese_learning/src/resources/memory_game.dart';
 import 'package:vietnamese_learning/src/resources/memory_game_level.dart';
 import 'package:vietnamese_learning/src/widgets/game_intro.dart';
@@ -72,34 +73,58 @@ class _ListGameScreenState extends State<ListGameScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical * 15,
+                    height: SizeConfig.blockSizeVertical * 2,
                   ),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(15),
-                  //     image: DecorationImage(
-                  //       image: AssetImage("assets/images/matchinggame.png"),
-                  //       fit: BoxFit.fill,
-                  //     ),
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //         color: Colors.grey.withOpacity(0.5),
-                  //         spreadRadius: 5,
-                  //         blurRadius: 7,
-                  //         offset: Offset(0, 3), // changes position of shadow
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   width: SizeConfig.blockSizeHorizontal * 85,
-                  //   height: SizeConfig.blockSizeVertical * 30,
-                  //   child: InkWell(
-                  //     onTap: () => pushNewScreen(context,
-                  //         screen: GameScreen(),
-                  //         withNavBar: false,
-                  //         pageTransitionAnimation:
-                  //             PageTransitionAnimation.cupertino),
-                  //   ),
-                  // ),
+                  Container(
+                    width: 320,
+                    height: 48,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(29.5),
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Search",
+                          hintStyle: TextStyle(fontFamily: 'Helvetica'),
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.search)),
+                      onSubmitted: (value) {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => null));
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.deepPurple[500],
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/hangman.png"),
+                        fit: BoxFit.fill,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 85,
+                    height: SizeConfig.blockSizeVertical * 30,
+                    child: InkWell(
+                      onTap: () => pushNewScreen(context,
+                          screen: HomeScreen(),
+                          withNavBar: false,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino),
+                    ),
+                  ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 5,
                   ),

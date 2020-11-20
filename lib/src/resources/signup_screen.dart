@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/register_cubit.dart';
+import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
+import 'package:vietnamese_learning/src/resources/home_screen.dart';
 import 'package:vietnamese_learning/src/resources/level_screen.dart';
 import 'package:vietnamese_learning/src/states/register_state.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:vietnamese_learning/src/widgets/choose_nation.dart';
 
 import '../data/user_repository.dart';
 import 'level_screen.dart';
@@ -23,12 +26,35 @@ class _SignUpState extends State<SignUpScreen> {
       _passwordController,
       _usernameController;
 
+  var nationIndex = 0;
+
+  final List nationList = const [
+    {
+      'nation': 'Vietnam',
+      'imgPath': 'assets/images/vietnamflag.png',
+    },
+    {
+      'nation': 'USA',
+      'imgPath': 'assets/images/usaflag.png',
+    },
+    {
+      'nation': 'France',
+      'imgPath': 'assets/images/franceflag.png',
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
     _emailController = new TextEditingController();
     _passwordController = new TextEditingController();
     _usernameController = new TextEditingController();
+  }
+
+  Widget _chooseNation(List nation) {
+    return ChooseNation(
+      nation: nation,
+    );
   }
 
   String _password, _username, _email;
@@ -142,20 +168,32 @@ class _SignUpState extends State<SignUpScreen> {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: SizeConfig.blockSizeVertical * 1.5,
-            // ),
-            // Container(
-            //   width: SizeConfig.blockSizeHorizontal * 85,
-            //   child: TextField(
-            //     obscureText: true,
-            //     decoration: InputDecoration(
-            //       border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(20.0)),
-            //       labelText: 'Confirm Password',
-            //     ),
-            //   ),
-            // ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 1.5,
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 85,
+              child: TextField(
+                style: TextStyle(fontFamily: 'Helvetica'),
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  labelText: 'Nation',
+                  prefixIcon: Icon(Icons.public),
+                ),
+                readOnly: true,
+                onTap: () {
+                  showCupertinoModalBottomSheet(
+                    expand: false,
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context, scrollController) =>
+                        _chooseNation(nationList),
+                  );
+                },
+              ),
+            ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 7,
             ),

@@ -91,7 +91,8 @@ class Content {
       this.studentName,
       this.text,
       this.title,
-      this.link});
+      this.link,
+      this.nation});
 
   int id;
   int numberOfComment;
@@ -100,16 +101,17 @@ class Content {
   String text;
   String title;
   String link;
+  String nation;
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-        id: json["id"],
-        numberOfComment: json["numberOfComment"],
-        postDate: DateTime.parse(json["postDate"]),
-        studentName: json["studentName"],
-        text: json["text"],
-        title: json["title"],
-        link: json["link"],
-      );
+      id: json["id"],
+      numberOfComment: json["numberOfComment"],
+      postDate: DateTime.parse(json["postDate"]),
+      studentName: json["studentName"],
+      text: json["text"],
+      title: json["title"],
+      link: json["link"],
+      nation: json["nation"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -119,6 +121,7 @@ class Content {
         "text": text,
         "title": title,
         "link": link,
+        "nation": nation,
       };
 }
 
