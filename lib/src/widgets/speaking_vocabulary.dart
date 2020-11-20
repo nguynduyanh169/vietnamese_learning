@@ -12,7 +12,6 @@ import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
 import 'package:google_speech/google_speech.dart';
-import 'package:google_speech/speech_to_text_beta.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';

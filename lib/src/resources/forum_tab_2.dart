@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
+import 'package:vietnamese_learning/src/resources/view_post2.dart';
 
 class ForumTab2 extends StatefulWidget{
   ForumTab2({Key key}): super(key: key);
@@ -54,7 +56,7 @@ class _ForumTab2State extends State<ForumTab2>{
                               fontFamily: 'Helvetica'),
                         ),
                         onTap: () => pushNewScreen(context,
-                            screen: ViewPost(),
+                            screen: ViewPost2(),
                             withNavBar: false,
                             pageTransitionAnimation:
                             PageTransitionAnimation.cupertino),

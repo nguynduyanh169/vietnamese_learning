@@ -29,6 +29,7 @@ class _ViewPostState extends State<ViewPost> {
   List<Widget> commentWidget = new List<Widget>();
   bool isplaying = false;
   String username;
+  int numberOfComment;
 
   _ViewPostState({this.content});
 
@@ -513,6 +514,7 @@ class _ViewPostState extends State<ViewPost> {
             state.comments.forEach((comment) {
               commentWidget.add(_comment(context, comment, comment.studentName));
             });
+            numberOfComment = state.comments.length;
           } else if (state is CommentPostSuccess) {
             print('success');
             commentWidget.clear();
@@ -520,6 +522,7 @@ class _ViewPostState extends State<ViewPost> {
             state.comments.forEach((comment) {
               commentWidget.add(_comment(context, comment, comment.studentName));
             });
+            numberOfComment = state.comments.length;
           }
         }, builder: (context, state) {
           if (state is LoadingPost) {
@@ -651,7 +654,7 @@ class _ViewPostState extends State<ViewPost> {
                             padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeHorizontal * 2),
                             child: Text(
-                              'Comments(5)',
+                              'Comments($numberOfComment)',
                               style: TextStyle(
                                   fontFamily: 'Helvetica', fontSize: 15),
                             ),
