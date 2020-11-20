@@ -9,6 +9,7 @@ import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
 import 'package:vietnamese_learning/src/states/posts_state.dart';
 import 'package:intl/intl.dart';
+import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class ForumTab extends StatefulWidget {
   @override
@@ -31,10 +32,12 @@ class ForumTabState extends State<ForumTab> {
     super.initState();
   }
 
-  Future<bool> loadMore(BuildContext context) async{
-    BlocProvider.of<PostsCubit>(context).loadMorePost(currentPost, countPages, totalPages);
+  Future<bool> loadMore(BuildContext context) async {
+    BlocProvider.of<PostsCubit>(context)
+        .loadMorePost(currentPost, countPages, totalPages);
     return true;
   }
+
   @override
   Widget build(Object context) {
     return BlocProvider(
@@ -49,14 +52,14 @@ class ForumTabState extends State<ForumTab> {
           } else if (state is LoadPostsError) {
           } else if (state is LoadMorePostSuccess) {
             isLoadingMore = false;
-            if(currentPost.content[0].id != state.post.content[0].id) {
+            if (currentPost.content[0].id != state.post.content[0].id) {
               currentPost = state.post;
               _contents.addAll(state.contents);
             }
             countPages = state.countPost;
           } else if (state is LoadingMorePost) {
             isLoadingMore = true;
-          } else if(state is LoadMorePostDone){
+          } else if (state is LoadMorePostDone) {
             isLoadingMore = false;
           }
         },
@@ -84,21 +87,27 @@ class ForumTabState extends State<ForumTab> {
                 Expanded(
                   child: ListView.separated(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      controller: _scrollController..addListener(() {
-                        if(_scrollController.offset == _scrollController.position.maxScrollExtent){
-                          BlocProvider.of<PostsCubit>(context).loadMorePost(currentPost, countPages, totalPages);
-                        }
-                      }),
+                      controller: _scrollController
+                        ..addListener(() {
+                          if (_scrollController.offset ==
+                              _scrollController.position.maxScrollExtent) {
+                            BlocProvider.of<PostsCubit>(context).loadMorePost(
+                                currentPost, countPages, totalPages);
+                          }
+                        }),
                       itemBuilder: (context, index) {
-                        return _postCard(
-                            _contents[index]);
+                        return _postCard(_contents[index]);
                       },
                       separatorBuilder: (context, index) => SizedBox(
-                        height: SizeConfig.blockSizeVertical * 1.5,
-                      ),
+                            height: SizeConfig.blockSizeVertical * 1.5,
+                          ),
                       itemCount: _contents.length),
                 ),
-                      isLoadingMore == true ? CupertinoActivityIndicator(radius: 10,) : Container(),
+                isLoadingMore == true
+                    ? CupertinoActivityIndicator(
+                        radius: 10,
+                      )
+                    : Container(),
               ],
             );
           }
@@ -107,12 +116,11 @@ class ForumTabState extends State<ForumTab> {
     );
   }
 
-  Widget _postCard(
-      Content content) {
+  Widget _postCard(Content content) {
     String showContent;
-    if(content.text.length > 100){
+    if (content.text.length > 100) {
       showContent = content.text.substring(0, 100) + "...";
-    }else{
+    } else {
       showContent = content.text;
     }
     return Container(
@@ -144,7 +152,9 @@ class ForumTabState extends State<ForumTab> {
                   fontFamily: 'Helvetica'),
             ),
             onTap: () => pushNewScreen(context,
-                screen: ViewPost(content: content,),
+                screen: ViewPost(
+                  content: content,
+                ),
                 withNavBar: false,
                 pageTransitionAnimation: PageTransitionAnimation.cupertino),
           ),
@@ -164,13 +174,26 @@ class ForumTabState extends State<ForumTab> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    content.studentName,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, fontFamily: 'Helvetica'),
+                  Row(
+                    children: [
+                      Text(
+                        content.studentName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Helvetica'),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
+                      Image(
+                        width: 22,
+                        height: 22,
+                        image: NetworkImage(content.nation),
+                      ),
+                    ],
                   ),
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical * 1,
+                    height: SizeConfig.blockSizeVertical * 0.2,
                   ),
                   Text(
                     DateFormat('dd/MM/yyyy-kk:mm').format(content.postDate),

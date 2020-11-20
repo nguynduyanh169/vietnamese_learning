@@ -37,8 +37,7 @@ class _ViewPostState extends State<ViewPost> {
     print(content.link);
     if (content.link.toLowerCase().contains('mp4') ||
         content.link.toLowerCase().contains('mov')) {
-      controller = CachedVideoPlayerController.network(
-          content.link);
+      controller = CachedVideoPlayerController.network(content.link);
       controller.initialize().then((_) {
         setState(() {});
         controller.play();
@@ -54,10 +53,9 @@ class _ViewPostState extends State<ViewPost> {
   }
 
   void comment(BuildContext context, String comment, int postId) {
-    CommentSave commentSave = new CommentSave(
-        date: DateTime.now(), postId: postId, text: comment);
-    BlocProvider.of<PostCubit>(context)
-        .saveComment(commentSave);
+    CommentSave commentSave =
+        new CommentSave(date: DateTime.now(), postId: postId, text: comment);
+    BlocProvider.of<PostCubit>(context).saveComment(commentSave);
   }
 
   Widget _mediaPlayer(BuildContext context, String link) {
@@ -67,9 +65,7 @@ class _ViewPostState extends State<ViewPost> {
       return Container(
         height: SizeConfig.blockSizeVertical * 20,
         child: AspectRatio(
-          child: CachedVideoPlayer(
-              controller
-          ),
+          child: CachedVideoPlayer(controller),
           aspectRatio: controller.value.aspectRatio,
         ),
       );
@@ -94,9 +90,7 @@ class _ViewPostState extends State<ViewPost> {
               ),
               Text(
                 'Press to listen',
-                style: TextStyle(
-                    fontFamily: 'Helvetica',
-                    fontSize: 12),
+                style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
               )
             ],
           ),
@@ -111,85 +105,102 @@ class _ViewPostState extends State<ViewPost> {
 
   Widget _comment(BuildContext context, Comment comment) {
     return Column(
-      children: [Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: SizeConfig.blockSizeHorizontal * 1.5,
-          ),
-          Container(
-            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('assets/images/profile.png'),
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              width: SizeConfig.blockSizeHorizontal * 1.5,
             ),
-          ),
-          SizedBox(
-            width: SizeConfig.blockSizeHorizontal * 1.5,
-          ),
-          InkWell(
-            onLongPress: () {
-              _showListActionForOtherComment(context);
-            },
-            child: Container(
-              padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 2,
-                  right: SizeConfig.blockSizeHorizontal * 2),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black26.withOpacity(0.05),
-                        offset: Offset(0.0, 6.0),
-                        blurRadius: 10.0,
-                        spreadRadius: 0.10)
-                  ]),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 0.5,
-                  ),
-                  Container(
-                    child: Text(
-                      comment.studentName,
-                      style: TextStyle(
-                          fontFamily: 'Helvetica', fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 0.5,
-                  ),
-                  Container(
-                    child: Text(
-                      comment.text,
-                      style: TextStyle(fontFamily: 'Helvetica'),
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 0.5,
-                  ),
-                  Container(
-                    child: Text(
-                      DateFormat('dd/MM/yyyy').format(comment.date),
-                      style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 0.5,
-                  ),
-                ],
+            Container(
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: AssetImage('assets/images/profile.png'),
               ),
             ),
-          ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 5,
-          )
-        ],
-      ),
-        SizedBox(height: SizeConfig.blockSizeVertical * 1.5,)],
+            SizedBox(
+              width: SizeConfig.blockSizeHorizontal * 1.5,
+            ),
+            InkWell(
+              onLongPress: () {
+                _showListActionForOtherComment(context);
+              },
+              child: Container(
+                padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 2,
+                    right: SizeConfig.blockSizeHorizontal * 2),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black26.withOpacity(0.05),
+                          offset: Offset(0.0, 6.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 0.10)
+                    ]),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 0.5,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          child: Text(
+                            comment.studentName,
+                            style: TextStyle(
+                                fontFamily: 'Helvetica',
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 1.5,
+                        ),
+                        Image(
+                          width: 22,
+                          height: 22,
+                          image: NetworkImage(content.nation),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 0.2,
+                    ),
+                    Container(
+                      child: Text(
+                        comment.text,
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 0.5,
+                    ),
+                    Container(
+                      child: Text(
+                        DateFormat('dd/MM/yyyy').format(comment.date),
+                        style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 0.5,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 5,
+            )
+          ],
+        ),
+        SizedBox(
+          height: SizeConfig.blockSizeVertical * 1.5,
+        )
+      ],
     );
   }
 
@@ -228,8 +239,7 @@ class _ViewPostState extends State<ViewPost> {
                   showDialog(
                     useRootNavigator: true,
                     context: fatherContext,
-                    builder: (BuildContext context) =>
-                    new CupertinoAlertDialog(
+                    builder: (BuildContext context) => new CupertinoAlertDialog(
                       title: new Text(
                         "Confirm delete",
                         style: TextStyle(fontFamily: 'Helvetica'),
@@ -300,13 +310,12 @@ class _ViewPostState extends State<ViewPost> {
               CupertinoActionSheetAction(
                 child: Text('Delete',
                     style:
-                    TextStyle(fontFamily: 'Helvetica', color: Colors.red)),
+                        TextStyle(fontFamily: 'Helvetica', color: Colors.red)),
                 onPressed: () {
                   showDialog(
                     useRootNavigator: true,
                     context: fatherContext,
-                    builder: (BuildContext context) =>
-                    new CupertinoAlertDialog(
+                    builder: (BuildContext context) => new CupertinoAlertDialog(
                       title: new Text(
                         "Confirm delete",
                         style: TextStyle(fontFamily: 'Helvetica'),
@@ -390,108 +399,112 @@ class _ViewPostState extends State<ViewPost> {
     SizeConfig().init(context);
     return BlocProvider(
       create: (context) =>
-      PostCubit(CommentRepository())
-        ..loadComments(content.id),
+          PostCubit(CommentRepository())..loadComments(content.id),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: BlocConsumer<PostCubit, ViewPostState>(
-            listener: (context, state) {
-              if (state is LoadingPost) {
-                print('loading');
-              } else if (state is LoadPostSuccess) {
-                print('success');
-                state.comments.forEach((comment) {
-                  commentWidget.add(_comment(context, comment));
-                });
-              } else if (state is CommentPostSuccess) {
-                print('success');
-                commentWidget.clear();
-                _txtComment.clear();
-                state.comments.forEach((comment) {
-                  commentWidget.add(_comment(context, comment));
-                });
-              }
-            },
-            builder: (context, state) {
-              if (state is LoadingPost) {
-                return _loadingPosts(context);
-              } else {
-                return Container(
-                  padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeHorizontal * 4,
-                      right: SizeConfig.blockSizeHorizontal * 3),
-                  color: Color.fromRGBO(255, 239, 215, 100),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                        child: Row(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.arrow_back_ios),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 22,
-                            ),
-                            Text(
-                              'View Post',
-                              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-                            ),
-                          ],
+        body:
+            BlocConsumer<PostCubit, ViewPostState>(listener: (context, state) {
+          if (state is LoadingPost) {
+            print('loading');
+          } else if (state is LoadPostSuccess) {
+            print('success');
+            state.comments.forEach((comment) {
+              commentWidget.add(_comment(context, comment));
+            });
+          } else if (state is CommentPostSuccess) {
+            print('success');
+            commentWidget.clear();
+            _txtComment.clear();
+            state.comments.forEach((comment) {
+              commentWidget.add(_comment(context, comment));
+            });
+          }
+        }, builder: (context, state) {
+          if (state is LoadingPost) {
+            return _loadingPosts(context);
+          } else {
+            return Container(
+              padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 4,
+                  right: SizeConfig.blockSizeHorizontal * 3),
+              color: Color.fromRGBO(255, 239, 215, 100),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding:
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.arrow_back_ios),
+                          onPressed: () => Navigator.of(context).pop(),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 4,
-                      ),
-                      Expanded(
-                        child: Scrollbar(
-                          child: ListView(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal * 6,
-                                    right: SizeConfig.blockSizeHorizontal * 8),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black26.withOpacity(0.05),
-                                          offset: Offset(0.0, 6.0),
-                                          blurRadius: 10.0,
-                                          spreadRadius: 0.10)
-                                    ]),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 22,
+                        ),
+                        Text(
+                          'View Post',
+                          style:
+                              TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 4,
+                  ),
+                  Expanded(
+                    child: Scrollbar(
+                      child: ListView(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 6,
+                                right: SizeConfig.blockSizeHorizontal * 8),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black26.withOpacity(0.05),
+                                      offset: Offset(0.0, 6.0),
+                                      blurRadius: 10.0,
+                                      spreadRadius: 0.10)
+                                ]),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 3,
+                                ),
+                                Text(
+                                  content.title,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      fontFamily: 'Helvetica'),
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                Row(
                                   children: <Widget>[
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 3,
-                                    ),
-                                    Text(
-                                      content.title,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                          fontFamily: 'Helvetica'),
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: AssetImage(
+                                          'assets/images/profile.png'),
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 1,
+                                      width: SizeConfig.blockSizeHorizontal * 2,
                                     ),
-                                    Row(
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        CircleAvatar(
-                                          radius: 20,
-                                          backgroundImage:
-                                          AssetImage('assets/images/profile.png'),
-                                        ),
-                                        SizedBox(
-                                          width: SizeConfig.blockSizeHorizontal * 2,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
+                                        Row(
+                                          children: [
                                             Text(
                                               content.studentName,
                                               style: TextStyle(
@@ -499,106 +512,122 @@ class _ViewPostState extends State<ViewPost> {
                                                   fontFamily: 'Helvetica'),
                                             ),
                                             SizedBox(
-                                              height: SizeConfig.blockSizeVertical * 1,
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  2,
                                             ),
-                                            Text(
-                                              DateFormat('dd/MM/yyyy-kk:mm').format(content.postDate),
-                                              style: TextStyle(
-                                                  fontSize: 10, fontFamily: 'Helvetica'),
-                                            )
+                                            Image(
+                                              width: 22,
+                                              height: 22,
+                                              image:
+                                                  NetworkImage(content.nation),
+                                            ),
                                           ],
+                                        ),
+                                        SizedBox(
+                                          height: SizeConfig.blockSizeVertical *
+                                              0.2,
+                                        ),
+                                        Text(
+                                          DateFormat('dd/MM/yyyy-kk:mm')
+                                              .format(content.postDate),
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              fontFamily: 'Helvetica'),
                                         )
                                       ],
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 2,
-                                    ),
-                                    Text(
-                                      "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
-                                      style: TextStyle(fontFamily: 'Helvetica'),
-                                    ),
-                                    // Container(
-                                    //   height: SizeConfig.blockSizeVertical * 20,
-                                    //   child:  Chewie(
-                                    //     controller: _chewieController,
-                                    //   ),
-                                    // ),
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 4,
                                     )
                                   ],
                                 ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 1.5,
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal * 2),
-                                child: Text(
-                                  'Comments(5)',
-                                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 2,
                                 ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 1.5,
-                              ),
-                              Column(
-                                children: commentWidget,
-                              ),
-                            ],
+                                Text(
+                                  "Despite having lots of opportunities to learn languages in my younger years, I didn't grab them. Not that I didn't want to, but my friends were already speaking multiple languages fluently. Conscious as any youngster, I refused to toddle next to their sprinting. Fast forward many years til half a year ago, I started Vietnamese on Duolingo. In the course, I learned Vietnamese, of course. But even more important, I learned that me learning anything has nothing to do with other people at all! The course didn't magically make me into a fluent Vietnamese speaker. Very frankly speaking, I can barely speak and listen to the language. (Your fault, Duo!) But what matters is, I now know more than when I started. It's who I should compete with - myself in the past.",
+                                  style: TextStyle(fontFamily: 'Helvetica'),
+                                ),
+                                // Container(
+                                //   height: SizeConfig.blockSizeVertical * 20,
+                                //   child:  Chewie(
+                                //     controller: _chewieController,
+                                //   ),
+                                // ),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 4,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1.5,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 2),
+                            child: Text(
+                              'Comments(5)',
+                              style: TextStyle(
+                                  fontFamily: 'Helvetica', fontSize: 15),
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1.5,
+                          ),
+                          Column(
+                            children: commentWidget,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 1.5,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal * 79,
+                        height: SizeConfig.blockSizeVertical * 6,
+                        child: TextField(
+                          controller: _txtComment,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            hintText: 'Write your comment',
+                            hintStyle: TextStyle(
+                                fontFamily: 'Helvetica', fontSize: 12),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 1.5,
+                        width: SizeConfig.blockSizeHorizontal * 0.9,
                       ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 79,
-                            height: SizeConfig.blockSizeVertical * 6,
-                            child: TextField(
-                              controller: _txtComment,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                hintText: 'Write your comment',
-                                hintStyle:
-                                TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-                              ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        child: IconButton(
+                            icon: Icon(
+                              CupertinoIcons.bubble_left_fill,
+                              color: Colors.blueAccent,
+                              size: 30,
                             ),
-                          ),
-                          SizedBox(
-                            width: SizeConfig.blockSizeHorizontal * 0.9,
-                          ),
-                          Container(
-                            decoration:
-                            BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
-                            child: IconButton(
-                                icon: Icon(
-                                  CupertinoIcons.bubble_left_fill,
-                                  color: Colors.blueAccent,
-                                  size: 30,
-                                ),
-                                onPressed: () {
-                                  comment(context, _txtComment.text, content.id);
-                                }),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 1.5,
+                            onPressed: () {
+                              comment(context, _txtComment.text, content.id);
+                            }),
                       ),
                     ],
                   ),
-                );
-              }
-            }
-        ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 1.5,
+                  ),
+                ],
+              ),
+            );
+          }
+        }),
       ),
     );
   }
@@ -616,6 +645,4 @@ class _ViewPostState extends State<ViewPost> {
       ),
     );
   }
-
 }
-
