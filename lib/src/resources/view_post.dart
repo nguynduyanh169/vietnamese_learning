@@ -1,12 +1,10 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/post_cubit.dart';
 import 'package:vietnamese_learning/src/data/comment_repository.dart';
@@ -14,7 +12,6 @@ import 'package:vietnamese_learning/src/models/comment.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
 import 'package:vietnamese_learning/src/states/view_post_state.dart';
-import 'package:vietnamese_learning/src/utils/auth_utils.dart';
 
 class ViewPost extends StatefulWidget {
   Content content;
