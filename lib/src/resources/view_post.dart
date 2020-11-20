@@ -41,8 +41,7 @@ class _ViewPostState extends State<ViewPost> {
     if (content.link != null) {
       if (content.link.toLowerCase().contains('mp4') ||
           content.link.toLowerCase().contains('mov')) {
-        player.setDataSource(
-            content.link, autoPlay: true);
+        player.setDataSource(content.link, autoPlay: true);
       }
     }
     _txtComment = new TextEditingController();
@@ -51,7 +50,7 @@ class _ViewPostState extends State<ViewPost> {
 
   void _loadUsername() async {
     final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     username = sharedPreferences.getString('username');
   }
 
@@ -81,15 +80,18 @@ class _ViewPostState extends State<ViewPost> {
       } else {
         return InkWell(
           child: Container(
+            margin: EdgeInsets.only(top: 8),
             width: SizeConfig.blockSizeHorizontal * 35,
             height: SizeConfig.blockSizeVertical * 8,
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(10.0),
+              shape: BoxShape.circle,
               color: Color.fromRGBO(255, 190, 51, 1),
             ),
             child: Row(
               children: <Widget>[
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 3,
+                ),
                 IconButton(
                   icon: Icon(
                     CupertinoIcons.play_arrow_solid,
@@ -97,10 +99,11 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   iconSize: 20,
                 ),
-                Text(
-                  'Press to listen',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-                )
+
+                // Text(
+                //   'Press to listen',
+                //   style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+                // )
               ],
             ),
           ),
@@ -115,7 +118,7 @@ class _ViewPostState extends State<ViewPost> {
   }
 
   Widget _comment(BuildContext context, Comment comment, String name) {
-    if(name != username){
+    if (name != username) {
       return Column(
         children: [
           Row(
@@ -123,13 +126,6 @@ class _ViewPostState extends State<ViewPost> {
             children: <Widget>[
               SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 1.5,
-              ),
-              Container(
-                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage('assets/images/profile.png'),
-                ),
               ),
               SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 1.5,
@@ -159,12 +155,31 @@ class _ViewPostState extends State<ViewPost> {
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 0.5,
                       ),
+                      Row(
+                        children: [
+                          Text(
+                            content.studentName,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Helvetica'),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          Image(
+                            width: 22,
+                            height: 22,
+                            image: NetworkImage(content.nation),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 0.2,
+                      ),
                       Container(
                         child: Text(
-                          comment.studentName,
-                          style: TextStyle(
-                              fontFamily: 'Helvetica',
-                              fontWeight: FontWeight.w600),
+                          comment.text,
+                          style: TextStyle(fontFamily: 'Helvetica'),
                         ),
                       ),
                       SizedBox(
@@ -182,7 +197,8 @@ class _ViewPostState extends State<ViewPost> {
                       Container(
                         child: Text(
                           DateFormat('dd/MM/yyyy').format(comment.date),
-                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                          style:
+                              TextStyle(fontFamily: 'Helvetica', fontSize: 10),
                         ),
                       ),
                       SizedBox(
@@ -202,7 +218,7 @@ class _ViewPostState extends State<ViewPost> {
           )
         ],
       );
-    }else{
+    } else {
       return Column(
         children: [
           Row(
@@ -212,7 +228,8 @@ class _ViewPostState extends State<ViewPost> {
                 width: SizeConfig.blockSizeHorizontal * 1.5,
               ),
               Container(
-                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                padding:
+                    EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
                 child: CircleAvatar(
                   radius: 20,
                   backgroundImage: AssetImage('assets/images/profile.png'),
@@ -269,7 +286,8 @@ class _ViewPostState extends State<ViewPost> {
                       Container(
                         child: Text(
                           DateFormat('dd/MM/yyyy').format(comment.date),
-                          style: TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                          style:
+                              TextStyle(fontFamily: 'Helvetica', fontSize: 10),
                         ),
                       ),
                       SizedBox(
@@ -290,19 +308,17 @@ class _ViewPostState extends State<ViewPost> {
         ],
       );
     }
-
   }
 
-  Widget _editPost(String name, BuildContext context){
-    if(name == username){
+  Widget _editPost(String name, BuildContext context) {
+    if (name == username) {
       return IconButton(
         icon: Icon(CupertinoIcons.ellipsis),
         onPressed: () {
           _showListAction(context);
         },
       );
-    }
-    else{
+    } else {
       return Container();
     }
   }
@@ -327,7 +343,9 @@ class _ViewPostState extends State<ViewPost> {
                     expand: true,
                     context: context,
                     backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(content: content,),
+                    builder: (context, scrollController) => EditPostScreen(
+                      content: content,
+                    ),
                   ).then((value) {
                     Navigator.of(fatherContext).pop();
                   });
@@ -512,7 +530,8 @@ class _ViewPostState extends State<ViewPost> {
           } else if (state is LoadPostSuccess) {
             print('success');
             state.comments.forEach((comment) {
-              commentWidget.add(_comment(context, comment, comment.studentName));
+              commentWidget
+                  .add(_comment(context, comment, comment.studentName));
             });
             numberOfComment = state.comments.length;
           } else if (state is CommentPostSuccess) {
@@ -520,7 +539,8 @@ class _ViewPostState extends State<ViewPost> {
             commentWidget.clear();
             _txtComment.clear();
             state.comments.forEach((comment) {
-              commentWidget.add(_comment(context, comment, comment.studentName));
+              commentWidget
+                  .add(_comment(context, comment, comment.studentName));
             });
             numberOfComment = state.comments.length;
           }
@@ -612,15 +632,30 @@ class _ViewPostState extends State<ViewPost> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          content.studentName,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Helvetica'),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              content.studentName,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'Helvetica'),
+                                            ),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  2,
+                                            ),
+                                            Image(
+                                              width: 22,
+                                              height: 22,
+                                              image:
+                                                  NetworkImage(content.nation),
+                                            ),
+                                          ],
                                         ),
                                         SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical * 1,
+                                          height: SizeConfig.blockSizeVertical *
+                                              0.2,
                                         ),
                                         Text(
                                           DateFormat('dd/MM/yyyy-kk:mm')
@@ -640,9 +675,71 @@ class _ViewPostState extends State<ViewPost> {
                                   content.text,
                                   style: TextStyle(fontFamily: 'Helvetica'),
                                 ),
-                                _mediaPlayer(context, content.link),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 70,
+                                      alignment: Alignment.centerLeft,
+                                      child:
+                                          _mediaPlayer(context, content.link),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      width: 60,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Colors.black26,
+                                            width: 3.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeHorizontal * 2,
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeVertical * 2,
+                                        ),
+                                        Icon(
+                                          Icons.volume_up,
+                                          size: 40,
+                                          color: Colors.black26,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeHorizontal * 2,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      width: 60,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Colors.black26,
+                                            width: 3.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeHorizontal * 2,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      height: 30,
+                                      child: Text("0:00"),
+                                    ),
+                                  ],
+                                ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical * 4,
+                                  height: SizeConfig.blockSizeVertical * 2,
                                 )
                               ],
                             ),
