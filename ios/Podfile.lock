@@ -3,8 +3,6 @@ PODS:
     - Flutter
   - assets_audio_player_web (0.0.1):
     - Flutter
-  - audio_recorder (0.0.1):
-    - Flutter
   - BIJKPlayer (0.7.8)
   - cached_video_player (0.0.1):
     - Flutter
@@ -164,7 +162,6 @@ PODS:
 DEPENDENCIES:
   - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
-  - audio_recorder (from `.symlinks/plugins/audio_recorder/ios`)
   - cached_video_player (from `.symlinks/plugins/cached_video_player/ios`)
   - camera (from `.symlinks/plugins/camera/ios`)
   - fijkplayer (from `.symlinks/plugins/fijkplayer/ios`)
@@ -214,8 +211,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/assets_audio_player/ios"
   assets_audio_player_web:
     :path: ".symlinks/plugins/assets_audio_player_web/ios"
-  audio_recorder:
-    :path: ".symlinks/plugins/audio_recorder/ios"
   cached_video_player:
     :path: ".symlinks/plugins/cached_video_player/ios"
   camera:
@@ -254,7 +249,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
-  audio_recorder: 8d200bc5ca10f8a5f8121ad1d2fcf49108a0b3bf
   BIJKPlayer: 464bcb8d263331228758bfa34b45d00f399c9fb8
   cached_video_player: 449b3d85e95316a0eca125c483f6d9e281ccabc3
   camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
@@ -298,4 +292,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0
