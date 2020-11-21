@@ -322,7 +322,6 @@ class _ViewPostState extends State<ViewPost> {
   }
 
   Widget _comment(BuildContext context, Comment comment, String name) {
-    print(username);
     if (name != username) {
       return Column(
         children: [
@@ -404,7 +403,8 @@ class _ViewPostState extends State<ViewPost> {
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 5,
-              )
+              ),
+              IconButton(icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent), onPressed: (){print('hear');},)
             ],
           ),
           SizedBox(
@@ -437,6 +437,7 @@ class _ViewPostState extends State<ViewPost> {
                   _showListActionForComment(context);
                 },
                 child: Container(
+                  //width: SizeConfig.blockSizeHorizontal * 30,
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
                       right: SizeConfig.blockSizeHorizontal * 2),
@@ -493,7 +494,8 @@ class _ViewPostState extends State<ViewPost> {
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 5,
-              )
+              ),
+              //IconButton(icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent), onPressed: (){print('hear');},)
             ],
           ),
           SizedBox(
