@@ -135,7 +135,9 @@ class _EditPostState extends State<EditPostScreen>{
             new Expanded(
               child: new Row(
                 children: <Widget>[
-                  SizedBox(width: SizeConfig.blockSizeHorizontal * 18,),
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal * 18,
+                  ),
                   new Container(
                     decoration: new BoxDecoration(
                       color: Colors.white,
@@ -166,35 +168,47 @@ class _EditPostState extends State<EditPostScreen>{
                   width: 80,
                   height: 80,
                   child: FloatingActionButton(
-                    onPressed: (){
-                      if(_isRecording == false) {
+                    onPressed: () {
+                      if (_isRecording == false) {
                         print("Start");
                         _start();
-                      }else {
+                      } else {
                         print("Stop");
                         _stop();
                         Navigator.pop(context);
                       }
                     },
-                    child: Icon(_isRecording ? CupertinoIcons.stop : CupertinoIcons.mic, size: 50,),
-                    backgroundColor: Color.fromRGBO(255, 190, 51, 30),
+                    child: Icon(
+                      _isRecording ? CupertinoIcons.stop : CupertinoIcons.mic,
+                      size: 50,
+                    ),
+                    backgroundColor: Colors.blueAccent,
                   ),
                 ),
               ),
               flex: 2,
             ),
-            SizedBox(height: SizeConfig.blockSizeVertical * 5,),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 5,
+            ),
             // dialog bottom
             new Expanded(
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
                   padding: new EdgeInsets.all(16.0),
-                  decoration: new BoxDecoration(
-                    color: Colors.blueAccent,
-                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26.withOpacity(0.05),
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.10)
+                      ]),
                   child: new Text(
                     'Cancel',
                     style: TextStyle(
