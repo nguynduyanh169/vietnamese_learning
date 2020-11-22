@@ -182,7 +182,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Correct the vocabulary',
+              'Arrange the vocabulary',
               style: TextStyle(
                   fontFamily: 'Helvetica',
                   fontSize: 25,

@@ -42,7 +42,7 @@ class _LevelScreenState extends State<LevelScreen> {
                   EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
               child: Text(
                 'CHOOSE YOUR LEVEL',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.sansita(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,

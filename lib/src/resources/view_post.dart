@@ -222,9 +222,9 @@ class _ViewPostState extends State<ViewPost> {
                       },
                       child: isRecord == true
                           ? Icon(
-                        CupertinoIcons.stop,
-                        size: 50,
-                      )
+                              CupertinoIcons.stop,
+                              size: 50,
+                            )
                           : Icon(CupertinoIcons.mic_solid),
                       backgroundColor: Colors.blueAccent,
                     ),
@@ -385,11 +385,23 @@ class _ViewPostState extends State<ViewPost> {
                           height: SizeConfig.blockSizeVertical * 0.5,
                         ),
                         Container(
-                          child: Text(
-                            comment.studentName,
-                            style: TextStyle(
-                                fontFamily: 'Helvetica',
-                                fontWeight: FontWeight.w600),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                comment.studentName,
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                width: SizeConfig.blockSizeHorizontal * 1.5,
+                              ),
+                              Image(
+                                width: 22,
+                                height: 22,
+                                image: NetworkImage(comment.nation),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(
@@ -484,11 +496,23 @@ class _ViewPostState extends State<ViewPost> {
                           height: SizeConfig.blockSizeVertical * 0.5,
                         ),
                         Container(
-                          child: Text(
-                            comment.studentName,
-                            style: TextStyle(
-                                fontFamily: 'Helvetica',
-                                fontWeight: FontWeight.w600),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                comment.studentName,
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                width: SizeConfig.blockSizeHorizontal * 1.5,
+                              ),
+                              Image(
+                                width: 22,
+                                height: 22,
+                                image: NetworkImage(comment.nation),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(

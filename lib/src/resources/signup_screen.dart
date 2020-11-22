@@ -164,7 +164,7 @@ class _SignUpState extends State<SignUpScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                   labelText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: Icon(CupertinoIcons.lock_fill),
                 ),
               ),
             ),

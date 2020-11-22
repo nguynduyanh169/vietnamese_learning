@@ -192,7 +192,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Correct the conversation',
+              'Arrange the sentence',
               style: TextStyle(
                   fontFamily: 'Helvetica',
                   fontSize: 25,
