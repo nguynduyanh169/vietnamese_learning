@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/post_cubit.dart';
@@ -36,7 +37,7 @@ class _ViewPostState extends State<ViewPost> {
   List<Widget> commentWidget = new List<Widget>();
   bool isplaying = false;
   String username;
-  int numberOfComment;
+  int numberOfComment = 0;
 
   String _fileName;
   File file;
@@ -45,6 +46,7 @@ class _ViewPostState extends State<ViewPost> {
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
+  ProgressDialog pr;
 
   _ViewPostState({this.content});
 
@@ -767,7 +769,11 @@ class _ViewPostState extends State<ViewPost> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    pr = new ProgressDialog(
+        context, showLogs: true, isDismissible: false
+    );
+    pr.style(
+        progressWidget: CupertinoActivityIndicator(), message: 'Please wait...');
     SizeConfig().init(context);
     return BlocProvider(
       create: (context) =>
@@ -786,14 +792,16 @@ class _ViewPostState extends State<ViewPost> {
             });
             numberOfComment = state.comments.length;
           } else if (state is CommentPostSuccess) {
-            print('success');
             commentWidget.clear();
             _txtComment.clear();
             state.comments.forEach((comment) {
               commentWidget
                   .add(_comment(context, comment, comment.studentName));
             });
+            pr.hide();
             numberOfComment = state.comments.length;
+          }else if(state is CommentingPost){
+            pr.show();
           }
         }, builder: (context, state) {
           if (state is LoadingPost) {

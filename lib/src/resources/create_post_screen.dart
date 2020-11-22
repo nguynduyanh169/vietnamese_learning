@@ -292,9 +292,11 @@ class _CreatePostState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     _context = context;
-    pr = new ProgressDialog(context, showLogs: true);
+    pr = new ProgressDialog(
+        context, showLogs: true, isDismissible: false
+    );
     pr.style(
-        progressWidget: CircularProgressIndicator(), message: 'Please wait...');
+        progressWidget: CupertinoActivityIndicator(), message: 'Please wait...');
     return BlocProvider(
       create: (context) => CreatePostCubit(PostRepository()),
       child: Scaffold(
