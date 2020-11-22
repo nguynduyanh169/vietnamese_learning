@@ -18,11 +18,7 @@ import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
 import 'package:google_speech/google_speech.dart';
-import 'package:google_speech/speech_to_text_beta.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
-import 'package:file/file.dart';
-import 'package:file/local.dart';
-import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import '../config/size_config.dart';
@@ -423,7 +419,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                     _stop();
                                   }
                                 },
-                                child: Icon(_isRecording ? Icons.stop_circle_outlined : Icons.mic, size: 100,),
+                                child: Icon(_isRecording ? CupertinoIcons.stop : CupertinoIcons.mic, size: 100,),
                                 backgroundColor: Color.fromRGBO(255, 190, 51, 30),
                               ),
                             ),
@@ -470,7 +466,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical * 8,
+                          height: SizeConfig.blockSizeVertical * 10,
                         ),
                         Center(
                           child: ButtonTheme(
@@ -486,7 +482,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                   height: SizeConfig.blockSizeVertical * 8,
                                   child: Center(
                                     child: Text(
-                                      'Learn now',
+                                      'Next',
                                       style: TextStyle(
                                           fontFamily: 'Helvetica',
                                           fontSize: 20,

@@ -165,112 +165,127 @@ class _CreatePostState extends State<CreatePostScreen> {
 
   _showRecordDialog(BuildContext context) {
     _init();
-    return new AlertDialog(
-      content: new Container(
-        width: 260.0,
-        height: 230.0,
-        decoration: new BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: const Color(0xFFFFFF),
-          borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
-        ),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            // dialog top
-            new Expanded(
-              child: new Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 18,
-                  ),
-                  new Container(
-                    decoration: new BoxDecoration(
-                      color: Colors.white,
+    bool isRecord = false;
+    return StatefulBuilder(builder: (context, setState) {
+      return AlertDialog(
+        content: new Container(
+          width: 260.0,
+          height: 230.0,
+          decoration: new BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: const Color(0xFFFFFF),
+            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+          ),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // dialog top
+              new Expanded(
+                child: new Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 18,
                     ),
+                    new Container(
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: new Text(
+                        'Record voice',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontFamily: 'Helvetica',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //
+              // dialog centre
+              new Expanded(
+                child: AvatarGlow(
+                  animate: _isRecording,
+                  glowColor: Theme.of(context).primaryColor,
+                  endRadius: 100.0,
+                  duration: const Duration(milliseconds: 2000),
+                  repeatPauseDuration: const Duration(milliseconds: 100),
+                  repeat: true,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        if (isRecord == false) {
+                          print('start');
+                          _start();
+                          setState(() {
+                            isRecord = true;
+                          });
+                        } else {
+                          print("Stop");
+                          _stop();
+                          setState(() {
+                            isRecord = false;
+                          });
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: isRecord == true
+                          ? Icon(
+                        CupertinoIcons.stop,
+                        size: 50,
+                      )
+                          : Icon(CupertinoIcons.mic_solid),
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                  ),
+                ),
+                flex: 2,
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 5,
+              ),
+              // dialog bottom
+              new Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      isRecord = false;
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: new EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26.withOpacity(0.05),
+                              offset: Offset(0.0, 6.0),
+                              blurRadius: 10.0,
+                              spreadRadius: 0.10)
+                        ]),
                     child: new Text(
-                      'Record voice',
+                      'Cancel',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
+                        color: Colors.white,
+                        fontSize: 13.0,
                         fontFamily: 'Helvetica',
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ],
-              ),
-            ),
-            // dialog centre
-            new Expanded(
-              child: AvatarGlow(
-                animate: _isRecording,
-                glowColor: Theme.of(context).primaryColor,
-                endRadius: 100.0,
-                duration: const Duration(milliseconds: 2000),
-                repeatPauseDuration: const Duration(milliseconds: 100),
-                repeat: true,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      if (_isRecording == false) {
-                        print("Start");
-                        _start();
-                      } else {
-                        print("Stop");
-                        _stop();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Icon(
-                      _isRecording ? CupertinoIcons.stop : CupertinoIcons.mic,
-                      size: 50,
-                    ),
-                    backgroundColor: Colors.blueAccent,
-                  ),
                 ),
               ),
-              flex: 2,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 5,
-            ),
-            // dialog bottom
-            new Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  padding: new EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26.withOpacity(0.05),
-                            offset: Offset(0.0, 6.0),
-                            blurRadius: 10.0,
-                            spreadRadius: 0.10)
-                      ]),
-                  child: new Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.0,
-                      fontFamily: 'Helvetica',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override

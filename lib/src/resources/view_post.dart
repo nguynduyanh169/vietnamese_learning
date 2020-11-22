@@ -46,8 +46,6 @@ class _ViewPostState extends State<ViewPost> {
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
 
-
-
   _ViewPostState({this.content});
 
   @override
@@ -70,7 +68,6 @@ class _ViewPostState extends State<ViewPost> {
         await SharedPreferences.getInstance();
     username = sharedPreferences.getString('username');
   }
-
 
   File _getAudioContent(String path) {
     return File(path);
@@ -113,7 +110,6 @@ class _ViewPostState extends State<ViewPost> {
         _isRecording = true;
         _current = recording;
       });
-
       const tick = const Duration(milliseconds: 50);
       new Timer.periodic(tick, (Timer t) async {
         if (_currentStatus == RecordingStatus.Stopped) {
@@ -126,6 +122,7 @@ class _ViewPostState extends State<ViewPost> {
           _currentStatus = _current.status;
         });
       });
+      print(_isRecording);
     } catch (e) {
       print(e);
     }
@@ -140,7 +137,9 @@ class _ViewPostState extends State<ViewPost> {
       _current = result;
       _currentStatus = _current.status;
       file = _getAudioContent(path);
+      _isRecording = false;
     });
+    print(_isRecording);
   }
 
   void clearCacheFile() {
@@ -151,115 +150,131 @@ class _ViewPostState extends State<ViewPost> {
     print(_fileName);
   }
 
-
   _showRecordDialog(BuildContext context) {
     _init();
-    return new AlertDialog(
-      content: new Container(
-        width: 260.0,
-        height: 230.0,
-        decoration: new BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: const Color(0xFFFFFF),
-          borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
-        ),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            // dialog top
-            new Expanded(
-              child: new Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 18,
-                  ),
-                  new Container(
-                    decoration: new BoxDecoration(
-                      color: Colors.white,
+    bool isRecord = false;
+    return StatefulBuilder(builder: (context, setState) {
+      return AlertDialog(
+        content: new Container(
+          width: 260.0,
+          height: 230.0,
+          decoration: new BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: const Color(0xFFFFFF),
+            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+          ),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // dialog top
+              new Expanded(
+                child: new Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 18,
                     ),
+                    new Container(
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: new Text(
+                        'Record voice',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontFamily: 'Helvetica',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //
+              // dialog centre
+              new Expanded(
+                child: AvatarGlow(
+                  animate: _isRecording,
+                  glowColor: Theme.of(context).primaryColor,
+                  endRadius: 100.0,
+                  duration: const Duration(milliseconds: 2000),
+                  repeatPauseDuration: const Duration(milliseconds: 100),
+                  repeat: true,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        if (isRecord == false) {
+                          print('start');
+                          _start();
+                          setState(() {
+                            isRecord = true;
+                          });
+                        } else {
+                          print("Stop");
+                          _stop();
+                          setState(() {
+                            isRecord = false;
+                          });
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: isRecord == true
+                          ? Icon(
+                        CupertinoIcons.stop,
+                        size: 50,
+                      )
+                          : Icon(CupertinoIcons.mic_solid),
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                  ),
+                ),
+                flex: 2,
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 5,
+              ),
+              // dialog bottom
+              new Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      isRecord = false;
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: new EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26.withOpacity(0.05),
+                              offset: Offset(0.0, 6.0),
+                              blurRadius: 10.0,
+                              spreadRadius: 0.10)
+                        ]),
                     child: new Text(
-                      'Record voice',
+                      'Cancel',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
+                        color: Colors.white,
+                        fontSize: 13.0,
                         fontFamily: 'Helvetica',
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ],
-              ),
-            ),
-            // dialog centre
-            new Expanded(
-              child: AvatarGlow(
-                animate: _isRecording,
-                glowColor: Theme.of(context).primaryColor,
-                endRadius: 100.0,
-                duration: const Duration(milliseconds: 2000),
-                repeatPauseDuration: const Duration(milliseconds: 100),
-                repeat: true,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      if (_isRecording == false) {
-                        _start();
-                      } else {
-                        print("Stop");
-                        _stop();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: _isRecording == true ? Icon(
-                      CupertinoIcons.stop ,
-                      size: 50,
-                    ): Icon(CupertinoIcons.mic_solid),
-                    backgroundColor: Colors.blueAccent,
-                  ),
                 ),
               ),
-              flex: 2,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 5,
-            ),
-            // dialog bottom
-            new Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  padding: new EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26.withOpacity(0.05),
-                            offset: Offset(0.0, 6.0),
-                            blurRadius: 10.0,
-                            spreadRadius: 0.10)
-                      ]),
-                  child: new Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.0,
-                      fontFamily: 'Helvetica',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
+
   @override
   void dispose() {
     player.dispose();
@@ -303,11 +318,10 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   iconSize: 20,
                 ),
-
-                 Text(
+                Text(
                   'Press to listen',
-                   style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-                 )
+                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+                )
               ],
             ),
           ),
@@ -347,64 +361,73 @@ class _ViewPostState extends State<ViewPost> {
                   _showListActionForOtherComment(context);
                 },
                 child: Container(
-                  padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeHorizontal * 2,
-                      right: SizeConfig.blockSizeHorizontal * 2),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26.withOpacity(0.05),
-                            offset: Offset(0.0, 6.0),
-                            blurRadius: 10.0,
-                            spreadRadius: 0.10)
-                      ]),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                      Container(
-                        child: Text(
-                          comment.studentName,
-                          style: TextStyle(
-                              fontFamily: 'Helvetica',
-                              fontWeight: FontWeight.w600),
+                  width: SizeConfig.blockSizeHorizontal * 65,
+                  height: SizeConfig.blockSizeVertical * 12,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal * 2,
+                        right: SizeConfig.blockSizeHorizontal * 2),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26.withOpacity(0.05),
+                              offset: Offset(0.0, 6.0),
+                              blurRadius: 10.0,
+                              spreadRadius: 0.10)
+                        ]),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                      Container(
-                        child: Text(
-                          comment.text,
-                          style: TextStyle(fontFamily: 'Helvetica'),
+                        Container(
+                          child: Text(
+                            comment.studentName,
+                            style: TextStyle(
+                                fontFamily: 'Helvetica',
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                      Container(
-                        child: Text(
-                          DateFormat('dd/MM/yyyy').format(comment.date),
-                          style:
-                              TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                    ],
+                        Expanded(
+                          child: Text(
+                            comment.text,
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
+                        ),
+                        Container(
+                          child: Text(
+                            DateFormat('dd/MM/yyyy').format(comment.date),
+                            style: TextStyle(
+                                fontFamily: 'Helvetica', fontSize: 10),
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 5,
               ),
-              IconButton(icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent), onPressed: (){print('hear');},)
+              IconButton(
+                icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent),
+                onPressed: () {
+                  print('hear');
+                },
+              )
             ],
           ),
           SizedBox(
@@ -434,68 +457,76 @@ class _ViewPostState extends State<ViewPost> {
               ),
               InkWell(
                 onLongPress: () {
-                  _showListActionForComment(context);
+                  _showListActionForOtherComment(context);
                 },
                 child: Container(
-                  //width: SizeConfig.blockSizeHorizontal * 30,
-                  padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeHorizontal * 2,
-                      right: SizeConfig.blockSizeHorizontal * 2),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26.withOpacity(0.05),
-                            offset: Offset(0.0, 6.0),
-                            blurRadius: 10.0,
-                            spreadRadius: 0.10)
-                      ]),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                      Container(
-                        child: Text(
-                          comment.studentName,
-                          style: TextStyle(
-                              fontFamily: 'Helvetica',
-                              fontWeight: FontWeight.w600),
+                  width: SizeConfig.blockSizeHorizontal * 65,
+                  height: SizeConfig.blockSizeVertical * 12,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal * 2,
+                        right: SizeConfig.blockSizeHorizontal * 2),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26.withOpacity(0.05),
+                              offset: Offset(0.0, 6.0),
+                              blurRadius: 10.0,
+                              spreadRadius: 0.10)
+                        ]),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                      Container(
-                        child: Text(
-                          comment.text,
-                          style: TextStyle(fontFamily: 'Helvetica'),
+                        Container(
+                          child: Text(
+                            comment.studentName,
+                            style: TextStyle(
+                                fontFamily: 'Helvetica',
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                      Container(
-                        child: Text(
-                          DateFormat('dd/MM/yyyy').format(comment.date),
-                          style:
-                              TextStyle(fontFamily: 'Helvetica', fontSize: 10),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                    ],
+                        Expanded(
+                          child: Text(
+                            comment.text,
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
+                        ),
+                        Container(
+                          child: Text(
+                            DateFormat('dd/MM/yyyy').format(comment.date),
+                            style: TextStyle(
+                                fontFamily: 'Helvetica', fontSize: 10),
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 0.5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 5,
               ),
-              //IconButton(icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent), onPressed: (){print('hear');},)
+              IconButton(
+                icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent),
+                onPressed: () {
+                  print('hear');
+                },
+              )
             ],
           ),
           SizedBox(
@@ -720,8 +751,7 @@ class _ViewPostState extends State<ViewPost> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body:
-            BlocConsumer<PostCubit, ViewPostState>(
-                listener: (context, state) {
+            BlocConsumer<PostCubit, ViewPostState>(listener: (context, state) {
           if (state is LoadingPost) {
             print('loading');
           } else if (state is LoadPostSuccess) {
@@ -755,8 +785,8 @@ class _ViewPostState extends State<ViewPost> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        padding:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 2),
                         child: Row(
                           children: <Widget>[
                             IconButton(
@@ -768,8 +798,8 @@ class _ViewPostState extends State<ViewPost> {
                             ),
                             Text(
                               'View Post',
-                              style:
-                              TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                              style: TextStyle(
+                                  fontSize: 20, fontFamily: 'Helvetica'),
                             ),
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 19,
@@ -794,7 +824,8 @@ class _ViewPostState extends State<ViewPost> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     boxShadow: [
                                       BoxShadow(
-                                          color: Colors.black26.withOpacity(0.05),
+                                          color:
+                                              Colors.black26.withOpacity(0.05),
                                           offset: Offset(0.0, 6.0),
                                           blurRadius: 10.0,
                                           spreadRadius: 0.10)
@@ -823,38 +854,42 @@ class _ViewPostState extends State<ViewPost> {
                                               'assets/images/profile.png'),
                                         ),
                                         SizedBox(
-                                          width: SizeConfig.blockSizeHorizontal * 2,
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
                                         ),
                                         Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Row(
                                               children: [
                                                 Text(
                                                   content.studentName,
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       fontFamily: 'Helvetica'),
                                                 ),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                      .blockSizeHorizontal *
+                                                          .blockSizeHorizontal *
                                                       2,
                                                 ),
                                                 Image(
                                                   width: 22,
                                                   height: 22,
-                                                  image:
-                                                  NetworkImage(content.nation),
+                                                  image: NetworkImage(
+                                                      content.nation),
                                                 ),
                                               ],
                                             ),
                                             SizedBox(
-                                              height: SizeConfig.blockSizeVertical *
-                                                  0.2,
+                                              height:
+                                                  SizeConfig.blockSizeVertical *
+                                                      0.2,
                                             ),
                                             Text(
                                               DateFormat('dd/MM/yyyy-kk:mm')
@@ -909,14 +944,21 @@ class _ViewPostState extends State<ViewPost> {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 0.5, right: SizeConfig.blockSizeHorizontal * 3),
-                            icon: Icon(CupertinoIcons.mic_circle_fill, size: 40, color: Colors.blueAccent,),
-                            onPressed: (){
+                            padding: EdgeInsets.only(
+                                bottom: SizeConfig.blockSizeVertical * 0.5,
+                                right: SizeConfig.blockSizeHorizontal * 3),
+                            icon: Icon(
+                              CupertinoIcons.mic_circle_fill,
+                              size: 40,
+                              color: Colors.blueAccent,
+                            ),
+                            onPressed: () {
                               showDialog(
                                   context: context,
-                                  builder: (context) => _showRecordDialog(context));
-                            }
-                            ,),
+                                  builder: (context) =>
+                                      _showRecordDialog(context));
+                            },
+                          ),
                           Container(
                             width: SizeConfig.blockSizeHorizontal * 65,
                             height: SizeConfig.blockSizeVertical * 6,
@@ -947,7 +989,8 @@ class _ViewPostState extends State<ViewPost> {
                                   size: 30,
                                 ),
                                 onPressed: () {
-                                  comment(context, _txtComment.text, content.id);
+                                  comment(
+                                      context, _txtComment.text, content.id);
                                 }),
                           ),
                         ],
@@ -958,84 +1001,91 @@ class _ViewPostState extends State<ViewPost> {
                     ],
                   ),
                 ),
-                file != null ?
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 81,
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 4,
-                            ),
-                            Stack(
-                              children: <Widget>[
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal * 10,
-                                  height: SizeConfig.blockSizeVertical * 8,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(15.0),
-                                          topLeft: Radius.circular(5.0),
-                                          bottomRight: Radius.circular(5.0),
-                                          bottomLeft: Radius.circular(5.0)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black26
-                                                .withOpacity(0.05),
-                                            offset: Offset(0.0, 6.0),
-                                            blurRadius: 10.0,
-                                            spreadRadius: 0.10)
-                                      ]),
-                                  child: IconButton(
-                                    icon: Icon(CupertinoIcons.volume_up),
+                file != null
+                    ? Positioned(
+                        top: SizeConfig.blockSizeVertical * 81,
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal * 4,
                                   ),
-                                ),
-                                Positioned(
-                                  left: SizeConfig.blockSizeHorizontal * 1.5,
-                                  bottom: SizeConfig.blockSizeVertical * 3.3,
-                                  child: new Container(
-                                      padding: EdgeInsets.all(1),
-                                      constraints: BoxConstraints(
-                                        minWidth: 2,
-                                        minHeight: 2,
-                                      ),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          CupertinoIcons
-                                              .clear_circled_solid,
-                                          color: Colors.redAccent,
-                                          size: 15,
+                                  Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 10,
+                                        height:
+                                            SizeConfig.blockSizeVertical * 8,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(15.0),
+                                                topLeft: Radius.circular(5.0),
+                                                bottomRight:
+                                                    Radius.circular(5.0),
+                                                bottomLeft:
+                                                    Radius.circular(5.0)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black26
+                                                      .withOpacity(0.05),
+                                                  offset: Offset(0.0, 6.0),
+                                                  blurRadius: 10.0,
+                                                  spreadRadius: 0.10)
+                                            ]),
+                                        child: IconButton(
+                                          icon: Icon(CupertinoIcons.volume_up),
                                         ),
-                                        onPressed: () {
-                                          clearCacheFile();
-                                        },
-                                      )),
-                                )
-                              ],
-                            )
-                          ],
+                                      ),
+                                      Positioned(
+                                        left: SizeConfig.blockSizeHorizontal *
+                                            1.5,
+                                        bottom:
+                                            SizeConfig.blockSizeVertical * 3.3,
+                                        child: new Container(
+                                            padding: EdgeInsets.all(1),
+                                            constraints: BoxConstraints(
+                                              minWidth: 2,
+                                              minHeight: 2,
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                CupertinoIcons
+                                                    .clear_circled_solid,
+                                                color: Colors.redAccent,
+                                                size: 15,
+                                              ),
+                                              onPressed: () {
+                                                clearCacheFile();
+                                              },
+                                            )),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          width: SizeConfig.blockSizeHorizontal * 100,
+                          height: SizeConfig.blockSizeVertical * 10,
+                          decoration: BoxDecoration(
+                              color: Colors.black12,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black26.withOpacity(0.05),
+                                    offset: Offset(0.0, 6.0),
+                                    blurRadius: 10.0,
+                                    spreadRadius: 0.10)
+                              ]),
                         ),
-                      ],
-                    ),
-                    width: SizeConfig.blockSizeHorizontal * 100,
-                    height: SizeConfig.blockSizeVertical * 10,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26.withOpacity(0.05),
-                              offset: Offset(0.0, 6.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 0.10)
-                        ]),
-                  ),
-                ) : Container()
+                      )
+                    : Container()
               ],
             );
           }

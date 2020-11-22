@@ -13,7 +13,6 @@ class PostCubit extends Cubit<ViewPostState>{
   Future<void> loadComments(int postId) async{
     try{
       emit(LoadingPost());
-      print('comment');
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
       List<Comment> comments = await _commentRepository.getCommentsByPostId(postId, token);
