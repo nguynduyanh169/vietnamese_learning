@@ -4,6 +4,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:math';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vietnamese_learning/src/components/word_button.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/home_screen_hangman.dart';
 import 'package:vietnamese_learning/src/utilities/alphabet.dart';
 import 'package:vietnamese_learning/src/utilities/constants.dart';
@@ -26,6 +27,7 @@ class _GameScreenState extends State<GameScreen> {
   int lives = 5;
   Alphabet englishAlphabet = Alphabet();
   String word;
+  String question;
   String hiddenWord;
   List<String> wordList = [];
   List<int> hintLetters = [];
@@ -79,6 +81,15 @@ class _GameScreenState extends State<GameScreen> {
     wordList = [];
     hintLetters = [];
     word = widget.hangmanObject.getWord();
+    List<String> test = word.split("/");
+    print(test);
+    for (int i = 0; i < test.length; i++) {
+      if (i % 2 == 0) {
+        word = test[i];
+      } else {
+        question = test[i];
+      }
+    }
 //    print
     print('this is word ' + word);
     if (word.length != 0) {
@@ -327,6 +338,18 @@ class _GameScreenState extends State<GameScreen> {
                             ),
                           ],
                         ),
+                      ),
+                      Center(
+                        child: Text(
+                          question,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 2,
                       ),
                       Expanded(
                         flex: 6,
