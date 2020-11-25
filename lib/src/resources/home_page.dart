@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       HomeScreen(),
       ForumScreen(),
       ListGameScreen(),
-      ProfileScreen(),
+      // ProfileScreen(),
     ];
   }
 
@@ -50,12 +50,12 @@ class _HomePageState extends State<HomePage> {
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.person_alt),
-        title: ("Profile"),
-        activeColor: CupertinoColors.activeBlue,
-        inactiveColor: CupertinoColors.systemGrey,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(CupertinoIcons.person_alt),
+      //   title: ("Profile"),
+      //   activeColor: CupertinoColors.activeBlue,
+      //   inactiveColor: CupertinoColors.systemGrey,
+      // ),
     ];
   }
 

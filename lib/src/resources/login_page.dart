@@ -92,7 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                         labelText: 'Enter your Username',
                         labelStyle: TextStyle(
                           fontFamily: 'Helvetica',

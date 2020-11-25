@@ -255,7 +255,7 @@ class _GameScreenState extends State<GameScreen> {
       },
       child: Scaffold(
         body: Container(
-          color: Color.fromRGBO(255, 239, 204, 5),
+          color: const Color.fromRGBO(255, 190, 51, 90),
           child: SafeArea(
             child: Column(
               children: <Widget>[

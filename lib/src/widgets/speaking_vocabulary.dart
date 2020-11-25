@@ -131,7 +131,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             child: AvatarGlow(
               animate: _isRecording,
               glowColor: Theme.of(context).primaryColor,
-              endRadius: 100.0,
+              endRadius: 130.0,
               duration: const Duration(milliseconds: 2000),
               repeatPauseDuration: const Duration(milliseconds: 100),
               repeat: true,
@@ -139,19 +139,19 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                 width: 150,
                 height: 150,
                 child: FloatingActionButton(
-                onPressed: (){
-                  if(_isRecording == false) {
-                    print("Start");
-                    _start();
-                  }else {
-                    print("Stop");
-                    print(_isRecording);
-                    _stop();
-                  }
-                },
-                child: Icon(_isRecording ? Icons.stop_circle_outlined : Icons.mic, size: 50,),
+                  onPressed: (){
+                    if(_isRecording == false) {
+                      print("Start");
+                      _start();
+                    }else {
+                      print("Stop");
+                      print(_isRecording);
+                      _stop();
+                    }
+                  },
+                  child: Icon(_isRecording ? CupertinoIcons.stop : CupertinoIcons.mic, size: 100,),
                   backgroundColor: Color.fromRGBO(255, 190, 51, 30),
-              ),
+                ),
               ),
             ),
           ),

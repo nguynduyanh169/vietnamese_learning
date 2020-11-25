@@ -16,32 +16,35 @@ class ConversationRight extends StatelessWidget {
       height: SizeConfig.blockSizeHorizontal * 30,
       width: MediaQuery.of(context).size.width,
       alignment: Alignment.centerRight,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.black,
-            width: 1.0,
-          ),
-          top: BorderSide(
-            color: Colors.black,
-            width: 1.0,
-          ),
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   //color: Colors.white,
+      //   // border: Border(
+      //   //   bottom: BorderSide(
+      //   //     color: Colors.black,
+      //   //     width: 1.0,
+      //   //   ),
+      //   //   top: BorderSide(
+      //   //     color: Colors.black,
+      //   //     width: 1.0,
+      //   //   ),
+      //   // ),
+      // ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           ChatBubble(
             clipper: ChatBubbleClipper4(type: BubbleType.sendBubble),
             alignment: Alignment.topRight,
-            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, bottom: SizeConfig.blockSizeVertical * 2),
-            backGroundColor: Color(0xffE7E7ED),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 2,
+                bottom: SizeConfig.blockSizeVertical * 2),
+            //backGroundColor: Color(0xffE7E7ED),
+            backGroundColor: Colors.white,
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.7,
               ),
-              child:  Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,7 +55,7 @@ class ConversationRight extends StatelessWidget {
                         "$vietnamese",
                         style: TextStyle(
                             fontFamily: 'Helvetica',
-                            color: Colors.redAccent,
+                            color: Colors.orange[300],
                             fontSize: 17,
                             fontWeight: FontWeight.bold),
                       ),

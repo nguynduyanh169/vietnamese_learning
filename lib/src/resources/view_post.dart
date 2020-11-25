@@ -10,8 +10,6 @@ import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -562,22 +560,14 @@ class _ViewPostState extends State<ViewPost> {
           ),
           comment.voiceLink != null ?
           Positioned(
-            right: SizeConfig.blockSizeHorizontal * 2,
+            right: SizeConfig.blockSizeHorizontal * 6,
+            top: SizeConfig.blockSizeVertical * 1.5,
             child: InkWell(
-              child: ClipOval(
-                child: Container(
+              child: Center(
+                child: Icon(
+                  CupertinoIcons.volume_up,
                   color: Colors.blueAccent,
-                  width:
-                  SizeConfig.blockSizeHorizontal * 9,
-                  height:
-                  SizeConfig.blockSizeVertical * 5,
-                  child: Center(
-                    child: Icon(
-                      CupertinoIcons.volume_up,
-                      color: Colors.white,
-                      size: 15,
-                    ),
-                  ),
+                  size: 20,
                 ),
               ),
               onTap: () {

@@ -8,15 +8,18 @@ import 'package:vietnamese_learning/src/widgets/conversation_right.dart';
 
 class ConversationDetail extends StatefulWidget {
   List<Conversation> conversations;
-  ConversationDetail({Key key, this.conversations}) : super(key: key);
+  String lessonTitle;
+  ConversationDetail({Key key, this.conversations, this.lessonTitle})
+      : super(key: key);
 
-  _ConversationDetailState createState() =>
-      _ConversationDetailState(conversations: conversations);
+  _ConversationDetailState createState() => _ConversationDetailState(
+      conversations: conversations, lessonTitle: lessonTitle);
 }
 
 class _ConversationDetailState extends State<ConversationDetail> {
   List<Conversation> conversations;
-  _ConversationDetailState({this.conversations});
+  String lessonTitle;
+  _ConversationDetailState({this.conversations, this.lessonTitle});
 
   var conversationIndex = 0;
 
@@ -57,7 +60,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   Text(
-                    'Conversation',
+                    '$lessonTitle',
                     style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                   )
                 ],
@@ -90,10 +93,10 @@ class _ConversationDetailState extends State<ConversationDetail> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   child: RaisedButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) =>
-                              ConversationSpeaking(conversations: conversations),
+                          builder: (context) => ConversationSpeaking(
+                              conversations: conversations),
                         ));
                       },
                       child: Container(

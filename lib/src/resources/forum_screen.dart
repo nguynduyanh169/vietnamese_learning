@@ -153,15 +153,11 @@ class _ForumScreenState extends State<ForumScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-           showBarModalBottomSheet(
-            useRootNavigator: true,
-            expand: true,
-            context: context,
-            backgroundColor: Colors.transparent,
-            builder: (context, scrollController) => CreatePostScreen(),
-          );
-        },
+        onPressed: () => pushNewScreen(context,
+            screen: CreatePostScreen(),
+            withNavBar: false,
+
+            pageTransitionAnimation: PageTransitionAnimation.slideUp,),
         child: Icon(CupertinoIcons.pen),
       ),
     );

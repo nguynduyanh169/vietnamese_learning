@@ -41,8 +41,6 @@ class _CreatePostState extends State<CreatePostScreen> {
   final picker = ImagePicker();
   final interval = const Duration(seconds: 1);
 
-
-
   _CreatePostState();
 
   @override
@@ -53,11 +51,8 @@ class _CreatePostState extends State<CreatePostScreen> {
     _contentController = new TextEditingController();
   }
 
-
-
   Future getVideo() async {
-    final pickedFile = await picker.getVideo(source: ImageSource.camera, maxDuration: Duration(seconds: 10));
-
+    final pickedFile = await picker.getVideo(source: ImageSource.camera, maxDuration: Duration(seconds: 60));
     setState(() {
       if (pickedFile != null) {
         file = File(pickedFile.path);
@@ -70,7 +65,9 @@ class _CreatePostState extends State<CreatePostScreen> {
   void _loadUsername() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    username = sharedPreferences.getString('username');
+    setState(() {
+      username = sharedPreferences.getString('username');
+    });
   }
 
   void getFilePath() async {
@@ -396,8 +393,15 @@ class _CreatePostState extends State<CreatePostScreen> {
                     child: Row(
                       children: [
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 4,
+                          width: SizeConfig.blockSizeHorizontal * 2,
                         ),
+                        IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }
+                        ),
+                        SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),
                         Text(
                           "Create Post",
                           style: TextStyle(
@@ -407,7 +411,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 53,
+                          width: SizeConfig.blockSizeHorizontal * 23,
                         ),
                         InkWell(
                           child: Container(
