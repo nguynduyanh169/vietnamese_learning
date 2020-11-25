@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +13,7 @@ import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
 import 'package:vietnamese_learning/src/states/login_state.dart';
+import 'package:vietnamese_learning/src/utils/firebase_util.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -25,14 +28,22 @@ class _LoginPageState extends State<LoginPage> {
   ProgressDialog pr;
   String name = '';
 
+
   GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
+    initApp();
     _usernameController = new TextEditingController();
     _passwordController = new TextEditingController();
   }
+
+  void initApp() async{
+    FirebaseApp defaultApp = await Firebase.initializeApp();
+
+  }
+
 
   final formKey = new GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -247,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    //onTap: () => googleSignIn(),
+                    onTap: () => googleSignIn(),
                   ),
                 ],
               ),
