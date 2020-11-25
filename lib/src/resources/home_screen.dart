@@ -9,8 +9,10 @@ import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
 import 'package:vietnamese_learning/src/data/lesson_repository.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
+import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 import 'package:vietnamese_learning/src/states/lessons_state.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
+import 'package:vietnamese_learning/src/widgets/searchbar.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -82,20 +84,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: const Color.fromRGBO(255, 190, 51, 100),
               ),
               alignment: Alignment.center,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'Lesson',
-                    style: GoogleFonts.sansita(
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text(
-                    'Beginner Level',
-                    style: GoogleFonts.sansita(fontSize: 15),
-                  ),
-                ],
+              child: Container(
+                height: 140,
               ),
+              // child: Column(
+              //   children: <Widget>[
+              //     Text(
+              //       'Lesson',
+              //       style: GoogleFonts.sansita(
+              //         fontSize: 20,
+              //       ),
+              //     ),
+              //     Text(
+              //       'Beginner Level',
+              //       style: GoogleFonts.sansita(fontSize: 15),
+              //     ),
+              //   ],
+              // ),
             ),
           ],
         ),
@@ -105,8 +110,55 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Container(
+              width: SizeConfig.blockSizeVertical * 200,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Welcome back, Hai",
+                        style: GoogleFonts.crimsonText(
+                            fontSize: 32, color: Colors.orange[900]),
+                      ),
+                      Text(
+                        " Your Level: Beginner",
+                        style: TextStyle(
+                          fontFamily: 'Helvetica',
+                          fontSize: 19,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: SizeConfig.blockSizeVertical * 6,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ProfileScreen()));
+                    },
+                    child: Container(
+                      height: 52,
+                      width: 52,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF2BEA1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Image(
+                        image: AssetImage('assets/images/profile.png'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
             SizedBox(
-              height: SizeConfig.blockSizeHorizontal * 15,
+              height: SizeConfig.blockSizeHorizontal * 5,
             ),
             Expanded(
               child: GridView.count(
@@ -133,14 +185,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else {
                           Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
-                              builder: (context) => LessonDetail(lessonName:
-                              _listLessons[index].lessonName.trim(),
+                              builder: (context) => LessonDetail(
+                                lessonName:
+                                    _listLessons[index].lessonName.trim(),
                                 lessonId: _listLessons[index].lessonId,
-                                progressId: _listLessons[index].progressId,),
-                              settings : RouteSettings(name: '/lessonDetail'),
+                                progressId: _listLessons[index].progressId,
+                              ),
+                              settings: RouteSettings(name: '/lessonDetail'),
                             ),
                           );
-                          }
+                        }
                       },
                     );
                   })),

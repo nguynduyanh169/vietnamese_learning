@@ -42,10 +42,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         future: _loadUsername(),
         builder: (context, snapshot) {
           return Scaffold(
-            backgroundColor: Color.fromRGBO(255, 239, 204, 100),
             body: Container(
               decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 239, 215, 100),
+                color: Color.fromRGBO(255, 239, 204, 100),
               ),
               padding: EdgeInsets.only(
                   left: SizeConfig.blockSizeHorizontal * 5,
@@ -152,7 +151,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(width: SizeConfig.blockSizeHorizontal * 2,),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 2,
+                      ),
                       InkWell(
                         child: Container(
                           decoration: BoxDecoration(
@@ -181,7 +182,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
                   Expanded(
                     child: ListView(
                       children: <Widget>[
@@ -207,7 +210,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           trailing:
                                               Icon(CupertinoIcons.forward),
-                                          onTap: () => pushNewScreen(context, screen: EditProfileScreen(), withNavBar: false, pageTransitionAnimation: PageTransitionAnimation.cupertino),
+                                          onTap: () => pushNewScreen(context,
+                                              screen: EditProfileScreen(),
+                                              withNavBar: false,
+                                              pageTransitionAnimation:
+                                                  PageTransitionAnimation
+                                                      .cupertino),
                                         )),
                                     Card(
                                         color: const Color.fromRGBO(
@@ -235,10 +243,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 fontFamily: 'Helvetica'),
                                           ),
                                           trailing: Switch(
-                                              value: isSwitch, onChanged: (value){
+                                              value: isSwitch,
+                                              onChanged: (value) {
                                                 isSwitch = value;
                                                 print(isSwitch);
-                                          }),
+                                              }),
                                         )),
                                     Card(
                                       color: const Color.fromRGBO(
@@ -272,8 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     prefs.setString('username', null);
     prefs.setString('accessToken', null);
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginPage()),
-            (route) => false);
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
     // Navigator.of(context, rootNavigator: true).pushReplacement(
     //     MaterialPageRoute(builder: (context) => new LoginPage()));
   }

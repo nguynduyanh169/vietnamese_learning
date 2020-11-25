@@ -99,7 +99,7 @@ class ScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple[800],
+      backgroundColor: Color.fromRGBO(179, 134, 0, 1),
       body: SafeArea(
         child: query.length == 0
             ? Stack(

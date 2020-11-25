@@ -123,8 +123,10 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
                 child: InkWell(
                     onTap: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) =>
-                            ConversationDetail(conversations: _conversations),
+                        builder: (context) => ConversationDetail(
+                          conversations: _conversations,
+                          lessonTitle: title,
+                        ),
                       ));
                     },
                     child: Column(

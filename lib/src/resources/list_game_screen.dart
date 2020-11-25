@@ -101,7 +101,7 @@ class _ListGameScreenState extends State<ListGameScreen> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: Colors.deepPurple[500],
+                      color: const Color.fromRGBO(255, 190, 51, 50),
                       image: DecorationImage(
                         image: AssetImage("assets/images/hangman.png"),
                         fit: BoxFit.fill,

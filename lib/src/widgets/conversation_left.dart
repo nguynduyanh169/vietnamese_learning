@@ -44,14 +44,16 @@ class ConversationLeft extends StatelessWidget {
           ChatBubble(
             clipper: ChatBubbleClipper4(type: BubbleType.receiverBubble),
             alignment: Alignment.topRight,
-            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, bottom: SizeConfig.blockSizeVertical * 2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 2,
+                bottom: SizeConfig.blockSizeVertical * 2),
             //backGroundColor: Color(0xffE7E7ED),
             backGroundColor: Colors.white,
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.7,
               ),
-              child:  Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,7 +64,7 @@ class ConversationLeft extends StatelessWidget {
                         "$vietnamese",
                         style: TextStyle(
                             fontFamily: 'Helvetica',
-                            color: Colors.redAccent,
+                            color: Colors.orange[300],
                             fontSize: 17,
                             fontWeight: FontWeight.bold),
                       ),
