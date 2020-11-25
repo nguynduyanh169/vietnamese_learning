@@ -191,6 +191,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                           Text(
                             "Correct!",
                             style: TextStyle(fontSize: 30.0,
+                                color: Colors.green,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Helvetica'),
                           ),
@@ -221,10 +222,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                 Text('$vietnamese', style: TextStyle(
                                     fontFamily: 'Helvetica',
                                     fontWeight: FontWeight.bold,
+                                    color: Colors.green,
                                     fontSize: 25),),
                                 SizedBox(height: SizeConfig.blockSizeVertical *
                                     3,),
                                 Text('$english', style: TextStyle(
+                                    color: Colors.green,
                                     fontFamily: 'Helvetica', fontSize: 20),)
                               ],
                             ),
@@ -284,6 +287,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                             "Incorrect!",
                             style: TextStyle(fontSize: 30.0,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.redAccent,
                                 fontFamily: 'Helvetica'),
                           ),
                           SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
@@ -315,11 +319,13 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                     fontSize: 20),),
                                 Text('$vietnamese', style: TextStyle(
                                     fontFamily: 'Helvetica',
+                                    color: Colors.green,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 25),),
                                 SizedBox(height: SizeConfig.blockSizeVertical *
                                     2,),
                                 Text('$english', style: TextStyle(
+                                    color: Colors.green,
                                     fontFamily: 'Helvetica', fontSize: 20),)
                               ],
                             ),

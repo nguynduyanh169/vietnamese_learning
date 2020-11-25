@@ -69,6 +69,7 @@ class QuizAnswer extends StatelessWidget {
                         Text(
                           "Correct!",
                           style: TextStyle(
+                            color: Colors.green,
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Helvetica'),
@@ -107,6 +108,7 @@ class QuizAnswer extends StatelessWidget {
                               Text(
                                 '$answerText',
                                 style: TextStyle(
+                                  color: Colors.green,
                                     fontFamily: 'Helvetica',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
@@ -165,6 +167,7 @@ class QuizAnswer extends StatelessWidget {
                         Text(
                           "Incorrect!",
                           style: TextStyle(
+                            color: Colors.redAccent,
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Helvetica'),
@@ -203,6 +206,7 @@ class QuizAnswer extends StatelessWidget {
                               Text(
                                 '$answerText',
                                 style: TextStyle(
+                                  color: Colors.green,
                                     fontFamily: 'Helvetica',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 25),

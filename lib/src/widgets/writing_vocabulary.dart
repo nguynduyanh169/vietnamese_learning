@@ -63,6 +63,7 @@ class WritingVocabulary extends StatelessWidget{
                           "Correct!",
                           style: TextStyle(fontSize: 30.0,
                               fontWeight: FontWeight.bold,
+                              color: Colors.green,
                               fontFamily: 'Helvetica'),
                         ),
                         SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
@@ -91,11 +92,13 @@ class WritingVocabulary extends StatelessWidget{
                                   3,),
                               Text('$vietnamese', style: TextStyle(
                                   fontFamily: 'Helvetica',
+                                  color: Colors.green,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 25),),
                               SizedBox(height: SizeConfig.blockSizeVertical *
                                   3,),
                               Text('$english', style: TextStyle(
+                                color: Colors.green,
                                   fontFamily: 'Helvetica', fontSize: 20),)
                             ],
                           ),
@@ -149,6 +152,7 @@ class WritingVocabulary extends StatelessWidget{
                         Text(
                           "Incorrect!",
                           style: TextStyle(fontSize: 30.0,
+                              color: Colors.redAccent,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Helvetica'),
                         ),
@@ -181,11 +185,13 @@ class WritingVocabulary extends StatelessWidget{
                                   fontSize: 20),),
                               Text('$vietnamese', style: TextStyle(
                                   fontFamily: 'Helvetica',
+                                  color: Colors.green,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 25),),
                               SizedBox(height: SizeConfig.blockSizeVertical *
                                   2,),
                               Text('$english', style: TextStyle(
+                                color: Colors.green,
                                   fontFamily: 'Helvetica', fontSize: 20),)
                             ],
                           ),

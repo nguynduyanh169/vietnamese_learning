@@ -89,7 +89,10 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextFormField(
-                  validator: FieldValidator.required(),
+                  validator: FieldValidator.required(
+                      message: 'Username is required',
+
+                  ),
                   controller: _usernameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -113,7 +116,9 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 width: SizeConfig.blockSizeHorizontal * 85,
                 child: TextFormField(
-                  validator: FieldValidator.required(),
+                  validator: FieldValidator.required(
+                    message: 'Password is required'
+                  ),
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -162,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 5,
+                height: SizeConfig.blockSizeVertical * 4,
               ),
               MaterialButton(
                 shape: RoundedRectangleBorder(
@@ -263,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 3,
+                height: SizeConfig.blockSizeVertical * 2,
               ),
               Container(
                 padding:
@@ -336,7 +341,7 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             if (state is LoginError) {
               pr.hide();
-              Toast.show("Login Failed!", context,
+              Toast.show("Invalid Username or Password!", context,
                   duration: Toast.LENGTH_LONG,
                   gravity: Toast.BOTTOM,
                   backgroundColor: Colors.redAccent,

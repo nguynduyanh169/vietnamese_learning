@@ -202,6 +202,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                           Text(
                             "Correct!",
                             style: TextStyle(fontSize: 30.0,
+                                color: Colors.green,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Helvetica'),
                           ),
@@ -230,6 +231,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                 SizedBox(height: SizeConfig.blockSizeVertical *
                                     3,),
                                 Text('$vietnamese', style: TextStyle(
+                                  color: Colors.green,
                                     fontFamily: 'Helvetica',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),),
@@ -291,6 +293,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                           Text(
                             "Incorrect!",
                             style: TextStyle(fontSize: 30.0,
+                                color: Colors.redAccent,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Helvetica'),
                           ),
@@ -323,6 +326,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                     fontSize: 20),),
                                 Text('$vietnamese', style: TextStyle(
                                     fontFamily: 'Helvetica',
+                                    color: Colors.green,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),),
                                 SizedBox(height: SizeConfig.blockSizeVertical *

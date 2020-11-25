@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/cubit/quiz_cubit.dart';
@@ -13,18 +14,20 @@ import 'package:vietnamese_learning/src/states/quiz_state.dart';
 class QuizGetStarted extends StatefulWidget {
   String lessonId;
   int progressId;
+  String lessonName;
 
-  QuizGetStarted({Key key, this.lessonId, this.progressId}) : super(key: key);
+  QuizGetStarted({Key key, this.lessonId, this.progressId, this.lessonName}) : super(key: key);
 
   _QuizGetStartedState createState() =>
-      _QuizGetStartedState(lessonId: lessonId, progressId: progressId);
+      _QuizGetStartedState(lessonId: lessonId, progressId: progressId, lessonName: lessonName);
 }
 
 class _QuizGetStartedState extends State<QuizGetStarted> {
   String lessonId;
   int progressId;
+  String lessonName;
 
-  _QuizGetStartedState({this.lessonId, this.progressId});
+  _QuizGetStartedState({this.lessonId, this.progressId, this.lessonName});
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +112,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(
-              "Lesson Greeting",
+              "Lesson $lessonName",
               style: GoogleFonts.sansita(
                 textStyle: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -130,7 +133,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
             ),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 15,
+            height: SizeConfig.blockSizeVertical * 12,
           ),
           Container(
             width: MediaQuery.of(context).size.width * .85,
@@ -142,10 +145,66 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
               ),
               child: InkWell(
                   onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                      builder: (context) => QuizScreen(questions: questions, progressId: progressId, quizId: questions.asMap()[1].quizId,),
-                    ));
+                    if(questions.length == 0){
+                      Toast.show("This lesson does not update any quiz !", context,
+                          duration: Toast.LENGTH_LONG,
+                          gravity: Toast.TOP,
+                          backgroundColor: Colors.redAccent,
+                          textColor: Colors.white);
+                    }else {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                QuizScreen(questions: questions,
+                                  progressId: progressId,
+                                  quizId: questions.asMap()[1].quizId,),
+                          ));
+                    }
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Pratice Now",
+                            style: GoogleFonts.sansita(
+                              fontSize: 40,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * .85,
+            height: 80.0,
+            child: Card(
+              color: Colors.blueGrey,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: InkWell(
+                  onTap: () {
+                    if(questions.length == 0){
+                      Toast.show("This lesson does not update any quiz !", context,
+                          duration: Toast.LENGTH_LONG,
+                          gravity: Toast.TOP,
+                          backgroundColor: Colors.redAccent,
+                          textColor: Colors.white);
+                    }else {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                QuizScreen(questions: questions,
+                                  progressId: progressId,
+                                  quizId: questions.asMap()[1].quizId,),
+                          ));
+                    }
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

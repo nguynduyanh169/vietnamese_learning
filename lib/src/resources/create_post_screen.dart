@@ -184,7 +184,6 @@ class _CreatePostState extends State<CreatePostScreen> {
     bool isRecord = false;
     return StatefulBuilder(builder: (context, setState) {
       final int timerMaxSeconds = 120;
-
       int currentSeconds = 0;
       String time = "00:00";
       // String timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';

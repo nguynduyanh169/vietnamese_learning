@@ -86,7 +86,7 @@ class _ForumScreenState extends State<ForumScreen> {
                         screen: ForumNotificationScreen(),
                         withNavBar: false,
                         pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino),
+                            PageTransitionAnimation.slideUp),
                   ),
                   SizedBox(
                     width: SizeConfig.blockSizeHorizontal * 19,

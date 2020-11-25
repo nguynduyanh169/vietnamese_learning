@@ -52,7 +52,7 @@ class _SignUpState extends State<SignUpScreen> {
     _emailController = new TextEditingController();
     _passwordController = new TextEditingController();
     _usernameController = new TextEditingController();
-    _nationController = new TextEditingController(text: '');
+    _nationController = new TextEditingController(text: ' ');
   }
 
   Widget _chooseNation(List nation) {
@@ -71,7 +71,6 @@ class _SignUpState extends State<SignUpScreen> {
       print(_username);
       print(_password);
       print(_email);
-      print('hello');
       BlocProvider.of<RegisterCubit>(context)
           .doRegister(_username, _password, _email);
     }
@@ -136,7 +135,9 @@ class _SignUpState extends State<SignUpScreen> {
                   Container(
                   width: SizeConfig.blockSizeHorizontal * 85,
                   child: TextFormField(
-                    validator: FieldValidator.required(),
+                    validator: FieldValidator.required(
+                      message: 'Username is required'
+                    ),
                     style: TextStyle(fontFamily: 'Helvetica'),
                     controller: _usernameController,
                     decoration: InputDecoration(
@@ -197,7 +198,7 @@ class _SignUpState extends State<SignUpScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0)),
-                        labelText: 'Nation',
+                        labelText: 'Nation (optional)',
                         prefixIcon: Icon(Icons.public),
                       ),
                       readOnly: true,

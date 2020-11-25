@@ -49,10 +49,17 @@ class _LessonDetailState extends State<LessonDetail> {
                     SizedBox(
                       width: SizeConfig.blockSizeHorizontal * 21,
                     ),
-                    Text(
-                      "$title",
-                      style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                    FittedBox(
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal * 55,
+                        child: Text(
+                          "$title",
+                          style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                        ),
+                      ),
                     )
+
+
                   ],
                 ),
               ),
@@ -218,6 +225,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                     QuizGetStarted(
                               lessonId: lessonId,
                               progressId: progressId,
+                                      lessonName: title,
                             ),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
