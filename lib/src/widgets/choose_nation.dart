@@ -49,7 +49,7 @@ class _ChooseNationState extends State<ChooseNation> {
                     child: Image(
                   image: AssetImage(nation[0]['imgPath']),
                 )),
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () => Navigator.pop(context, nation[0]['nation']),
               ),
               ListTile(
                 title: Text(nation[1]['nation']),
@@ -57,7 +57,7 @@ class _ChooseNationState extends State<ChooseNation> {
                     child: Image(
                   image: AssetImage(nation[1]['imgPath']),
                 )),
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () => Navigator.pop(context, nation[1]['nation']),
               ),
               ListTile(
                 title: Text(nation[2]['nation']),

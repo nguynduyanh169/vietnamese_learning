@@ -175,7 +175,7 @@ packages:
       name: cool_alert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.3"
   crypto:
     dependency: transitive
     description:
@@ -349,6 +349,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.1"
+  flutter_chat_bubble:
+    dependency: "direct main"
+    description:
+      name: flutter_chat_bubble
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   flutter_gifimage:
     dependency: "direct dev"
     description:
@@ -485,6 +492,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.19"
+  image_picker:
+    dependency: "direct main"
+    description:
+      name: image_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.7+14"
+  image_picker_platform_interface:
+    dependency: transitive
+    description:
+      name: image_picker_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   intl:
     dependency: transitive
     description:
@@ -505,7 +526,7 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.1"
   json_serializable:
     dependency: "direct dev"
     description:
@@ -513,6 +534,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.5.0"
+  jwt_decoder:
+    dependency: "direct main"
+    description:
+      name: jwt_decoder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   like_button:
     dependency: "direct main"
     description:
@@ -534,6 +562,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.11.4"
+  lottie:
+    dependency: transitive
+    description:
+      name: lottie
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.0+1"
   matcher:
     dependency: transitive
     description:
@@ -589,14 +624,14 @@ packages:
       name: node_interop
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   node_io:
     dependency: transitive
     description:
       name: node_io
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.0"
   open_iconic_flutter:
     dependency: transitive
     description:
@@ -924,6 +959,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.2"
+  the_validator:
+    dependency: "direct main"
+    description:
+      name: the_validator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   toast:
     dependency: "direct main"
     description:

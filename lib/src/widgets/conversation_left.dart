@@ -1,6 +1,10 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_bubble/bubble_type.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
@@ -37,37 +41,48 @@ class ConversationLeft extends StatelessWidget {
               margin: const EdgeInsets.all(8),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FittedBox(
-                child: Container(
-                  width: SizeConfig.blockSizeHorizontal * 80,
-                  child: Text(
-                    "$vietnamese",
-                    style: TextStyle(
-                        fontFamily: 'Helvetica',
-                        color: Colors.redAccent,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+          ChatBubble(
+            clipper: ChatBubbleClipper4(type: BubbleType.receiverBubble),
+            alignment: Alignment.topRight,
+            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, bottom: SizeConfig.blockSizeVertical * 2),
+            backGroundColor: Color(0xffE7E7ED),
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.7,
               ),
-              FittedBox(
-                child: Container(
-                  width: SizeConfig.blockSizeHorizontal * 80,
-                  child: Text(
-                    "$english",
-                    style: TextStyle(
-                      fontFamily: 'Helvetica',
-                      color: Colors.black,
-                      fontSize: 14,
+              child:  Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FittedBox(
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 80,
+                      child: Text(
+                        "$vietnamese",
+                        style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            color: Colors.redAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
+                  FittedBox(
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 80,
+                      child: Text(
+                        "$english",
+                        style: TextStyle(
+                          fontFamily: 'Helvetica',
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),

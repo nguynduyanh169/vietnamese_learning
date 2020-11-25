@@ -13,7 +13,9 @@ class RegisterCubit extends Cubit<RegisterState>{
 
   Future<void> doRegister(String username, String password, String email) async{
     try{
+      emit(Registering());
       LoginResponse response = await _userRepository.register(username, password, email);
+      print(response.toJson());
       if(response.tokenType == 'Fail'){
         emit(RegistedError('Register Failed!'));
       }else{

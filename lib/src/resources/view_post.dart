@@ -8,6 +8,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat_bubble/bubble_type.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
@@ -287,7 +292,7 @@ class _ViewPostState extends State<ViewPost> {
   void comment(BuildContext context, String comment, int postId) {
     CommentSave commentSave =
         new CommentSave(date: DateTime.now(), postId: postId, text: comment);
-    BlocProvider.of<PostCubit>(context).saveComment(commentSave);
+    BlocProvider.of<PostCubit>(context).saveComment(commentSave, file);
   }
 
   Widget _mediaPlayer(BuildContext context, String link) {
@@ -339,225 +344,247 @@ class _ViewPostState extends State<ViewPost> {
 
   Widget _comment(BuildContext context, Comment comment, String name) {
     if (name != username) {
-      return Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                width: SizeConfig.blockSizeHorizontal * 1.5,
-              ),
-              Container(
-                padding:
+      return Stack(
+        children: <Widget>[
+          Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal * 1.5,
+                  ),
+                  Container(
+                    padding:
                     EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage('assets/images/profile.png'),
-                ),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundImage: AssetImage('assets/images/profile.png'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal * 1.5,
+                  ),
+                  InkWell(
+                    onLongPress: () {
+                      _showListActionForOtherComment(context);
+                    },
+                    child: ChatBubble(
+                      clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
+                      alignment: Alignment.topRight,
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5, bottom: SizeConfig.blockSizeVertical * 2),
+                      backGroundColor: Colors.white,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7,
+                        ),
+                        child:  Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    comment.studentName,
+                                    style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal * 1.5,
+                                  ),
+                                  Image(
+                                    width: 22,
+                                    height: 22,
+                                    image: NetworkImage(comment.nation),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      DateFormat('dd/MM/yyyy').format(comment.date),
+                                      style: TextStyle(
+                                          fontFamily: 'Helvetica', fontSize: 10),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            FittedBox(
+                              child: Container(
+                                width: SizeConfig.blockSizeHorizontal * 80,
+                                child: Text(
+                                  comment.text,
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica',
+                                      fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 5,
+                  ),
+                ],
               ),
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal * 1.5,
-              ),
-              InkWell(
-                onLongPress: () {
-                  _showListActionForOtherComment(context);
-                },
+                height: SizeConfig.blockSizeVertical * 1.5,
+              )
+            ],
+          ),
+          comment.voiceLink != null ?
+          Positioned(
+            right: SizeConfig.blockSizeHorizontal * 2,
+            child: InkWell(
+              child: ClipOval(
                 child: Container(
-                  width: SizeConfig.blockSizeHorizontal * 65,
-                  height: SizeConfig.blockSizeVertical * 12,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 2,
-                        right: SizeConfig.blockSizeHorizontal * 2),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26.withOpacity(0.05),
-                              offset: Offset(0.0, 6.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 0.10)
-                        ]),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                        Container(
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                comment.studentName,
-                                style: TextStyle(
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 1.5,
-                              ),
-                              Image(
-                                width: 22,
-                                height: 22,
-                                image: NetworkImage(comment.nation),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                        Expanded(
-                          child: Text(
-                            comment.text,
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                        Container(
-                          child: Text(
-                            DateFormat('dd/MM/yyyy').format(comment.date),
-                            style: TextStyle(
-                                fontFamily: 'Helvetica', fontSize: 10),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                      ],
+                  color: Colors.blueAccent,
+                  width:
+                  SizeConfig.blockSizeHorizontal * 9,
+                  height:
+                  SizeConfig.blockSizeVertical * 5,
+                  child: Center(
+                    child: Icon(
+                      CupertinoIcons.volume_up,
+                      color: Colors.white,
+                      size: 15,
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 5,
-              ),
-              IconButton(
-                icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent),
-                onPressed: () {
-                  print('hear');
-                },
-              )
-            ],
-          ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 1.5,
-          )
+              onTap: () {
+                AssetsAudioPlayer.playAndForget(Audio.network(comment.voiceLink));
+              },
+            ),
+          ): Container()
         ],
       );
     } else {
-      return Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                width: SizeConfig.blockSizeHorizontal * 1.5,
-              ),
-              Container(
-                padding:
+      return Stack(
+        children: <Widget>[
+          Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal * 1.5,
+                  ),
+                  Container(
+                    padding:
                     EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage('assets/images/profile.png'),
-                ),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundImage: AssetImage('assets/images/profile.png'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal * 1.5,
+                  ),
+                  InkWell(
+                    onLongPress: () {
+                      _showListActionForOtherComment(context);
+                    },
+                    child: ChatBubble(
+                      clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
+                      alignment: Alignment.topRight,
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5, bottom: SizeConfig.blockSizeVertical * 2),
+                      backGroundColor: Colors.white,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7,
+                        ),
+                        child:  Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    comment.studentName,
+                                    style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal * 1.5,
+                                  ),
+                                  Image(
+                                    width: 22,
+                                    height: 22,
+                                    image: NetworkImage(comment.nation),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      DateFormat('dd/MM/yyyy').format(comment.date),
+                                      style: TextStyle(
+                                          fontFamily: 'Helvetica', fontSize: 10),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            FittedBox(
+                              child: Container(
+                                width: SizeConfig.blockSizeHorizontal * 80,
+                                child: Text(
+                                  comment.text,
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica',
+                                      fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 5,
+                  ),
+                ],
               ),
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal * 1.5,
-              ),
-              InkWell(
-                onLongPress: () {
-                  _showListActionForOtherComment(context);
-                },
+                height: SizeConfig.blockSizeVertical * 1.5,
+              )
+            ],
+          ),
+          comment.voiceLink != null ?
+          Positioned(
+            right: SizeConfig.blockSizeHorizontal * 2,
+            child: InkWell(
+              child: ClipOval(
                 child: Container(
-                  width: SizeConfig.blockSizeHorizontal * 65,
-                  height: SizeConfig.blockSizeVertical * 12,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 2,
-                        right: SizeConfig.blockSizeHorizontal * 2),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26.withOpacity(0.05),
-                              offset: Offset(0.0, 6.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 0.10)
-                        ]),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                        Container(
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                comment.studentName,
-                                style: TextStyle(
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 1.5,
-                              ),
-                              Image(
-                                width: 22,
-                                height: 22,
-                                image: NetworkImage(comment.nation),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                        Expanded(
-                          child: Text(
-                            comment.text,
-                            style: TextStyle(fontFamily: 'Helvetica'),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                        Container(
-                          child: Text(
-                            DateFormat('dd/MM/yyyy').format(comment.date),
-                            style: TextStyle(
-                                fontFamily: 'Helvetica', fontSize: 10),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                      ],
+                  color: Colors.blueAccent,
+                  width:
+                  SizeConfig.blockSizeHorizontal * 9,
+                  height:
+                  SizeConfig.blockSizeVertical * 5,
+                  child: Center(
+                    child: Icon(
+                      CupertinoIcons.volume_up,
+                      color: Colors.white,
+                      size: 15,
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 5,
-              ),
-              IconButton(
-                icon: Icon(CupertinoIcons.volume_up, color: Colors.blueAccent),
-                onPressed: () {
-                  print('hear');
-                },
-              )
-            ],
-          ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 1.5,
-          )
+              onTap: () {
+                AssetsAudioPlayer.playAndForget(Audio.network(comment.voiceLink));
+              },
+            ),
+          ): Container()
         ],
       );
     }
@@ -1016,7 +1043,7 @@ class _ViewPostState extends State<ViewPost> {
                                 borderRadius: BorderRadius.circular(15.0)),
                             child: IconButton(
                                 icon: Icon(
-                                  CupertinoIcons.bubble_left,
+                                  CupertinoIcons.paperplane_fill,
                                   color: Colors.blueAccent,
                                   size: 30,
                                 ),

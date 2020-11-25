@@ -14,6 +14,16 @@ class LoginProcess extends LoginState {
   LoginProcess(this.loginResponse);
 }
 
+class NewLoginProcess extends LoginState{
+  final LoginResponse loginResponse;
+
+  NewLoginProcess(this.loginResponse);
+}
+
+class DoingLogin extends LoginState{
+  const DoingLogin();
+}
+
 class LoginError extends LoginState {
   final String message;
   const LoginError(this.message);

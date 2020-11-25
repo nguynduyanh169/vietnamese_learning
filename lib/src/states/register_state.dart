@@ -10,6 +10,10 @@ class RegisterInitial extends RegisterState {
   const RegisterInitial();
 }
 
+class Registering extends RegisterState{
+  const Registering();
+}
+
 class RegistedSuccess extends RegisterState {
   final LoginResponse registerResponse;
 
