@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/resources/view_post.dart';
 import 'package:vietnamese_learning/src/resources/view_post2.dart';
 
 class ForumNotificationScreen extends StatefulWidget {

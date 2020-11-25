@@ -180,25 +180,29 @@ class _CreatePostState extends State<CreatePostScreen> {
   }
 
   _showRecordDialog(BuildContext context) {
-    final int timerMaxSeconds = 60;
-
-    int currentSeconds = 0;
-    String time = "";
-    // String timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
-    startTimeout([int milliseconds]) {
-      var duration = interval;
-      Timer.periodic(duration, (timer) {
-        setState(() {
-          time = timer.tick.toString();
-          print(timer.tick);
-          currentSeconds = timer.tick;
-          if (timer.tick >= timerMaxSeconds) timer.cancel();
-        });
-      });
-    }
     _init();
     bool isRecord = false;
     return StatefulBuilder(builder: (context, setState) {
+      final int timerMaxSeconds = 120;
+      int currentSeconds = 0;
+      String time = "00:00";
+      // String timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+      startTimeout([int milliseconds]) {
+        var duration = interval;
+        Timer.periodic(duration, (timer) {
+          setState(() {
+            time = timer.tick.toString();
+            print(timer.tick);
+            currentSeconds = timer.tick;
+            time = '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+            print(time);
+            if (timer.tick >= timerMaxSeconds) {
+              timer.cancel();
+              _stop();
+            }
+          });
+        });
+      }
       return AlertDialog(
         content: new Container(
           width: 260.0,
@@ -216,7 +220,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                 child: new Row(
                   children: <Widget>[
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 18,
+                      width: SizeConfig.blockSizeHorizontal * 20,
                     ),
                     new Container(
                       decoration: new BoxDecoration(
@@ -227,6 +231,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
+                          fontWeight: FontWeight.bold,
                           fontFamily: 'Helvetica',
                         ),
                         textAlign: TextAlign.center,
@@ -239,14 +244,14 @@ class _CreatePostState extends State<CreatePostScreen> {
                 child: new Row(
                   children: <Widget>[
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 18,
+                      width: SizeConfig.blockSizeHorizontal * 21,
                     ),
                     new Container(
                       decoration: new BoxDecoration(
                         color: Colors.white,
                       ),
                       child: new Text(
-                        time,
+                        '$time/ 02:00',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -314,7 +319,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    padding: new EdgeInsets.all(16.0),
+                    padding: new EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
                         color: Colors.blueAccent,
                         borderRadius: BorderRadius.circular(10.0),

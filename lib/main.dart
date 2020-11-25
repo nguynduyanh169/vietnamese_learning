@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/route.dart';
+import 'package:vietnamese_learning/src/utils/messaging_utils.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    final Messaging _notification = Messaging();
+    _notification.initialise();
     return MaterialApp(
       title: 'Vietnamese Application',
       theme: ThemeData(

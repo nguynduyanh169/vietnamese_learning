@@ -14,6 +14,7 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -291,6 +292,7 @@ class _ViewPostState extends State<ViewPost> {
     CommentSave commentSave =
         new CommentSave(date: DateTime.now(), postId: postId, text: comment);
     BlocProvider.of<PostCubit>(context).saveComment(commentSave, file);
+    clearCacheFile();
   }
 
   Widget _mediaPlayer(BuildContext context, String link) {
@@ -438,22 +440,14 @@ class _ViewPostState extends State<ViewPost> {
           ),
           comment.voiceLink != null ?
           Positioned(
-            right: SizeConfig.blockSizeHorizontal * 2,
+            right: SizeConfig.blockSizeHorizontal * 6,
+            top: SizeConfig.blockSizeVertical * 1.5,
             child: InkWell(
-              child: ClipOval(
-                child: Container(
+              child: Center(
+                child: Icon(
+                  CupertinoIcons.volume_up,
                   color: Colors.blueAccent,
-                  width:
-                  SizeConfig.blockSizeHorizontal * 9,
-                  height:
-                  SizeConfig.blockSizeVertical * 5,
-                  child: Center(
-                    child: Icon(
-                      CupertinoIcons.volume_up,
-                      color: Colors.white,
-                      size: 15,
-                    ),
-                  ),
+                  size: 20,
                 ),
               ),
               onTap: () {
@@ -487,7 +481,7 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   InkWell(
                     onLongPress: () {
-                      _showListActionForOtherComment(context);
+                      _showListActionForComment(context);
                     },
                     child: ChatBubble(
                       clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
@@ -608,18 +602,10 @@ class _ViewPostState extends State<ViewPost> {
                   'Edit',
                   style: TextStyle(fontFamily: 'Helvetica'),
                 ),
-                onPressed: () {
-                  showBarModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(
-                      content: content,
-                    ),
-                  ).then((value) {
-                    Navigator.of(fatherContext).pop();
-                  });
-                },
+                onPressed: () => pushNewScreen(context,
+                  screen: EditPostScreen(content: content,),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.slideUp,),
               ),
               CupertinoActionSheetAction(
                 child: Text(

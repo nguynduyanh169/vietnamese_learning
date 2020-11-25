@@ -86,7 +86,7 @@ class _ForumScreenState extends State<ForumScreen> {
                         screen: ForumNotificationScreen(),
                         withNavBar: false,
                         pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino),
+                            PageTransitionAnimation.slideUp),
                   ),
                   SizedBox(
                     width: SizeConfig.blockSizeHorizontal * 19,
@@ -156,7 +156,6 @@ class _ForumScreenState extends State<ForumScreen> {
         onPressed: () => pushNewScreen(context,
             screen: CreatePostScreen(),
             withNavBar: false,
-
             pageTransitionAnimation: PageTransitionAnimation.slideUp,),
         child: Icon(CupertinoIcons.pen),
       ),

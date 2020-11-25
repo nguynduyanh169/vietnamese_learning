@@ -6,6 +6,7 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -30,12 +31,12 @@ class _EditPostState extends State<EditPostScreen>{
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
+  final picker = ImagePicker();
 
   _EditPostState({this.content});
   String username = "user";
   @override
   void initState() {
-    _init();
     txtTitle = new TextEditingController(text: content.title);
     txtContent = new TextEditingController(text: content.text);
     _loadUsername();
@@ -50,6 +51,17 @@ class _EditPostState extends State<EditPostScreen>{
 
   File _getAudioContent(String path)  {
     return File(path);
+  }
+
+  Future getVideo() async {
+    final pickedFile = await picker.getVideo(source: ImageSource.camera, maxDuration: Duration(seconds: 60));
+    setState(() {
+      if (pickedFile != null) {
+        file = File(pickedFile.path);
+      } else {
+        print('No video selected.');
+      }
+    });
   }
 
   _init() async{
@@ -118,113 +130,175 @@ class _EditPostState extends State<EditPostScreen>{
     });
   }
 
-  _onTapImage(BuildContext context) {
-    return new AlertDialog(
-      content: new Container(
-        width: 260.0,
-        height: 230.0,
-        decoration: new BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: const Color(0xFFFFFF),
-          borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
-        ),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            // dialog top
-            new Expanded(
-              child: new Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 18,
-                  ),
-                  new Container(
-                    decoration: new BoxDecoration(
-                      color: Colors.white,
+  _showRecordDialog(BuildContext context) {
+    _init();
+    bool isRecord = false;
+    return StatefulBuilder(builder: (context, setState) {
+      final interval = const Duration(seconds: 1);
+      final int timerMaxSeconds = 120;
+      int currentSeconds = 0;
+      String time = "00:00";
+      // String timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+      startTimeout([int milliseconds]) {
+        var duration = interval;
+        Timer.periodic(duration, (timer) {
+          setState(() {
+            time = timer.tick.toString();
+            print(timer.tick);
+            currentSeconds = timer.tick;
+            time = '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+            print(time);
+            if (timer.tick >= timerMaxSeconds) {
+              timer.cancel();
+              _stop();
+            }
+          });
+        });
+      }
+      return AlertDialog(
+        content: new Container(
+          width: 260.0,
+          height: 230.0,
+          decoration: new BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: const Color(0xFFFFFF),
+            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+          ),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // dialog top
+              new Expanded(
+                child: new Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 20,
                     ),
+                    new Container(
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: new Text(
+                        'Record voice',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Helvetica',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              new Expanded(
+                child: new Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 21,
+                    ),
+                    new Container(
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: new Text(
+                        '$time/ 02:00',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontFamily: 'Helvetica',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //
+              // dialog centre
+              new Expanded(
+                child: AvatarGlow(
+                  animate: _isRecording,
+                  glowColor: Theme.of(context).primaryColor,
+                  endRadius: 100.0,
+                  duration: const Duration(milliseconds: 2000),
+                  repeatPauseDuration: const Duration(milliseconds: 100),
+                  repeat: true,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        if (isRecord == false) {
+                          print('start');
+                          _start();
+                          startTimeout();
+                          setState(() {
+                            isRecord = true;
+                          });
+                        } else {
+                          print("Stop");
+                          _stop();
+                          setState(() {
+                            isRecord = false;
+                          });
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: isRecord == true
+                          ? Icon(
+                        CupertinoIcons.stop,
+                        size: 50,
+                      )
+                          : Icon(CupertinoIcons.mic_solid),
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                  ),
+                ),
+                flex: 2,
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 5,
+              ),
+              // dialog bottom
+              new Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      isRecord = false;
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: new EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26.withOpacity(0.05),
+                              offset: Offset(0.0, 6.0),
+                              blurRadius: 10.0,
+                              spreadRadius: 0.10)
+                        ]),
                     child: new Text(
-                      'Record voice',
+                      'Cancel',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
+                        color: Colors.white,
+                        fontSize: 13.0,
                         fontFamily: 'Helvetica',
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ],
-              ),
-            ),
-            // dialog centre
-            new Expanded(
-              child: AvatarGlow(
-                animate: _isRecording,
-                glowColor: Theme.of(context).primaryColor,
-                endRadius: 100.0,
-                duration: const Duration(milliseconds: 2000),
-                repeatPauseDuration: const Duration(milliseconds: 100),
-                repeat: true,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      if (_isRecording == false) {
-                        print("Start");
-                        _start();
-                      } else {
-                        print("Stop");
-                        _stop();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Icon(
-                      _isRecording ? CupertinoIcons.stop : CupertinoIcons.mic,
-                      size: 50,
-                    ),
-                    backgroundColor: Colors.blueAccent,
-                  ),
                 ),
               ),
-              flex: 2,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 5,
-            ),
-            // dialog bottom
-            new Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  padding: new EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26.withOpacity(0.05),
-                            offset: Offset(0.0, 6.0),
-                            blurRadius: 10.0,
-                            spreadRadius: 0.10)
-                      ]),
-                  child: new Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.0,
-                      fontFamily: 'Helvetica',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   void _loadUsername() async {
@@ -256,8 +330,15 @@ class _EditPostState extends State<EditPostScreen>{
               child: Row(
                 children: [
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 4,
+                    width: SizeConfig.blockSizeHorizontal * 2,
                   ),
+                  IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 23,),
                   Text(
                     "Edit Post",
                     style: TextStyle(
@@ -267,7 +348,7 @@ class _EditPostState extends State<EditPostScreen>{
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 56,
+                    width: SizeConfig.blockSizeHorizontal * 25,
                   ),
                   InkWell(
                     child: Container(
@@ -501,13 +582,13 @@ class _EditPostState extends State<EditPostScreen>{
                 IconButton(
                     icon: Icon(CupertinoIcons.mic_solid, size: 40, color: Colors.blueAccent,),
                     onPressed: (){
-                      showDialog(context: context,builder: (context) => _onTapImage(context));
+                      showDialog(context: context,builder: (context) => _showRecordDialog(context));
                     }),
                 SizedBox(width: SizeConfig.blockSizeHorizontal * 3,),
                 IconButton(
                     icon: Icon(CupertinoIcons.camera_fill, size: 40, color: Colors.blueAccent),
                     onPressed: () async{
-                      file = await Navigator.push(context, MaterialPageRoute(builder: (context) => Video()));
+                      getVideo();
                     })
               ],
             )
