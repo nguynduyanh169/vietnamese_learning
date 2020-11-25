@@ -14,6 +14,7 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -608,18 +609,10 @@ class _ViewPostState extends State<ViewPost> {
                   'Edit',
                   style: TextStyle(fontFamily: 'Helvetica'),
                 ),
-                onPressed: () {
-                  showBarModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) => EditPostScreen(
-                      content: content,
-                    ),
-                  ).then((value) {
-                    Navigator.of(fatherContext).pop();
-                  });
-                },
+                onPressed: () => pushNewScreen(context,
+                  screen: EditPostScreen(content: content,),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.slideUp,),
               ),
               CupertinoActionSheetAction(
                 child: Text(

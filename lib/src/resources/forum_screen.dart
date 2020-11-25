@@ -156,7 +156,6 @@ class _ForumScreenState extends State<ForumScreen> {
         onPressed: () => pushNewScreen(context,
             screen: CreatePostScreen(),
             withNavBar: false,
-
             pageTransitionAnimation: PageTransitionAnimation.slideUp,),
         child: Icon(CupertinoIcons.pen),
       ),

@@ -256,8 +256,15 @@ class _EditPostState extends State<EditPostScreen>{
               child: Row(
                 children: [
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 4,
+                    width: SizeConfig.blockSizeHorizontal * 2,
                   ),
+                  IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }
+                  ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),
                   Text(
                     "Edit Post",
                     style: TextStyle(
@@ -267,7 +274,7 @@ class _EditPostState extends State<EditPostScreen>{
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 56,
+                    width: SizeConfig.blockSizeHorizontal * 23,
                   ),
                   InkWell(
                     child: Container(

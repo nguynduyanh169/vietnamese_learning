@@ -133,6 +133,8 @@ flutter:
      - assets/images/vietnamflag.png
      - assets/images/usaflag.png
      - assets/images/franceflag.png
+     - assets/images/happy.png
+     - assets/images/sad.png
      - assets/images/0.png
      - assets/images/1.png
      - assets/images/2.png
