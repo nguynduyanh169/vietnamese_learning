@@ -243,225 +243,231 @@ class _GameScreenState extends State<GameScreen> {
         return Future(() => false);
       },
       child: Scaffold(
-        backgroundColor: Colors.deepPurple[800],
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                  flex: 3,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(6.0, 8.0, 6.0, 35.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(top: 0.5),
-                                      child: IconButton(
-                                        tooltip: 'Lives',
-                                        highlightColor: Colors.transparent,
-                                        splashColor: Colors.transparent,
-                                        iconSize: 39,
-                                        icon: Icon(MdiIcons.heart),
-                                        onPressed: () {},
+        body: Container(
+          color: Color.fromRGBO(255, 239, 204, 5),
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(6.0, 8.0, 6.0, 35.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(top: 0.5),
+                                        child: IconButton(
+                                          tooltip: 'Lives',
+                                          highlightColor: Colors.transparent,
+                                          splashColor: Colors.transparent,
+                                          iconSize: 39,
+                                          color: Colors.redAccent,
+                                          icon: Icon(MdiIcons.heart),
+                                          onPressed: () {},
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(8.7, 7.9, 0, 0.8),
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        height: 38,
-                                        width: 38,
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: Text(
-                                              lives.toString() == "1"
-                                                  ? "I"
-                                                  : lives.toString(),
-                                              style: TextStyle(
-                                                color: Color(0xFF2C1E68),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'PatrickHand',
+                                      Container(
+                                        padding:
+                                        EdgeInsets.fromLTRB(8.7, 7.9, 0, 0.8),
+                                        alignment: Alignment.center,
+                                        child: SizedBox(
+                                          height: 38,
+                                          width: 38,
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(2.0),
+                                              child: Text(
+                                                lives.toString() == "1"
+                                                    ? "I"
+                                                    : lives.toString(),
+                                                style: TextStyle(
+                                                  // color: Color(0xFF2C1E68),
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'PatrickHand',
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                child: Text(
+                                  wordCount == 1 ? "I" : '$wordCount',
+                                  style: kWordCounterTextStyle,
                                 ),
-                              ],
+                              ),
+                              Container(
+                                child: IconButton(
+                                  tooltip: 'Hint',
+                                  iconSize: 39,
+                                  icon: Icon(MdiIcons.lightbulb),
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  color: Colors.redAccent,
+                                  onPressed: hintStatus
+                                      ? () {
+                                    int rand = Random()
+                                        .nextInt(hintLetters.length);
+                                    wordPress(englishAlphabet.alphabet
+                                        .indexOf(
+                                        wordList[hintLetters[rand]]));
+                                    hintStatus = false;
+                                  }
+                                      : null,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Container(
+                            alignment: Alignment.bottomCenter,
+                            child: FittedBox(
+                              child: Image.asset(
+                                'assets/images/$hangState.png',
+                                height: 1001,
+                                width: 991,
+                                gaplessPlayback: true,
+                              ),
+                              fit: BoxFit.contain,
                             ),
-                            Container(
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 35.0),
+                            alignment: Alignment.center,
+                            child: FittedBox(
+                              fit: BoxFit.fitWidth,
                               child: Text(
-                                wordCount == 1 ? "I" : '$wordCount',
-                                style: kWordCounterTextStyle,
+                                hiddenWord,
+                                style: kWordTextStyle,
                               ),
-                            ),
-                            Container(
-                              child: IconButton(
-                                tooltip: 'Hint',
-                                iconSize: 39,
-                                icon: Icon(MdiIcons.lightbulb),
-                                highlightColor: Colors.transparent,
-                                splashColor: Colors.transparent,
-                                onPressed: hintStatus
-                                    ? () {
-                                        int rand = Random()
-                                            .nextInt(hintLetters.length);
-                                        wordPress(englishAlphabet.alphabet
-                                            .indexOf(
-                                                wordList[hintLetters[rand]]));
-                                        hintStatus = false;
-                                      }
-                                    : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: FittedBox(
-                            child: Image.asset(
-                              'assets/images/$hangState.png',
-                              height: 1001,
-                              width: 991,
-                              gaplessPlayback: true,
-                            ),
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 35.0),
-                          alignment: Alignment.center,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              hiddenWord,
-                              style: kWordTextStyle,
                             ),
                           ),
                         ),
-                      ),
+                      ],
+                    )),
+                Container(
+                  color: Color.fromRGBO(255, 239, 204, 100),
+                  padding: EdgeInsets.fromLTRB(10.0, 2.0, 8.0, 10.0),
+                  child: Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    //columnWidths: {1: FlexColumnWidth(10)},
+                    children: [
+                      TableRow(children: [
+                        TableCell(
+                          child: createButton(0),
+                        ),
+                        TableCell(
+                          child: createButton(1),
+                        ),
+                        TableCell(
+                          child: createButton(2),
+                        ),
+                        TableCell(
+                          child: createButton(3),
+                        ),
+                        TableCell(
+                          child: createButton(4),
+                        ),
+                        TableCell(
+                          child: createButton(5),
+                        ),
+                        TableCell(
+                          child: createButton(6),
+                        ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          child: createButton(7),
+                        ),
+                        TableCell(
+                          child: createButton(8),
+                        ),
+                        TableCell(
+                          child: createButton(9),
+                        ),
+                        TableCell(
+                          child: createButton(10),
+                        ),
+                        TableCell(
+                          child: createButton(11),
+                        ),
+                        TableCell(
+                          child: createButton(12),
+                        ),
+                        TableCell(
+                          child: createButton(13),
+                        ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          child: createButton(14),
+                        ),
+                        TableCell(
+                          child: createButton(15),
+                        ),
+                        TableCell(
+                          child: createButton(16),
+                        ),
+                        TableCell(
+                          child: createButton(17),
+                        ),
+                        TableCell(
+                          child: createButton(18),
+                        ),
+                        TableCell(
+                          child: createButton(19),
+                        ),
+                        TableCell(
+                          child: createButton(20),
+                        ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          child: createButton(21),
+                        ),
+                        TableCell(
+                          child: createButton(22),
+                        ),
+                        TableCell(
+                          child: createButton(23),
+                        ),
+                        TableCell(
+                          child: createButton(24),
+                        ),
+                        TableCell(
+                          child: createButton(25),
+                        ),
+                        TableCell(
+                          child: Text(''),
+                        ),
+                        TableCell(
+                          child: Text(''),
+                        ),
+                      ]),
                     ],
-                  )),
-              Container(
-                padding: EdgeInsets.fromLTRB(10.0, 2.0, 8.0, 10.0),
-                child: Table(
-                  defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  //columnWidths: {1: FlexColumnWidth(10)},
-                  children: [
-                    TableRow(children: [
-                      TableCell(
-                        child: createButton(0),
-                      ),
-                      TableCell(
-                        child: createButton(1),
-                      ),
-                      TableCell(
-                        child: createButton(2),
-                      ),
-                      TableCell(
-                        child: createButton(3),
-                      ),
-                      TableCell(
-                        child: createButton(4),
-                      ),
-                      TableCell(
-                        child: createButton(5),
-                      ),
-                      TableCell(
-                        child: createButton(6),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                        child: createButton(7),
-                      ),
-                      TableCell(
-                        child: createButton(8),
-                      ),
-                      TableCell(
-                        child: createButton(9),
-                      ),
-                      TableCell(
-                        child: createButton(10),
-                      ),
-                      TableCell(
-                        child: createButton(11),
-                      ),
-                      TableCell(
-                        child: createButton(12),
-                      ),
-                      TableCell(
-                        child: createButton(13),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                        child: createButton(14),
-                      ),
-                      TableCell(
-                        child: createButton(15),
-                      ),
-                      TableCell(
-                        child: createButton(16),
-                      ),
-                      TableCell(
-                        child: createButton(17),
-                      ),
-                      TableCell(
-                        child: createButton(18),
-                      ),
-                      TableCell(
-                        child: createButton(19),
-                      ),
-                      TableCell(
-                        child: createButton(20),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                        child: createButton(21),
-                      ),
-                      TableCell(
-                        child: createButton(22),
-                      ),
-                      TableCell(
-                        child: createButton(23),
-                      ),
-                      TableCell(
-                        child: createButton(24),
-                      ),
-                      TableCell(
-                        child: createButton(25),
-                      ),
-                      TableCell(
-                        child: Text(''),
-                      ),
-                      TableCell(
-                        child: Text(''),
-                      ),
-                    ]),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

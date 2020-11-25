@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +38,10 @@ class _CreatePostState extends State<CreatePostScreen> {
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
   String username = 'user';
+  final picker = ImagePicker();
+  final interval = const Duration(seconds: 1);
+
+
 
   _CreatePostState();
 
@@ -46,6 +51,20 @@ class _CreatePostState extends State<CreatePostScreen> {
     _loadUsername();
     _titleController = new TextEditingController();
     _contentController = new TextEditingController();
+  }
+
+
+
+  Future getVideo() async {
+    final pickedFile = await picker.getVideo(source: ImageSource.camera, maxDuration: Duration(seconds: 10));
+
+    setState(() {
+      if (pickedFile != null) {
+        file = File(pickedFile.path);
+      } else {
+        print('No video selected.');
+      }
+    });
   }
 
   void _loadUsername() async {
@@ -164,6 +183,22 @@ class _CreatePostState extends State<CreatePostScreen> {
   }
 
   _showRecordDialog(BuildContext context) {
+    final int timerMaxSeconds = 60;
+
+    int currentSeconds = 0;
+    String time = "";
+    // String timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+    startTimeout([int milliseconds]) {
+      var duration = interval;
+      Timer.periodic(duration, (timer) {
+        setState(() {
+          time = timer.tick.toString();
+          print(timer.tick);
+          currentSeconds = timer.tick;
+          if (timer.tick >= timerMaxSeconds) timer.cancel();
+        });
+      });
+    }
     _init();
     bool isRecord = false;
     return StatefulBuilder(builder: (context, setState) {
@@ -203,6 +238,29 @@ class _CreatePostState extends State<CreatePostScreen> {
                   ],
                 ),
               ),
+              new Expanded(
+                child: new Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 18,
+                    ),
+                    new Container(
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: new Text(
+                        time,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontFamily: 'Helvetica',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               //
               // dialog centre
               new Expanded(
@@ -221,6 +279,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                         if (isRecord == false) {
                           print('start');
                           _start();
+                          startTimeout();
                           setState(() {
                             isRecord = true;
                           });
@@ -608,10 +667,12 @@ class _CreatePostState extends State<CreatePostScreen> {
                           icon: Icon(CupertinoIcons.camera_fill,
                               size: 40, color: Colors.blueAccent),
                           onPressed: () async {
-                            file = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Video()));
+                            getVideo();
+                            // file = await Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Video(
+                            //         )));
                           })
                     ],
                   )
