@@ -264,7 +264,8 @@ class _GameScreenState extends State<GameScreen> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(6.0, 8.0, 6.0, 35.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(6.0, 8.0, 6.0, 35.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -285,15 +286,16 @@ class _GameScreenState extends State<GameScreen> {
                                         ),
                                       ),
                                       Container(
-                                        padding:
-                                        EdgeInsets.fromLTRB(8.7, 7.9, 0, 0.8),
+                                        padding: EdgeInsets.fromLTRB(
+                                            8.7, 7.9, 0, 0.8),
                                         alignment: Alignment.center,
                                         child: SizedBox(
                                           height: 38,
                                           width: 38,
                                           child: Center(
                                             child: Padding(
-                                              padding: const EdgeInsets.all(2.0),
+                                              padding:
+                                                  const EdgeInsets.all(2.0),
                                               child: Text(
                                                 lives.toString() == "1"
                                                     ? "I"
@@ -330,45 +332,43 @@ class _GameScreenState extends State<GameScreen> {
                                   color: Colors.redAccent,
                                   onPressed: hintStatus
                                       ? () {
-                                    int rand = Random()
-                                        .nextInt(hintLetters.length);
-                                    wordPress(englishAlphabet.alphabet
-                                        .indexOf(
-                                        wordList[hintLetters[rand]]));
-                                    hintStatus = false;
-                                  }
+                                          int rand = Random()
+                                              .nextInt(hintLetters.length);
+                                          wordPress(englishAlphabet.alphabet
+                                              .indexOf(
+                                                  wordList[hintLetters[rand]]));
+                                          hintStatus = false;
+                                        }
                                       : null,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      Center(
-                        child: Text(
-                          question,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
+                        Center(
+                          child: Text(
+                            question,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 2,
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: FittedBox(
-                            child: Image.asset(
-                              'assets/images/$hangState.png',
-                              height: 1001,
-                              width: 991,
-                              gaplessPlayback: true,
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 2,
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Container(
+                            alignment: Alignment.bottomCenter,
+                            child: FittedBox(
+                              child: Image.asset(
+                                'assets/images/$hangState.png',
+                                height: 1001,
+                                width: 991,
+                                gaplessPlayback: true,
                               ),
                               fit: BoxFit.contain,
-
                             ),
                           ),
                         ),
@@ -392,7 +392,8 @@ class _GameScreenState extends State<GameScreen> {
                   color: Color.fromRGBO(255, 239, 204, 100),
                   padding: EdgeInsets.fromLTRB(10.0, 2.0, 8.0, 10.0),
                   child: Table(
-                    defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
+                    defaultVerticalAlignment:
+                        TableCellVerticalAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     //columnWidths: {1: FlexColumnWidth(10)},
                     children: [
