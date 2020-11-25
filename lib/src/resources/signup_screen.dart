@@ -172,7 +172,7 @@ class _SignUpState extends State<SignUpScreen> {
                     child: TextFormField(
                       validator: FieldValidator.password(
                         minLength: 8,
-                        errorMessage: "Invalid Password",
+                        errorMessage: "Password must be more than 8 character",
                     ),
                       style: TextStyle(fontFamily: 'Helvetica'),
                       controller: _passwordController,
