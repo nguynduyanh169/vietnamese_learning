@@ -343,7 +343,6 @@ class _GameScreenState extends State<GameScreen> {
                             ],
                           ),
                         ),
-                      ),
                       Center(
                         child: Text(
                           question,
