@@ -7,7 +7,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/create_post_screen.dart';
 import 'package:vietnamese_learning/src/resources/forum_notification_screen.dart';
 import 'package:vietnamese_learning/src/resources/forum_tab.dart';
-import 'package:vietnamese_learning/src/resources/forum_tab_2.dart';
+import 'package:vietnamese_learning/src/resources/forum_tab_my_posts.dart';
 import 'package:vietnamese_learning/src/widgets/search.dart';
 
 class ForumScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _ForumScreenState extends State<ForumScreen> {
     ),
     1: Container(
       padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 4, right: SizeConfig.blockSizeHorizontal * 4),
-      child: ForumTab2(),
+      child: MyPostsTab(),
     ),
   };
   int sharedValue = 0;

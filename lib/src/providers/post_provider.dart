@@ -2,24 +2,25 @@ import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 
 class PostProvider {
-  static final String BASE_URL = "https://vn-learning.azurewebsites.net";
+  static final String BASE_URL = "https://vn-master.azurewebsites.net";
   static final String CREATE_POST = BASE_URL + "/api/post";
   static final String GET_POST = BASE_URL + "/api/post";
   static final String GET_NEXT_POST = BASE_URL + "/api/post/nextPost";
+  static final String GET_MY_POST = BASE_URL + "/api/post/myPost";
   Dio _dio = new Dio();
 
   Future<bool> createPost(String token, PostSave postSave) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
-      'studentToken' : '$token'
+      'studentToken': '$token'
     };
     try {
       Response response = await _dio.post(CREATE_POST,
           options: Options(headers: headers), data: postSave.toJson());
-      if(response.data == 'Create Success!!!'){
+      if (response.data == 'Create Success!!!') {
         return true;
-      }else{
+      } else {
         return false;
       }
     } catch (error, stacktrace) {
@@ -27,14 +28,15 @@ class PostProvider {
     }
   }
 
-  Future<Post> loadInitPosts(String token) async{
+  Future<Post> loadInitPosts(String token) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response = await _dio.get(GET_POST, options: Options(headers: headers));
+      Response response =
+          await _dio.get(GET_POST, options: Options(headers: headers));
       Post post = Post.fromJson(response.data);
       return post;
     } catch (error, stacktrace) {
@@ -42,20 +44,38 @@ class PostProvider {
     }
   }
 
-  Future<Post> loadNextPosts(String token, Post currentPage) async{
+  Future<List<MyPost>> loadMyPosts(String token) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $token',
+      'studentToken': '$token'
     };
     try {
-      Response response = await _dio.post(GET_NEXT_POST, options: Options(headers: headers), data: currentPage.toJson());
-      Post post = Post.fromJson(response.data);
-      return post;
+      Response response =
+      await _dio.get(GET_MY_POST, options: Options(headers: headers));
+      return (response.data as List)
+          .map((i) => MyPost.fromJson(i))
+          .toList();
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
     }
 
   }
 
+  Future<Post> loadNextPosts(String token, Post currentPage) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    try {
+      Response response = await _dio.post(GET_NEXT_POST,
+          options: Options(headers: headers), data: currentPage.toJson());
+      Post post = Post.fromJson(response.data);
+      return post;
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+    }
+  }
 }

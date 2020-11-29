@@ -16,4 +16,8 @@ class PostRepository{
     return _postProvider.loadNextPosts(token, currentPage);
   }
 
+  Future<List<MyPost>> loadMyPosts(String token){
+    return _postProvider.loadMyPosts(token);
+  }
+
 }

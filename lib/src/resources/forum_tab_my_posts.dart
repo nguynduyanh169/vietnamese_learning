@@ -3,130 +3,74 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/cubit/posts_cubit.dart';
+import 'package:vietnamese_learning/src/cubit/my_posts_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
-import 'package:vietnamese_learning/src/states/posts_state.dart';
 import 'package:intl/intl.dart';
-import 'package:vietnamese_learning/src/utils/url_utils.dart';
+import 'package:vietnamese_learning/src/resources/view_post2.dart';
+import 'package:vietnamese_learning/src/states/posts_state.dart';
 
-class ForumTab extends StatefulWidget {
+class MyPostsTab extends StatefulWidget{
+  MyPostsTab({Key key}): super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return ForumTabState();
+    return _MyPostTabState();
   }
 }
 
-class ForumTabState extends State<ForumTab> {
-  List<Content> _contents;
-  Post currentPost;
-  final ScrollController _scrollController = ScrollController();
-  bool isLoadingMore = false;
-  int totalPages;
-  int countPages = 0;
-  String username;
+class _MyPostTabState extends State<MyPostsTab>{
+  List<MyPost> myPosts;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  Future<bool> loadMore(BuildContext context) async {
-    BlocProvider.of<PostsCubit>(context)
-        .loadMorePost(currentPost, countPages, totalPages);
-    return true;
-  }
-
-  @override
-  Widget build(Object context) {
+  Widget build(BuildContext context) {
+    // TODO: implement build
     return BlocProvider(
-      create: (context) => PostsCubit(PostRepository())..loadInitPost(),
-      child: BlocConsumer<PostsCubit, PostsState>(
-        listener: (context, state) {
-          if (state is LoadingPosts) {
-          } else if (state is LoadPostsSuccess) {
-            username = state.username;
-            _contents = state.contents;
-            currentPost = state.post;
-            totalPages = state.post.totalPages;
-          } else if (state is LoadPostsError) {
-          } else if (state is LoadMorePostSuccess) {
-            isLoadingMore = false;
-            if (currentPost.content[0].id != state.post.content[0].id) {
-              currentPost = state.post;
-              _contents.addAll(state.contents);
-            }
-            countPages = state.countPost;
-          } else if (state is LoadingMorePost) {
-            isLoadingMore = true;
-          } else if (state is LoadMorePostDone) {
-            isLoadingMore = false;
-          }
-        },
-        builder: (context, state) {
-          if (state is LoadPostsError) {
-            return Container(
-              child: Center(
-                child: Text('No Posts'),
-              ),
-            );
-          } else if (state is LoadingPosts) {
-            return _loadingPosts(context);
-          } else if (state is LoadMorePostError) {
-            return Container(
-              child: Center(
-                child: Text('No Posts'),
-              ),
-            );
-          } else {
-            return Column(
-              children: <Widget>[
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 5,
+        create: (context) => MyPostsCubit(PostRepository())..loadMyPosts(),
+        child: BlocConsumer<MyPostsCubit, PostsState>(
+          listener: (context, state){
+
+          },
+          builder: (context, state){
+            if (state is LoadMyPostsError) {
+              return Container(
+                child: Center(
+                  child: Text('No Posts'),
                 ),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async{
-                      _contents.clear();
-                      isLoadingMore = false;
-                      countPages = 0;
-                      BlocProvider.of<PostsCubit>(context).loadInitPost();
-                    },
-                    child: ListView.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        controller: _scrollController
-                          ..addListener(() {
-                            if (_scrollController.offset ==
-                                _scrollController.position.maxScrollExtent) {
-                              BlocProvider.of<PostsCubit>(context).loadMorePost(
-                                  currentPost, countPages, totalPages);
-                            }
-                          }),
-                        itemBuilder: (context, index) {
-                          return _postCard(_contents[index]);
-                        },
-                        separatorBuilder: (context, index) => SizedBox(
-                          height: SizeConfig.blockSizeVertical * 1.5,
-                        ),
-                        itemCount: _contents.length),
+              );
+            } else if (state is LoadingMyPosts) {
+              return _loadingPosts(context);
+            } else {
+              return Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 5,
                   ),
-                ),
-                isLoadingMore == true
-                    ? CupertinoActivityIndicator(
-                        radius: 10,
-                      )
-                    : Container(),
-              ],
-            );
-          }
-        },
-      ),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async{
+                      },
+                      child: ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return _postCard(myPosts[index]);
+                          },
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: SizeConfig.blockSizeVertical * 1.5,
+                          ),
+                          itemCount: myPosts.length),
+                    ),
+                  ),
+                ],
+              );
+            }
+          },
+        ),
     );
   }
 
-  Widget _postCard(Content content) {
+  Widget _postCard(MyPost content) {
     String showContent;
     if (content.text.length > 100) {
       showContent = content.text.substring(0, 100) + "...";
@@ -161,12 +105,9 @@ class ForumTabState extends State<ForumTab> {
                   fontSize: 20,
                   fontFamily: 'Helvetica'),
             ),
-            onTap: () => pushNewScreen(context,
-                screen: ViewPost(
-                  content: content,
-                ),
-                withNavBar: false,
-                pageTransitionAnimation: PageTransitionAnimation.cupertino),
+            onTap: () {
+
+            }
           ),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 1,
@@ -239,6 +180,7 @@ class ForumTabState extends State<ForumTab> {
     );
   }
 
+
   Widget _loadingPosts(BuildContext context) {
     return Center(
       child: Column(
@@ -252,4 +194,5 @@ class ForumTabState extends State<ForumTab> {
       ),
     );
   }
+
 }

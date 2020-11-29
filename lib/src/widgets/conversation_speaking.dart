@@ -234,7 +234,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                   color: Colors.green,
                                     fontFamily: 'Helvetica',
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),),
+                                    fontSize: 18),),
                               ],
                             ),
                           )
@@ -328,7 +328,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                     fontFamily: 'Helvetica',
                                     color: Colors.green,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),),
+                                    fontSize: 18),),
                                 SizedBox(height: SizeConfig.blockSizeVertical *
                                     3,),
                               ],

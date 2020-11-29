@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:camera_camera/camera_camera.dart';
+import 'package:countdown/countdown.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,6 @@ class _CreatePostState extends State<CreatePostScreen> {
   ProgressDialog pr;
   BuildContext _context;
   String titleInvalid, contentInvalid;
-  bool showPlayer;
   String path;
   FlutterAudioRecorder _recorder;
   Recording _current;
@@ -182,27 +182,8 @@ class _CreatePostState extends State<CreatePostScreen> {
   _showRecordDialog(BuildContext context) {
     _init();
     bool isRecord = false;
+    String countdown = '02:00';
     return StatefulBuilder(builder: (context, setState) {
-      final int timerMaxSeconds = 120;
-      int currentSeconds = 0;
-      String time = "00:00";
-      // String timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
-      startTimeout([int milliseconds]) {
-        var duration = interval;
-        Timer.periodic(duration, (timer) {
-          setState(() {
-            time = timer.tick.toString();
-            print(timer.tick);
-            currentSeconds = timer.tick;
-            time = '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
-            print(time);
-            if (timer.tick >= timerMaxSeconds) {
-              timer.cancel();
-              _stop();
-            }
-          });
-        });
-      }
       return AlertDialog(
         content: new Container(
           width: 260.0,
@@ -251,7 +232,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                         color: Colors.white,
                       ),
                       child: new Text(
-                        '$time/ 02:00',
+                        countdown,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -281,7 +262,6 @@ class _CreatePostState extends State<CreatePostScreen> {
                         if (isRecord == false) {
                           print('start');
                           _start();
-                          startTimeout();
                           setState(() {
                             isRecord = true;
                           });
@@ -358,6 +338,7 @@ class _CreatePostState extends State<CreatePostScreen> {
     );
     pr.style(
         progressWidget: CupertinoActivityIndicator(), message: 'Please wait...');
+
     return BlocProvider(
       create: (context) => CreatePostCubit(PostRepository()),
       child: Scaffold(
@@ -371,10 +352,8 @@ class _CreatePostState extends State<CreatePostScreen> {
               contentInvalid = state.contentMessage;
             } else if (state is CreatePostSuccess) {
               pr.hide().whenComplete(() => {Navigator.pop(_context)});
-              print('create success');
             } else if (state is CreatePostError) {
               pr.hide();
-              print('Create failed');
             }
           },
           builder: (context, state) {
@@ -403,7 +382,44 @@ class _CreatePostState extends State<CreatePostScreen> {
                         IconButton(
                           icon: Icon(Icons.clear),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            showDialog(
+                              context: context,
+                              builder: (context) => new CupertinoAlertDialog(
+                                title: new Text(
+                                  "Confirm exit",
+                                  style: TextStyle(fontFamily: 'Helvetica'),
+                                ),
+                                content: new Text(
+                                  "Do you want to exit?",
+                                  style: TextStyle(fontFamily: 'Helvetica'),
+                                ),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: Text(
+                                      'Confirm',
+                                      style: TextStyle(fontFamily: 'Helvetica'),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context, 'yes');
+
+                                    },
+                                  ),
+                                  CupertinoDialogAction(
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(fontFamily: 'Helvetica'),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context, 'no');
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ).then((value) {
+                              if(value == 'yes'){
+                                Navigator.of(context).pop();
+                              }
+                            });
                           }
                         ),
                         SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),

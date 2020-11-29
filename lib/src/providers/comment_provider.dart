@@ -4,7 +4,7 @@ import 'package:vietnamese_learning/src/models/comment.dart';
 
 
 class CommentProvider{
-  static final String BASE_URL = "https://vn-learning.azurewebsites.net";
+  static final String BASE_URL = "https://vn-master.azurewebsites.net";
   static final String GET_COMMENTS = BASE_URL + "/api/comment/";
   static final String CREATE_COMMENT = BASE_URL + "/api/comment";
 
@@ -19,7 +19,6 @@ class CommentProvider{
     try {
       Response response = await _dio.get('$GET_COMMENTS$postId',
           options: Options(headers: header));
-      print(response.data.toString());
       return (response.data as List)
           .map((i) => Comment.fromJson(i))
           .toList();

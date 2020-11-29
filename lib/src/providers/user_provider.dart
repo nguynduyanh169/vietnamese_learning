@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/login_respone.dart';
 
 class UserProvider{
-  static final String BASE_URL = "https://vn-learning.azurewebsites.net";
+  static final String BASE_URL = "https://vn-master.azurewebsites.net";
   static final String LOGIN = BASE_URL + "/api/authen/login";
   static final String REGISTER = BASE_URL + "/api/authen/signup";
   final Dio _dio = Dio();

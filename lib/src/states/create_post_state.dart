@@ -17,7 +17,6 @@ class CreatePostSuccess extends CreatePostState{
 class CreatePostError extends CreatePostState{
   const CreatePostError();
 }
-
 class ValidatePost extends CreatePostState{
   final String titleMessage;
   final String contentMessage;

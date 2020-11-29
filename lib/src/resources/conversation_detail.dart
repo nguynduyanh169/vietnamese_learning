@@ -59,6 +59,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                     icon: Icon(Icons.arrow_back_ios),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 23,),
                   Text(
                     '$lessonTitle',
                     style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),

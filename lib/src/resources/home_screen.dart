@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
@@ -22,6 +23,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String username = "user";
+
+  @override
+  void initState() {
+    _loadUsername();
+    super.initState();
+  }
+  void _loadUsername() async {
+    final SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    setState(() {
+      username = sharedPreferences.getString('username');
+    });
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -111,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              width: SizeConfig.blockSizeVertical * 200,
+              width: SizeConfig.blockSizeVertical * 100,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -120,9 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Welcome back, Hai",
+                        "Welcome back, $username",
                         style: GoogleFonts.crimsonText(
-                            fontSize: 32, color: Colors.orange[900]),
+                            fontSize: 27, color: Colors.orange[900]),
                       ),
                       Text(
                         " Your Level: Beginner",
@@ -135,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeVertical * 6,
+                    width: SizeConfig.blockSizeVertical * 3,
                   ),
                   InkWell(
                     onTap: () {

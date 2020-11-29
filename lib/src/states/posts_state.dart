@@ -41,3 +41,16 @@ class LoadMorePostDone extends PostsState{
 class LoadMorePostError extends PostsState{
   const LoadMorePostError();
 }
+
+class LoadMyPostsSuccess extends PostsState{
+  final List<MyPost> myPosts;
+  const LoadMyPostsSuccess(this.myPosts);
+}
+
+class LoadMyPostsError extends PostsState{
+  const LoadMyPostsError();
+}
+
+class LoadingMyPosts extends PostsState{
+  const LoadingMyPosts();
+}
