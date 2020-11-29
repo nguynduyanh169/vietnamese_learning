@@ -57,7 +57,7 @@ class FlashCard extends StatelessWidget{
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal * 40,
                                   height: SizeConfig.blockSizeVertical * 30,
-                                  child: Image(image: NetworkImage(UrlUtils.editImgUrl(img))),
+                                  child: Image(image: NetworkImage(img)),
                                 ),
                                 SizedBox(
                                   height: SizeConfig.blockSizeVertical * 4,
@@ -93,7 +93,7 @@ class FlashCard extends StatelessWidget{
                             ),
                           ),
                           onTap: () {
-                            AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audio)));
+                            AssetsAudioPlayer.playAndForget(Audio.network(audio));
                           },
                         ),
                       )
@@ -153,7 +153,7 @@ class FlashCard extends StatelessWidget{
                           ),
                         ),
                         onTap: () {
-                          AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audio)));
+                          AssetsAudioPlayer.playAndForget(Audio.network(audio));
                         },
                       ),
                     )

@@ -270,7 +270,7 @@ class WritingVocabulary extends StatelessWidget{
                   ),
                 ),
                 onTap: () {
-                  AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(audioInput)));
+                  AssetsAudioPlayer.playAndForget(Audio.network(audioInput));
                 },
               ),
               Text(
