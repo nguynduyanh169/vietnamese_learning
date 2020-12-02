@@ -43,7 +43,7 @@ class LoadMorePostError extends PostsState{
 }
 
 class LoadMyPostsSuccess extends PostsState{
-  final List<MyPost> myPosts;
+  final List<Content> myPosts;
   const LoadMyPostsSuccess(this.myPosts);
 }
 

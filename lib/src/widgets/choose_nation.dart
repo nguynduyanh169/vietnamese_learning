@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/models/nation.dart';
 
 class ChooseNation extends StatefulWidget {
-  List nation;
-  ChooseNation({Key key, this.nation}) : super(key: key);
+  List<Nation> nations;
+  ChooseNation({Key key, this.nations}) : super(key: key);
 
-  _ChooseNationState createState() => _ChooseNationState(nation: nation);
+  _ChooseNationState createState() => _ChooseNationState(nations: nations);
 }
 
 class _ChooseNationState extends State<ChooseNation> {
-  List nation;
-  _ChooseNationState({this.nation});
+  List<Nation> nations;
+  _ChooseNationState({this.nations});
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -44,39 +45,45 @@ class _ChooseNationState extends State<ChooseNation> {
                 ),
               ),
               ListTile(
-                title: Text(nation[0]['nation']),
+                title: Text(nations[0].nation),
                 leading: Container(
                     child: Image(
-                  image: AssetImage(nation[0]['imgPath']),
+                  image: NetworkImage(nations[0].image),
                 )),
-                onTap: () => Navigator.pop(context, nation[0]['nation']),
+                onTap: () => Navigator.pop(context, nations[0]),
               ),
               ListTile(
-                title: Text(nation[1]['nation']),
+                title: Text(nations[1].nation),
                 leading: Container(
                     child: Image(
-                  image: AssetImage(nation[1]['imgPath']),
-                )),
-                onTap: () => Navigator.pop(context, nation[1]['nation']),
+                      image: NetworkImage(nations[1].image),
+                    )),
+                onTap: () => Navigator.pop(context, nations[1]),
               ),
               ListTile(
-                title: Text(nation[2]['nation']),
+                title: Text(nations[2].nation),
                 leading: Container(
                     child: Image(
-                  image: AssetImage(nation[2]['imgPath']),
-                )),
-                onTap: () => Navigator.of(context).pop(),
+                      image: NetworkImage(nations[2].image),
+                    )),
+                onTap: () => Navigator.pop(context, nations[2]),
               ),
-              // ListTile(
-              //   title: Text('Move'),
-              //   leading: Icon(Icons.folder_open),
-              //   onTap: () => Navigator.of(context).pop(),
-              // ),
-              // ListTile(
-              //   title: Text('Delete'),
-              //   leading: Icon(Icons.delete),
-              //   onTap: () => Navigator.of(context).pop(),
-              // )
+              ListTile(
+                title: Text(nations[3].nation),
+                leading: Container(
+                    child: Image(
+                      image: NetworkImage(nations[3].image),
+                    )),
+                onTap: () => Navigator.pop(context, nations[3]),
+              ),
+              ListTile(
+                title: Text(nations[4].nation),
+                leading: Container(
+                    child: Image(
+                      image: NetworkImage(nations[4].image),
+                    )),
+                onTap: () => Navigator.pop(context, nations[4]),
+              ),
             ],
           ),
         ),

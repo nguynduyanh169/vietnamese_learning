@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/progress_cubit.dart';
 import 'package:vietnamese_learning/src/data/progress_repository.dart';
+import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/resources/qualification_quiz.dart';
@@ -20,13 +23,22 @@ class LevelScreen extends StatefulWidget {
 
 class _LevelScreenState extends State<LevelScreen> {
   BuildContext _ctx;
+  ProgressDialog pr;
+
 
   void submit(int levelId, BuildContext context){
     BlocProvider.of<ProgressCubit>(context).createProgress(levelId);
   }
+
+  void loadEntranceQuiz(BuildContext context){
+    BlocProvider.of<ProgressCubit>(context).loadEntranceQuiz();
+  }
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
+    pr.style(
+        progressWidget: CupertinoActivityIndicator(),
+        message: 'Please wait...');
     _ctx = context;
     SizeConfig().init(context);
     return BlocProvider(
@@ -35,9 +47,16 @@ class _LevelScreenState extends State<LevelScreen> {
         body: BlocConsumer<ProgressCubit, ProgressState>(
           listener: (context, state){
             if(state is CreatingProgress){
-              print('creating...');
+              pr.show();
             }else if(state is CreateProgressSuccess){
+              pr.hide();
               Navigator.of(_ctx).pushReplacementNamed("/home");
+            }else if(state is LoadedEntranceQuiz){
+              pr.hide();
+              List<EntranceQuiz> entranceQuizzes = state.entranceQuizzes;
+              print(entranceQuizzes.length);
+            }else if(state is LoadingEntranceQuiz){
+              pr.show();
             }
           },
           builder: (context, state){
@@ -142,11 +161,9 @@ class _LevelScreenState extends State<LevelScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: InkWell(
-                          onTap: () => pushNewScreen(
-                            context,
-                            screen: QualificationQuiz(),
-                            withNavBar: true,
-                          ),
+                          onTap: () {
+                            loadEntranceQuiz(context);
+                          },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,

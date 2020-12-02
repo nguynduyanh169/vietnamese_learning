@@ -19,6 +19,7 @@ class SubmitQuizCubit extends Cubit<SubmitQuizState> {
         quizMark: quizMark,
         startDate: dateTime.toIso8601String());
     try {
+      print(optionIDs.length);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
       bool check = await _quizRepository.submitQuiz(token, quizSubmit);

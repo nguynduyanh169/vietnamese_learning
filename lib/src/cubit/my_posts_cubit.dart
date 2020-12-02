@@ -13,7 +13,7 @@ class MyPostsCubit extends Cubit<PostsState>{
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
       String username = prefs.getString('username');
-      List<MyPost> myPosts = await _postRepository.loadMyPosts(token);
+      List<Content> myPosts = await _postRepository.loadMyPosts(token);
       if(myPosts.length == 0){
         emit(LoadMyPostsError());
       }

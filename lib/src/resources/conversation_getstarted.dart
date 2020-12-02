@@ -8,7 +8,6 @@ import 'package:vietnamese_learning/src/data/conversation_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
 import 'package:vietnamese_learning/src/states/conversation_state.dart';
-import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
 
 class ConversationGetStarted extends StatefulWidget {
   String lessonId;

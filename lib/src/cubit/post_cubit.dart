@@ -5,13 +5,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/data/comment_repository.dart';
+import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/models/comment.dart';
+import 'package:vietnamese_learning/src/states/delete_post_state.dart';
 import 'package:vietnamese_learning/src/states/posts_state.dart';
 import 'package:vietnamese_learning/src/states/view_post_state.dart';
 import 'package:path/path.dart';
 
 class PostCubit extends Cubit<ViewPostState> {
   CommentRepository _commentRepository;
+  PostRepository _postRepository;
 
   PostCubit(this._commentRepository) : super(InitialViewPost());
 
@@ -78,6 +81,44 @@ class PostCubit extends Cubit<ViewPostState> {
       }
     } on Exception {
       emit(CommentPostFailed());
+    }
+  }
+
+  Future<void> deletePost(int postId) async{
+    try {
+      _postRepository = new PostRepository();
+      emit(DeletingPost());
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString('accessToken');
+      bool check = await _postRepository.deletePost(token, postId);
+      print(check);
+      if(check == true){
+        emit(DeletePostSuccess());
+      }
+      else{
+        emit(DeletePostFailed());
+      }
+    } on Exception {
+      emit(DeletePostFailed());
+    }
+  }
+
+  Future<void> deleteComment(int commentId) async{
+    try{
+      emit(DeletingComent());
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString('accessToken');
+      bool check = await _commentRepository.deleteComment(commentId, token);
+      if(check == true){
+        // List<Comment> comments = await _commentRepository
+        //     .getCommentsByPostId(comment.i, token);
+        // emit(CommentPostSuccess(comments));
+        emit(DeleteCommentSuccess());
+      }else{
+        emit(DeleteCommentFailed());
+      }
+    }on Exception{
+      emit(DeleteCommentFailed());
     }
   }
 }

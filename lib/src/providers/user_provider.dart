@@ -28,7 +28,7 @@ class UserProvider{
     }
   }
 
-  Future<LoginResponse> register(String username, String password, String email) async{
+  Future<LoginResponse> register(String username, String password, String email, String nation) async{
     Map<String, String> header = {
       "Content-type": "application/json"
     };
@@ -36,6 +36,7 @@ class UserProvider{
       'password': password,
       'username': username,
       "email" : email,
+      'nation' : nation
     };
     try {
       Response response = await _dio.post(REGISTER, options: Options(headers: header), data: json.encode(body));

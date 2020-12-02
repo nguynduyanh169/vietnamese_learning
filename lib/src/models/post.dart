@@ -84,45 +84,51 @@ class Post {
 }
 
 class Content {
-  Content(
-      {this.id,
-      this.numberOfComment,
-      this.postDate,
-      this.studentName,
-      this.text,
-      this.title,
-      this.link,
-      this.nation});
+  Content({
+    this.id,
+    this.link,
+    this.nation,
+    this.numberOfComment,
+    this.postDate,
+    this.status,
+    this.studentName,
+    this.text,
+    this.title,
+  });
 
   int id;
+  String link;
+  String nation;
   int numberOfComment;
   DateTime postDate;
+  String status;
   String studentName;
   String text;
   String title;
-  String link;
-  String nation;
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-      id: json["id"],
-      numberOfComment: json["numberOfComment"],
-      postDate: DateTime.parse(json["postDate"]),
-      studentName: json["studentName"],
-      text: json["text"],
-      title: json["title"],
-      link: json["link"],
-      nation: json["nation"]);
+    id: json["id"],
+    link: json["link"],
+    nation: json["nation"],
+    numberOfComment: json["numberOfComment"],
+    postDate: DateTime.parse(json["postDate"]),
+    status: json["status"],
+    studentName: json["studentName"],
+    text: json["text"],
+    title: json["title"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "numberOfComment": numberOfComment,
-        "postDate": postDate.toIso8601String(),
-        "studentName": studentName,
-        "text": text,
-        "title": title,
-        "link": link,
-        "nation": nation,
-      };
+    "id": id,
+    "link": link,
+    "nation": nation,
+    "numberOfComment": numberOfComment,
+    "postDate": postDate.toIso8601String(),
+    "status": status,
+    "studentName": studentName,
+    "text": text,
+    "title": title,
+  };
 }
 
 class Pageable {
@@ -185,50 +191,29 @@ class Sort {
       };
 }
 
-
-class MyPost {
-  MyPost({
-    this.id,
+class PostUpdate {
+  PostUpdate({
     this.link,
-    this.nation,
-    this.numberOfComment,
-    this.postDate,
-    this.status,
-    this.studentName,
+    this.postId,
     this.text,
     this.title,
   });
 
-  int id;
   String link;
-  String nation;
-  int numberOfComment;
-  DateTime postDate;
-  String status;
-  String studentName;
+  int postId;
   String text;
   String title;
 
-  factory MyPost.fromJson(Map<String, dynamic> json) => MyPost(
-    id: json["id"],
+  factory PostUpdate.fromJson(Map<String, dynamic> json) => PostUpdate(
     link: json["link"],
-    nation: json["nation"],
-    numberOfComment: json["numberOfComment"],
-    postDate: DateTime.parse(json["postDate"]),
-    status: json["status"],
-    studentName: json["studentName"],
+    postId: json["postID"],
     text: json["text"],
     title: json["title"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
     "link": link,
-    "nation": nation,
-    "numberOfComment": numberOfComment,
-    "postDate": postDate.toIso8601String(),
-    "status": status,
-    "studentName": studentName,
+    "postID": postId,
     "text": text,
     "title": title,
   };

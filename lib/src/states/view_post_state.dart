@@ -37,3 +37,27 @@ class CommentingPost extends ViewPostState{
 class CommentPostFailed extends ViewPostState{
   const CommentPostFailed();
 }
+
+class DeletingPost extends ViewPostState{
+  const DeletingPost();
+}
+
+class DeletePostSuccess extends ViewPostState{
+  const DeletePostSuccess();
+}
+
+class DeletePostFailed extends ViewPostState{
+  const DeletePostFailed();
+}
+
+class DeletingComent extends ViewPostState{
+  const DeletingComent();
+}
+
+class DeleteCommentSuccess extends ViewPostState{
+  const DeleteCommentSuccess();
+}
+
+class DeleteCommentFailed extends ViewPostState{
+  const DeleteCommentFailed();
+}

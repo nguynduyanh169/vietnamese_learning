@@ -13,4 +13,8 @@ class CommentRepository {
     return _commentProvider.saveComment(comment, token);
   }
 
+  Future<bool> deleteComment(int commentId, String token){
+    return _commentProvider.deleteComment(commentId, token);
+  }
+
 }

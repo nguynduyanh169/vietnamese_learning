@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/widgets/search_bar.dart';
 
@@ -10,6 +11,14 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  String username = "";
+  Map<String, String> searchHistory = new Map();
+
+  // Future<void> SaveHistory(String seachKey) async{
+  //   searchHistory[DateTime.now().toString()] = seachKey;
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString(username, value)
+  // }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -299,7 +308,7 @@ class _SearchState extends State<Search> {
                   width: SizeConfig.blockSizeHorizontal * 35,
                 ),
                 IconButton(
-                  icon: Icon(Icons.cancel),
+                  icon: Icon(CupertinoIcons.xmark_circle_fill),
                   onPressed: null,
                 )
               ],

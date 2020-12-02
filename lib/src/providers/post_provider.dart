@@ -7,6 +7,8 @@ class PostProvider {
   static final String GET_POST = BASE_URL + "/api/post";
   static final String GET_NEXT_POST = BASE_URL + "/api/post/nextPost";
   static final String GET_MY_POST = BASE_URL + "/api/post/myPost";
+  static final String UPDATE_POST = BASE_URL + "/api/post";
+  static final String DELETE_POST = BASE_URL + "/api/post";
   Dio _dio = new Dio();
 
   Future<bool> createPost(String token, PostSave postSave) async {
@@ -19,6 +21,46 @@ class PostProvider {
       Response response = await _dio.post(CREATE_POST,
           options: Options(headers: headers), data: postSave.toJson());
       if (response.data == 'Create Success!!!') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+    }
+  }
+
+  Future<bool> updatePost(String token, PostUpdate postUpdate) async{
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+      'studentToken': '$token'
+    };
+    try {
+      Response response = await _dio.put(CREATE_POST,
+          options: Options(headers: headers), data: postUpdate.toJson());
+      if (response.data == 'Update Success!!!') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+    }
+
+  }
+
+  Future<bool> deletePostById(String token, int postId) async{
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+      'studentToken': '$token'
+    };
+    try {
+      print('deleting');
+      Response response = await _dio.delete('$DELETE_POST/$postId',
+          options: Options(headers: headers));
+      if (response.data == 'Delete Success!!!') {
         return true;
       } else {
         return false;
@@ -44,7 +86,7 @@ class PostProvider {
     }
   }
 
-  Future<List<MyPost>> loadMyPosts(String token) async {
+  Future<List<Content>> loadMyPosts(String token) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -55,7 +97,7 @@ class PostProvider {
       Response response =
       await _dio.get(GET_MY_POST, options: Options(headers: headers));
       return (response.data as List)
-          .map((i) => MyPost.fromJson(i))
+          .map((i) => Content.fromJson(i))
           .toList();
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");

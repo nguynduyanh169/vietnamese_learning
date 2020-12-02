@@ -7,6 +7,7 @@ class CommentProvider{
   static final String BASE_URL = "https://vn-master.azurewebsites.net";
   static final String GET_COMMENTS = BASE_URL + "/api/comment/";
   static final String CREATE_COMMENT = BASE_URL + "/api/comment";
+  static final String DELETE_COMMENT = BASE_URL + "/api/comment";
 
   final Dio _dio = Dio();
 
@@ -46,4 +47,23 @@ class CommentProvider{
     }
   }
 
+  Future<bool> deleteComment(int commentId, String token) async{
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    try {
+      Response response = await _dio.delete('$DELETE_COMMENT/$commentId',
+          options: Options(headers: headers));
+      if(response.data == 'Delete Success!!!'){
+        return true;
+      }else{
+        return false;
+      }
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+    }
+
+  }
 }

@@ -8,10 +8,12 @@ class QuizScreen extends StatefulWidget {
   int progressId;
   int quizId;
 
-  QuizScreen({Key key, this.questions, this.progressId, this.quizId}) : super(key: key);
+  QuizScreen({Key key, this.questions, this.progressId, this.quizId})
+      : super(key: key);
 
   @override
-  _QuizScreenState createState() => _QuizScreenState(questions: questions, progressId: progressId, quizId: quizId);
+  _QuizScreenState createState() => _QuizScreenState(
+      questions: questions, progressId: progressId, quizId: quizId);
 }
 
 class _QuizScreenState extends State<QuizScreen> {
@@ -21,6 +23,11 @@ class _QuizScreenState extends State<QuizScreen> {
   int progressId;
   int quizId;
   List<int> optionIds = new List();
+  int chooseOptionId;
+  int tappedIndex;
+  bool optionCheckCorrect = false;
+  String userChoice;
+  String correctAns;
 
   _QuizScreenState({this.questions, this.progressId, this.quizId});
 
@@ -31,16 +38,35 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  void _answerQuestions(bool checkCorrect, int optionId) {
+  void tapped(int index, int optionId, bool checkCorrect, String userChoose, String correctAnswer) {
+    setState(() {
+      tappedIndex = index;
+      chooseOptionId = optionId;
+      optionCheckCorrect = checkCorrect;
+      userChoice = userChoose;
+      correctAns = correctAnswer;
+    });
+  }
+
+  void _answerQuestions() {
     double score = 10 / questions.length;
-    if(checkCorrect == false){
+    if (optionCheckCorrect == false) {
       _totalScore += 0;
-    }else {
+    } else {
       _totalScore += score;
     }
     setState(() {
       _questionIndex = _questionIndex + 1;
+      tappedIndex = 5;
+      optionIds.add(chooseOptionId);
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tappedIndex = 5;
   }
 
   @override
@@ -55,8 +81,14 @@ class _QuizScreenState extends State<QuizScreen> {
                 answerQuestions: _answerQuestions,
                 questionIndex: _questionIndex,
                 rootContext: context,
+                tappedIndex: tappedIndex,
+                choice: tapped,
+                checkCorrect: optionCheckCorrect,
+                userChoice: userChoice,
+          correctAnswer: correctAns,
               )
-            : QuizResult(_totalScore, _resetQuiz, quizId, progressId, optionIds),
+            : QuizResult(
+                _totalScore, _resetQuiz, quizId, progressId, optionIds),
       ),
     );
   }

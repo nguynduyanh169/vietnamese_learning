@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:the_validator/the_validator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/register_cubit.dart';
+import 'package:vietnamese_learning/src/models/nation.dart';
 import 'package:vietnamese_learning/src/states/register_state.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vietnamese_learning/src/widgets/choose_nation.dart';
@@ -23,6 +25,7 @@ class _SignUpState extends State<SignUpScreen> {
       _passwordController,
       _nationController,
       _usernameController;
+  ProgressDialog pr;
   FocusNode myFocusNode = new FocusNode();
   FocusNode myFocusNode1 = new FocusNode();
   FocusNode myFocusNode2 = new FocusNode();
@@ -32,20 +35,7 @@ class _SignUpState extends State<SignUpScreen> {
 
   var nationIndex = 0;
 
-  final List nationList = const [
-    {
-      'nation': 'Vietnam',
-      'imgPath': 'assets/images/vietnamflag.png',
-    },
-    {
-      'nation': 'USA',
-      'imgPath': 'assets/images/usaflag.png',
-    },
-    {
-      'nation': 'France',
-      'imgPath': 'assets/images/franceflag.png',
-    },
-  ];
+  List<Nation> nationList;
 
   @override
   void initState() {
@@ -54,15 +44,21 @@ class _SignUpState extends State<SignUpScreen> {
     _passwordController = new TextEditingController();
     _usernameController = new TextEditingController();
     _nationController = new TextEditingController(text: ' ');
+    nationList = new List();
+    nationList.add(new Nation(nation: 'Vietnam', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fvietnam.png?alt=media&token=4d353d03-50f4-469c-aaa8-96afabb59fd9'));
+    nationList.add(new Nation(nation: 'France', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Ffrance.png?alt=media&token=d01979d1-f5cc-4dcf-a939-86717eb5e7af'));
+    nationList.add(new Nation(nation: 'United State', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Funited-states.png?alt=media&token=15d0039d-e9df-437f-aed7-6b03f2569172'));
+    nationList.add(new Nation(nation: 'United Kingdom', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Funited-kingdom.png?alt=media&token=cea37a6c-2566-4cbf-a5b4-f04b0891998d'));
+    nationList.add(new Nation(nation: 'Korea', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fsouth-korea.png?alt=media&token=c7c69d25-cc3a-4c43-a54c-bcb647bae90b'));
   }
 
-  Widget _chooseNation(List nation) {
+  Widget _chooseNation() {
     return ChooseNation(
-      nation: nation,
+      nations: nationList,
     );
   }
 
-  String _password, _username, _email;
+  String _password, _username, _email, nationLink;
   void _submit(BuildContext context) {
     print(_form.currentState.validate());
     if (_form.currentState.validate()) {
@@ -73,13 +69,17 @@ class _SignUpState extends State<SignUpScreen> {
       print(_password);
       print(_email);
       BlocProvider.of<RegisterCubit>(context)
-          .doRegister(_username, _password, _email);
+          .doRegister(_username, _password, _email, nationLink);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
+    pr.style(
+        progressWidget: CupertinoActivityIndicator(),
+        message: 'Please wait...');
     return BlocProvider(
       create: (context) => RegisterCubit(UserRepository()),
       child: Scaffold(
@@ -87,9 +87,12 @@ class _SignUpState extends State<SignUpScreen> {
         body: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is RegistedError) {
-              print('hello');
+
             } else if (state is RegistedSuccess) {
+              pr.hide();
               Navigator.pop(context);
+            } else if(state is Registering){
+              pr.show();
             }
           },
           builder: (context, state) {
@@ -285,9 +288,12 @@ class _SignUpState extends State<SignUpScreen> {
                               context: context,
                               backgroundColor: Colors.transparent,
                               builder: (context, scrollController) =>
-                                  _chooseNation(nationList),
-                            ).then(
-                                (value) => {_nationController.text = '$value'});
+                                  _chooseNation(),
+                            ).then((value){
+                              Nation nation = value;
+                              _nationController.text = nation.nation;
+                              nationLink = nation.image;
+                            });
                           },
                         ),
                       ),

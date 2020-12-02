@@ -342,7 +342,7 @@ class _CreatePostState extends State<CreatePostScreen> {
     return BlocProvider(
       create: (context) => CreatePostCubit(PostRepository()),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        //resizeToAvoidBottomInset: false,
         body: BlocConsumer<CreatePostCubit, CreatePostState>(
           listener: (context, state) {
             if (state is CreatingPost) {
@@ -359,349 +359,349 @@ class _CreatePostState extends State<CreatePostScreen> {
           builder: (context, state) {
             return Container(
               color: Color.fromRGBO(255, 239, 215, 1),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 0.7,
-                  ),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black26,
-                          width: 1.0,
-                        ),
-                      ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 0.7,
                     ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 2,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.clear),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => new CupertinoAlertDialog(
-                                title: new Text(
-                                  "Confirm exit",
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                ),
-                                content: new Text(
-                                  "Do you want to exit?",
-                                  style: TextStyle(fontFamily: 'Helvetica'),
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    child: Text(
-                                      'Confirm',
-                                      style: TextStyle(fontFamily: 'Helvetica'),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context, 'yes');
-
-                                    },
-                                  ),
-                                  CupertinoDialogAction(
-                                    child: Text(
-                                      'Cancel',
-                                      style: TextStyle(fontFamily: 'Helvetica'),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context, 'no');
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ).then((value) {
-                              if(value == 'yes'){
-                                Navigator.of(context).pop();
-                              }
-                            });
-                          }
-                        ),
-                        SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),
-                        Text(
-                          "Create Post",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Helvetica',
+                    Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.black26,
+                            width: 1.0,
                           ),
                         ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 23,
-                        ),
-                        InkWell(
-                          child: Container(
-                              height: SizeConfig.blockSizeVertical * 5,
-                              width: SizeConfig.blockSizeHorizontal * 15,
-                              decoration: BoxDecoration(
-                                  color: Colors.blueAccent,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26.withOpacity(0.05),
-                                        offset: Offset(0.0, 6.0),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 0.10)
-                                  ]),
-                              child: Center(
-                                child: Text(
-                                  "Post",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'Helvetica',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )),
-                          onTap: () {
-                            createPost(context);
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 2,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Row(
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 2,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              username,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Helvetica'),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 1,
-                            ),
-                            Container(
-                              width: 110,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                  width: 1.0,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '20/11/2020 at 12:00am',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: 'Helvetica',
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 2,
-                  ),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 95,
-                    height: SizeConfig.blockSizeVertical * 20,
-                    child: TextField(
-                      controller: _titleController,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorText: titleInvalid,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        labelText: 'Enter title here',
-                        labelStyle:
-                            TextStyle(fontFamily: 'Helvetica', fontSize: 15),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 2,
-                  ),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 95,
-                    height: SizeConfig.blockSizeVertical * 25,
-                    child: TextField(
-                      controller: _contentController,
-                      maxLines: 13,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorText: contentInvalid,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        labelText: 'Enter content here',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 5,
-                  ),
-                  file != null
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal * 4,
-                                ),
-                                Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal * 20,
-                                      height: SizeConfig.blockSizeVertical * 15,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20.0),
-                                              topLeft: Radius.circular(5.0),
-                                              bottomRight: Radius.circular(5.0),
-                                              bottomLeft: Radius.circular(5.0)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black26
-                                                    .withOpacity(0.05),
-                                                offset: Offset(0.0, 6.0),
-                                                blurRadius: 10.0,
-                                                spreadRadius: 0.10)
-                                          ]),
-                                      child: IconButton(
-                                        icon: Icon(CupertinoIcons.paperclip),
-                                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => new CupertinoAlertDialog(
+                                    title: new Text(
+                                      "Confirm exit",
+                                      style: TextStyle(fontFamily: 'Helvetica'),
                                     ),
-                                    Positioned(
-                                      left: SizeConfig.blockSizeHorizontal * 10,
-                                      bottom: SizeConfig.blockSizeVertical * 9,
-                                      child: new Container(
-                                          padding: EdgeInsets.all(1),
-                                          constraints: BoxConstraints(
-                                            minWidth: 12,
-                                            minHeight: 12,
-                                          ),
-                                          child: IconButton(
-                                            icon: Icon(
-                                              CupertinoIcons
-                                                  .clear_circled_solid,
-                                              color: Colors.redAccent,
-                                            ),
-                                            onPressed: () {
-                                              clearCacheFile();
-                                            },
-                                          )),
-                                    )
-                                  ],
-                                )
-                              ],
+                                    content: new Text(
+                                      "Do you want to exit?",
+                                      style: TextStyle(fontFamily: 'Helvetica'),
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: Text(
+                                          'Confirm',
+                                          style: TextStyle(fontFamily: 'Helvetica'),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context, 'yes');
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(fontFamily: 'Helvetica'),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context, 'no');
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ).then((value) {
+                                  if(value == 'yes'){
+                                    Navigator.of(context).pop();
+                                  }
+                                });
+                              }
+                          ),
+                          SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),
+                          Text(
+                            "Create Post",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Helvetica',
                             ),
-                          ],
-                        )
-                      : Row(
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 23,
+                          ),
+                          InkWell(
+                            child: Container(
+                                height: SizeConfig.blockSizeVertical * 5,
+                                width: SizeConfig.blockSizeHorizontal * 15,
+                                decoration: BoxDecoration(
+                                    color: Colors.blueAccent,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26.withOpacity(0.05),
+                                          offset: Offset(0.0, 6.0),
+                                          blurRadius: 10.0,
+                                          spreadRadius: 0.10)
+                                    ]),
+                                child: Center(
+                                  child: Text(
+                                    "Post",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Helvetica',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )),
+                            onTap: () {
+                              createPost(context);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                            AssetImage('assets/images/profile.png'),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 2,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                username,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica'),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              Container(
+                                width: 110,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  border: Border.all(
+                                    width: 1.0,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '20/11/2020 at 12:00am',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontFamily: 'Helvetica',
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 95,
+                      height: SizeConfig.blockSizeVertical * 20,
+                      child: TextField(
+                        controller: _titleController,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorText: titleInvalid,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          labelText: 'Enter title here',
+                          labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 95,
+                      height: SizeConfig.blockSizeVertical * 25,
+                      child: TextField(
+                        controller: _contentController,
+                        maxLines: 13,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorText: contentInvalid,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          labelText: 'Enter content here',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 5,
+                    ),
+                    file != null
+                        ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
                           children: <Widget>[
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 4,
                             ),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal * 20,
-                              height: SizeConfig.blockSizeVertical * 15,
-                              decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black54),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20.0),
-                                    topLeft: Radius.circular(5.0),
-                                    bottomRight: Radius.circular(5.0),
-                                    bottomLeft: Radius.circular(5.0)),
-                              ),
-                              // child: Column(
-                              //   crossAxisAlignment: CrossAxisAlignment.center,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: <Widget>[
-                              //     IconButton(
-                              //       icon: Icon(CupertinoIcons.add_circled),
-                              //       onPressed: () {
-                              //         getFilePath();
-                              //       },
-                              //     ),
-                              //     Text(
-                              //       'Choose audio or video file',
-                              //       style: TextStyle(
-                              //         fontFamily: 'Helvetica',
-                              //         fontSize: 10,
-                              //       ),
-                              //       textAlign: TextAlign.center,
-                              //     )
-                              //   ],
-                              // )
-                            ),
+                            Stack(
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                  SizeConfig.blockSizeHorizontal * 20,
+                                  height: SizeConfig.blockSizeVertical * 15,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(20.0),
+                                          topLeft: Radius.circular(5.0),
+                                          bottomRight: Radius.circular(5.0),
+                                          bottomLeft: Radius.circular(5.0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black26
+                                                .withOpacity(0.05),
+                                            offset: Offset(0.0, 6.0),
+                                            blurRadius: 10.0,
+                                            spreadRadius: 0.10)
+                                      ]),
+                                  child: IconButton(
+                                    icon: Icon(CupertinoIcons.paperclip),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: SizeConfig.blockSizeHorizontal * 10,
+                                  bottom: SizeConfig.blockSizeVertical * 9,
+                                  child: new Container(
+                                      padding: EdgeInsets.all(1),
+                                      constraints: BoxConstraints(
+                                        minWidth: 12,
+                                        minHeight: 12,
+                                      ),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          CupertinoIcons
+                                              .clear_circled_solid,
+                                          color: Colors.redAccent,
+                                        ),
+                                        onPressed: () {
+                                          clearCacheFile();
+                                        },
+                                      )),
+                                )
+                              ],
+                            )
                           ],
                         ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 1,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 65,
-                      ),
-                      IconButton(
-                          icon: Icon(
-                            CupertinoIcons.mic_solid,
-                            size: 40,
-                            color: Colors.blueAccent,
+                      ],
+                    )
+                        : Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 4,
+                        ),
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 20,
+                          height: SizeConfig.blockSizeVertical * 15,
+                          decoration: BoxDecoration(
+                            //border: Border.all(color: Colors.black54),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20.0),
+                                topLeft: Radius.circular(5.0),
+                                bottomRight: Radius.circular(5.0),
+                                bottomLeft: Radius.circular(5.0)),
                           ),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => _showRecordDialog(context));
-                          }),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      IconButton(
-                          icon: Icon(CupertinoIcons.camera_fill,
-                              size: 40, color: Colors.blueAccent),
-                          onPressed: () async {
-                            getVideo();
-                            // file = await Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => Video(
-                            //         )));
-                          })
-                    ],
-                  )
-                ],
+                          // child: Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: <Widget>[
+                          //     IconButton(
+                          //       icon: Icon(CupertinoIcons.add_circled),
+                          //       onPressed: () {
+                          //         getFilePath();
+                          //       },
+                          //     ),
+                          //     Text(
+                          //       'Choose audio or video file',
+                          //       style: TextStyle(
+                          //         fontFamily: 'Helvetica',
+                          //         fontSize: 10,
+                          //       ),
+                          //       textAlign: TextAlign.center,
+                          //     )
+                          //   ],
+                          // )
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 65,
+                        ),
+                        IconButton(
+                            icon: Icon(
+                              CupertinoIcons.mic_solid,
+                              size: 40,
+                              color: Colors.blueAccent,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => _showRecordDialog(context));
+                            }),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 3,
+                        ),
+                        IconButton(
+                            icon: Icon(CupertinoIcons.camera_fill,
+                                size: 40, color: Colors.blueAccent),
+                            onPressed: () async {
+                              getVideo();
+                              // file = await Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => Video(
+                              //         )));
+                            })
+                      ],
+                    )
+                  ],
+                ),
               ),
             );
           },

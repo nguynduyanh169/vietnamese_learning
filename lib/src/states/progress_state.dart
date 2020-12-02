@@ -1,3 +1,5 @@
+import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
+
 abstract class ProgressState{
   const ProgressState();
 }
@@ -16,4 +18,17 @@ class CreateProgressFail extends ProgressState{
 
 class CreatingProgress extends ProgressState{
   const CreatingProgress();
+}
+
+class LoadingEntranceQuiz extends ProgressState{
+  const LoadingEntranceQuiz();
+}
+
+class LoadedEntranceQuiz extends ProgressState{
+  final List<EntranceQuiz> entranceQuizzes;
+  const LoadedEntranceQuiz(this.entranceQuizzes);
+}
+
+class LoadEntranceQuizFailed extends ProgressState{
+  const LoadEntranceQuizFailed();
 }

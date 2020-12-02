@@ -16,8 +16,16 @@ class PostRepository{
     return _postProvider.loadNextPosts(token, currentPage);
   }
 
-  Future<List<MyPost>> loadMyPosts(String token){
+  Future<List<Content>> loadMyPosts(String token){
     return _postProvider.loadMyPosts(token);
+  }
+
+  Future<bool> deletePost(String token, int postId){
+    return _postProvider.deletePostById(token, postId);
+  }
+
+  Future<bool> editPost(String token, PostUpdate postUpdate){
+    return _postProvider.updatePost(token, postUpdate);
   }
 
 }

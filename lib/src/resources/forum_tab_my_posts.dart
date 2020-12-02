@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/my_posts_cubit.dart';
+import 'package:vietnamese_learning/src/cubit/posts_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/view_post.dart';
@@ -11,8 +12,8 @@ import 'package:intl/intl.dart';
 import 'package:vietnamese_learning/src/resources/view_post2.dart';
 import 'package:vietnamese_learning/src/states/posts_state.dart';
 
-class MyPostsTab extends StatefulWidget{
-  MyPostsTab({Key key}): super(key: key);
+class MyPostsTab extends StatefulWidget {
+  MyPostsTab({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,57 +21,61 @@ class MyPostsTab extends StatefulWidget{
   }
 }
 
-class _MyPostTabState extends State<MyPostsTab>{
-  List<MyPost> myPosts;
+class _MyPostTabState extends State<MyPostsTab> {
+  List<Content> myPosts;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return BlocProvider(
-        create: (context) => MyPostsCubit(PostRepository())..loadMyPosts(),
-        child: BlocConsumer<MyPostsCubit, PostsState>(
-          listener: (context, state){
-
-          },
-          builder: (context, state){
-            if (state is LoadMyPostsError) {
-              return Container(
-                child: Center(
-                  child: Text('No Posts'),
+      create: (context) => MyPostsCubit(PostRepository())..loadMyPosts(),
+      child: BlocConsumer<MyPostsCubit, PostsState>(
+        listener: (context, state) {
+          if (state is LoadMyPostsSuccess) {
+            myPosts = state.myPosts;
+          }
+        },
+        builder: (context, state) {
+          if (state is LoadMyPostsError) {
+            return Container(
+              child: Center(
+                child: Text('No Posts'),
+              ),
+            );
+          } else if (state is LoadingMyPosts) {
+            return _loadingPosts(context);
+          } else {
+            return Column(
+              children: <Widget>[
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 5,
                 ),
-              );
-            } else if (state is LoadingMyPosts) {
-              return _loadingPosts(context);
-            } else {
-              return Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 5,
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      myPosts.clear();
+                      BlocProvider.of<MyPostsCubit>(context).loadMyPosts();
+                    },
+                    child: ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return _postCard(myPosts[index], context);
+                        },
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: SizeConfig.blockSizeVertical * 1.5,
+                            ),
+                        itemCount: myPosts.length),
                   ),
-                  Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () async{
-                      },
-                      child: ListView.separated(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return _postCard(myPosts[index]);
-                          },
-                          separatorBuilder: (context, index) => SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1.5,
-                          ),
-                          itemCount: myPosts.length),
-                    ),
-                  ),
-                ],
-              );
-            }
-          },
-        ),
+                ),
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 
-  Widget _postCard(MyPost content) {
+  Widget _postCard(Content content, BuildContext buildContext) {
     String showContent;
     if (content.text.length > 100) {
       showContent = content.text.substring(0, 100) + "...";
@@ -98,17 +103,26 @@ class _MyPostTabState extends State<MyPostsTab>{
             height: SizeConfig.blockSizeVertical * 3,
           ),
           InkWell(
-            child: Text(
-              content.title,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  fontFamily: 'Helvetica'),
-            ),
-            onTap: () {
-
-            }
-          ),
+              child: Text(
+                content.title,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'Helvetica'),
+              ),
+              onTap: () => pushNewScreen(context,
+                          screen: ViewPost(
+                            content: content,
+                          ),
+                          withNavBar: false,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino)
+                      .then((value) {
+                    if (value == 'delete') {
+                      myPosts.clear();
+                      BlocProvider.of<MyPostsCubit>(buildContext).loadMyPosts();
+                    }
+                  })),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 1,
           ),
@@ -180,7 +194,6 @@ class _MyPostTabState extends State<MyPostsTab>{
     );
   }
 
-
   Widget _loadingPosts(BuildContext context) {
     return Center(
       child: Column(
@@ -194,5 +207,4 @@ class _MyPostTabState extends State<MyPostsTab>{
       ),
     );
   }
-
 }

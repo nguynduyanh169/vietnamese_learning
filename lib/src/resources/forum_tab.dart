@@ -105,7 +105,7 @@ class ForumTabState extends State<ForumTab> {
                             }
                           }),
                         itemBuilder: (context, index) {
-                          return _postCard(_contents[index]);
+                          return _postCard(_contents[index], context);
                         },
                         separatorBuilder: (context, index) => SizedBox(
                           height: SizeConfig.blockSizeVertical * 1.5,
@@ -126,7 +126,7 @@ class ForumTabState extends State<ForumTab> {
     );
   }
 
-  Widget _postCard(Content content) {
+  Widget _postCard(Content content, BuildContext buildContext) {
     String showContent;
     if (content.text.length > 100) {
       showContent = content.text.substring(0, 100) + "...";
@@ -166,7 +166,14 @@ class ForumTabState extends State<ForumTab> {
                   content: content,
                 ),
                 withNavBar: false,
-                pageTransitionAnimation: PageTransitionAnimation.cupertino),
+                pageTransitionAnimation: PageTransitionAnimation.cupertino).then((value) {
+                  if(value == 'delete'){
+                    _contents.clear();
+                    isLoadingMore = false;
+                    countPages = 0;
+                    BlocProvider.of<PostsCubit>(buildContext).loadInitPost();
+                  }
+            }),
           ),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 1,

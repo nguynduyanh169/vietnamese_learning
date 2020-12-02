@@ -11,17 +11,17 @@ class RegisterCubit extends Cubit<RegisterState>{
 
   RegisterCubit(this._userRepository) : super(RegisterInitial());
 
-  Future<void> doRegister(String username, String password, String email) async{
+  Future<void> doRegister(String username, String password, String email, String nation) async{
     try{
       emit(Registering());
-      LoginResponse response = await _userRepository.register(username, password, email);
+      LoginResponse response = await _userRepository.register(username, password, email, nation);
       print(response.toJson());
       if(response.tokenType == 'Fail'){
         emit(RegistedError('Register Failed!'));
       }else{
         emit(RegistedSuccess(response));
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        AuthUtils.insertDetails(prefs, response.accessToken, username);
+        // final SharedPreferences prefs = await SharedPreferences.getInstance();
+        // AuthUtils.insertDetails(prefs, response.accessToken, username);
       }
     } on Exception{
       emit(RegistedError('Login Failed!'));
