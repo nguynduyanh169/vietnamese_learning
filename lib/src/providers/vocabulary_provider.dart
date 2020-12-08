@@ -5,7 +5,7 @@ import 'package:vietnamese_learning/src/models/vocabulary.dart';
 
 class VocabularyProvider {
   static final String BASE_URL = "https://vn-master.azurewebsites.net";
-  static final String VOCABULARY = BASE_URL + "/api/vocabulary/";
+  static final String VOCABULARY = BASE_URL + "/api/vocabulary/getByLesson/";
   final Dio _dio = Dio();
 
   Future<List<Vocabulary>> getVocabularyByLessonId(

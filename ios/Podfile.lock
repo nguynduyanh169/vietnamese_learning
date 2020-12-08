@@ -15,6 +15,8 @@ PODS:
   - camera (0.0.1):
     - Flutter
   - CocoaAsyncSocket (7.6.4)
+  - countdown_flutter (0.0.1):
+    - Flutter
   - DKImagePickerController/Core (4.3.2):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -63,12 +65,12 @@ PODS:
   - Firebase/Storage (6.33.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.9.0)
-  - firebase_auth (0.18.3-1):
+  - firebase_auth (0.18.4-1):
     - Firebase/Auth (~> 6.33.0)
     - Firebase/CoreOnly (~> 6.33.0)
     - firebase_core
     - Flutter
-  - firebase_core (0.5.2-1):
+  - firebase_core (0.5.3):
     - Firebase/CoreOnly (~> 6.33.0)
     - Flutter
   - firebase_messaging (7.0.3):
@@ -76,7 +78,7 @@ PODS:
     - Firebase/Messaging (~> 6.33.0)
     - firebase_core
     - Flutter
-  - firebase_storage (5.1.0):
+  - firebase_storage (5.2.0):
     - Firebase/CoreOnly (~> 6.33.0)
     - Firebase/Storage (~> 6.33.0)
     - firebase_core
@@ -200,6 +202,7 @@ DEPENDENCIES:
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
   - cached_video_player (from `.symlinks/plugins/cached_video_player/ios`)
   - camera (from `.symlinks/plugins/camera/ios`)
+  - countdown_flutter (from `.symlinks/plugins/countdown_flutter/ios`)
   - fijkplayer (from `.symlinks/plugins/fijkplayer/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -259,6 +262,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cached_video_player/ios"
   camera:
     :path: ".symlinks/plugins/camera/ios"
+  countdown_flutter:
+    :path: ".symlinks/plugins/countdown_flutter/ios"
   fijkplayer:
     :path: ".symlinks/plugins/fijkplayer/ios"
   file_picker:
@@ -306,15 +311,16 @@ SPEC CHECKSUMS:
   cached_video_player: 449b3d85e95316a0eca125c483f6d9e281ccabc3
   camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
+  countdown_flutter: 423a4cc24614ccb078c2ce4ac6739b1d85cbe98b
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   fijkplayer: 0c8728bf3b222203e1fddb08f6899719d88b2b6d
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
-  firebase_auth: cb33b01b51904969161403bbcb20036519f0c578
-  firebase_core: 7423d688a1c6f2f2d859d64ae26991be39989781
+  firebase_auth: d5159db3873478d1ac839af7b10d2f831516136a
+  firebase_core: 5d6a02f3d85acd5f8321c2d6d62877626a670659
   firebase_messaging: 0aea2cd5885b65e19ede58ee3507f485c992cc75
-  firebase_storage: 617bd8f94dc9948a70dddb85ccc4d61a898735fd
+  firebase_storage: a023e199edb807d8481c8aa722c8516f462ffab2
   FirebaseAuth: c92d49ada7948d1a23466e3db17bc4c2039dddc3
   FirebaseCore: d889d9e12535b7f36ac8bfbf1713a0836a3012cd
   FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1

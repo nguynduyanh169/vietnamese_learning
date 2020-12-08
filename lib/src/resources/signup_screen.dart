@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUpScreen> {
         body: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is RegistedError) {
-
+              pr.hide();
             } else if (state is RegistedSuccess) {
               pr.hide();
               Navigator.pop(context);

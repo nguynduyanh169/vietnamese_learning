@@ -1,35 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/models/login_respone.dart';
 import 'package:vietnamese_learning/src/widgets/quilification_notification.dart';
 
 class QualificationResult extends StatelessWidget {
-  final int resultScore;
-  final Function resetHandlar;
-
-  QualificationResult(this.resultScore, this.resetHandlar);
-
+  final double resultScore;
+  LoginResponse loginResponse;
+  String username;
+  QualificationResult(this.resultScore, this.loginResponse, this.username);
   String resultText;
-
-  String get resultPhrase {
-    if (resultScore <= 20) {
-      resultText = 'Not bad!';
-    } else if (resultScore <= 30) {
-      resultText = 'Pretty good!';
-    } else if (resultScore <= 40) {
-      resultText = 'Good!';
-    } else {
-      resultText = 'Awesome!';
-    }
-    return resultText;
-  }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    int correct = resultScore ~/ 10;
-    var percent = correct / 10;
+    var percent = resultScore / 10;
     return Container(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
         color: Color.fromRGBO(255, 239, 204, 100),
@@ -38,20 +24,13 @@ class QualificationResult extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Your Result',
+                'Here are your result',
                 style: TextStyle(
                   fontSize: 40,
                   fontFamily: "Helvetica",
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              Text(
-                '$resultPhrase',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontFamily: "Helvetica",
-                  fontWeight: FontWeight.bold,
-                ),
+                textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 3,
@@ -70,14 +49,14 @@ class QualificationResult extends StatelessWidget {
                 animation: true,
                 percent: percent,
                 center: new Text(
-                  "$correct/10",
+                  "$resultScore/10",
                   style: new TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
                       fontFamily: "Helvetica"),
                 ),
                 footer: Text(
-                  'Answers',
+                  'Questions',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -86,46 +65,7 @@ class QualificationResult extends StatelessWidget {
                 circularStrokeCap: CircularStrokeCap.round,
                 progressColor: Colors.amberAccent,
               ),
-              // MaterialButton(
-              //   onPressed: () =>
-              //       Navigator.of(context, rootNavigator: true).pop(context),
-              //   child: Text(
-              //     "Back to Quiz Introduction",
-              //     style: TextStyle(
-              //       fontSize: 20,
-              //       fontFamily: "Helvetica",
-              //       color: Colors.blueAccent,
-              //       decoration: TextDecoration.underline,
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: SizeConfig.blockSizeVertical * 8,
-              // ),
-              // MaterialButton(
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(100.0),
-              //   ),
-              //   child: Container(
-              //     width: MediaQuery.of(context).size.width * 0.75,
-              //     height: 60.0,
-              //     child: Center(
-              //       child: Padding(
-              //         child: Text(
-              //           "Review",
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontSize: 25,
-              //               fontWeight: FontWeight.bold,
-              //               fontFamily: 'Helvetica'),
-              //         ),
-              //         padding: new EdgeInsets.only(left: 0.0),
-              //       ),
-              //     ),
-              //   ),
-              //   onPressed: () {},
-              //   color: Colors.blueGrey,
-              // ),
+
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 8,
               ),
@@ -151,10 +91,20 @@ class QualificationResult extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  int level;
+                  if(resultScore <= 6){
+                    level = 1;
+                  }
+                  if(resultScore > 6 && resultScore <= 8){
+                    level = 2;
+                  }
+                  if(resultScore > 8){
+                    level = 3;
+                  }
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => QualificationNotification()));
+                          builder: (context) => QualificationNotification(level: level,loginResponse: loginResponse, username: username)));
                 },
                 color: Color.fromRGBO(255, 210, 77, 10),
               ),

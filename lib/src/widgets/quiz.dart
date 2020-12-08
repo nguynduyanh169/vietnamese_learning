@@ -299,7 +299,7 @@ class Quiz extends StatelessWidget {
               // )
           ),
           ButtonTheme(
-            buttonColor: Color.fromRGBO(255, 190, 51, 30),
+            buttonColor: Colors.blueAccent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
             child: RaisedButton(
@@ -308,7 +308,7 @@ class Quiz extends StatelessWidget {
                   _loadDialog(rootContext);
                 },
                 child: Container(
-                  width: SizeConfig.blockSizeHorizontal * 70,
+                  width: SizeConfig.blockSizeHorizontal * 60,
                   height: SizeConfig.blockSizeVertical * 8,
                   child: Center(
                     child: Text(

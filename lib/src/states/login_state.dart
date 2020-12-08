@@ -15,9 +15,9 @@ class LoginProcess extends LoginState {
 }
 
 class NewLoginProcess extends LoginState{
+  final String username;
   final LoginResponse loginResponse;
-
-  NewLoginProcess(this.loginResponse);
+  NewLoginProcess(this.loginResponse, this.username);
 }
 
 class DoingLogin extends LoginState{

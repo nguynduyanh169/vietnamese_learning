@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -7,27 +8,32 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/progress_cubit.dart';
 import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
+import 'package:vietnamese_learning/src/models/login_respone.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vietnamese_learning/src/resources/qualification_quiz.dart';
+import 'package:vietnamese_learning/src/resources/entrance_quiz_screen.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/states/progress_state.dart';
 
 class LevelScreen extends StatefulWidget {
   static final String routeName = "level";
+  LoginResponse loginResponse;
+  String username;
 
-  LevelScreen({Key key}) : super(key: key);
+  LevelScreen({Key key, this.loginResponse, this.username}) : super(key: key);
 
-  _LevelScreenState createState() => _LevelScreenState();
+  _LevelScreenState createState() => _LevelScreenState(loginResponse: loginResponse, username: username);
 }
 
 class _LevelScreenState extends State<LevelScreen> {
   BuildContext _ctx;
   ProgressDialog pr;
+  LoginResponse loginResponse;
+  String username;
 
-
+  _LevelScreenState({this.loginResponse, this.username});
   void submit(int levelId, BuildContext context){
-    BlocProvider.of<ProgressCubit>(context).createProgress(levelId);
+    BlocProvider.of<ProgressCubit>(context).createProgress(levelId, loginResponse, username);
   }
 
   void loadEntranceQuiz(BuildContext context){
@@ -35,6 +41,7 @@ class _LevelScreenState extends State<LevelScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
     pr.style(
         progressWidget: CupertinoActivityIndicator(),
@@ -54,7 +61,7 @@ class _LevelScreenState extends State<LevelScreen> {
             }else if(state is LoadedEntranceQuiz){
               pr.hide();
               List<EntranceQuiz> entranceQuizzes = state.entranceQuizzes;
-              print(entranceQuizzes.length);
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,)));
             }else if(state is LoadingEntranceQuiz){
               pr.show();
             }

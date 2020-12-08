@@ -41,25 +41,24 @@ class _LessonDetailState extends State<LessonDetail> {
                     top: SizeConfig.blockSizeVertical * 2,
                     left: SizeConfig.blockSizeVertical * 2),
                 child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
-                    SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 21,
-                    ),
+                    SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
                     FittedBox(
                       child: Container(
                         width: SizeConfig.blockSizeHorizontal * 55,
                         child: Text(
                           "$title",
                           style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                    )
-
-
+                    ),
+                    Container()
                   ],
                 ),
               ),

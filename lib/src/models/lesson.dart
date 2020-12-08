@@ -1,32 +1,35 @@
 class Lesson {
+  Lesson({
+    this.lessonId,
+    this.lessonName,
+    this.levelId,
+    this.progressId,
+    this.progresStatus,
+    this.lessonImage,
+  });
+
   String lessonId;
   String lessonName;
-  String lessonImage;
-  String progressStatus;
+  int levelId;
   int progressId;
+  String progresStatus;
+  String lessonImage;
 
-  Lesson(
-      {this.lessonId,
-      this.lessonImage,
-      this.lessonName,
-      this.progressId,
-      this.progressStatus,});
+  factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
+    lessonId: json["lessonID"],
+    lessonName: json["lessonName"],
+    levelId: json["levelID"],
+    progressId: json["progressID"],
+    progresStatus: json["progresStatus"],
+    lessonImage: json["lessonImage"],
+  );
 
-  Lesson.fromJson(Map<String, dynamic> json) {
-    lessonId = json['lessonID'];
-    lessonName = json['lessonName'];
-    lessonImage = json['lessonImage'];
-    progressStatus = json['progresStatus'];
-    progressId = json['progressID'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lessonID'] = this.lessonId;
-    data['lessonName'] = this.lessonName;
-    data['lessonImage'] = this.lessonImage;
-    data['progressId'] = this.progressId;
-    data['progresStatus'] = this.progressStatus;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "lessonID": lessonId,
+    "lessonName": lessonName,
+    "levelID": levelId,
+    "progressID": progressId,
+    "progresStatus": progresStatus,
+    "lessonImage": lessonImage,
+  };
 }

@@ -21,9 +21,7 @@ class LoginCubit extends Cubit<LoginState>{
       }else{
         Map<String, dynamic> decodeToken = JwtDecoder.decode(response.accessToken);
         if(decodeToken['level-id'] == 0){
-          emit(NewLoginProcess(response));
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          AuthUtils.insertDetails(prefs, response.accessToken, username);
+          emit(NewLoginProcess(response, username));
         }else {
           emit(LoginProcess(response));
           final SharedPreferences prefs = await SharedPreferences.getInstance();

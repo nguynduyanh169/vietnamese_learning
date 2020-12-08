@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
@@ -30,13 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadUsername();
     super.initState();
   }
+
   void _loadUsername() async {
     final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     setState(() {
       username = sharedPreferences.getString('username');
     });
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -129,18 +132,18 @@ class _HomeScreenState extends State<HomeScreen> {
               width: SizeConfig.blockSizeVertical * 100,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Welcome back, $username",
+                        "Hi, $username",
                         style: GoogleFonts.crimsonText(
                             fontSize: 27, color: Colors.orange[900]),
                       ),
                       Text(
-                        " Your Level: Beginner",
+                        "Your Level: Beginner",
                         style: TextStyle(
                           fontFamily: 'Helvetica',
                           fontSize: 19,
@@ -149,9 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: SizeConfig.blockSizeVertical * 3,
-                  ),
+                  // SizedBox(
+                  //   width: SizeConfig.blockSizeVertical * 3,
+                  // ),
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -173,50 +176,228 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeHorizontal * 5,
+              height: SizeConfig.blockSizeHorizontal * 8,
             ),
-            Expanded(
-              child: GridView.count(
-                  crossAxisCount: 2,
-                  childAspectRatio: .85,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  children: List.generate(_listLessons.length, (index) {
-                    return CategoryCard(
-                      title: _listLessons[index].lessonName,
-                      img: _listLessons[index].lessonImage,
-                      progressStatus: _listLessons[index].progressStatus.trim(),
-                      press: () {
-                        if (_listLessons[index].progressStatus.trim() ==
-                            "lock") {
-                          String lessonBefore =
-                              _listLessons[index - 1].lessonName;
-                          Toast.show(
-                              "You must finish lesson $lessonBefore!", context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.BOTTOM,
-                              backgroundColor: Colors.blueAccent,
-                              textColor: Colors.white);
-                        } else {
-                          Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
-                              builder: (context) => LessonDetail(
-                                lessonName:
-                                    _listLessons[index].lessonName.trim(),
-                                lessonId: _listLessons[index].lessonId,
-                                progressId: _listLessons[index].progressId,
-                              ),
-                              settings: RouteSettings(name: '/lessonDetail'),
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  })),
-            ),
+            Expanded(child: gridHeader(_listLessons))
           ],
         ),
       ),
     ]);
+  }
+
+  Widget gridHeader(List<Lesson> _listLessons) {
+    List<Lesson> beginnerLessons = new List();
+    List<Lesson> intermediateLessons = new List();
+    List<Lesson> advancedLessons = new List();
+
+    for (Lesson lesson in _listLessons) {
+      if (lesson.levelId == 1) {
+        beginnerLessons.add(lesson);
+      }
+      if (lesson.levelId == 2) {
+        intermediateLessons.add(lesson);
+      }
+      if (lesson.levelId == 3) {
+        advancedLessons.add(lesson);
+      }
+    }
+    List<String> levels = ['Beginner', 'Intermediate', 'Advanced'];
+    return ListView.separated(
+      separatorBuilder: (context, index) => SizedBox(
+        height: SizeConfig.blockSizeVertical * 1.5,
+      ),
+      itemCount: levels.length,
+      itemBuilder: (context, index) {
+        if (index == 0 && beginnerLessons.isNotEmpty) {
+          return Container(
+            height: SizeConfig.blockSizeVertical * 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Beginner',
+                  style: GoogleFonts.nunito(fontSize: 30, fontWeight: FontWeight.bold),
+                  //textAlign: TextAlign.start,
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
+                Container(
+                  height: SizeConfig.blockSizeVertical * 90,
+                  child: GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      childAspectRatio: .85,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      children: List.generate(beginnerLessons.length, (index) {
+                        return CategoryCard(
+                          title: beginnerLessons[index].lessonName,
+                          img: beginnerLessons[index].lessonImage,
+                          progressStatus:
+                              beginnerLessons[index].progresStatus.trim(),
+                          press: () {
+                            if (beginnerLessons[index].progresStatus.trim() ==
+                                "lock") {
+                              String lessonBefore =
+                                  beginnerLessons[index - 1].lessonName;
+                              Toast.show(
+                                  "You must finish lesson $lessonBefore!",
+                                  context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM,
+                                  backgroundColor: Colors.blueAccent,
+                                  textColor: Colors.white);
+                            } else {
+                              Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                  builder: (context) => LessonDetail(
+                                    lessonName: beginnerLessons[index]
+                                        .lessonName
+                                        .trim(),
+                                    lessonId: beginnerLessons[index].lessonId,
+                                    progressId:
+                                        beginnerLessons[index].progressId,
+                                  ),
+                                  settings:
+                                      RouteSettings(name: '/lessonDetail'),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      })),
+                )
+              ],
+            ),
+          );
+        } else if (index == 1 && intermediateLessons.isNotEmpty) {
+          return Container(
+            height: SizeConfig.blockSizeVertical * 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Intermediate',
+                  style: GoogleFonts.nunito(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
+                Container(
+                  height: SizeConfig.blockSizeVertical * 90,
+                  child: GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      childAspectRatio: .85,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      children:
+                          List.generate(intermediateLessons.length, (index) {
+                        return CategoryCard(
+                          title: intermediateLessons[index].lessonName,
+                          img: intermediateLessons[index].lessonImage,
+                          progressStatus:
+                              intermediateLessons[index].progresStatus.trim(),
+                          press: () {
+                            if (intermediateLessons[index]
+                                    .progresStatus
+                                    .trim() ==
+                                "lock") {
+                              String lessonBefore =
+                                  intermediateLessons[index - 1].lessonName;
+                              Toast.show(
+                                  "You must finish lesson $lessonBefore!",
+                                  context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM,
+                                  backgroundColor: Colors.blueAccent,
+                                  textColor: Colors.white);
+                            } else {
+                              Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                  builder: (context) => LessonDetail(
+                                    lessonName: intermediateLessons[index]
+                                        .lessonName
+                                        .trim(),
+                                    lessonId:
+                                        intermediateLessons[index].lessonId,
+                                    progressId:
+                                        intermediateLessons[index].progressId,
+                                  ),
+                                  settings:
+                                      RouteSettings(name: '/lessonDetail'),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      })),
+                )
+              ],
+            ),
+          );
+        } else if (index == 2 && advancedLessons.isNotEmpty) {
+          return Container(
+            height: SizeConfig.blockSizeVertical * 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Advanced',
+                  style: GoogleFonts.nunito(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
+                Container(
+                  height: SizeConfig.blockSizeVertical * 90,
+                  child: GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      childAspectRatio: .85,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      children: List.generate(advancedLessons.length, (index) {
+                        return CategoryCard(
+                          title: advancedLessons[index].lessonName,
+                          img: advancedLessons[index].lessonImage,
+                          progressStatus: advancedLessons[index].progresStatus.trim(),
+                          press: () {
+                            if (advancedLessons[index].progresStatus.trim() ==
+                                "lock") {
+                              String lessonBefore =
+                                  advancedLessons[index - 1].lessonName;
+                              Toast.show(
+                                  "You must finish lesson $lessonBefore!", context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM,
+                                  backgroundColor: Colors.blueAccent,
+                                  textColor: Colors.white);
+                            } else {
+                              Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                  builder: (context) => LessonDetail(
+                                    lessonName: advancedLessons[index].lessonName.trim(),
+                                    lessonId: advancedLessons[index].lessonId,
+                                    progressId: advancedLessons[index].progressId,
+                                  ),
+                                  settings: RouteSettings(name: '/lessonDetail'),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      })),
+                )
+              ],
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
+      shrinkWrap: true,
+    );
   }
 }

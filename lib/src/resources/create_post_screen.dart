@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:countdown/countdown.dart';
+import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +53,8 @@ class _CreatePostState extends State<CreatePostScreen> {
   }
 
   Future getVideo() async {
-    final pickedFile = await picker.getVideo(source: ImageSource.camera, maxDuration: Duration(seconds: 60));
+    final pickedFile = await picker.getVideo(
+        source: ImageSource.camera, maxDuration: Duration(seconds: 60));
     setState(() {
       if (pickedFile != null) {
         file = File(pickedFile.path);
@@ -182,7 +184,6 @@ class _CreatePostState extends State<CreatePostScreen> {
   _showRecordDialog(BuildContext context) {
     _init();
     bool isRecord = false;
-    String countdown = '02:00';
     return StatefulBuilder(builder: (context, setState) {
       return AlertDialog(
         content: new Container(
@@ -228,19 +229,37 @@ class _CreatePostState extends State<CreatePostScreen> {
                       width: SizeConfig.blockSizeHorizontal * 21,
                     ),
                     new Container(
-                      decoration: new BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: new Text(
-                        countdown,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontFamily: 'Helvetica',
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                        child: isRecord == true
+                            ? Countdown(
+                                duration: Duration(minutes: 2),
+                                onFinish: () {
+                                  print("finish");
+                                },
+                                builder:
+                                    (BuildContext ctx, Duration remaining) {
+                                  return new Text(
+                                    "${remaining.inMinutes}:${remaining.inSeconds % 60}",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontFamily: 'Helvetica',
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  );
+                                },
+                              )
+                            : Text(
+                                "02:00",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontFamily: 'Helvetica',
+                                ),
+                                textAlign: TextAlign.center,
+                              )),
                   ],
                 ),
               ),
@@ -276,9 +295,9 @@ class _CreatePostState extends State<CreatePostScreen> {
                       },
                       child: isRecord == true
                           ? Icon(
-                        CupertinoIcons.stop,
-                        size: 50,
-                      )
+                              CupertinoIcons.stop,
+                              size: 50,
+                            )
                           : Icon(CupertinoIcons.mic_solid),
                       backgroundColor: Colors.blueAccent,
                     ),
@@ -333,16 +352,56 @@ class _CreatePostState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     _context = context;
-    pr = new ProgressDialog(
-        context, showLogs: true, isDismissible: false
-    );
+    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
     pr.style(
-        progressWidget: CupertinoActivityIndicator(), message: 'Please wait...');
+        progressWidget: CupertinoActivityIndicator(),
+        message: 'Please wait...');
 
     return BlocProvider(
       create: (context) => CreatePostCubit(PostRepository()),
       child: Scaffold(
-        //resizeToAvoidBottomInset: false,
+        bottomNavigationBar: Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+            padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.5),
+            decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: Colors.black26))
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 65,
+                ),
+                IconButton(
+                    icon: Icon(
+                      CupertinoIcons.mic_circle_fill,
+                      size: 45,
+                      color: Colors.blueAccent,
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => _showRecordDialog(context));
+                    }),
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 3,
+                ),
+                IconButton(
+                    icon: Icon(CupertinoIcons.camera_circle_fill,
+                        size: 45, color: Colors.blueAccent),
+                    onPressed: () async {
+                      getVideo();
+                      // file = await Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Video(
+                      //         )));
+                    })
+              ],
+            ),
+          ),
+        ),
+        backgroundColor: Color.fromRGBO(255, 239, 215, 1),
         body: BlocConsumer<CreatePostCubit, CreatePostState>(
           listener: (context, state) {
             if (state is CreatingPost) {
@@ -385,7 +444,8 @@ class _CreatePostState extends State<CreatePostScreen> {
                               onPressed: () {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => new CupertinoAlertDialog(
+                                  builder: (context) =>
+                                      new CupertinoAlertDialog(
                                     title: new Text(
                                       "Confirm exit",
                                       style: TextStyle(fontFamily: 'Helvetica'),
@@ -398,7 +458,8 @@ class _CreatePostState extends State<CreatePostScreen> {
                                       CupertinoDialogAction(
                                         child: Text(
                                           'Confirm',
-                                          style: TextStyle(fontFamily: 'Helvetica'),
+                                          style: TextStyle(
+                                              fontFamily: 'Helvetica'),
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context, 'yes');
@@ -407,7 +468,8 @@ class _CreatePostState extends State<CreatePostScreen> {
                                       CupertinoDialogAction(
                                         child: Text(
                                           'Cancel',
-                                          style: TextStyle(fontFamily: 'Helvetica'),
+                                          style: TextStyle(
+                                              fontFamily: 'Helvetica'),
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context, 'no');
@@ -416,13 +478,14 @@ class _CreatePostState extends State<CreatePostScreen> {
                                     ],
                                   ),
                                 ).then((value) {
-                                  if(value == 'yes'){
+                                  if (value == 'yes') {
                                     Navigator.of(context).pop();
                                   }
                                 });
-                              }
+                              }),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 20,
                           ),
-                          SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),
                           Text(
                             "Create Post",
                             style: TextStyle(
@@ -443,7 +506,8 @@ class _CreatePostState extends State<CreatePostScreen> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     boxShadow: [
                                       BoxShadow(
-                                          color: Colors.black26.withOpacity(0.05),
+                                          color:
+                                              Colors.black26.withOpacity(0.05),
                                           offset: Offset(0.0, 6.0),
                                           blurRadius: 10.0,
                                           spreadRadius: 0.10)
@@ -475,7 +539,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                           CircleAvatar(
                             radius: 20,
                             backgroundImage:
-                            AssetImage('assets/images/profile.png'),
+                                AssetImage('assets/images/profile.png'),
                           ),
                           SizedBox(
                             width: SizeConfig.blockSizeHorizontal * 2,
@@ -535,7 +599,8 @@ class _CreatePostState extends State<CreatePostScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           labelText: 'Enter title here',
-                          labelStyle: TextStyle(fontFamily: 'Helvetica', fontSize: 15),
+                          labelStyle:
+                              TextStyle(fontFamily: 'Helvetica', fontSize: 15),
                         ),
                       ),
                     ),
@@ -568,138 +633,111 @@ class _CreatePostState extends State<CreatePostScreen> {
                     ),
                     file != null
                         ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 4,
-                            ),
-                            Stack(
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                  SizeConfig.blockSizeHorizontal * 20,
-                                  height: SizeConfig.blockSizeVertical * 15,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(20.0),
-                                          topLeft: Radius.circular(5.0),
-                                          bottomRight: Radius.circular(5.0),
-                                          bottomLeft: Radius.circular(5.0)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black26
-                                                .withOpacity(0.05),
-                                            offset: Offset(0.0, 6.0),
-                                            blurRadius: 10.0,
-                                            spreadRadius: 0.10)
-                                      ]),
-                                  child: IconButton(
-                                    icon: Icon(CupertinoIcons.paperclip),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal * 4,
                                   ),
-                                ),
-                                Positioned(
-                                  left: SizeConfig.blockSizeHorizontal * 10,
-                                  bottom: SizeConfig.blockSizeVertical * 9,
-                                  child: new Container(
-                                      padding: EdgeInsets.all(1),
-                                      constraints: BoxConstraints(
-                                        minWidth: 12,
-                                        minHeight: 12,
-                                      ),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          CupertinoIcons
-                                              .clear_circled_solid,
-                                          color: Colors.redAccent,
+                                  Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 20,
+                                        height:
+                                            SizeConfig.blockSizeVertical * 15,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(20.0),
+                                                topLeft: Radius.circular(5.0),
+                                                bottomRight:
+                                                    Radius.circular(5.0),
+                                                bottomLeft:
+                                                    Radius.circular(5.0)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black26
+                                                      .withOpacity(0.05),
+                                                  offset: Offset(0.0, 6.0),
+                                                  blurRadius: 10.0,
+                                                  spreadRadius: 0.10)
+                                            ]),
+                                        child: IconButton(
+                                          icon: Icon(CupertinoIcons.paperclip),
                                         ),
-                                        onPressed: () {
-                                          clearCacheFile();
-                                        },
-                                      )),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    )
+                                      ),
+                                      Positioned(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 10,
+                                        bottom:
+                                            SizeConfig.blockSizeVertical * 9,
+                                        child: new Container(
+                                            padding: EdgeInsets.all(1),
+                                            constraints: BoxConstraints(
+                                              minWidth: 12,
+                                              minHeight: 12,
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                CupertinoIcons
+                                                    .clear_circled_solid,
+                                                color: Colors.redAccent,
+                                              ),
+                                              onPressed: () {
+                                                clearCacheFile();
+                                              },
+                                            )),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
                         : Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 4,
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 20,
-                          height: SizeConfig.blockSizeVertical * 15,
-                          decoration: BoxDecoration(
-                            //border: Border.all(color: Colors.black54),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20.0),
-                                topLeft: Radius.circular(5.0),
-                                bottomRight: Radius.circular(5.0),
-                                bottomLeft: Radius.circular(5.0)),
+                            children: <Widget>[
+                              SizedBox(
+                                width: SizeConfig.blockSizeHorizontal * 4,
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 20,
+                                height: SizeConfig.blockSizeVertical * 15,
+                                decoration: BoxDecoration(
+                                  //border: Border.all(color: Colors.black54),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20.0),
+                                      topLeft: Radius.circular(5.0),
+                                      bottomRight: Radius.circular(5.0),
+                                      bottomLeft: Radius.circular(5.0)),
+                                ),
+                                // child: Column(
+                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: <Widget>[
+                                //     IconButton(
+                                //       icon: Icon(CupertinoIcons.add_circled),
+                                //       onPressed: () {
+                                //         getFilePath();
+                                //       },
+                                //     ),
+                                //     Text(
+                                //       'Choose audio or video file',
+                                //       style: TextStyle(
+                                //         fontFamily: 'Helvetica',
+                                //         fontSize: 10,
+                                //       ),
+                                //       textAlign: TextAlign.center,
+                                //     )
+                                //   ],
+                                // )
+                              ),
+                            ],
                           ),
-                          // child: Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: <Widget>[
-                          //     IconButton(
-                          //       icon: Icon(CupertinoIcons.add_circled),
-                          //       onPressed: () {
-                          //         getFilePath();
-                          //       },
-                          //     ),
-                          //     Text(
-                          //       'Choose audio or video file',
-                          //       style: TextStyle(
-                          //         fontFamily: 'Helvetica',
-                          //         fontSize: 10,
-                          //       ),
-                          //       textAlign: TextAlign.center,
-                          //     )
-                          //   ],
-                          // )
-                        ),
-                      ],
-                    ),
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 1,
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 65,
-                        ),
-                        IconButton(
-                            icon: Icon(
-                              CupertinoIcons.mic_solid,
-                              size: 40,
-                              color: Colors.blueAccent,
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => _showRecordDialog(context));
-                            }),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 3,
-                        ),
-                        IconButton(
-                            icon: Icon(CupertinoIcons.camera_fill,
-                                size: 40, color: Colors.blueAccent),
-                            onPressed: () async {
-                              getVideo();
-                              // file = await Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => Video(
-                              //         )));
-                            })
-                      ],
-                    )
                   ],
                 ),
               ),

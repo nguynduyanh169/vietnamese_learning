@@ -64,6 +64,9 @@ dependencies:
   firebase_auth: ^0.18.3+1
   google_sign_in: ^4.5.6
   countdown: ^0.1.0
+  countdown_flutter: ^0.1.2
+  sticky_headers: ^0.1.8+1
+
 
 
 

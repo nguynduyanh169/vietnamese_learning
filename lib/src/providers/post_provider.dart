@@ -9,6 +9,7 @@ class PostProvider {
   static final String GET_MY_POST = BASE_URL + "/api/post/myPost";
   static final String UPDATE_POST = BASE_URL + "/api/post";
   static final String DELETE_POST = BASE_URL + "/api/post";
+  static final String SEARCH_POSTS = BASE_URL + "/api/post/search";
   Dio _dio = new Dio();
 
   Future<bool> createPost(String token, PostSave postSave) async {
@@ -82,7 +83,7 @@ class PostProvider {
       Post post = Post.fromJson(response.data);
       return post;
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occurred: $error stackTrace: $stacktrace");
     }
   }
 
@@ -119,5 +120,23 @@ class PostProvider {
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
     }
+  }
+
+  Future<List<Content>> searchPost(String token, String search) async{
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    try {
+      Response response =
+      await _dio.get('$SEARCH_POSTS/$search', options: Options(headers: headers));
+      return (response.data as List)
+          .map((i) => Content.fromJson(i))
+          .toList();
+    } catch (error, stacktrace) {
+      print("Exception occurred: $error stackTrace: $stacktrace");
+    }
+
   }
 }

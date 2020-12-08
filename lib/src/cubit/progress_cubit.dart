@@ -3,8 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/data/entrance_quiz_repository.dart';
 import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
-import 'package:vietnamese_learning/src/states/create_post_state.dart';
+import 'package:vietnamese_learning/src/models/login_respone.dart';
 import 'package:vietnamese_learning/src/states/progress_state.dart';
+import 'package:vietnamese_learning/src/utils/auth_utils.dart';
 
 class ProgressCubit extends Cubit<ProgressState>{
   ProgressRepository _progressRepository;
@@ -12,12 +13,13 @@ class ProgressCubit extends Cubit<ProgressState>{
 
   ProgressCubit(this._progressRepository): super(InitialCreateProgress());
 
-  Future<void> createProgress(int levelId) async{
+  Future<void> createProgress(int levelId, LoginResponse loginResponse, String username) async{
     try{
       emit(CreatingProgress());
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString('accessToken');
-      bool check = await _progressRepository.createProgress(levelId, token);
+      AuthUtils.insertDetails(prefs, loginResponse.accessToken, username);
+      bool check = await _progressRepository.createProgress(levelId, loginResponse.accessToken);
+      print("check");
       if(check == true){
         emit(CreateProgressSuccess());
       }else{

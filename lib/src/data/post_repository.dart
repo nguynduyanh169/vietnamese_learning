@@ -28,4 +28,7 @@ class PostRepository{
     return _postProvider.updatePost(token, postUpdate);
   }
 
+  Future<List<Content>> searchPosts(String token, String search){
+    return _postProvider.searchPost(token, search);
+  }
 }

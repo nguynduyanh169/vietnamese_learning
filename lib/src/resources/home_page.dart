@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return PersistentTabView(
+      context,
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),

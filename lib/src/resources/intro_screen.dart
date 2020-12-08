@@ -166,10 +166,6 @@ class _IntroScreenState extends State<IntroScreen> {
             CupertinoActivityIndicator(
               radius: 20,
             ),
-            Text(
-              'Loading....',
-              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-            )
           ],
         ),
       ),

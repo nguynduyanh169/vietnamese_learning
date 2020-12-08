@@ -12,6 +12,7 @@ class QuizCubit extends Cubit<QuizState>{
   QuizCubit(this._quizRepository): super(QuizLoading());
 
   Future<void> loadQuiz(String lessonId) async{
+    print(lessonId);
     try{
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');

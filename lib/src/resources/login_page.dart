@@ -9,12 +9,14 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/login_cubit.dart';
 import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
+import 'package:vietnamese_learning/src/resources/level_screen.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
 import 'package:vietnamese_learning/src/states/login_state.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
   final String title;
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -383,7 +385,11 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.of(_ctx).pushReplacementNamed("/home");
             } else if (state is NewLoginProcess) {
               pr.hide();
-              Navigator.of(_ctx).pushReplacementNamed("/level");
+              Navigator.of(_ctx).push(MaterialPageRoute(
+                  builder: (context) => LevelScreen(
+                        loginResponse: state.loginResponse,
+                        username: state.username,
+                      )));
             } else if (state is DoingLogin) {
               pr.show();
             }
