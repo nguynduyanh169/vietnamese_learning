@@ -26,4 +26,8 @@ class UserRepository {
   Future<bool> changePassword(String email, String newPassword){
     return _userProvider.changePassword(email, newPassword);
   }
+
+  Future<LoginResponse> login_gmail(String avatarLink, String email, String fullname, String uid, String username){
+    return _userProvider.signinGmail(email, fullname, uid, avatarLink, username);
+  }
 }

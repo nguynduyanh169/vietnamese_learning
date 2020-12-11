@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         await SharedPreferences.getInstance();
     setState(() {
       username = sharedPreferences.getString('username');
+      print(username);
       userProfile = UserProfile.fromJson(json.decode(sharedPreferences.getString(username + 'profile')));
     });
   }

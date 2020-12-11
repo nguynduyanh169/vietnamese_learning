@@ -28,3 +28,18 @@ class LoginError extends LoginState {
   final String message;
   const LoginError(this.message);
 }
+
+class LoginGmailSuccess extends LoginState{
+  const LoginGmailSuccess();
+}
+
+class LoginGmailFail extends LoginState{
+  final String message;
+  const LoginGmailFail(this.message);
+}
+
+class NewLoginGmail extends LoginState{
+  final String username;
+  final LoginResponse loginResponse;
+  NewLoginGmail(this.username, this.loginResponse);
+}

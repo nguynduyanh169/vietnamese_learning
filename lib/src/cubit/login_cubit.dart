@@ -34,4 +34,23 @@ class LoginCubit extends Cubit<LoginState>{
     }
   }
 
+  Future<void> doLoginGmail(String email, String fullname, String uid, String avatarLink, String username)async{
+    try{
+      LoginResponse jwtToken = await _userRepository.login_gmail(avatarLink,email, fullname, uid, username);
+      if(jwtToken.tokenType == 'Fail'){
+        emit(LoginGmailFail(('Login Error!')));
+      }else{
+        Map<String, dynamic> decodeToken = JwtDecoder.decode(jwtToken.accessToken);
+        if(decodeToken['level-id'] == 0){
+          emit(NewLoginGmail(username, jwtToken));
+        }else{
+          emit(LoginProcess(jwtToken));
+          final SharedPreferences preferences = await SharedPreferences.getInstance();
+          AuthUtils.insertDetails(preferences, jwtToken.accessToken, username);
+        }
+      }
+    } on Exception{
+      emit(LoginGmailFail('Login Failed'));
+    }
+  }
 }

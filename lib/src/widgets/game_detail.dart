@@ -18,11 +18,7 @@ class _GameDetailState extends State<GameDetail> {
       body: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.deepPurple[300], Colors.lightBlue[900]],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromRGBO(255, 239, 215, 1)
         ),
         child: Column(
           children: [
@@ -55,7 +51,7 @@ class _GameDetailState extends State<GameDetail> {
               "M    E    M    O    R    Y        G    A    M    E",
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.white,
+                color: Colors.yellow[900],
                 fontWeight: FontWeight.w100,
               ),
             ),

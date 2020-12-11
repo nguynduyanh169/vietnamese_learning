@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:vietnamese_learning/src/models/user_gmail.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 final googleUser = GoogleSignIn();
 
 
-Future<bool>googleSignIn() async{
+Future<User_Gmail>googleSignIn() async{
   GoogleSignInAccount googleSignInAccount = await googleUser.signIn();
 
   if(googleSignInAccount!=null){
@@ -14,11 +15,11 @@ Future<bool>googleSignIn() async{
 
     UserCredential result = await auth.signInWithCredential(credential);
     User user = await result.user;
-    print(user.uid);
-    print(user.email);
-    print(user.displayName);
+    String username = user.email.substring(0, user.email.indexOf("@"));
+    print(username);
+    User_Gmail user_gmail = new User_Gmail(username, user.photoURL,user.email, user.displayName, user.uid);
 
-    return Future.value(true);
+    return user_gmail;
   }
 }
 

@@ -16,11 +16,7 @@ class _MemoryGameLevelPageState extends State<MemoryGameLevelPage> {
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.deepPurple[300], Colors.lightBlue[900]],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: Color.fromRGBO(255, 239, 215, 1)
       ),
       child: Center(
           child: Column(
@@ -40,7 +36,7 @@ class _MemoryGameLevelPageState extends State<MemoryGameLevelPage> {
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
-                    color: Colors.white70,
+                    color: Colors.yellow[900],
                   ),
                 )
               ],

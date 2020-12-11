@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,12 +9,14 @@ import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/login_cubit.dart';
 import 'package:vietnamese_learning/src/data/user_repository.dart';
+import 'package:vietnamese_learning/src/models/user_gmail.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/resources/level_screen.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
 import 'package:vietnamese_learning/src/states/login_state.dart';
+import 'package:vietnamese_learning/src/utils/firebase_util.dart';
 import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _usernameController = new TextEditingController();
     _passwordController = new TextEditingController();
+    Firebase.initializeApp();
   }
 
   final formKey = new GlobalKey<FormState>();
@@ -53,6 +57,9 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void _submitGmail(BuildContext context, User_Gmail user_gmail){
+    BlocProvider.of<LoginCubit>(context).doLoginGmail(user_gmail.email,user_gmail.fullname, user_gmail.uid, user_gmail.avatarLink, user_gmail.username);
+  }
   final color = const Color(0xffF2CE5E);
 
   Widget _loginScreen(BuildContext context) {
@@ -300,7 +307,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        //onTap: () => googleSignIn(),
+                        onTap: () async {
+                          User_Gmail user_gmail = await googleSignIn();
+                          _submitGmail(context, user_gmail);
+                        },
                       ),
                     ],
                   ),
@@ -395,6 +405,23 @@ class _LoginPageState extends State<LoginPage> {
                       )));
             } else if (state is DoingLogin) {
               CustomProgressDialog.progressDialog(context);
+            } else if (state is LoginGmailSuccess){
+              Navigator.pop(context);
+              Navigator.of(_ctx).pushReplacementNamed("/home");
+            }else if (state is LoginGmailFail){
+              Navigator.pop(context);
+              Toast.show("Login Failed!", context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  backgroundColor: Colors.redAccent,
+                  textColor: Colors.white);
+            }else if (state is NewLoginGmail){
+              Navigator.pop(context);
+              Navigator.of(_ctx).push(MaterialPageRoute(
+                  builder: (context) => LevelScreen(
+                    loginResponse: state.loginResponse,
+                    username: state.username,
+                  )));
             }
           },
           builder: (context, state) {
