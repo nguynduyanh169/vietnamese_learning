@@ -1,20 +1,31 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/forget_password_cubit.dart';
+import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/states/forget_password_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
+  TextEditingController txtEmail = new TextEditingController();
+  TextEditingController txtCode = new TextEditingController();
+  TextEditingController txtPassword = new TextEditingController();
+  TextEditingController txtConfirmPassword = new TextEditingController();
+  String code;
+  String email;
   @override
   Widget build(BuildContext context) {
+    String emailInvalid, codeInvalid, confirmPasswordInvalid;
     SizeConfig().init(context);
     Widget _sendEmail(BuildContext context) {
       return Center(
         child: Column(
           children: <Widget>[
-            Text('Change Password',
+            Text('Enter Your Email',
                 style: TextStyle(
                   fontFamily: 'Helvetica',
                   fontSize: 25,
@@ -30,8 +41,10 @@ class ForgetPasswordScreen extends StatelessWidget {
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
-              child: TextField(
+              child: TextFormField(
+                controller: txtEmail,
                 decoration: InputDecoration(
+                  errorText: emailInvalid,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     labelText: 'Email',
@@ -64,7 +77,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                BlocProvider.of<ForgetPasswordCubit>(context).sendEmail();
+                BlocProvider.of<ForgetPasswordCubit>(context).sendEmail(txtEmail.text);
               },
               color: const Color.fromRGBO(255, 190, 51, 60),
             ),
@@ -107,10 +120,12 @@ class ForgetPasswordScreen extends StatelessWidget {
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
-              child: TextField(
+              child: TextFormField(
+                controller: txtCode,
                 maxLength: 4,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
+                  errorText: codeInvalid,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     labelText: 'Code',
@@ -143,7 +158,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                BlocProvider.of<ForgetPasswordCubit>(context).enterCode();
+                BlocProvider.of<ForgetPasswordCubit>(context).enterCode(code, txtCode.text);
               },
               color: const Color.fromRGBO(255, 190, 51, 60),
             ),
@@ -186,7 +201,8 @@ class ForgetPasswordScreen extends StatelessWidget {
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
-              child: TextField(
+              child: TextFormField(
+                controller: txtPassword,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
@@ -197,8 +213,10 @@ class ForgetPasswordScreen extends StatelessWidget {
             SizedBox(height: SizeConfig.blockSizeVertical * 2,),
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
-              child: TextField(
+              child: TextFormField(
+                controller: txtConfirmPassword,
                 decoration: InputDecoration(
+                  errorText: confirmPasswordInvalid,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     labelText: 'Confirm New Password',
@@ -231,7 +249,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                BlocProvider.of<ForgetPasswordCubit>(context).changePassword();
+                BlocProvider.of<ForgetPasswordCubit>(context).changePassword(email, txtPassword.text, txtConfirmPassword.text);
               },
               color: const Color.fromRGBO(255, 190, 51, 60),
             ),
@@ -255,7 +273,7 @@ class ForgetPasswordScreen extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => ForgetPasswordCubit(),
+      create: (context) => ForgetPasswordCubit(UserRepository()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
@@ -269,13 +287,31 @@ class ForgetPasswordScreen extends StatelessWidget {
             child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
               listener: (context, state){
                 if(state is ChangePasswordSuccess){
+                  Navigator.pop(context);
                   Navigator.of(context).pop();
+                }else if(state is EnterCode){
+                  Navigator.pop(context);
+                  email = txtEmail.text;
+                  code = state.code;
+                  print(code);
+                }else if(state is SendEmailFailed){
+                  Navigator.pop(context);
+                  emailInvalid = "Your email is invalid";
+                }else if(state is  EnterCodeInvalid){
+                  codeInvalid = "Your enter code is not correct";
+                } else if(state is SendEmail){
+                  CustomProgressDialog.progressDialog(context);
+                } else if(state is ChangingPassword){
+                  CustomProgressDialog.progressDialog(context);
+                } else if(state is ChangePasswordFailed){
+                  Navigator.pop(context);
+                  confirmPasswordInvalid = "Confirm password is not correct";
                 }
               },
               builder: (context, state){
-                if(state is EnterCode){
+                if(state is EnterCode || state is EnterCodeInvalid){
                   return _enterCode(context);
-                }else if(state is ChangePassword){
+                }else if(state is ChangePassword || state is ChangePasswordFailed){
                   return _changePassword(context);
                 }
                 else{

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/forum_screen.dart';
 import 'package:vietnamese_learning/src/resources/home_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -10,8 +11,7 @@ import 'package:vietnamese_learning/src/resources/list_game_screen.dart';
 import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();

@@ -730,6 +730,7 @@ class _ViewPostState extends State<ViewPost> {
           pr.hide();
           numberOfComment = state.comments.length;
         } else if (state is CommentingPost) {
+          //print('comment');
           pr.show();
         } else if (state is DeletePostSuccess) {
           pr.hide().whenComplete(() {

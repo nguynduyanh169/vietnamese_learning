@@ -77,10 +77,20 @@ class _MyPostTabState extends State<MyPostsTab> {
 
   Widget _postCard(Content content, BuildContext buildContext) {
     String showContent;
+    String status;
+    Color statusColor;
     if (content.text.length > 100) {
       showContent = content.text.substring(0, 100) + "...";
     } else {
       showContent = content.text;
+    }
+    if(content.status.trim() == "PENDING"){
+      status = 'Pending';
+      statusColor = Colors.amberAccent;
+    }else{
+      print(content.status);
+      status = 'Active';
+      statusColor = Colors.green;
     }
     return Container(
       padding: EdgeInsets.only(
@@ -100,7 +110,19 @@ class _MyPostTabState extends State<MyPostsTab> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 3,
+            height: SizeConfig.blockSizeVertical * 1,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Icon(
+                CupertinoIcons.checkmark_rectangle_fill,
+                color: statusColor,
+              ),
+              SizedBox(width: SizeConfig.blockSizeHorizontal * 2,),
+              Text('$status', style: TextStyle(fontFamily: 'Helvetica'))
+
+            ],
           ),
           InkWell(
               child: Text(
@@ -165,7 +187,8 @@ class _MyPostTabState extends State<MyPostsTab> {
                     style: TextStyle(fontSize: 10, fontFamily: 'Helvetica'),
                   )
                 ],
-              )
+              ),
+
             ],
           ),
           SizedBox(

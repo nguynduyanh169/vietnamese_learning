@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:vietnamese_learning/src/models/lesson.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 
 abstract class LessonsState{
   const LessonsState();
@@ -13,7 +14,8 @@ class LessonsLoading extends LessonsState{
 
 class LessonsLoaded extends LessonsState{
   final List<Lesson> lessons;
-  const LessonsLoaded(this.lessons);
+  final UserProfile userProfile;
+  const LessonsLoaded(this.lessons, this.userProfile);
 }
 
 class LessonLoadError extends LessonsState{

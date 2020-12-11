@@ -1,4 +1,6 @@
 
+import 'package:vietnamese_learning/src/models/user_profile.dart';
+
 abstract class IntroState {
   const IntroState();
 }

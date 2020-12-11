@@ -1,8 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 
 class EditProfileScreen extends StatelessWidget{
+  UserProfile userProfile;
+
+  EditProfileScreen({this.userProfile});
+
+  TextEditingController txtUsername, txtFullname, txtEmail, txtNation;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -27,14 +34,14 @@ class EditProfileScreen extends StatelessWidget{
                     style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 15,
+                    width: SizeConfig.blockSizeHorizontal * 18,
                   ),
                   InkWell(
                     child: Container(
                         height: SizeConfig.blockSizeVertical * 5,
                         width: SizeConfig.blockSizeHorizontal * 15,
                         decoration: BoxDecoration(
-                            color: Colors.black12,
+                            color: Colors.blueAccent,
                             borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [
                               BoxShadow(
@@ -49,7 +56,7 @@ class EditProfileScreen extends StatelessWidget{
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'Helvetica',
-                              color: Colors.black45,
+                              color: Colors.white,
                             ),
                           ),
                         )),

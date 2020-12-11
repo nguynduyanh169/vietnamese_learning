@@ -7,9 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/intro_cubit.dart';
+import 'package:vietnamese_learning/src/data/user_repository.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
 import 'package:vietnamese_learning/src/states/intro_state.dart';
 import 'package:vietnamese_learning/src/widgets/slide_model.dart';
+
+import 'home_page.dart';
 
 class IntroScreen extends StatefulWidget {
   @override

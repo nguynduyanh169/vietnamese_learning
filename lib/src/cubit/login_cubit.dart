@@ -4,6 +4,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/models/login_respone.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/states/login_state.dart';
 import 'package:vietnamese_learning/src/utils/auth_utils.dart';
 

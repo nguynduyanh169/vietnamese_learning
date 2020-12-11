@@ -19,6 +19,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/create_post_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/states/create_post_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class CreatePostScreen extends StatefulWidget {
   CreatePostScreen({Key key}) : super(key: key);
@@ -405,12 +406,15 @@ class _CreatePostState extends State<CreatePostScreen> {
         body: BlocConsumer<CreatePostCubit, CreatePostState>(
           listener: (context, state) {
             if (state is CreatingPost) {
-              pr.show();
+              // pr.show();
+              CustomProgressDialog.progressDialog(context);
             } else if (state is ValidatePost) {
               titleInvalid = state.titleMessage;
               contentInvalid = state.contentMessage;
             } else if (state is CreatePostSuccess) {
-              pr.hide().whenComplete(() => {Navigator.pop(_context)});
+              Navigator.pop(context);
+              Navigator.of(context).pop();
+              // pr.hide().whenComplete(() => {Navigator.pop(_context)});
             } else if (state is CreatePostError) {
               pr.hide();
             }

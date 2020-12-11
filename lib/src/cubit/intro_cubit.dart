@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vietnamese_learning/src/data/user_repository.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/states/intro_state.dart';
 
 class IntroCubit extends Cubit<IntroState>{

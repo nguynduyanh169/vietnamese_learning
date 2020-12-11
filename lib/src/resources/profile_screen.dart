@@ -4,27 +4,29 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/edit_profile.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key key}) : super(key: key);
+  UserProfile userProfile;
+  ProfileScreen({Key key, this.userProfile}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState(userProfile: userProfile);
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String _username = "";
   bool isSwitch = false;
+  UserProfile userProfile;
 
+  _ProfileScreenState({this.userProfile});
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
-
-  _ProfileScreenState();
   BuildContext _ctx;
 
   Future<void> _loadUsername() async {
@@ -56,7 +58,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Row(
                     children: <Widget>[
-                      Container(
+                      userProfile.avatar != null ? CircleAvatar(
+                        radius: 40.0,
+                        backgroundImage: NetworkImage(userProfile.avatar),
+                        backgroundColor: Colors.transparent,
+                      )
+                      : Container(
                           width: SizeConfig.blockSizeHorizontal * 25,
                           height: SizeConfig.blockSizeVertical * 14,
                           decoration: new BoxDecoration(
@@ -215,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               withNavBar: false,
                                               pageTransitionAnimation:
                                                   PageTransitionAnimation
-                                                      .cupertino),
+                                                      .slideUp),
                                         )),
                                     Card(
                                         color: const Color.fromRGBO(
@@ -278,8 +285,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<Null> logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('username', null);
-    prefs.setString('accessToken', null);
+    prefs.remove('username');
+    prefs.remove('accessToken');
+    prefs.remove(_username + 'profile');
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
     // Navigator.of(context, rootNavigator: true).pushReplacement(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +12,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
 import 'package:vietnamese_learning/src/data/lesson_repository.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
 import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 import 'package:vietnamese_learning/src/states/lessons_state.dart';
@@ -17,6 +20,7 @@ import 'package:vietnamese_learning/src/widgets/category_card.dart';
 import 'package:vietnamese_learning/src/widgets/searchbar.dart';
 
 class HomeScreen extends StatefulWidget {
+
   HomeScreen({Key key}) : super(key: key);
 
   @override
@@ -25,6 +29,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String username = "user";
+  UserProfile userProfile = new UserProfile();
+
+  _HomeScreenState();
 
   @override
   void initState() {
@@ -37,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         await SharedPreferences.getInstance();
     setState(() {
       username = sharedPreferences.getString('username');
+      userProfile = UserProfile.fromJson(json.decode(sharedPreferences.getString(username + 'profile')));
     });
   }
 
@@ -50,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
         body: BlocBuilder<LessonsCubit, LessonsState>(
           builder: (context, state) {
             if (state is LessonsLoaded) {
-              return _gridLesson(state.lessons);
+              userProfile = state.userProfile;
+              return _gridLesson(state.lessons, userProfile.studentLevel);
             } else if (state is LessonLoadError) {
               return Center(
                 child: Text(
@@ -84,8 +93,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  Widget _gridLesson(List<Lesson> _listLessons) {
+  
+  Widget _gridLesson(List<Lesson> _listLessons, int leveIdOfUser) {
+    String levelOfUser;
+    if(leveIdOfUser == 1){
+      levelOfUser = 'Beginner';
+    }
+    if(leveIdOfUser == 2){
+      levelOfUser = 'Intermediate';
+    }
+    if(leveIdOfUser == 3){
+      levelOfUser = 'Advanced';
+    }
     return Stack(children: <Widget>[
       Container(
         decoration: BoxDecoration(
@@ -105,20 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 height: 140,
               ),
-              // child: Column(
-              //   children: <Widget>[
-              //     Text(
-              //       'Lesson',
-              //       style: GoogleFonts.sansita(
-              //         fontSize: 20,
-              //       ),
-              //     ),
-              //     Text(
-              //       'Beginner Level',
-              //       style: GoogleFonts.sansita(fontSize: 15),
-              //     ),
-              //   ],
-              // ),
             ),
           ],
         ),
@@ -143,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 27, color: Colors.orange[900]),
                       ),
                       Text(
-                        "Your Level: Beginner",
+                        "Your Level: $levelOfUser",
                         style: TextStyle(
                           fontFamily: 'Helvetica',
                           fontSize: 19,
@@ -158,19 +163,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ProfileScreen()));
+                          builder: (context) => ProfileScreen(userProfile: userProfile)));
                     },
-                    child: Container(
-                      height: 52,
-                      width: 52,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF2BEA1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image(
-                        image: AssetImage('assets/images/profile.png'),
-                      ),
-                    ),
+                    child: userProfile.avatar != null
+                        ? CircleAvatar(
+                            radius: 25.0,
+                            backgroundImage: NetworkImage(userProfile.avatar),
+                            backgroundColor: Colors.transparent,
+                          )
+                        : Container(
+                            height: 52,
+                            width: 52,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFF2BEA1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image(
+                              image: AssetImage('assets/images/profile.png'),
+                            ),
+                          ),
                   )
                 ],
               ),
@@ -216,7 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   'Beginner',
-                  style: GoogleFonts.nunito(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.nunito(
+                      fontSize: 30, fontWeight: FontWeight.bold),
                   //textAlign: TextAlign.start,
                 ),
                 SizedBox(
@@ -279,7 +291,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   'Intermediate',
-                  style: GoogleFonts.nunito(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.nunito(
+                      fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2,
@@ -345,7 +358,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   'Advanced',
-                  style: GoogleFonts.nunito(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.nunito(
+                      fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2,
@@ -362,14 +376,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         return CategoryCard(
                           title: advancedLessons[index].lessonName,
                           img: advancedLessons[index].lessonImage,
-                          progressStatus: advancedLessons[index].progresStatus.trim(),
+                          progressStatus:
+                              advancedLessons[index].progresStatus.trim(),
                           press: () {
                             if (advancedLessons[index].progresStatus.trim() ==
                                 "lock") {
                               String lessonBefore =
                                   advancedLessons[index - 1].lessonName;
                               Toast.show(
-                                  "You must finish lesson $lessonBefore!", context,
+                                  "You must finish lesson $lessonBefore!",
+                                  context,
                                   duration: Toast.LENGTH_LONG,
                                   gravity: Toast.BOTTOM,
                                   backgroundColor: Colors.blueAccent,
@@ -378,11 +394,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.of(context, rootNavigator: true).push(
                                 MaterialPageRoute(
                                   builder: (context) => LessonDetail(
-                                    lessonName: advancedLessons[index].lessonName.trim(),
+                                    lessonName: advancedLessons[index]
+                                        .lessonName
+                                        .trim(),
                                     lessonId: advancedLessons[index].lessonId,
-                                    progressId: advancedLessons[index].progressId,
+                                    progressId:
+                                        advancedLessons[index].progressId,
                                   ),
-                                  settings: RouteSettings(name: '/lessonDetail'),
+                                  settings:
+                                      RouteSettings(name: '/lessonDetail'),
                                 ),
                               );
                             }
