@@ -87,10 +87,13 @@ class _MyPostTabState extends State<MyPostsTab> {
     if(content.status.trim() == "PENDING"){
       status = 'Pending';
       statusColor = Colors.amberAccent;
-    }else{
+    }else if(content.status.trim() == "APPROVED"){
       print(content.status);
       status = 'Active';
       statusColor = Colors.green;
+    }else{
+      status = 'Banned';
+      statusColor = Colors.redAccent;
     }
     return Container(
       padding: EdgeInsets.only(

@@ -202,6 +202,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
               child: TextFormField(
+                obscureText: true,
                 controller: txtPassword,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -214,9 +215,10 @@ class ForgetPasswordScreen extends StatelessWidget {
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
               child: TextFormField(
+                obscureText: true,
                 controller: txtConfirmPassword,
                 decoration: InputDecoration(
-                  errorText: confirmPasswordInvalid,
+                    errorText: confirmPasswordInvalid,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     labelText: 'Confirm New Password',

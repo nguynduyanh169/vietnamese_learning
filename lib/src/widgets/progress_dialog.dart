@@ -17,7 +17,9 @@ class CustomProgressDialog {
             ),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: CupertinoActivityIndicator(),
+              child: CupertinoActivityIndicator(
+                radius: 15,
+              ),
             ),
           ),
         ),

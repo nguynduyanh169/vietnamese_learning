@@ -23,6 +23,7 @@ import 'package:vietnamese_learning/src/models/comment.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
 import 'package:vietnamese_learning/src/states/view_post_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class ViewPost extends StatefulWidget {
   Content content;
@@ -497,8 +498,8 @@ class _ViewPostState extends State<ViewPost> {
     );
   }
 
-  Widget _editPost(String name, BuildContext context) {
-    if (name == username) {
+  Widget _editPost(String status, BuildContext context) {
+    if (status.trim() == 'PENDING') {
       return IconButton(
         icon: Icon(CupertinoIcons.ellipsis),
         onPressed: () {
@@ -727,17 +728,15 @@ class _ViewPostState extends State<ViewPost> {
           state.comments.forEach((comment) {
             commentWidget.add(_comment(context, comment, comment.studentName, content.studentName));
           });
-          pr.hide();
+          Navigator.pop(context);
           numberOfComment = state.comments.length;
         } else if (state is CommentingPost) {
-          //print('comment');
-          pr.show();
+          CustomProgressDialog.progressDialog(context);
         } else if (state is DeletePostSuccess) {
-          pr.hide().whenComplete(() {
-            Navigator.of(_ctx).pop('delete');
-          });
+          Navigator.pop(context);
+          Navigator.of(_ctx).pop('delete');
         } else if (state is DeletingPost) {
-          pr.show();
+          CustomProgressDialog.progressDialog(context);
         } else if (state is DeletePostFailed) {
           print("Delete failed");
         }
@@ -795,7 +794,7 @@ class _ViewPostState extends State<ViewPost> {
                             borderRadius: BorderRadius.circular(15.0)),
                         child: IconButton(
                             icon: Icon(
-                              CupertinoIcons.paperplane_fill,
+                              Icons.send_rounded,
                               color: Colors.blueAccent,
                               size: 30,
                             ),
@@ -835,7 +834,7 @@ class _ViewPostState extends State<ViewPost> {
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 19,
                             ),
-                            _editPost(content.studentName, context)
+                            _editPost(content.status, context)
                           ],
                         ),
                       ),
@@ -906,8 +905,7 @@ class _ViewPostState extends State<ViewPost> {
                                                 ),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      2,
+                                                          .blockSizeHorizontal * 2,
                                                 ),
                                                 Image(
                                                   width: 22,

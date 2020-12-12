@@ -193,7 +193,7 @@ class _CreatePostState extends State<CreatePostScreen> {
           decoration: new BoxDecoration(
             shape: BoxShape.rectangle,
             color: const Color(0xFFFFFF),
-            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+            borderRadius: new BorderRadius.all(new Radius.circular(40.0)),
           ),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -203,18 +203,18 @@ class _CreatePostState extends State<CreatePostScreen> {
                 child: new Row(
                   children: <Widget>[
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 20,
+                      width: SizeConfig.blockSizeHorizontal * 14,
                     ),
                     new Container(
                       decoration: new BoxDecoration(
                         color: Colors.white,
                       ),
                       child: new Text(
-                        'Record voice',
+                        'Record your voice',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          //fontWeight: FontWeight.bold,
                           fontFamily: 'Helvetica',
                         ),
                         textAlign: TextAlign.center,
@@ -227,7 +227,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                 child: new Row(
                   children: <Widget>[
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 21,
+                      width: SizeConfig.blockSizeHorizontal * 25,
                     ),
                     new Container(
                         decoration: new BoxDecoration(
@@ -235,17 +235,21 @@ class _CreatePostState extends State<CreatePostScreen> {
                         ),
                         child: isRecord == true
                             ? Countdown(
-                                duration: Duration(minutes: 2),
+                                duration: Duration(seconds: 10),
                                 onFinish: () {
-                                  print("finish");
+                                  _stop();
+                                  setState(() {
+                                    isRecord = false;
+                                  });
+                                  Navigator.pop(context);
                                 },
                                 builder:
                                     (BuildContext ctx, Duration remaining) {
                                   return new Text(
-                                    "${remaining.inMinutes}:${remaining.inSeconds % 60}",
+                                    "${remaining.inMinutes.toString().padLeft(2, '0')}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')}",
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 18,
+                                      fontSize: 25,
                                       fontFamily: 'Helvetica',
                                     ),
                                     textAlign: TextAlign.center,
@@ -256,7 +260,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                                 "02:00",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18,
+                                  fontSize: 25,
                                   fontFamily: 'Helvetica',
                                 ),
                                 textAlign: TextAlign.center,
@@ -280,13 +284,11 @@ class _CreatePostState extends State<CreatePostScreen> {
                     child: FloatingActionButton(
                       onPressed: () {
                         if (isRecord == false) {
-                          print('start');
                           _start();
                           setState(() {
                             isRecord = true;
                           });
                         } else {
-                          print("Stop");
                           _stop();
                           setState(() {
                             isRecord = false;
@@ -297,9 +299,9 @@ class _CreatePostState extends State<CreatePostScreen> {
                       child: isRecord == true
                           ? Icon(
                               CupertinoIcons.stop,
-                              size: 50,
+                              size: 40,
                             )
-                          : Icon(CupertinoIcons.mic_solid),
+                          : Icon(CupertinoIcons.mic_solid, size: 40,),
                       backgroundColor: Colors.blueAccent,
                     ),
                   ),
@@ -353,11 +355,6 @@ class _CreatePostState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     _context = context;
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
-
     return BlocProvider(
       create: (context) => CreatePostCubit(PostRepository()),
       child: Scaffold(
@@ -406,7 +403,6 @@ class _CreatePostState extends State<CreatePostScreen> {
         body: BlocConsumer<CreatePostCubit, CreatePostState>(
           listener: (context, state) {
             if (state is CreatingPost) {
-              // pr.show();
               CustomProgressDialog.progressDialog(context);
             } else if (state is ValidatePost) {
               titleInvalid = state.titleMessage;
@@ -414,7 +410,6 @@ class _CreatePostState extends State<CreatePostScreen> {
             } else if (state is CreatePostSuccess) {
               Navigator.pop(context);
               Navigator.of(context).pop();
-              // pr.hide().whenComplete(() => {Navigator.pop(_context)});
             } else if (state is CreatePostError) {
               pr.hide();
             }
