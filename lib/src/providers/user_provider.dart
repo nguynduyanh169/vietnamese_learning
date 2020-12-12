@@ -12,6 +12,7 @@ class UserProvider{
   static final String GET_PROFILE = BASE_URL + "/api/authen/getUserDetail";
   static final String SEND_EMAIL = BASE_URL + "/api/authen/forget";
   static final String CHANGE_PASSWORD = BASE_URL + "/api/authen/updateNewPassword";
+  static final String LOGIN_GMAIL = BASE_URL + "/api/authen/signin-gmail";
   final Dio _dio = Dio();
 
   Future<LoginResponse> login(String username, String password) async{
@@ -114,5 +115,26 @@ class UserProvider{
     }
 
 
+  }
+
+  Future<LoginResponse> signinGmail(String email, String fullname, String uid, String avatar, String username) async{
+    Map<String, String> header = {
+      "Content-type": "application/json"
+    };
+    Map<String, String> body = {
+      'avatarLink': avatar,
+      'email': email,
+      'fullname': fullname,
+      'uid': uid,
+      'username': username
+    };
+    try{
+      Response response = await _dio.post(LOGIN_GMAIL, options: Options(headers: header), data: json.encode(body));
+      print(response.data);
+      LoginResponse jwtToken = LoginResponse.fromJson(response.data);
+      return jwtToken;
+    }catch(error, stacktrace){
+      print("Exception occur: $error stackTrace: $stacktrace");
+    }
   }
 }

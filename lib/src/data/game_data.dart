@@ -1,70 +1,149 @@
-import 'package:flip_card/flip_card.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-enum Level { Hard, Medium, Easy }
+import 'package:vietnamese_learning/src/models/memory_model.dart';
 
-List<String> fillSourceArray() {
-  return [
-    "Bánh mì","Bread","Xin Chào","Hello", "Tạm Biệt","Goodbye", "Màu đỏ","Red", "Màu vàng","Yellow", "Trái tim","Heart"
-  ];
-}
+String selectedTile = "";
+int selectedIndex ;
+bool selected = true;
+int points = 0;
 
-List getSourceArray(
-    Level level,
-    ) {
-  List<String> levelAndKindList = new List<String>();
-  List sourceArray = fillSourceArray();
-  if (level == Level.Hard) {
-    sourceArray.forEach((element) {
-      levelAndKindList.add(element);
-    });
-  } else if (level == Level.Medium) {
-    for (int i = 0; i < 12; i++) {
-      levelAndKindList.add(sourceArray[i]);
-    }
-  } else if (level == Level.Easy) {
-    for (int i = 0; i < 6; i++) {
-      levelAndKindList.add(sourceArray[i]);
-    }
+List<TileModel> myPairs = new List<TileModel>();
+List<bool> clicked = new List<bool>();
+
+List<bool> getClicked(){
+
+  List<bool> yoClicked = new List<bool>();
+  List<TileModel> myairs = new List<TileModel>();
+  myairs = getPairs();
+  for(int i=0;i<myairs.length;i++){
+    yoClicked[i] = false;
   }
 
-  levelAndKindList.shuffle();
-  return levelAndKindList;
+  return yoClicked;
 }
 
-List<bool> getInitialItemState(Level level) {
-  List<bool> initialItemState = new List<bool>();
-  if (level == Level.Hard) {
-    for (int i = 0; i < 12; i++) {
-      initialItemState.add(true);
-    }
-  } else if (level == Level.Medium) {
-    for (int i = 0; i < 8; i++) {
-      initialItemState.add(true);
-    }
-  } else if (level == Level.Easy) {
-    for (int i = 0; i < 4; i++) {
-      initialItemState.add(true);
-    }
-  }
-  return initialItemState;
+List<TileModel>  getPairs(){
+
+  List<TileModel> pairs = new List<TileModel>();
+
+  TileModel tileModel = new TileModel();
+
+  //1
+  tileModel.setVocabulary("Xin Chào");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //2
+  // tileModel.setImageAssetPath("assets/hippo.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //3
+//  tileModel.setImageAssetPath("assets/horse.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //4
+ // tileModel.setImageAssetPath("assets/monkey.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+  //5
+//  tileModel.setImageAssetPath("assets/panda.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //6
+ // tileModel.setImageAssetPath("assets/parrot.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //7
+  //tileModel.setImageAssetPath("assets/rabbit.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //8
+ // tileModel.setImageAssetPath("assets/zoo.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  return pairs;
 }
 
-List<GlobalKey<FlipCardState>> getCardStateKeys(Level level) {
-  List<GlobalKey<FlipCardState>> cardStateKeys =
-  new List<GlobalKey<FlipCardState>>();
-  if (level == Level.Hard) {
-    for (int i = 0; i < 12; i++) {
-      cardStateKeys.add(GlobalKey<FlipCardState>());
-    }
-  } else if (level == Level.Medium) {
-    for (int i = 0; i < 8; i++) {
-      cardStateKeys.add(GlobalKey<FlipCardState>());
-    }
-  } else if (level == Level.Easy) {
-    for (int i = 0; i < 4; i++) {
-      cardStateKeys.add(GlobalKey<FlipCardState>());
-    }
-  }
-  return cardStateKeys;
+List<TileModel>  getQuestionPairs(){
+
+  List<TileModel> pairs = new List<TileModel>();
+
+  TileModel tileModel = new TileModel();
+
+  //1
+  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //2
+ // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //3
+ // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //4
+ // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+  //5
+ // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //6
+  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //7
+  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  //8
+  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setIsSelected(false);
+  pairs.add(tileModel);
+  pairs.add(tileModel);
+  tileModel = new TileModel();
+
+  return pairs;
 }

@@ -15,7 +15,7 @@ class MemoryGamePage extends StatefulWidget {
 }
 
 class _MemoryGamePageState extends State<MemoryGamePage> {
-  Level _level;
+
   List<GlobalKey<FlipCardState>> cardStateKey = [
     GlobalKey<FlipCardState>(),
     GlobalKey<FlipCardState>(),
@@ -65,6 +65,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
   bool flip = false;
   int time = 60;
   Timer timer;
+
 
   startTimer() {
     timer = Timer.periodic(Duration(seconds: 1), (t) {
@@ -258,14 +259,9 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                                         spreadRadius: 0.10)
                                   ]),
                               margin: EdgeInsets.all(4.0),
-                              // child: Container(
-                              //     padding: const EdgeInsets.all(8.0),
-                              //     child: Image(
-                              //       image: AssetImage("assets/images/quest.png"),
-                              //     ),
-                              // ),
+
                             ),
-                            back: Container(
+                            back: cardFlips.where((element) => element = false) != null ? Container(
                               margin: EdgeInsets.all(4.0),
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -283,8 +279,29 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                                         fontFamily: 'Helvetica',
                                         fontWeight: FontWeight.w600)),
                               ),
+                            ):
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      "assets/images/correct.png",
+                                    ),
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black26.withOpacity(0.05),
+                                        offset: Offset(0.0, 6.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 0.10)
+                                  ]),
+                              margin: EdgeInsets.all(4.0),
+
                             ),
+                            onFlipDone: checkCorrect(),
                           ),
+
                           itemCount: data.length,
                         ),
                       ),
@@ -326,6 +343,17 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
     timer.cancel();
   }
 
+   checkCorrect(){
+    bool check = false;
+    for(int i= 0; i<cardFlips.length-1; i++){
+      if(cardFlips[i] = true){
+         check =true;
+      }else{
+         check = false;
+      }
+    }
+
+  }
   restart() {
     // showDialog(context: context,
     //     barrierDismissible: false,
