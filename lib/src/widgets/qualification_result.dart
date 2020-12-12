@@ -10,7 +10,8 @@ class QualificationResult extends StatelessWidget {
   final double resultScore;
   LoginResponse loginResponse;
   String username;
-  QualificationResult(this.resultScore, this.loginResponse, this.username);
+  int correctAnswer, totalAnswer;
+  QualificationResult(this.resultScore, this.loginResponse, this.username, this.correctAnswer, this.totalAnswer);
   String resultText;
   @override
   Widget build(BuildContext context) {
@@ -24,19 +25,18 @@ class QualificationResult extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Here are your result',
-                style: TextStyle(
+                'Result',
+                style: GoogleFonts.varelaRound(
                   fontSize: 40,
-                  fontFamily: "Helvetica",
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.bold
                 ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 3,
+                height: SizeConfig.blockSizeVertical * 5,
               ),
               Text(
-                'You has correct ',
+                'You has correct',
                 style: TextStyle(
                     fontSize: 27, fontFamily: "Helvetica", color: Colors.blue),
               ),
@@ -49,7 +49,7 @@ class QualificationResult extends StatelessWidget {
                 animation: true,
                 percent: percent,
                 center: new Text(
-                  "$resultScore/10",
+                  "$correctAnswer/$totalAnswer",
                   style: new TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -63,11 +63,11 @@ class QualificationResult extends StatelessWidget {
                       fontFamily: "Helvetica"),
                 ),
                 circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.amberAccent,
+                progressColor: Colors.green,
               ),
 
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 8,
+                height: SizeConfig.blockSizeVertical * 15,
               ),
               MaterialButton(
                 shape: RoundedRectangleBorder(
@@ -83,7 +83,7 @@ class QualificationResult extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.grey[700],
                             fontSize: 25,
-                            fontWeight: FontWeight.bold,
+                            //fontWeight: FontWeight.bold,
                             fontFamily: 'Helvetica'),
                       ),
                       padding: new EdgeInsets.only(left: 0.0),
@@ -101,7 +101,7 @@ class QualificationResult extends StatelessWidget {
                   if(resultScore > 8){
                     level = 3;
                   }
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => QualificationNotification(level: level,loginResponse: loginResponse, username: username)));

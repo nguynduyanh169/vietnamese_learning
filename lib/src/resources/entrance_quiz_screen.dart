@@ -28,6 +28,7 @@ class _EntranceQuizState extends State<EntranceQuizScreen> {
   String correctAns;
   LoginResponse loginResponse;
   String username;
+  int correctAnswer = 0;
 
 
   _EntranceQuizState({this.entranceQuizzes, this.loginResponse, this.username});
@@ -47,6 +48,7 @@ class _EntranceQuizState extends State<EntranceQuizScreen> {
     if (optionCheckCorrect == false) {
       _totalScore += 0;
     } else {
+      correctAnswer += 1;
       _totalScore += score;
     }
     setState(() {
@@ -80,7 +82,7 @@ class _EntranceQuizState extends State<EntranceQuizScreen> {
           checkCorrect: optionCheckCorrect,
           userChoice: userChoice,
           correctAnswer: correctAns,
-        ) : QualificationResult(_totalScore, loginResponse, username),
+        ) : QualificationResult(_totalScore, loginResponse, username, correctAnswer, entranceQuizzes.length),
       ),
     );
   }

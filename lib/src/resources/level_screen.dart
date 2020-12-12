@@ -14,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/resources/entrance_quiz_screen.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/states/progress_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class LevelScreen extends StatefulWidget {
   static final String routeName = "level";
@@ -27,7 +28,6 @@ class LevelScreen extends StatefulWidget {
 
 class _LevelScreenState extends State<LevelScreen> {
   BuildContext _ctx;
-  ProgressDialog pr;
   LoginResponse loginResponse;
   String username;
 
@@ -42,10 +42,6 @@ class _LevelScreenState extends State<LevelScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
     _ctx = context;
     SizeConfig().init(context);
     return BlocProvider(
@@ -54,16 +50,16 @@ class _LevelScreenState extends State<LevelScreen> {
         body: BlocConsumer<ProgressCubit, ProgressState>(
           listener: (context, state){
             if(state is CreatingProgress){
-              pr.show();
+              CustomProgressDialog.progressDialog(context);
             }else if(state is CreateProgressSuccess){
-              pr.hide();
+              Navigator.pop(context);
               Navigator.of(_ctx).pushReplacementNamed("/home");
             }else if(state is LoadedEntranceQuiz){
-              pr.hide();
+              Navigator.pop(context);
               List<EntranceQuiz> entranceQuizzes = state.entranceQuizzes;
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,)));
             }else if(state is LoadingEntranceQuiz){
-              pr.show();
+              CustomProgressDialog.progressDialog(context);
             }
           },
           builder: (context, state){

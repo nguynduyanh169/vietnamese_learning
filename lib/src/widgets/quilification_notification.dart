@@ -19,6 +19,16 @@ class QualificationNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String levelStr;
+    if(level == 1){
+      levelStr = 'Beginner';
+    }
+    if(level == 2){
+      levelStr = 'Intermediate';
+    }
+    if(level == 3){
+      levelStr = 'Advanced';
+    }
     SizeConfig().init(context);
     _ctx = context;
     pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
@@ -45,72 +55,70 @@ class QualificationNotification extends StatelessWidget {
                       image: AssetImage('assets/images/qualification.png'),
                       fit: BoxFit.fill),
                 ),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      SizedBox(height: SizeConfig.blockSizeVertical * 5,),
-                      Text(
-                        "Your have completed the entrance test",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Helvetica',
-                          decoration: TextDecoration.none,
-                        ),
-                        textAlign: TextAlign.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: SizeConfig.blockSizeVertical * 3,),
+                    Text(
+                      "Your have completed the entrance test",
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Helvetica',
+                        decoration: TextDecoration.none,
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 3,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 38,
+                    ),
+                    Text(
+                      "You have achieved $levelStr level",
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Helvetica',
+                        decoration: TextDecoration.none,
                       ),
-                      Text(
-                        "You have achieved level",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Helvetica',
-                          decoration: TextDecoration.none,
-                        ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 22,
+                    ),
+                    MaterialButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100.0),
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 20,
-                      ),
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.75,
-                          height: 60.0,
-                          child: Center(
-                            child: Padding(
-                              child: Text(
-                                "Finish",
-                                style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Helvetica'),
-                              ),
-                              padding: new EdgeInsets.only(left: 0.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        height: 60.0,
+                        child: Center(
+                          child: Padding(
+                            child: Text(
+                              "Finish",
+                              style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Helvetica'),
                             ),
+                            padding: new EdgeInsets.only(left: 0.0),
                           ),
                         ),
-                        onPressed: () {
-                          print(loginResponse.accessToken);
-                          print(username);
-                          BlocProvider.of<ProgressCubit>(context).createProgress(level, loginResponse, username);
-                        },
-                        color: Color.fromRGBO(255, 210, 77, 10),
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 5,
-                      ),
-                    ],
-                  ),
+                      onPressed: () {
+                        print(loginResponse.accessToken);
+                        print(username);
+                        BlocProvider.of<ProgressCubit>(context).createProgress(level, loginResponse, username);
+                      },
+                      color: Color.fromRGBO(255, 210, 77, 10),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 5,
+                    ),
+                  ],
                 ));
           },
         ),
