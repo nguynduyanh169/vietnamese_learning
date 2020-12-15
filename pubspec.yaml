@@ -19,6 +19,7 @@ dependencies:
   percent_indicator: ^2.1.7+4
   flutter_signin_button: ^1.1.0
   persistent_bottom_nav_bar: any
+  carousel_slider: ^2.3.1
   font_awesome_flutter: ^8.8.1
   device_simulator: ^0.9.6
   speech_to_text: ^2.7.0
@@ -34,22 +35,19 @@ dependencies:
   reorderables: any
   toast: ^0.1.5
   assets_audio_player: ^2.0.12
-  like_button: ^1.0.4
   modal_bottom_sheet: ^0.2.2
   firebase_messaging: ^7.0.3
   file_picker: ^2.0.12
   firebase_core: ^0.5.2
   firebase_storage: ^5.0.1
   progress_dialog: ^1.2.4
-  cached_video_player: ^1.0.3
-  neeko: ^0.0.10
-  video_player: ^0.10.9+1
+  video_player: ^1.0.1
+  chewie: ^0.12.0
   fijkplayer: ^0.8.7
   loadmore: ^1.0.4
   google_speech: ^1.2.1
   flutter_audio_recorder: ^0.5.5
   path_provider: ^1.6.24
-  camera_camera: ^1.0.34
   rflutter_alert: ^1.0.3
   material_design_icons_flutter: ^3.2.4495
   flutter_spinkit: ^4.1.2
@@ -65,10 +63,6 @@ dependencies:
   google_sign_in: ^4.5.6
   countdown: ^0.1.0
   countdown_flutter: ^0.1.2
-  sticky_headers: ^0.1.8+1
-
-
-
 
 dev_dependencies:
   flutter_test:
@@ -133,7 +127,7 @@ flutter:
      - assets/images/qualification.png
      - assets/images/tryagain.png
      - assets/images/cardgame.gif
-     - assets/vnamese-master-c53480d8ac94.json
+     - assets/vietnamese-master-2e898b96ecf0.json
      - assets/images/matching_game_card.png
      - assets/images/vietnamflag.png
      - assets/images/usaflag.png

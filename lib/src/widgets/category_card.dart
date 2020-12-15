@@ -101,19 +101,20 @@ class CategoryCard extends StatelessWidget {
                         fontFamily: 'Helvetica',
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
+                    //textAlign: TextAlign.center,
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10),
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "3 Courses",
-                    style: TextStyle(
-                      fontFamily: 'Helvetica',
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
+                // Container(
+                //   padding: EdgeInsets.only(left: 10),
+                //   alignment: Alignment.topLeft,
+                //   child: Text(
+                //     "3 Courses",
+                //     style: TextStyle(
+                //       fontFamily: 'Helvetica',
+                //       fontSize: 13,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             // ),

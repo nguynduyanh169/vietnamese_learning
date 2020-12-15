@@ -9,12 +9,6 @@ PODS:
   - assets_audio_player_web (0.0.1):
     - Flutter
   - BIJKPlayer (0.7.8)
-  - cached_video_player (0.0.1):
-    - Flutter
-    - KTVHTTPCache (~> 2.0.0)
-  - camera (0.0.1):
-    - Flutter
-  - CocoaAsyncSocket (7.6.4)
   - countdown_flutter (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.2):
@@ -162,23 +156,15 @@ PODS:
     - GTMSessionFetcher/Core (= 1.5.0)
   - image_picker (0.0.1):
     - Flutter
-  - KTVCocoaHTTPServer (1.0.0):
-    - CocoaAsyncSocket
-  - KTVHTTPCache (2.0.1):
-    - KTVCocoaHTTPServer
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
-  - native_device_orientation (0.0.1):
-    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.11)
   - Protobuf (3.13.0)
-  - screen (0.0.1):
-    - Flutter
   - SDWebImage (5.9.4):
     - SDWebImage/Core (= 5.9.4)
   - SDWebImage/Core (5.9.4)
@@ -200,8 +186,6 @@ PODS:
 DEPENDENCIES:
   - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
-  - cached_video_player (from `.symlinks/plugins/cached_video_player/ios`)
-  - camera (from `.symlinks/plugins/camera/ios`)
   - countdown_flutter (from `.symlinks/plugins/countdown_flutter/ios`)
   - fijkplayer (from `.symlinks/plugins/fijkplayer/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -214,9 +198,7 @@ DEPENDENCIES:
   - flutter_chat_bubble (from `.symlinks/plugins/flutter_chat_bubble/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
-  - screen (from `.symlinks/plugins/screen/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - speech_to_text (from `.symlinks/plugins/speech_to_text/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -227,7 +209,6 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - BIJKPlayer
-    - CocoaAsyncSocket
     - DKImagePickerController
     - DKPhotoGallery
     - Firebase
@@ -244,8 +225,6 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
-    - KTVCocoaHTTPServer
-    - KTVHTTPCache
     - nanopb
     - PromisesObjC
     - Protobuf
@@ -258,10 +237,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/assets_audio_player/ios"
   assets_audio_player_web:
     :path: ".symlinks/plugins/assets_audio_player_web/ios"
-  cached_video_player:
-    :path: ".symlinks/plugins/cached_video_player/ios"
-  camera:
-    :path: ".symlinks/plugins/camera/ios"
   countdown_flutter:
     :path: ".symlinks/plugins/countdown_flutter/ios"
   fijkplayer:
@@ -286,12 +261,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-  native_device_orientation:
-    :path: ".symlinks/plugins/native_device_orientation/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
-  screen:
-    :path: ".symlinks/plugins/screen/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   speech_to_text:
@@ -308,9 +279,6 @@ SPEC CHECKSUMS:
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
   BIJKPlayer: 464bcb8d263331228758bfa34b45d00f399c9fb8
-  cached_video_player: 449b3d85e95316a0eca125c483f6d9e281ccabc3
-  camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
-  CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   countdown_flutter: 423a4cc24614ccb078c2ce4ac6739b1d85cbe98b
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
@@ -339,14 +307,10 @@ SPEC CHECKSUMS:
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
-  KTVCocoaHTTPServer: df8d7b861e603ff8037e9b2138aca2563a6b768d
-  KTVHTTPCache: 588c3eb16f6bd1e6fde1e230dabfb7bd4e490a4d
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
-  native_device_orientation: e24d00be281de72996640885d80e706142707660
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
-  screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
   SDWebImage: b69257f4ab14e9b6a2ef53e910fdf914d8f757c1
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
@@ -354,7 +318,7 @@ SPEC CHECKSUMS:
   SwiftyGif: e466e86c660d343357ab944a819a101c4127cb40
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
-  wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
+  wakelock: bfc7955c418d0db797614075aabbc58a39ab5107
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

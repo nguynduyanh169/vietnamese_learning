@@ -9,15 +9,17 @@ class SubmitQuizCubit extends Cubit<SubmitQuizState> {
 
   SubmitQuizCubit(this._quizRepository) : super(SubmitQuizInit());
 
-  Future<void> submitQuiz({List<int> optionIDs, int processId, int quizId, double quizMark}) async {
+  Future<void> submitQuiz({List<int> optionIDs, int processId, int quizId, double quizMark, String lessonId}) async {
     emit(SubmittingQuiz());
     DateTime dateTime = DateTime.now();
     QuizSubmit quizSubmit = new QuizSubmit(
+        lessonId: lessonId,
         quizId: quizId,
         processId: processId,
         optionIDs: optionIDs,
         quizMark: quizMark,
         startDate: dateTime.toIso8601String());
+    print(quizSubmit.toJson());
     try {
       print(optionIDs.length);
       final SharedPreferences prefs = await SharedPreferences.getInstance();

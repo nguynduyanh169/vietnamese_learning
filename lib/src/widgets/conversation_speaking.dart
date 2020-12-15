@@ -26,7 +26,9 @@ import 'chat_bubble.dart';
 
 class ConversationSpeaking extends StatefulWidget {
   List<Conversation> conversations;
+
   ConversationSpeaking({Key key, this.conversations}) : super(key: key);
+
   _ConversationSpeakingState createState() =>
       _ConversationSpeakingState(conversations: conversations);
 }
@@ -34,7 +36,9 @@ class ConversationSpeaking extends StatefulWidget {
 @override
 class _ConversationSpeakingState extends State<ConversationSpeaking> {
   List<Conversation> conversations;
+
   _ConversationSpeakingState({this.conversations});
+
   int conversationIndex = 0;
   var percent = 0.0;
   List<Widget> elements = new List();
@@ -51,6 +55,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
   String path;
+
   void initState() {
     super.initState();
     _init();
@@ -134,9 +139,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
         child: Center(
           child: Text(
             '$content',
-            style: TextStyle(
-                fontFamily: 'Helvetica',
-                fontSize: 12),
+            style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
           ),
         ),
         decoration: BoxDecoration(
@@ -178,7 +181,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
       //       onConfirmBtnTap: null);
       // }
 
-      if(check.toLowerCase() == vietnamese.toLowerCase()){
+      if (check.toLowerCase() == vietnamese.toLowerCase()) {
         showDialog(
             context: dialogContext,
             barrierDismissible: false,
@@ -198,20 +201,24 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 20,
+                          ),
                           Text(
                             "Correct!",
-                            style: TextStyle(fontSize: 30.0,
+                            style: TextStyle(
+                                fontSize: 30.0,
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Helvetica'),
                           ),
-                          SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 4,
+                          ),
                           Image(
                               width: SizeConfig.blockSizeHorizontal * 10,
                               height: SizeConfig.blockSizeVertical * 8,
-                              image: AssetImage('assets/images/happy.png')
-                          ),
+                              image: AssetImage('assets/images/happy.png')),
                         ],
                       ),
                       SizedBox(
@@ -228,17 +235,20 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                SizedBox(height: SizeConfig.blockSizeVertical *
-                                    3,),
-                                Text('$vietnamese', style: TextStyle(
-                                  color: Colors.green,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 3,
+                                ),
+                                Text(
+                                  '$vietnamese',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontFamily: 'Helvetica',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
                               ],
                             ),
-                          )
-                      ),
+                          )),
                       InkWell(
                         onTap: () {
                           chars.clear();
@@ -268,8 +278,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                 ),
               );
             });
-      }
-      else if(check.toLowerCase() != vietnamese.toLowerCase()){
+      } else if (check.toLowerCase() != vietnamese.toLowerCase()) {
         showDialog(
             context: dialogContext,
             barrierDismissible: false,
@@ -289,20 +298,24 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          SizedBox(width: SizeConfig.blockSizeHorizontal * 20,),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 20,
+                          ),
                           Text(
                             "Incorrect!",
-                            style: TextStyle(fontSize: 30.0,
+                            style: TextStyle(
+                                fontSize: 30.0,
                                 color: Colors.redAccent,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Helvetica'),
                           ),
-                          SizedBox(width: SizeConfig.blockSizeHorizontal * 4,),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 4,
+                          ),
                           Image(
                               width: SizeConfig.blockSizeHorizontal * 10,
                               height: SizeConfig.blockSizeVertical * 8,
-                              image: AssetImage('assets/images/sad.png')
-                          ),
+                              image: AssetImage('assets/images/sad.png')),
                         ],
                       ),
                       SizedBox(
@@ -319,22 +332,28 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                SizedBox(height: SizeConfig.blockSizeVertical *
-                                    3,),
-                                Text('Correct solution:', style: TextStyle(
-                                    fontFamily: 'Helvetica',
-                                    fontSize: 20),),
-                                Text('$vietnamese', style: TextStyle(
-                                    fontFamily: 'Helvetica',
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),),
-                                SizedBox(height: SizeConfig.blockSizeVertical *
-                                    3,),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 3,
+                                ),
+                                Text(
+                                  'Correct solution:',
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica', fontSize: 20),
+                                ),
+                                Text(
+                                  '$vietnamese',
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica',
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 3,
+                                ),
                               ],
                             ),
-                          )
-                      ),
+                          )),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
@@ -386,9 +405,11 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             ),
             Container(
               child: Align(
-                alignment: Alignment.center, //Change this to Alignment.topRight or Alignment.topLeft
+                alignment: Alignment.center,
+                //Change this to Alignment.topRight or Alignment.topLeft
                 child: CustomPaint(
-                  painter: ChatBubble(color: Colors.amber, alignment: Alignment.center),
+                  painter: ChatBubble(
+                      color: Colors.amber, alignment: Alignment.center),
                   child: Container(
                     margin: EdgeInsets.all(20),
                     child: Stack(
@@ -396,8 +417,8 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                         Text(
                           '$english',
                           style: TextStyle(
-                              fontFamily: 'Helvetica',
-                              fontSize: 20,
+                            fontFamily: 'Helvetica',
+                            fontSize: 20,
                           ),
                         ),
                       ],
@@ -529,9 +550,8 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                 ),
                                 onPressed: () {
                                   AssetsAudioPlayer.playAndForget(Audio.network(
-                                      UrlUtils.editAudioUrl(
-                                          conversations[conversationIndex]
-                                              .voiceLink)));
+                                      conversations[conversationIndex]
+                                          .voiceLink));
                                 },
                               ),
                             ),
@@ -586,24 +606,28 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                             glowColor: Theme.of(context).primaryColor,
                             endRadius: 130.0,
                             duration: const Duration(milliseconds: 2000),
-                            repeatPauseDuration: const Duration(milliseconds: 100),
+                            repeatPauseDuration:
+                                const Duration(milliseconds: 100),
                             repeat: true,
                             child: Container(
                               width: 150,
                               height: 150,
                               child: FloatingActionButton(
-                                onPressed: (){
-                                  if(_isRecording == false) {
-                                    print("Start");
+                                onPressed: () {
+                                  if (_isRecording == false) {
                                     _start();
-                                  }else {
-                                    print("Stop");
-                                    print(_isRecording);
+                                  } else {
                                     _stop();
                                   }
                                 },
-                                child: Icon(_isRecording ? CupertinoIcons.stop : CupertinoIcons.mic, size: 100,),
-                                backgroundColor: Color.fromRGBO(255, 190, 51, 30),
+                                child: Icon(
+                                  _isRecording
+                                      ? CupertinoIcons.stop
+                                      : CupertinoIcons.mic,
+                                  size: 100,
+                                ),
+                                backgroundColor:
+                                    Color.fromRGBO(255, 190, 51, 30),
                               ),
                             ),
                           ),
@@ -643,13 +667,15 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                   text: text,
                                 ),
                               Center(
-                                child: recognizing ? CircularProgressIndicator() : Text(""),
+                                child: recognizing
+                                    ? CircularProgressIndicator()
+                                    : Text(""),
                               )
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical * 10,
+                          height: SizeConfig.blockSizeVertical * 5,
                         ),
                         Center(
                           child: ButtonTheme(
@@ -657,7 +683,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
                             child: RaisedButton(
-                                onPressed: (){
+                                onPressed: () {
                                   speakingButton(context);
                                 },
                                 child: Container(
@@ -711,12 +737,13 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
       ),
     );
   }
+
   void recognize() async {
     setState(() {
       recognizing = true;
     });
     final serviceAccount = ServiceAccount.fromString(
-        '${(await rootBundle.loadString('assets/vnamese-master-c53480d8ac94.json'))}');
+        '${(await rootBundle.loadString('assets/vietnamese-master-2e898b96ecf0.json'))}');
     final speechToText = SpeechToText.viaServiceAccount(serviceAccount);
     final config = _getConfig();
     final audio = await _getAudioContent(path);
@@ -726,15 +753,14 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             .map((e) => e.alternatives.first.transcript)
             .join('\n');
       });
-
     }).whenComplete(() => setState(() {
-      recognizeFinished = true;
-      recognizing = false;
-      _init();
-    }));
-    if(text.isEmpty){
+          recognizeFinished = true;
+          recognizing = false;
+          _init();
+        }));
+    if (text.isEmpty) {
       checkText = false;
-    }else{
+    } else {
       checkText = true;
     }
   }
@@ -754,8 +780,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
-
-
   Future<List<int>> _getAudioContent(String name) async {
     final directory = await getApplicationDocumentsDirectory();
     // final pathAudio = directory.path + '/$name';
@@ -765,22 +789,23 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
     return io.File(name).readAsBytesSync().toList();
   }
 
-  _init() async{
-    try{
-      if(await FlutterAudioRecorder.hasPermissions){
+  _init() async {
+    try {
+      if (await FlutterAudioRecorder.hasPermissions) {
         String customPath = '/flutter_audio_recorder_';
         io.Directory appDocDicrectory;
-        if(io.Platform.isIOS){
+        if (io.Platform.isIOS) {
           appDocDicrectory = await getApplicationDocumentsDirectory();
-        }else{
+        } else {
           appDocDicrectory = await getExternalStorageDirectory();
         }
 
-        customPath = appDocDicrectory.path + customPath + DateTime.now().microsecondsSinceEpoch.toString();
+        customPath = appDocDicrectory.path +
+            customPath +
+            DateTime.now().microsecondsSinceEpoch.toString();
 
-        _recorder = FlutterAudioRecorder(
-            customPath, audioFormat: AudioFormat.WAV, sampleRate: 16000
-        );
+        _recorder = FlutterAudioRecorder(customPath,
+            audioFormat: AudioFormat.WAV, sampleRate: 16000);
 
         await _recorder.initialized;
 
@@ -792,13 +817,13 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
           print(_currentStatus);
         });
       }
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
-  _start() async{
-    try{
+  _start() async {
+    try {
       await _recorder.start();
       var recording = await _recorder.current(channel: 0);
       setState(() {
@@ -807,7 +832,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
 
       const tick = const Duration(milliseconds: 50);
       new Timer.periodic(tick, (Timer t) async {
-        if(_currentStatus == RecordingStatus.Stopped){
+        if (_currentStatus == RecordingStatus.Stopped) {
           t.cancel();
         }
 
@@ -818,12 +843,12 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
           _currentStatus = _current.status;
         });
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
-  _stop() async{
+  _stop() async {
     var result = await _recorder.stop();
     print("Stop recording: ${result.path}");
     print("Stop recording: ${result.duration}");
@@ -865,9 +890,9 @@ class _RecognizeContent extends StatelessWidget {
                   border: Border.all(
                     color: Colors.black,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))
-              ),
-              child: Padding(padding: const EdgeInsets.all(4.0),
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
                 child: AutoSizeText(
                   text,
                   maxLines: 3,

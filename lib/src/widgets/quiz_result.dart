@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/submit_quiz_cubit.dart';
 import 'package:vietnamese_learning/src/data/quiz_repository.dart';
+import 'package:vietnamese_learning/src/models/review_quiz.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
+import 'package:vietnamese_learning/src/resources/review_quiz_screen.dart';
 import 'package:vietnamese_learning/src/states/submit_quiz_state.dart';
 
 class QuizResult extends StatelessWidget {
   final double resultScore;
   final Function resetHandlar;
   final int quizId;
+  final String lessonId;
   final int progressId;
   final List<int> optionIds;
+  final List<ReviewQuiz> incorrects;
 
-  QuizResult(this.resultScore, this.resetHandlar, this.quizId, this.progressId, this.optionIds);
+  QuizResult(this.resultScore, this.resetHandlar, this.quizId, this.progressId, this.optionIds, this.lessonId, this.incorrects);
 
   String resultText;
 
@@ -46,7 +51,7 @@ class QuizResult extends StatelessWidget {
                 child: Center(
                   child: Padding(
                     child: Text(
-                      "Do again",
+                      "Review your quiz",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,
@@ -58,7 +63,7 @@ class QuizResult extends StatelessWidget {
                 ),
               ),
               onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pop(context),
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewQuizScreen(incorrects: incorrects,))),
               color: Colors.blueGrey,
             ),
             SizedBox(
@@ -107,7 +112,7 @@ class QuizResult extends StatelessWidget {
             child: Center(
               child: Padding(
                 child: Text(
-                  "Do again",
+                  "Review your quiz",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -119,7 +124,7 @@ class QuizResult extends StatelessWidget {
             ),
           ),
           onPressed: () =>
-              Navigator.of(context, rootNavigator: true).pop(context),
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewQuizScreen(incorrects: incorrects,))),
           color: Colors.blueGrey,
         ),
       );
@@ -132,7 +137,7 @@ class QuizResult extends StatelessWidget {
     SizeConfig().init(context);
     var percent = resultScore / 10;
     return BlocProvider(
-        create: (context) => SubmitQuizCubit(QuizRepository())..submitQuiz(quizId: quizId, quizMark: resultScore, processId: progressId, optionIDs: optionIds),
+        create: (context) => SubmitQuizCubit(QuizRepository())..submitQuiz(quizId: quizId, quizMark: resultScore, processId: progressId, optionIDs: optionIds, lessonId: lessonId),
         child: BlocConsumer<SubmitQuizCubit, SubmitQuizState>(
           listener: (context, state){
             if(state is SubmitQuizSuccess){
@@ -152,12 +157,12 @@ class QuizResult extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        '$resultPhrase',
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontFamily: "Helvetica",
-                          fontWeight: FontWeight.bold,
+                        'Result',
+                        style: GoogleFonts.varelaRound(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold
                         ),
+                        textAlign: TextAlign.center,
                       ),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 3,
@@ -180,16 +185,16 @@ class QuizResult extends StatelessWidget {
                           style:
                           new TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,fontFamily: "Helvetica"),
                         ),
-                        footer: Text('answers', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,fontFamily: "Helvetica"),),
+                        footer: Text('Questions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,fontFamily: "Helvetica"),),
                         circularStrokeCap: CircularStrokeCap.round,
-                        progressColor: Colors.amberAccent,
+                        progressColor: Colors.green,
                       ),
                       MaterialButton(
                         onPressed: () {
                           Navigator.of(context, rootNavigator: true).popUntil(ModalRoute.withName('/lessonDetail'));
                         },
                         child: Text(
-                          "Back to Lesson Detail",
+                          "Back to Lesson Details",
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: "Helvetica",

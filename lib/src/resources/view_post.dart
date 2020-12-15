@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +169,7 @@ class _ViewPostState extends State<ViewPost> {
           decoration: new BoxDecoration(
             shape: BoxShape.rectangle,
             color: const Color(0xFFFFFF),
-            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+            borderRadius: new BorderRadius.all(new Radius.circular(40.0)),
           ),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -178,18 +179,18 @@ class _ViewPostState extends State<ViewPost> {
                 child: new Row(
                   children: <Widget>[
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 20,
+                      width: SizeConfig.blockSizeHorizontal * 14,
                     ),
                     new Container(
                       decoration: new BoxDecoration(
                         color: Colors.white,
                       ),
                       child: new Text(
-                        'Record voice',
+                        'Record your voice',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          //fontWeight: FontWeight.bold,
                           fontFamily: 'Helvetica',
                         ),
                         textAlign: TextAlign.center,
@@ -202,22 +203,44 @@ class _ViewPostState extends State<ViewPost> {
                 child: new Row(
                   children: <Widget>[
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 21,
+                      width: SizeConfig.blockSizeHorizontal * 25,
                     ),
                     new Container(
-                      decoration: new BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: new Text(
-                        '00:01 / 02:00',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontFamily: 'Helvetica',
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                        child: isRecord == true
+                            ? Countdown(
+                          duration: Duration(minutes: 2),
+                          onFinish: () {
+                            _stop();
+                            setState(() {
+                              isRecord = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          builder:
+                              (BuildContext ctx, Duration remaining) {
+                            return new Text(
+                              "${remaining.inMinutes.toString().padLeft(2, '0')}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')}",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 25,
+                                fontFamily: 'Helvetica',
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          },
+                        )
+                            : Text(
+                          "02:00",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontFamily: 'Helvetica',
+                          ),
+                          textAlign: TextAlign.center,
+                        )),
                   ],
                 ),
               ),
@@ -237,13 +260,11 @@ class _ViewPostState extends State<ViewPost> {
                     child: FloatingActionButton(
                       onPressed: () {
                         if (isRecord == false) {
-                          print('start');
                           _start();
                           setState(() {
                             isRecord = true;
                           });
                         } else {
-                          print("Stop");
                           _stop();
                           setState(() {
                             isRecord = false;
@@ -253,10 +274,10 @@ class _ViewPostState extends State<ViewPost> {
                       },
                       child: isRecord == true
                           ? Icon(
-                              CupertinoIcons.stop,
-                              size: 50,
-                            )
-                          : Icon(CupertinoIcons.mic_solid),
+                        CupertinoIcons.stop,
+                        size: 40,
+                      )
+                          : Icon(CupertinoIcons.mic_solid, size: 40,),
                       backgroundColor: Colors.blueAccent,
                     ),
                   ),

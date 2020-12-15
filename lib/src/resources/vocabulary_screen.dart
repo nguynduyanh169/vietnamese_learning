@@ -143,30 +143,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     );
 
     Widget _loadDialogForMatching(BuildContext dialogContext) {
-      // if (check.toLowerCase() == vietnamese.toLowerCase()) {
-      //   CoolAlert.show(
-      //       context: dialogContext,
-      //       type: CoolAlertType.success,
-      //       title: "Correct!",
-      //       confirmBtnText: 'Continue',
-      //       confirmBtnColor: Colors.green,
-      //       onConfirmBtnTap: () {
-      //         chars.clear();
-      //         elements.clear();
-      //         BlocProvider.of<LearnVocabularyCubit>(dialogContext)
-      //             .learnFlashCard(_vocabularyIndex + 1);
-      //         Navigator.pop(context);
-      //       });
-      // } else if (check.toLowerCase() != vietnamese.toLowerCase()) {
-      //   CoolAlert.show(
-      //       context: dialogContext,
-      //       type: CoolAlertType.error,
-      //       title: "Incorrect!",
-      //       text: 'The correct answer is: $vietnamese',
-      //       confirmBtnText: 'Try again',
-      //       confirmBtnColor: Colors.red,
-      //       onConfirmBtnTap: null);
-      // }
       if(check.toLowerCase() == vietnamese.toLowerCase()){
         showDialog(
             context: dialogContext,
@@ -436,7 +412,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
-                  img = vocabularies[_vocabularyIndex].image;
+                  if(vocabularies[_vocabularyIndex].image == null){
+                    img = 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/image%2Fnot-found.png?alt=media&token=ebdfeec7-1b91-4f6c-b46b-811f96fc91c7';
+                  }else {
+                    img = vocabularies[_vocabularyIndex].image;
+                  }
                   audio = vocabularies[_vocabularyIndex].voice_link;
                   var percent =
                       _vocabularyIndex * (1 / (vocabularies.length + 1));

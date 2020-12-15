@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:camera_camera/camera_camera.dart';
 import 'package:countdown/countdown.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:file_picker/file_picker.dart';
@@ -41,7 +40,6 @@ class _CreatePostState extends State<CreatePostScreen> {
   bool _isRecording = false;
   String username = 'user';
   final picker = ImagePicker();
-  final interval = const Duration(seconds: 1);
 
   _CreatePostState();
 
@@ -235,7 +233,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                         ),
                         child: isRecord == true
                             ? Countdown(
-                                duration: Duration(seconds: 10),
+                                duration: Duration(minutes: 2),
                                 onFinish: () {
                                   _stop();
                                   setState(() {

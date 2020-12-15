@@ -8,6 +8,7 @@ import 'package:vietnamese_learning/src/cubit/quiz_cubit.dart';
 import 'package:vietnamese_learning/src/data/quiz_repository.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
 import 'package:vietnamese_learning/src/models/quiz.dart';
+import 'package:vietnamese_learning/src/resources/practice_quiz_screen.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/states/quiz_state.dart';
 
@@ -153,12 +154,23 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
                           textColor: Colors.white);
                     }else {
                       Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                QuizScreen(questions: questions,
-                                  progressId: progressId,
-                                  quizId: questions.asMap()[1].quizId,),
-                          ));
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) => PracticeQuizScreen(questions: questions,),
+                          transitionsBuilder: (context, animation,
+                              secondaryAnimation, child) {
+                            var begin = Offset(1.0, 0.0);
+                            var end = Offset.zero;
+                            var curve = Curves.ease;
+                            var tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
                     }
                   },
                   child: Column(
@@ -198,12 +210,24 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
                           textColor: Colors.white);
                     }else {
                       Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                QuizScreen(questions: questions,
-                                  progressId: progressId,
-                                  quizId: questions.asMap()[1].quizId,),
-                          ));
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  QuizScreen(questions: questions, progressId: progressId, quizId: questions.asMap()[1].quizId, lessonId: lessonId.trim(),),
+                          transitionsBuilder: (context, animation,
+                              secondaryAnimation, child) {
+                            var begin = Offset(1.0, 0.0);
+                            var end = Offset.zero;
+                            var curve = Curves.ease;
+                            var tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
                     }
                   },
                   child: Column(

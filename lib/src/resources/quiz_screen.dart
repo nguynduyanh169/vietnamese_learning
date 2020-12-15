@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
+import 'package:vietnamese_learning/src/models/review_quiz.dart';
 import 'package:vietnamese_learning/src/widgets/quiz.dart';
 import 'package:vietnamese_learning/src/widgets/quiz_result.dart';
 
@@ -7,13 +8,14 @@ class QuizScreen extends StatefulWidget {
   List<Question> questions;
   int progressId;
   int quizId;
+  String lessonId;
 
-  QuizScreen({Key key, this.questions, this.progressId, this.quizId})
+  QuizScreen({Key key, this.questions, this.progressId, this.quizId, this.lessonId})
       : super(key: key);
 
   @override
   _QuizScreenState createState() => _QuizScreenState(
-      questions: questions, progressId: progressId, quizId: quizId);
+      questions: questions, progressId: progressId, quizId: quizId, lessonId: lessonId);
 }
 
 class _QuizScreenState extends State<QuizScreen> {
@@ -21,6 +23,7 @@ class _QuizScreenState extends State<QuizScreen> {
   double _totalScore = 0;
   List<Question> questions;
   int progressId;
+  String lessonId;
   int quizId;
   List<int> optionIds = new List();
   int chooseOptionId;
@@ -28,8 +31,11 @@ class _QuizScreenState extends State<QuizScreen> {
   bool optionCheckCorrect = false;
   String userChoice;
   String correctAns;
+  String question;
+  int questionType;
+  List<ReviewQuiz> incorrects = new List();
 
-  _QuizScreenState({this.questions, this.progressId, this.quizId});
+  _QuizScreenState({this.questions, this.progressId, this.quizId, this.lessonId});
 
   void _resetQuiz() {
     setState(() {
@@ -38,13 +44,15 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  void tapped(int index, int optionId, bool checkCorrect, String userChoose, String correctAnswer) {
+  void tapped(int index, int optionId, bool checkCorrect, String userChoose, String correctAnswer, String quizQuestion, int type) {
     setState(() {
       tappedIndex = index;
       chooseOptionId = optionId;
       optionCheckCorrect = checkCorrect;
       userChoice = userChoose;
       correctAns = correctAnswer;
+      question = quizQuestion;
+      questionType = type;
     });
   }
 
@@ -52,6 +60,8 @@ class _QuizScreenState extends State<QuizScreen> {
     double score = 10 / questions.length;
     if (optionCheckCorrect == false) {
       _totalScore += 0;
+      ReviewQuiz reviewQuiz = new ReviewQuiz(question: question, questionType: questionType, correct: correctAns, userAns: userChoice);
+      incorrects.add(reviewQuiz);
     } else {
       _totalScore += score;
     }
@@ -72,24 +82,21 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: _questionIndex < questions.length
-            ? Quiz(
-                questions: questions,
-                answerQuestions: _answerQuestions,
-                questionIndex: _questionIndex,
-                rootContext: context,
-                tappedIndex: tappedIndex,
-                choice: tapped,
-                checkCorrect: optionCheckCorrect,
-                userChoice: userChoice,
-          correctAnswer: correctAns,
-              )
-            : QuizResult(
-                _totalScore, _resetQuiz, quizId, progressId, optionIds),
-      ),
+    return Scaffold(
+      body: _questionIndex < questions.length
+          ? Quiz(
+        questions: questions,
+        answerQuestions: _answerQuestions,
+        questionIndex: _questionIndex,
+        rootContext: context,
+        tappedIndex: tappedIndex,
+        choice: tapped,
+        checkCorrect: optionCheckCorrect,
+        userChoice: userChoice,
+        correctAnswer: correctAns,
+      )
+          : QuizResult(
+          _totalScore, _resetQuiz, quizId, progressId, optionIds, lessonId, incorrects),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -28,210 +29,6 @@ class Quiz extends StatelessWidget {
       }
     }
   }
-
-  Widget _loadDialog(BuildContext buildContext) {
-    if (checkCorrect == true) {
-      showDialog(
-          context: buildContext,
-          barrierDismissible: true,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
-              contentPadding: EdgeInsets.only(top: 10.0),
-              content: Container(
-                width: SizeConfig.blockSizeHorizontal * 70,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 20,
-                        ),
-                        Text(
-                          "Correct!",
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Helvetica'),
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 4,
-                        ),
-                        Image(
-                            width: SizeConfig.blockSizeHorizontal * 10,
-                            height: SizeConfig.blockSizeVertical * 8,
-                            image: AssetImage('assets/images/happy.png')),
-                      ],
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 2,
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                      height: 4.0,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        child: Container(
-                          height: SizeConfig.blockSizeVertical * 20,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 3,
-                              ),
-                              Text(
-                                'Your choice is:',
-                                style: TextStyle(
-                                    fontFamily: 'Helvetica', fontSize: 20),
-                              ),
-                              Text(
-                                '$userChoice',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                            ],
-                          ),
-                        )),
-                    InkWell(
-                      onTap: () {
-                        answerQuestions();
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(32.0),
-                              bottomRight: Radius.circular(32.0)),
-                        ),
-                        child: Text(
-                          "Continue",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
-    } else if (checkCorrect == false) {
-      showDialog(
-          context: buildContext,
-          barrierDismissible: true,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
-              contentPadding: EdgeInsets.only(top: 10.0),
-              content: Container(
-                width: SizeConfig.blockSizeHorizontal * 70,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 20,
-                        ),
-                        Text(
-                          "Incorrect!",
-                          style: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Helvetica'),
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 4,
-                        ),
-                        Image(
-                            width: SizeConfig.blockSizeHorizontal * 10,
-                            height: SizeConfig.blockSizeVertical * 8,
-                            image: AssetImage('assets/images/sad.png')),
-                      ],
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 2,
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                      height: 4.0,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        child: Container(
-                          height: SizeConfig.blockSizeVertical * 20,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 3,
-                              ),
-                              Text(
-                                'Correct solution:',
-                                style: TextStyle(
-                                    fontFamily: 'Helvetica', fontSize: 20),
-                              ),
-                              Text(
-                                '$correctAnswer',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 2,
-                              ),
-                            ],
-                          ),
-                        )),
-                    InkWell(
-                      onTap: () {
-                        answerQuestions();
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(32.0),
-                              bottomRight: Radius.circular(32.0)),
-                        ),
-                        child: Text(
-                          "Continue",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
-    }
-  }
-
   Widget _questionType(int type){
     if(type == 1){
       return Text('Answer the question', style: TextStyle(fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold), textAlign: TextAlign.center,);
@@ -261,7 +58,48 @@ class Quiz extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.clear), onPressed: () => Navigator.of(context, rootNavigator: true).pop(context),),
+                IconButton(icon: Icon(Icons.clear), onPressed: (){
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                    new CupertinoAlertDialog(
+                      title: new Text(
+                        "Confirm exit",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      content: new Text(
+                        "Do you want to exit?",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Confirm',
+                            style: TextStyle(
+                                fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context, 'yes');
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context, 'no');
+                          },
+                        ),
+                      ],
+                    ),
+                  ).then((value) {
+                    if (value == 'yes') {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                  });
+                }),
                 Container(
                   child: new LinearPercentIndicator(
                     width: SizeConfig.blockSizeHorizontal * 75,
@@ -269,7 +107,7 @@ class Quiz extends StatelessWidget {
                     lineHeight: 15.0,
                     percent: percent,
                     linearStrokeCap: LinearStrokeCap.roundAll,
-                    progressColor: Colors.amberAccent,
+                    progressColor: Colors.green,
                   ),
                 ),
               ],
@@ -286,36 +124,34 @@ class Quiz extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: questions[questionIndex].options.length,
                     itemBuilder: (context, index){
-                      return QuizAnswer(questions[questionIndex].options[index].optionName, questions[questionIndex].options[index].checkCorrect, correctAns(), rootContext, index, choice, tappedIndex,  questions[questionIndex].options[index].optionID);
+                      return QuizAnswer(questions[questionIndex].options[index].optionName, questions[questionIndex].options[index].checkCorrect, correctAns(), rootContext, index, choice, tappedIndex, questions[questionIndex].options[index].optionID, questions[questionIndex].question, questions[questionIndex].quizType);
                     })
               ],
             ),
-              // child: Column(
-              //   children: [
-              //     ...(questions[questionIndex].options as List<Option>).map((answers) {
-              //       return QuizAnswer(() => answerQuestions(answers.checkCorrect, answers.optionID), answers.optionName, answers.checkCorrect, correctAns(), rootContext);
-              //     }).toList()
-              //   ],
-              // )
           ),
           ButtonTheme(
             buttonColor: Colors.blueAccent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            child: RaisedButton(
-                onPressed: () {
-                  correctAnswer = correctAns();
-                  _loadDialog(rootContext);
+            child: FlatButton(
+                color: tappedIndex != 5 ? Colors.blueAccent : Colors.black26,
+                onPressed: (){
+                  if(tappedIndex != 5){
+                    answerQuestions();
+                  }else{
+                    return null;
+                  }
                 },
                 child: Container(
-                  width: SizeConfig.blockSizeHorizontal * 60,
+                  width: SizeConfig.blockSizeHorizontal * 70,
                   height: SizeConfig.blockSizeVertical * 8,
                   child: Center(
                     child: Text(
-                      'Check',
+                      'Next',
                       style: TextStyle(
                           fontFamily: 'Helvetica',
                           fontSize: 20,
+                          fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
                   ),

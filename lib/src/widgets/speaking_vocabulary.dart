@@ -60,6 +60,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     }
     return Container(
       color: Color.fromRGBO(255, 239, 215, 100),
+      padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,107 +80,132 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             ),
             ),
           ),
-          Row(
-            children: [
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 8,
-              ),
-              Container(
-                width: 45,
-                height: 45,
-                margin: EdgeInsets.only(left: 14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(17),
-                  color: Color.fromRGBO(255, 190, 51, 100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(255, 190, 51, 100),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset:
-                      Offset(0, 1), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                    icon: Icon(
-                      CupertinoIcons.volume_up,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(widget.audioInput)));
-                    }
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: Text(
-                  widget.vietnamese,
-                  style: TextStyle(
-                      fontFamily: "Helvetica",
-                      fontSize: 17,
-                      color: Colors.black,
-                      decoration: TextDecoration.none),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 8,
-          ),
-          Center(
-            child: AvatarGlow(
-              animate: _isRecording,
-              glowColor: Theme.of(context).primaryColor,
-              endRadius: 130.0,
-              duration: const Duration(milliseconds: 2000),
-              repeatPauseDuration: const Duration(milliseconds: 100),
-              repeat: true,
-              child: Container(
-                width: 150,
-                height: 150,
-                child: FloatingActionButton(
-                  onPressed: (){
-                    if(_isRecording == false) {
-                      print("Start");
-                      _start();
-                    }else {
-                      print("Stop");
-                      print(_isRecording);
-                      _stop();
-                    }
-                  },
-                  child: Icon(_isRecording ? CupertinoIcons.stop : CupertinoIcons.mic, size: 100,),
-                  backgroundColor: Color.fromRGBO(255, 190, 51, 30),
-                ),
-              ),
-            ),
-          ),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 4,
           ),
-          Center(
+          Container(
+            height: SizeConfig.blockSizeVertical * 66,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black26.withOpacity(0.05),
+                      offset: Offset(0.0, 6.0),
+                      blurRadius: 10.0,
+                      spreadRadius: 0.10)
+                ]),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                if (recognizeFinished)
-                  _RecognizeContent(
-                    text: text,
-                  ),
-                // RaisedButton(
-                //   onPressed: recognizing ? () {} : recognize,
-                //   child: recognizing
-                //       ? CircularProgressIndicator()
-                //       : Text('Test with recognize'),
-                // ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+                Row(
+                  children: [
+                    Container(
+                      width: 45,
+                      height: 45,
+                      margin: EdgeInsets.only(left: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(17),
+                        color: Color.fromRGBO(255, 190, 51, 100),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(255, 190, 51, 100),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset:
+                            Offset(0, 1), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                          icon: Icon(
+                            CupertinoIcons.volume_up,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            AssetsAudioPlayer.playAndForget(Audio.network(widget.audioInput));
+                          }
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: Text(
+                        widget.vietnamese,
+                        style: TextStyle(
+                            fontFamily: "Helvetica",
+                            fontSize: 17,
+                            color: Colors.black,
+                            decoration: TextDecoration.none),
+                      ),
+                    ),
+                  ],
+                ),
                 Center(
-                  child: recognizing ? CircularProgressIndicator() : Text(""),
-                )
+                  child: AvatarGlow(
+                    animate: _isRecording,
+                    //glowColor: Theme.of(context).primaryColor,
+                    endRadius: 90.0,
+                    duration: const Duration(milliseconds: 2000),
+                    repeatPauseDuration: const Duration(milliseconds: 100),
+                    repeat: true,
+                    child: Container(
+                      width: 140,
+                      height: 140,
+                      child: FloatingActionButton(
+                        onPressed: (){
+                          if(_isRecording == false) {
+                            setState(() {
+                              _isRecording = true;
+                            });
+                            _start();
+
+                          }else {
+                            setState(() {
+                              _isRecording = false;
+                            });
+                            _stop();
+
+                          }
+                        },
+                        child: _isRecording == true
+                            ? Icon(
+                          CupertinoIcons.stop,
+                          size: 80,
+                        )
+                            : Icon(CupertinoIcons.mic_solid, size: 80,),
+                        backgroundColor: Color.fromRGBO(255, 190, 51, 30),
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Container(child: _isRecording == false ? Text('Tap to record your voice', style: TextStyle(fontFamily: 'Helvetica'),): Text('Recording', style: TextStyle(fontFamily: 'Helvetica'),),),
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 4,),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      if (recognizeFinished)
+                        _RecognizeContent(
+                          text: text,
+                        ),
+                      Center(
+                        child: recognizing ? CupertinoActivityIndicator(
+                          radius: 10.0,
+                        ) : Text(""),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
+
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 8,
+            height: SizeConfig.blockSizeVertical * 4,
           ),
           Center(
             child: ButtonTheme(
@@ -216,7 +242,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
       recognizing = true;
     });
     final serviceAccount = ServiceAccount.fromString(
-        '${(await rootBundle.loadString('assets/vnamese-master-c53480d8ac94.json'))}');
+        '${(await rootBundle.loadString('assets/vietnamese-master-2e898b96ecf0.json'))}');
     final speechToText = SpeechToText.viaServiceAccount(serviceAccount);
     final config = _getConfig();
     final audio = await _getAudioContent(path);
@@ -232,9 +258,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
       recognizing = false;
       _init();
     }));
-    print(text);
   }
-
   RecognitionConfig _getConfig() => RecognitionConfig(
       encoding: AudioEncoding.LINEAR16,
       model: RecognitionModel.command_and_search,
@@ -309,7 +333,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
 
         var current = await _recorder.current(channel: 0);
         setState(() {
-          _isRecording = true;
+          //_isRecording = true;
           _current = current;
           _currentStatus = _current.status;
         });
@@ -326,7 +350,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     // File file = widget.localFileSystem.file(result.path);
     // print("File length: ${await file.length()}");
     setState(() {
-      _isRecording = false;
+      //_isRecording = false;
       path = result.path;
       _current = result;
       _currentStatus = _current.status;
@@ -349,6 +373,7 @@ class _RecognizeContent extends StatelessWidget {
           Center(
             child: Text(
               'The word we hear from your voice',
+              style: TextStyle(fontFamily: 'Helvetica'),
             ),
           ),
           SizedBox(
@@ -367,6 +392,7 @@ class _RecognizeContent extends StatelessWidget {
                 child: AutoSizeText(
                   text,
                   maxLines: 3,
+                  style: TextStyle(fontFamily: 'Helvetica'),
                   overflow: TextOverflow.ellipsis,
                   maxFontSize: 20,
                   minFontSize: 15,

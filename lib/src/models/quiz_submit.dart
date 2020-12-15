@@ -1,4 +1,6 @@
 class QuizSubmit {
+
+  String lessonId;
   List<int> optionIDs;
   int processId;
   int quizId;
@@ -6,6 +8,7 @@ class QuizSubmit {
   String startDate;
 
   QuizSubmit({
+    this.lessonId,
     this.optionIDs,
     this.processId,
     this.quizId,
@@ -14,6 +17,7 @@ class QuizSubmit {
   });
 
   factory QuizSubmit.fromJson(Map<String, dynamic> json) => QuizSubmit(
+        lessonId: json["lessonID"],
         optionIDs: List<int>.from(json["optionIDs"].map((i) => i)),
         processId: json["processID"],
         quizId: json["quizID"],
@@ -22,6 +26,7 @@ class QuizSubmit {
       );
 
   Map<String, dynamic> toJson() => {
+        "lessonID": lessonId,
         "optionIDs": List<dynamic>.from(optionIDs.map((x) => x)),
         "processID": processId,
         "quizID": quizId,
