@@ -1,23 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/nation.dart';
 
 class ChooseNation extends StatefulWidget {
   List<Nation> nations;
+
   ChooseNation({Key key, this.nations}) : super(key: key);
 
   _ChooseNationState createState() => _ChooseNationState(nations: nations);
 }
 
 class _ChooseNationState extends State<ChooseNation> {
-  List<Nation> nations;
+  final List<Nation> nations;
+  TextEditingController txtSearch = new TextEditingController();
   _ChooseNationState({this.nations});
+
   @override
   Widget build(BuildContext context) {
+    List<Nation> newNations = List.from(nations);
+    onItemChanged(String value) {
+      setState(() {
+        newNations = nations
+            .where((data) => data.nation.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+      });
+      print(newNations.toString());
+    }
     return Material(
       child: SafeArea(
         top: false,
         child: Container(
+          height: SizeConfig.blockSizeVertical * 70,
           color: Color.fromRGBO(255, 236, 215, 1),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -32,58 +46,29 @@ class _ChooseNationState extends State<ChooseNation> {
                   borderRadius: BorderRadius.circular(29.5),
                 ),
                 child: TextField(
+                  controller: txtSearch,
                   decoration: InputDecoration(
-                    hintText: "Search",
+                    hintText: "Search Nation",
                     hintStyle: TextStyle(fontFamily: 'Helvetica'),
                     border: InputBorder.none,
                     prefixIcon: Icon(CupertinoIcons.search),
                   ),
-                  onSubmitted: (value) {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => null));
-                  },
+                  onChanged: onItemChanged,
                 ),
               ),
-              ListTile(
-                title: Text(nations[0].nation),
-                leading: Container(
-                    child: Image(
-                  image: NetworkImage(nations[0].image),
-                )),
-                onTap: () => Navigator.pop(context, nations[0]),
-              ),
-              ListTile(
-                title: Text(nations[1].nation),
-                leading: Container(
-                    child: Image(
-                      image: NetworkImage(nations[1].image),
-                    )),
-                onTap: () => Navigator.pop(context, nations[1]),
-              ),
-              ListTile(
-                title: Text(nations[2].nation),
-                leading: Container(
-                    child: Image(
-                      image: NetworkImage(nations[2].image),
-                    )),
-                onTap: () => Navigator.pop(context, nations[2]),
-              ),
-              ListTile(
-                title: Text(nations[3].nation),
-                leading: Container(
-                    child: Image(
-                      image: NetworkImage(nations[3].image),
-                    )),
-                onTap: () => Navigator.pop(context, nations[3]),
-              ),
-              ListTile(
-                title: Text(nations[4].nation),
-                leading: Container(
-                    child: Image(
-                      image: NetworkImage(nations[4].image),
-                    )),
-                onTap: () => Navigator.pop(context, nations[4]),
-              ),
+              Expanded(
+                  child: ListView(
+                    children: newNations.map((data) {
+                      return ListTile(
+                        title: Text(data.nation),
+                        leading: Container(
+                            child: Image(
+                              image: NetworkImage(data.image),
+                            )),
+                        onTap: () => Navigator.pop(context, data),
+                      );
+                    }).toList(),
+              )),
             ],
           ),
         ),

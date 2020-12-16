@@ -13,6 +13,7 @@ class UserProvider{
   static final String SEND_EMAIL = BASE_URL + "/api/authen/forget";
   static final String CHANGE_PASSWORD = BASE_URL + "/api/authen/updateNewPassword";
   static final String LOGIN_GMAIL = BASE_URL + "/api/authen/signin-gmail";
+  static final String EDIT_PROFILE = BASE_URL + "/api/authen/editProfile";
   final Dio _dio = Dio();
 
   Future<LoginResponse> login(String username, String password) async{
@@ -136,5 +137,28 @@ class UserProvider{
     }catch(error, stacktrace){
       print("Exception occur: $error stackTrace: $stacktrace");
     }
+  }
+
+  Future<bool> editProfile(String token, EditUser editUser) async{
+    Map<String, String> headers = {
+      'Content-Type': 'application/json;',
+      'Authorization': 'Bearer $token'
+    };
+    try{
+      Response response = await _dio.put(EDIT_PROFILE, options: Options(headers: headers), data: editUser.toJson());
+      print(response.data);
+      if(response.statusCode == 200){
+        if(response.data == 'Update success'){
+          return true;
+        }else{
+          return false;
+        }
+      }else if(response.statusCode == 500){
+        return false;
+      }
+    }catch(error, stacktrace){
+      print("Exception occur: $error stackTrace: $stacktrace");
+    }
+
   }
 }

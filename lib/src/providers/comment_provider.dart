@@ -50,14 +50,17 @@ class CommentProvider{
   Future<bool> deleteComment(int commentId, String token) async{
     Map<String, String> headers = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     };
     try {
       Response response = await _dio.delete('$DELETE_COMMENT/$commentId',
           options: Options(headers: headers));
-      if(response.data == 'Delete Success!!!'){
-        return true;
+      if(response.statusCode == 200) {
+        if (response.data == 'Delete Success!!!') {
+          return true;
+        } else {
+          return false;
+        }
       }else{
         return false;
       }

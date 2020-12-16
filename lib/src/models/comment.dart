@@ -1,32 +1,40 @@
 class Comment {
   Comment({
+    this.avatar,
+    this.commentId,
+    this.date,
+    this.nation,
+    this.studentName,
     this.text,
     this.voiceLink,
-    this.date,
-    this.studentName,
-    this.nation,
   });
 
-  String text;
-  dynamic voiceLink;
+  String avatar;
+  int commentId;
   DateTime date;
-  String studentName;
   String nation;
+  String studentName;
+  String text;
+  String voiceLink;
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
+    avatar: json["avatar"],
+    commentId: json["commentID"],
+    date: DateTime.parse(json["date"]),
+    nation: json["nation"],
+    studentName: json["studentName"],
     text: json["text"],
     voiceLink: json["voiceLink"],
-    date: DateTime.parse(json["date"]),
-    studentName: json["studentName"],
-    nation: json["nation"],
   );
 
   Map<String, dynamic> toJson() => {
+    "avatar": avatar,
+    "commentID": commentId,
+    "date": date.toIso8601String(),
+    "nation": nation,
+    "studentName": studentName,
     "text": text,
     "voiceLink": voiceLink,
-    "date": date.toIso8601String(),
-    "studentName": studentName,
-    "nation": nation,
   };
 }
 

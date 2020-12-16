@@ -7,6 +7,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/edit_profile.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
+import 'package:vietnamese_learning/src/utils/firebase_util.dart';
 
 class ProfileScreen extends StatefulWidget {
   UserProfile userProfile;
@@ -288,6 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     prefs.remove('username');
     prefs.remove('accessToken');
     prefs.remove(_username + 'profile');
+    signOutUser();
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
     // Navigator.of(context, rootNavigator: true).pushReplacement(

@@ -38,6 +38,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Used to demonstrate file picker plugin</string>
 	<key>NSCameraUsageDescription</key>

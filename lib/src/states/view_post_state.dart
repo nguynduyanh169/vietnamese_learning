@@ -55,7 +55,8 @@ class DeletingComent extends ViewPostState{
 }
 
 class DeleteCommentSuccess extends ViewPostState{
-  const DeleteCommentSuccess();
+  final List<Comment> comments;
+  const DeleteCommentSuccess(this.comments);
 }
 
 class DeleteCommentFailed extends ViewPostState{

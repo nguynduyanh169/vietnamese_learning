@@ -125,3 +125,27 @@ class ListPost {
     "delete": delete,
   };
 }
+
+class EditUser {
+  EditUser({
+    this.avatarLink,
+    this.email,
+    this.fullname,
+  });
+
+  String avatarLink;
+  String email;
+  String fullname;
+
+  factory EditUser.fromJson(Map<String, dynamic> json) => EditUser(
+    avatarLink: json["avatarLink"],
+    email: json["email"],
+    fullname: json["fullname"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "avatarLink": avatarLink,
+    "email": email,
+    "fullname": fullname,
+  };
+}

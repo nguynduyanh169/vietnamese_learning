@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/data/lesson_repository.dart';
@@ -20,7 +22,7 @@ class LessonsCubit extends Cubit<LessonsState>{
       String username = prefs.getString('username');
       _userRepository = new UserRepository();
       UserProfile userProfile = await _userRepository.getUserProfile(token, username);
-      prefs.setString(username + 'profile', userProfile.toJson().toString());
+      prefs.setString(username + 'profile', json.encode(userProfile));
       List<Lesson> listLessons = await _lessonRepository.getLessonsByLevelId(token);
       emit(LessonsLoaded(listLessons, userProfile));
     } on Exception{

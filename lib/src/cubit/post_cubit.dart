@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/data/comment_repository.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/models/comment.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/states/delete_post_state.dart';
 import 'package:vietnamese_learning/src/states/posts_state.dart';
 import 'package:vietnamese_learning/src/states/view_post_state.dart';
@@ -103,17 +105,16 @@ class PostCubit extends Cubit<ViewPostState> {
     }
   }
 
-  Future<void> deleteComment(int commentId) async{
+  Future<void> deleteComment(int commentId, int postId) async{
     try{
       emit(DeletingComent());
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
       bool check = await _commentRepository.deleteComment(commentId, token);
       if(check == true){
-        // List<Comment> comments = await _commentRepository
-        //     .getCommentsByPostId(comment.i, token);
-        // emit(CommentPostSuccess(comments));
-        emit(DeleteCommentSuccess());
+        List<Comment> comments = await _commentRepository.getCommentsByPostId(
+            postId, token);
+        emit(DeleteCommentSuccess(comments));
       }else{
         emit(DeleteCommentFailed());
       }

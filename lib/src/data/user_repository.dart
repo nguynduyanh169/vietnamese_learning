@@ -30,4 +30,8 @@ class UserRepository {
   Future<LoginResponse> login_gmail(String avatarLink, String email, String fullname, String uid, String username){
     return _userProvider.signinGmail(email, fullname, uid, avatarLink, username);
   }
+
+  Future<bool> editProfile(String token, EditUser editUser){
+    return _userProvider.editProfile(token, editUser);
+  }
 }

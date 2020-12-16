@@ -22,3 +22,15 @@ class LoadedEditProfile extends EditProfileState{
 class LoadEditProfileFailed extends EditProfileState{
   const LoadEditProfileFailed();
 }
+
+class EditingProfile extends EditProfileState{
+  const EditingProfile();
+}
+
+class EditProfileFailed extends EditProfileState{
+  const EditProfileFailed();
+}
+
+class EditProfileSuccess extends EditProfileState{
+  const EditProfileSuccess();
+}

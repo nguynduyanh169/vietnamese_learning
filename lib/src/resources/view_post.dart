@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -22,6 +23,7 @@ import 'package:vietnamese_learning/src/cubit/post_cubit.dart';
 import 'package:vietnamese_learning/src/data/comment_repository.dart';
 import 'package:vietnamese_learning/src/models/comment.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/edit_post_screen.dart';
 import 'package:vietnamese_learning/src/states/view_post_state.dart';
 import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
@@ -74,7 +76,9 @@ class _ViewPostState extends State<ViewPost> {
   void _loadUsername() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    username = sharedPreferences.getString('username');
+    String username = sharedPreferences.getString('username');
+    UserProfile userProfile = UserProfile.fromJson(json.decode(sharedPreferences.getString(username + 'profile')));
+    username = userProfile.fullname;
   }
 
   File _getAudioContent(String path) {
@@ -402,9 +406,12 @@ class _ViewPostState extends State<ViewPost> {
                 Container(
                   padding: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 0.5),
-                  child: CircleAvatar(
+                  child: comment.avatar == null ? CircleAvatar(
                     radius: 20,
                     backgroundImage: AssetImage('assets/images/profile.png'),
+                  ) : CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(comment.avatar),
                   ),
                 ),
                 SizedBox(
@@ -414,13 +421,13 @@ class _ViewPostState extends State<ViewPost> {
                   onLongPress: () {
                     if(postBy != username){
                       if(commentBy == username) {
-                        _showListActionForComment(context);
+                        _showListActionForComment(context, comment);
                       }else if(commentBy != username){
                         _showListActionForOtherComment(context);
                       }
                     }
                     else {
-                      _showListActionForComment(context);
+                      _showListActionForComment(context, comment);
                     }
                   },
                   child: ChatBubble(
@@ -619,9 +626,9 @@ class _ViewPostState extends State<ViewPost> {
         });
   }
 
-  void _showListActionForComment(BuildContext fatherContext) {
+  void _showListActionForComment(BuildContext rootContext, Comment comment) {
     showCupertinoModalPopup(
-        context: fatherContext,
+        context: rootContext,
         builder: (BuildContext buildContext) {
           return CupertinoActionSheet(
             title: Text(
@@ -635,16 +642,17 @@ class _ViewPostState extends State<ViewPost> {
                     style: TextStyle(fontFamily: 'Helvetica'),
                   ),
                   onPressed: () {
-                    Navigator.of(fatherContext).pop();
+                    Navigator.of(rootContext).pop();
                   }),
               CupertinoActionSheetAction(
                 child: Text('Delete',
                     style:
                         TextStyle(fontFamily: 'Helvetica', color: Colors.red)),
                 onPressed: () {
+                  Navigator.of(context).pop();
                   showDialog(
                     useRootNavigator: true,
-                    context: fatherContext,
+                    context: context,
                     builder: (BuildContext context) => new CupertinoAlertDialog(
                       title: new Text(
                         "Confirm delete",
@@ -661,7 +669,7 @@ class _ViewPostState extends State<ViewPost> {
                             style: TextStyle(fontFamily: 'Helvetica'),
                           ),
                           onPressed: () {
-                            Navigator.of(fatherContext).pop();
+                            Navigator.of(context).pop('yes');
                           },
                         ),
                         CupertinoDialogAction(
@@ -670,13 +678,14 @@ class _ViewPostState extends State<ViewPost> {
                             style: TextStyle(fontFamily: 'Helvetica'),
                           ),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop("no");
                           },
                         ),
                       ],
                     ),
+
                   ).then((value) {
-                    Navigator.of(fatherContext).pop();
+                    BlocProvider.of<PostCubit>(rootContext).deleteComment(comment.commentId, content.id);
                   });
                 },
               ),
@@ -760,6 +769,15 @@ class _ViewPostState extends State<ViewPost> {
           CustomProgressDialog.progressDialog(context);
         } else if (state is DeletePostFailed) {
           print("Delete failed");
+        } else if(state is DeleteCommentSuccess) {
+          commentWidget.clear();
+          state.comments.forEach((comment) {
+            commentWidget.add(_comment(context, comment, comment.studentName, content.studentName));
+          });
+          numberOfComment = state.comments.length;
+          Navigator.pop(context);
+        }else if(state is DeletingComent){
+          CustomProgressDialog.progressDialog(context);
         }
       }, builder: (context, state) {
         if (state is LoadingPost) {
@@ -899,10 +917,13 @@ class _ViewPostState extends State<ViewPost> {
                                     ),
                                     Row(
                                       children: <Widget>[
+                                        content.avatar == null ?
                                         CircleAvatar(
                                           radius: 20,
-                                          backgroundImage: AssetImage(
-                                              'assets/images/profile.png'),
+                                          backgroundImage: AssetImage('assets/images/profile.png'),
+                                        ): CircleAvatar(
+                                          radius: 20,
+                                          backgroundImage: NetworkImage(content.avatar),
                                         ),
                                         SizedBox(
                                           width:
