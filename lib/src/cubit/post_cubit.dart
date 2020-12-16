@@ -25,61 +25,68 @@ class PostCubit extends Cubit<ViewPostState> {
       emit(LoadingPost());
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
+      String username = prefs.getString('username');
+      UserProfile userProfile = UserProfile.fromJson(json.decode(prefs.getString(username + 'profile')));
       List<Comment> comments =
           await _commentRepository.getCommentsByPostId(postId, token);
       if (comments.isNotEmpty) {
-        emit(LoadPostSuccess(comments));
+        emit(LoadPostSuccess(comments, userProfile.fullname));
       } else {
-        emit(LoadPostFailed());
+        emit(LoadPostFailed(userProfile.fullname));
       }
     } on Exception {
-      emit(LoadPostFailed());
+      emit(LoadPostFailed('user'));
     }
   }
 
   Future<void> saveComment(CommentSave comment, File file) async {
     try {
       emit(CommentingPost());
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString('accessToken');
-      String username = prefs.getString("username");
-      if (file == null) {
-        bool check = await _commentRepository.saveComment(comment, token);
-        if (check == true) {
-          List<Comment> comments = await _commentRepository.getCommentsByPostId(
-              comment.postId, token);
-          emit(CommentPostSuccess(comments));
-        } else {
-          emit(CommentPostFailed());
-        }
-      } else {
-        await Firebase.initializeApp();
-        Reference reference = FirebaseStorage.instance
-            .ref()
-            .child('audio_for_user_post')
-            .child(username +
-                "/" +
-                basename(file.path) +
-                '_' +
-                DateTime.now().toString());
-
-        UploadTask uploadTask = reference.putFile(file);
-        uploadTask.whenComplete(() async {
-          try {
-            String fileUrl = await reference.getDownloadURL();
-            comment.voiceLink = fileUrl;
-            bool check = await _commentRepository.saveComment(comment, token);
-            if (check == true) {
-              List<Comment> comments = await _commentRepository
-                  .getCommentsByPostId(comment.postId, token);
-              emit(CommentPostSuccess(comments));
-            } else {
-              emit(CommentPostFailed());
-            }
-          } catch (onError) {
-            print("Error");
+      if(comment.text == ''){
+        emit(CommentPostFailed());
+      }else {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        String token = prefs.getString('accessToken');
+        String username = prefs.getString("username");
+        if (file == null) {
+          bool check = await _commentRepository.saveComment(comment, token);
+          if (check == true) {
+            List<Comment> comments = await _commentRepository
+                .getCommentsByPostId(
+                comment.postId, token);
+            emit(CommentPostSuccess(comments));
+          } else {
+            emit(CommentPostFailed());
           }
-        });
+        } else {
+          await Firebase.initializeApp();
+          Reference reference = FirebaseStorage.instance
+              .ref()
+              .child('audio_for_user_post')
+              .child(username +
+              "/" +
+              basename(file.path) +
+              '_' +
+              DateTime.now().toString());
+
+          UploadTask uploadTask = reference.putFile(file);
+          uploadTask.whenComplete(() async {
+            try {
+              String fileUrl = await reference.getDownloadURL();
+              comment.voiceLink = fileUrl;
+              bool check = await _commentRepository.saveComment(comment, token);
+              if (check == true) {
+                List<Comment> comments = await _commentRepository
+                    .getCommentsByPostId(comment.postId, token);
+                emit(CommentPostSuccess(comments));
+              } else {
+                emit(CommentPostFailed());
+              }
+            } catch (onError) {
+              print("Error");
+            }
+          });
+        }
       }
     } on Exception {
       emit(CommentPostFailed());

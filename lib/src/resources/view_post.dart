@@ -18,6 +18,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/post_cubit.dart';
 import 'package:vietnamese_learning/src/data/comment_repository.dart';
@@ -60,7 +61,6 @@ class _ViewPostState extends State<ViewPost> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(content.link);
     if (content.link != null) {
@@ -70,15 +70,6 @@ class _ViewPostState extends State<ViewPost> {
       }
     }
     _txtComment = new TextEditingController();
-    _loadUsername();
-  }
-
-  void _loadUsername() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    String username = sharedPreferences.getString('username');
-    UserProfile userProfile = UserProfile.fromJson(json.decode(sharedPreferences.getString(username + 'profile')));
-    username = userProfile.fullname;
   }
 
   File _getAudioContent(String path) {
@@ -215,36 +206,36 @@ class _ViewPostState extends State<ViewPost> {
                         ),
                         child: isRecord == true
                             ? Countdown(
-                          duration: Duration(minutes: 2),
-                          onFinish: () {
-                            _stop();
-                            setState(() {
-                              isRecord = false;
-                            });
-                            Navigator.pop(context);
-                          },
-                          builder:
-                              (BuildContext ctx, Duration remaining) {
-                            return new Text(
-                              "${remaining.inMinutes.toString().padLeft(2, '0')}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 25,
-                                fontFamily: 'Helvetica',
-                              ),
-                              textAlign: TextAlign.center,
-                            );
-                          },
-                        )
+                                duration: Duration(minutes: 2),
+                                onFinish: () {
+                                  _stop();
+                                  setState(() {
+                                    isRecord = false;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                                builder:
+                                    (BuildContext ctx, Duration remaining) {
+                                  return new Text(
+                                    "${remaining.inMinutes.toString().padLeft(2, '0')}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')}",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontFamily: 'Helvetica',
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  );
+                                },
+                              )
                             : Text(
-                          "02:00",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 25,
-                            fontFamily: 'Helvetica',
-                          ),
-                          textAlign: TextAlign.center,
-                        )),
+                                "02:00",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontFamily: 'Helvetica',
+                                ),
+                                textAlign: TextAlign.center,
+                              )),
                   ],
                 ),
               ),
@@ -278,10 +269,13 @@ class _ViewPostState extends State<ViewPost> {
                       },
                       child: isRecord == true
                           ? Icon(
-                        CupertinoIcons.stop,
-                        size: 40,
-                      )
-                          : Icon(CupertinoIcons.mic_solid, size: 40,),
+                              CupertinoIcons.stop,
+                              size: 40,
+                            )
+                          : Icon(
+                              CupertinoIcons.mic_solid,
+                              size: 40,
+                            ),
                       backgroundColor: Colors.blueAccent,
                     ),
                   ),
@@ -392,7 +386,8 @@ class _ViewPostState extends State<ViewPost> {
     }
   }
 
-  Widget _comment(BuildContext context, Comment comment, String commentBy, String postBy) {
+  Widget _comment(
+      BuildContext context, Comment comment, String commentBy, String postBy) {
     return Stack(
       children: <Widget>[
         Column(
@@ -404,35 +399,37 @@ class _ViewPostState extends State<ViewPost> {
                   width: SizeConfig.blockSizeHorizontal * 1.5,
                 ),
                 Container(
-                  padding: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 0.5),
-                  child: comment.avatar == null ? CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage('assets/images/profile.png'),
-                  ) : CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(comment.avatar),
-                  ),
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+                  child: comment.avatar == null
+                      ? CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        )
+                      : CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(comment.avatar),
+                        ),
                 ),
                 SizedBox(
                   width: SizeConfig.blockSizeHorizontal * 1.5,
                 ),
                 InkWell(
                   onLongPress: () {
-                    if(postBy != username){
-                      if(commentBy == username) {
+                    if (postBy != username) {
+                      if (commentBy == username) {
                         _showListActionForComment(context, comment);
-                      }else if(commentBy != username){
+                      } else if (commentBy != username) {
                         _showListActionForOtherComment(context);
                       }
-                    }
-                    else {
+                    } else {
                       _showListActionForComment(context, comment);
                     }
                   },
                   child: ChatBubble(
                     clipper:
-                    ChatBubbleClipper5(type: BubbleType.receiverBubble),
+                        ChatBubbleClipper5(type: BubbleType.receiverBubble),
                     alignment: Alignment.topRight,
                     margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 0.5,
@@ -471,8 +468,7 @@ class _ViewPostState extends State<ViewPost> {
                                     DateFormat('dd/MM/yyyy-kk:mm')
                                         .format(comment.date),
                                     style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                        fontSize: 10),
+                                        fontFamily: 'Helvetica', fontSize: 10),
                                   ),
                                 ),
                               ],
@@ -505,41 +501,51 @@ class _ViewPostState extends State<ViewPost> {
         ),
         comment.voiceLink != null
             ? Positioned(
-          right: SizeConfig.blockSizeHorizontal * 6,
-          top: SizeConfig.blockSizeVertical * 1.5,
-          child: InkWell(
-            child: Center(
-              child: Icon(
-                CupertinoIcons.volume_up,
-                color: Colors.blueAccent,
-                size: 20,
-              ),
-            ),
-            onTap: () {
-              AssetsAudioPlayer.playAndForget(
-                  Audio.network(comment.voiceLink));
-            },
-          ),
-        )
+                right: SizeConfig.blockSizeHorizontal * 6,
+                top: SizeConfig.blockSizeVertical * 1.5,
+                child: InkWell(
+                  child: Center(
+                    child: Icon(
+                      CupertinoIcons.volume_up,
+                      color: Colors.blueAccent,
+                      size: 20,
+                    ),
+                  ),
+                  onTap: () {
+                    AssetsAudioPlayer.playAndForget(
+                        Audio.network(comment.voiceLink));
+                  },
+                ),
+              )
             : Container()
       ],
     );
   }
 
-  Widget _editPost(String status, BuildContext context) {
-    if (status.trim() == 'PENDING') {
-      return IconButton(
-        icon: Icon(CupertinoIcons.ellipsis),
-        onPressed: () {
-          _showListAction(context);
-        },
-      );
+  Widget _editPost(String status, BuildContext context, String username) {
+    print(username);
+    if (content.studentName == username) {
+      if (status.trim() == 'PENDING') {
+        return IconButton(
+          icon: Icon(CupertinoIcons.ellipsis),
+          onPressed: () {
+            _showFullMenuForPost(context);
+          },
+        );
+      } else {
+        return IconButton(
+          icon: Icon(CupertinoIcons.ellipsis),
+          onPressed: () {
+            _showMenuForPost(context);
+          },
+        );
+      }
     } else {
       return Container();
     }
   }
 
-  void _showListAction(BuildContext rootContext) {
+  void _showFullMenuForPost(BuildContext rootContext) {
     showCupertinoModalPopup(
         context: rootContext,
         builder: (BuildContext context) {
@@ -563,6 +569,79 @@ class _ViewPostState extends State<ViewPost> {
                   pageTransitionAnimation: PageTransitionAnimation.slideUp,
                 ),
               ),
+              CupertinoActionSheetAction(
+                child: Text(
+                  'Delete',
+                  style: TextStyle(fontFamily: 'Helvetica', color: Colors.red),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    useRootNavigator: true,
+                    context: context,
+                    builder: (BuildContext context) => new CupertinoAlertDialog(
+                      title: new Text(
+                        "Confirm delete",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      content: new Text(
+                        "Do you want to delete this post?",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Confirm',
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop('yes');
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop("no");
+                          },
+                        ),
+                      ],
+                    ),
+                  ).then((value) {
+                    if (value == 'yes') {
+                      BlocProvider.of<PostCubit>(rootContext)
+                          .deletePost(content.id);
+                    }
+                  });
+                },
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              isDefaultAction: true,
+              child: Text(
+                'Cancel',
+                style: TextStyle(fontFamily: 'Helvetica'),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        });
+  }
+
+  void _showMenuForPost(BuildContext rootContext) {
+    showCupertinoModalPopup(
+        context: rootContext,
+        builder: (BuildContext context) {
+          return CupertinoActionSheet(
+            title: Text(
+              'Choose option for this post',
+              style: TextStyle(fontFamily: 'Helvetica'),
+            ),
+            actions: <Widget>[
               CupertinoActionSheetAction(
                 child: Text(
                   'Delete',
@@ -683,9 +762,9 @@ class _ViewPostState extends State<ViewPost> {
                         ),
                       ],
                     ),
-
                   ).then((value) {
-                    BlocProvider.of<PostCubit>(rootContext).deleteComment(comment.commentId, content.id);
+                    BlocProvider.of<PostCubit>(rootContext)
+                        .deleteComment(comment.commentId, content.id);
                   });
                 },
               ),
@@ -744,40 +823,62 @@ class _ViewPostState extends State<ViewPost> {
       create: (context) =>
           PostCubit(CommentRepository())..loadComments(content.id),
       child: BlocConsumer<PostCubit, ViewPostState>(listener: (context, state) {
-        if (state is LoadingPost) {
-          print('loading');
+        if (state is LoadPostFailed) {
+          username = state.owner;
         } else if (state is LoadPostSuccess) {
-          print('success');
+          username = state.owner;
           state.comments.forEach((comment) {
-            commentWidget.add(_comment(context, comment, comment.studentName, content.studentName));
+            commentWidget.add(_comment(
+                context, comment, comment.studentName, content.studentName));
           });
           numberOfComment = state.comments.length;
         } else if (state is CommentPostSuccess) {
           commentWidget.clear();
           _txtComment.clear();
           state.comments.forEach((comment) {
-            commentWidget.add(_comment(context, comment, comment.studentName, content.studentName));
+            commentWidget.add(_comment(
+                context, comment, comment.studentName, content.studentName));
           });
-          Navigator.pop(context);
           numberOfComment = state.comments.length;
+          Navigator.pop(context);
         } else if (state is CommentingPost) {
           CustomProgressDialog.progressDialog(context);
-        } else if (state is DeletePostSuccess) {
+        } else if (state is CommentPostFailed){
+          Navigator.pop(context);
+          Toast.show("Comment Failed!", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white);
+        }
+        else if (state is DeletePostSuccess) {
           Navigator.pop(context);
           Navigator.of(_ctx).pop('delete');
         } else if (state is DeletingPost) {
           CustomProgressDialog.progressDialog(context);
         } else if (state is DeletePostFailed) {
-          print("Delete failed");
-        } else if(state is DeleteCommentSuccess) {
+          Navigator.pop(context);
+          Toast.show("Delete Post Failed!", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white);
+        } else if (state is DeleteCommentSuccess) {
           commentWidget.clear();
           state.comments.forEach((comment) {
-            commentWidget.add(_comment(context, comment, comment.studentName, content.studentName));
+            commentWidget.add(_comment(
+                context, comment, comment.studentName, content.studentName));
           });
           numberOfComment = state.comments.length;
           Navigator.pop(context);
-        }else if(state is DeletingComent){
+        } else if (state is DeletingComent) {
           CustomProgressDialog.progressDialog(context);
+        } else if(state is DeleteCommentFailed){
+          Toast.show("Delete Comment Failed!", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white);
         }
       }, builder: (context, state) {
         if (state is LoadingPost) {
@@ -873,7 +974,7 @@ class _ViewPostState extends State<ViewPost> {
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 19,
                             ),
-                            _editPost(content.status, context)
+                            _editPost(content.status, context, username)
                           ],
                         ),
                       ),
@@ -917,14 +1018,17 @@ class _ViewPostState extends State<ViewPost> {
                                     ),
                                     Row(
                                       children: <Widget>[
-                                        content.avatar == null ?
-                                        CircleAvatar(
-                                          radius: 20,
-                                          backgroundImage: AssetImage('assets/images/profile.png'),
-                                        ): CircleAvatar(
-                                          radius: 20,
-                                          backgroundImage: NetworkImage(content.avatar),
-                                        ),
+                                        content.avatar == null
+                                            ? CircleAvatar(
+                                                radius: 20,
+                                                backgroundImage: AssetImage(
+                                                    'assets/images/profile.png'),
+                                              )
+                                            : CircleAvatar(
+                                                radius: 20,
+                                                backgroundImage: NetworkImage(
+                                                    content.avatar),
+                                              ),
                                         SizedBox(
                                           width:
                                               SizeConfig.blockSizeHorizontal *
@@ -947,7 +1051,8 @@ class _ViewPostState extends State<ViewPost> {
                                                 ),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal * 2,
+                                                          .blockSizeHorizontal *
+                                                      2,
                                                 ),
                                                 Image(
                                                   width: 22,

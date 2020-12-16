@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:avatar_glow/avatar_glow.dart';
@@ -17,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/create_post_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
+import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/states/create_post_state.dart';
 import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
@@ -38,7 +40,7 @@ class _CreatePostState extends State<CreatePostScreen> {
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
-  String username = 'user';
+  UserProfile userProfile = new UserProfile();
   final picker = ImagePicker();
 
   _CreatePostState();
@@ -64,10 +66,11 @@ class _CreatePostState extends State<CreatePostScreen> {
   }
 
   void _loadUsername() async {
-    final SharedPreferences sharedPreferences =
+    final SharedPreferences prefs =
         await SharedPreferences.getInstance();
     setState(() {
-      username = sharedPreferences.getString('username');
+      String username = prefs.getString('username');
+      userProfile = UserProfile.fromJson(json.decode(prefs.getString(username + 'profile')));
     });
   }
 
@@ -387,11 +390,6 @@ class _CreatePostState extends State<CreatePostScreen> {
                         size: 45, color: Colors.blueAccent),
                     onPressed: () async {
                       getVideo();
-                      // file = await Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => Video(
-                      //         )));
                     })
               ],
             ),
@@ -534,9 +532,9 @@ class _CreatePostState extends State<CreatePostScreen> {
                       child: Row(
                         children: <Widget>[
                           CircleAvatar(
-                            radius: 20,
+                            radius: 25,
                             backgroundImage:
-                                AssetImage('assets/images/profile.png'),
+                                userProfile.avatar == null ? AssetImage('assets/images/profile.png') : NetworkImage(userProfile.avatar),
                           ),
                           SizedBox(
                             width: SizeConfig.blockSizeHorizontal * 2,
@@ -546,7 +544,7 @@ class _CreatePostState extends State<CreatePostScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                username,
+                                userProfile.fullname == null ? 'user' : userProfile.fullname,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Helvetica'),
@@ -557,18 +555,11 @@ class _CreatePostState extends State<CreatePostScreen> {
                               Container(
                                 width: 110,
                                 height: 20,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  border: Border.all(
-                                    width: 1.0,
-                                    color: Colors.grey,
-                                  ),
-                                ),
                                 child: Center(
                                   child: Text(
-                                    '20/11/2020 at 12:00am',
+                                    "What's on your mind?",
                                     style: TextStyle(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       fontFamily: 'Helvetica',
                                     ),
                                   ),

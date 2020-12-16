@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> {
       HomeScreen(),
       ForumScreen(),
       ListGameScreen(),
-      // ProfileScreen(),
     ];
   }
 
@@ -40,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.bubble_left_bubble_right_fill),
-        title: ("Xin chào VN"),
+        title: ("Xin chào Việt Nam"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),
@@ -50,12 +49,6 @@ class _HomePageState extends State<HomePage> {
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),
-      // PersistentBottomNavBarItem(
-      //   icon: Icon(CupertinoIcons.person_alt),
-      //   title: ("Profile"),
-      //   activeColor: CupertinoColors.activeBlue,
-      //   inactiveColor: CupertinoColors.systemGrey,
-      // ),
     ];
   }
 

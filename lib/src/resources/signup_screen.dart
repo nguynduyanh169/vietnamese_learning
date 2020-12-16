@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:the_validator/the_validator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -105,7 +106,6 @@ class _SignUpState extends State<SignUpScreen> {
 
   Widget _registerScreen(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -139,7 +139,7 @@ class _SignUpState extends State<SignUpScreen> {
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 85,
                         child: TextFormField(
-                          validator: FieldValidator.required(),
+                          validator: ValidationBuilder().minLength(6, 'Username must be at least 6 character').maxLength(15, 'Username must be at most 15 character').build(),
                           focusNode: myFocusNode,
                           style: TextStyle(fontFamily: 'Helvetica'),
                           controller: _usernameController,
@@ -175,7 +175,7 @@ class _SignUpState extends State<SignUpScreen> {
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 85,
                         child: TextFormField(
-                          validator: FieldValidator.email(),
+                          validator: ValidationBuilder().email('Email must be valid format').build(),
                           focusNode: myFocusNode1,
                           style: TextStyle(fontFamily: 'Helvetica'),
                           controller: _emailController,
@@ -212,10 +212,7 @@ class _SignUpState extends State<SignUpScreen> {
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 85,
                         child: TextFormField(
-                          validator: FieldValidator.password(
-                            minLength: 8,
-                            errorMessage: "Invalid Password",
-                          ),
+                          validator: ValidationBuilder().minLength(8, 'Password must be at least 8 character').maxLength(16, 'Password must be at most 16 character').build(),
                           focusNode: myFocusNode2,
                           style: TextStyle(fontFamily: 'Helvetica'),
                           controller: _passwordController,
@@ -253,7 +250,7 @@ class _SignUpState extends State<SignUpScreen> {
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 85,
                         child: TextFormField(
-                          validator: FieldValidator.required(),
+                          validator: ValidationBuilder().minLength(2, 'Please choose a nation').build(),
                           focusNode: myFocusNode3,
                           controller: _nationController,
                           style: TextStyle(fontFamily: 'Helvetica'),

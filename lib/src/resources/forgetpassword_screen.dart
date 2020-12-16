@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -17,6 +18,8 @@ class ForgetPasswordScreen extends StatelessWidget {
   TextEditingController txtConfirmPassword = new TextEditingController();
   String code;
   String email;
+  final formKey = new GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     String emailInvalid, codeInvalid, confirmPasswordInvalid;
@@ -202,6 +205,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             Container(
               width: SizeConfig.blockSizeHorizontal * 85,
               child: TextFormField(
+                validator: ValidationBuilder().minLength(8, 'Password must be at least 8 character').maxLength(16, 'Password must be at most 16 character').build(),
                 obscureText: true,
                 controller: txtPassword,
                 decoration: InputDecoration(
@@ -251,7 +255,10 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                BlocProvider.of<ForgetPasswordCubit>(context).changePassword(email, txtPassword.text, txtConfirmPassword.text);
+                if(formKey.currentState.validate()) {
+                  BlocProvider.of<ForgetPasswordCubit>(context).changePassword(
+                      email, txtPassword.text, txtConfirmPassword.text);
+                }
               },
               color: const Color.fromRGBO(255, 190, 51, 60),
             ),
@@ -313,8 +320,11 @@ class ForgetPasswordScreen extends StatelessWidget {
               builder: (context, state){
                 if(state is EnterCode || state is EnterCodeInvalid){
                   return _enterCode(context);
-                }else if(state is ChangePassword || state is ChangePasswordFailed){
-                  return _changePassword(context);
+                }else if(state is ChangingPassword || state is ChangePasswordFailed || state is ChangePasswordSuccess || state is ChangePassword){
+                  return Form(
+                      key: formKey,
+                      child: _changePassword(context)
+                  );
                 }
                 else{
                   return _sendEmail(context);

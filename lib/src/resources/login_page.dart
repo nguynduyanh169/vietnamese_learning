@@ -3,16 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:the_validator/the_validator.dart';
 import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/login_cubit.dart';
 import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/models/user_gmail.dart';
-import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/forgetpassword_screen.dart';
-import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/resources/level_screen.dart';
 import 'package:vietnamese_learning/src/resources/signup_screen.dart';
 import 'package:vietnamese_learning/src/states/login_state.dart';
@@ -63,236 +61,215 @@ class _LoginPageState extends State<LoginPage> {
   final color = const Color(0xffF2CE5E);
 
   Widget _loginScreen(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(255, 239, 215, 100),
-      ),
-      child: Center(
-        child: Form(
-            key: _form,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height / 4,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            scale: 1.5,
-                            image: AssetImage('assets/images/VL.png'))),
-                  ),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 85,
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: Text(
-                      "Username",
-                      style: TextStyle(fontFamily: 'Helvetica'),
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(255, 239, 215, 100),
+        ),
+        child: Center(
+          child: Form(
+              key: _form,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height / 4,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              scale: 1.5,
+                              image: AssetImage('assets/images/VL.png'))),
                     ),
-                  ),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 85,
-                    child: TextFormField(
-                      validator: FieldValidator.required(),
-                      focusNode: myFocusNode1,
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: const Color.fromRGBO(230, 172, 0, 10),
-                          ),
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        labelText: 'Enter your Username',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontSize: 15,
-                          color: myFocusNode1.hasFocus
-                              ? Colors.black54
-                              : Colors.black54,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.person,
-                          color: myFocusNode1.hasFocus
-                              ? Colors.black54
-                              : Colors.black54,
-                        ),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 85,
+                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        "Username",
+                        style: TextStyle(fontFamily: 'Helvetica'),
                       ),
                     ),
-                  ),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 3.0),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 85,
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: Text(
-                      "Password",
-                      style: TextStyle(fontFamily: 'Helvetica'),
-                    ),
-                  ),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 85,
-                    child: TextFormField(
-                      validator: FieldValidator.required(),
-                      focusNode: myFocusNode,
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: const Color.fromRGBO(230, 172, 0, 10),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 85,
+                      child: TextFormField(
+                        validator: ValidationBuilder().minLength(6, 'Username must be at least 6 character').maxLength(15, 'Username must be at most 15 character').build(),
+                        focusNode: myFocusNode1,
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: const Color.fromRGBO(230, 172, 0, 10),
+                            ),
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        labelText: 'Enter your Password',
-                        labelStyle: TextStyle(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          labelText: 'Enter your Username',
+                          labelStyle: TextStyle(
                             fontFamily: 'Helvetica',
                             fontSize: 15,
-                            color: myFocusNode.hasFocus
+                            color: myFocusNode1.hasFocus
                                 ? Colors.black54
-                                : Colors.black54),
-                        prefixIcon: Icon(Icons.lock,
-                            color: myFocusNode.hasFocus
+                                : Colors.black54,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: myFocusNode1.hasFocus
                                 ? Colors.black54
-                                : Colors.black54),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 2),
-                  Container(
-                    child: InkWell(
-                      child: Container(
-                        width: SizeConfig.blockSizeHorizontal * 85,
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                            fontFamily: 'Helvetica',
-                            color: const Color.fromRGBO(230, 172, 0, 30),
+                                : Colors.black54,
                           ),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    ForgetPasswordScreen(),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              var begin = Offset(1.0, 0.0);
-                              var end = Offset.zero;
-                              var curve = Curves.ease;
-                              var tween = Tween(begin: begin, end: end)
-                                  .chain(CurveTween(curve: curve));
-                              return SlideTransition(
-                                position: animation.drive(tween),
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
                     ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 5,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _submit(context);
-                    },
-                    child: Container(
-                      width: SizeConfig.blockSizeHorizontal * 87,
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            const Color.fromRGBO(255, 217, 102, 10),
-                            const Color.fromRGBO(230, 172, 0, 10),
-                          ],
-                        ),
+                    SizedBox(height: SizeConfig.blockSizeVertical * 3.0),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 85,
+                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        "Password",
+                        style: TextStyle(fontFamily: 'Helvetica'),
                       ),
-                      child: Center(
-                        child: Padding(
-                          child: Text(
-                            "Sign in",
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 23.0,
+                    ),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 85,
+                      child: TextFormField(
+                        validator: ValidationBuilder().minLength(8, 'Password must be at least 8 character').maxLength(16, 'Password must be at most 16 character').build(),
+                        focusNode: myFocusNode,
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: const Color.fromRGBO(230, 172, 0, 10),
+                            ),
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          labelText: 'Enter your Password',
+                          labelStyle: TextStyle(
                               fontFamily: 'Helvetica',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          padding: new EdgeInsets.only(left: 0.0),
+                              fontSize: 15,
+                              color: myFocusNode.hasFocus
+                                  ? Colors.black54
+                                  : Colors.black54),
+                          prefixIcon: Icon(Icons.lock,
+                              color: myFocusNode.hasFocus
+                                  ? Colors.black54
+                                  : Colors.black54),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 2),
-                  Container(
-                    child: Text(
-                      "- OR -",
-                      style: TextStyle(
-                        fontFamily: 'Helvetica',
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 2),
-                  Container(
-                    child: Text(
-                      "Sign in with",
-                      style: TextStyle(
-                        fontFamily: 'Helvetica',
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 2),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 60.0,
-                        width: 60.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color.fromRGBO(58, 89, 152, 1.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(0, 2),
-                              blurRadius: 6.0,
-                            ),
-                          ],
-                          image: DecorationImage(
-                            scale: 13,
-                            image:
-                                AssetImage('assets/images/facebook_logo.png'),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
-                      InkWell(
+                    SizedBox(height: SizeConfig.blockSizeVertical * 2),
+                    Container(
+                      child: InkWell(
                         child: Container(
+                          width: SizeConfig.blockSizeHorizontal * 85,
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                              fontFamily: 'Helvetica',
+                              color: const Color.fromRGBO(230, 172, 0, 30),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                  ForgetPasswordScreen(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                var begin = Offset(1.0, 0.0);
+                                var end = Offset.zero;
+                                var curve = Curves.ease;
+                                var tween = Tween(begin: begin, end: end)
+                                    .chain(CurveTween(curve: curve));
+                                return SlideTransition(
+                                  position: animation.drive(tween),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 5,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _submit(context);
+                      },
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal * 87,
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              const Color.fromRGBO(255, 217, 102, 10),
+                              const Color.fromRGBO(230, 172, 0, 10),
+                            ],
+                          ),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            child: Text(
+                              "Sign in",
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 23.0,
+                                fontFamily: 'Helvetica',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            padding: new EdgeInsets.only(left: 0.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical * 2),
+                    Container(
+                      child: Text(
+                        "- OR -",
+                        style: TextStyle(
+                          fontFamily: 'Helvetica',
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical * 2),
+                    Container(
+                      child: Text(
+                        "Sign in with",
+                        style: TextStyle(
+                          fontFamily: 'Helvetica',
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical * 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
                           height: 60.0,
                           width: 60.0,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white,
+                            color: Color.fromRGBO(58, 89, 152, 1.0),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black26,
@@ -303,69 +280,92 @@ class _LoginPageState extends State<LoginPage> {
                             image: DecorationImage(
                               scale: 13,
                               image:
-                                  AssetImage('assets/images/google_logo.png'),
+                              AssetImage('assets/images/facebook_logo.png'),
                             ),
                           ),
                         ),
-                        onTap: () async {
-                          User_Gmail user_gmail = await googleSignIn();
-                          _submitGmail(context, user_gmail);
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 3,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 28),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          "Don't have an Account?",
-                          style:
-                              TextStyle(fontFamily: 'Helvetica', fontSize: 13),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
+                        SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
                         InkWell(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                color: Colors.blueAccent,
-                                fontFamily: 'Helvetica',
-                                fontSize: 13),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        SignUpScreen(),
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  var begin = Offset(1.0, 0.0);
-                                  var end = Offset.zero;
-                                  var curve = Curves.ease;
-                                  var tween = Tween(begin: begin, end: end)
-                                      .chain(CurveTween(curve: curve));
-                                  return SlideTransition(
-                                    position: animation.drive(tween),
-                                    child: child,
-                                  );
-                                },
+                          child: Container(
+                            height: 60.0,
+                            width: 60.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                              image: DecorationImage(
+                                scale: 13,
+                                image:
+                                AssetImage('assets/images/google_logo.png'),
                               ),
-                            );
+                            ),
+                          ),
+                          onTap: () async {
+                            User_Gmail user_gmail = await googleSignIn();
+                            _submitGmail(context, user_gmail);
                           },
-                        )
+                        ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            )),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 3,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 28),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Don't have an Account?",
+                            style:
+                            TextStyle(fontFamily: 'Helvetica', fontSize: 13),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          InkWell(
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontFamily: 'Helvetica',
+                                  fontSize: 13),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) =>
+                                      SignUpScreen(),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    var begin = Offset(1.0, 0.0);
+                                    var end = Offset.zero;
+                                    var curve = Curves.ease;
+                                    var tween = Tween(begin: begin, end: end)
+                                        .chain(CurveTween(curve: curve));
+                                    return SlideTransition(
+                                      position: animation.drive(tween),
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        ),
       ),
     );
   }
@@ -373,17 +373,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
     SizeConfig().init(context);
     _ctx = context;
     return BlocProvider(
       create: (context) => LoginCubit(UserRepository()),
       child: Scaffold(
         key: scaffoldKey,
-        resizeToAvoidBottomInset: false,
+        backgroundColor: Color.fromRGBO(255, 239, 215, 1),
         body: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginError) {

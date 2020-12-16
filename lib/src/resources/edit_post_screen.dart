@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -16,6 +17,7 @@ import 'package:vietnamese_learning/src/cubit/edit_post_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 import 'package:vietnamese_learning/src/states/edit_post_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class EditPostScreen extends StatefulWidget{
   Content content;
@@ -36,10 +38,11 @@ class _EditPostState extends State<EditPostScreen>{
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
   final picker = ImagePicker();
-  ProgressDialog pr;
 
   _EditPostState({this.content});
   String username = "user";
+
+  final formKey = new GlobalKey<FormState>();
   @override
   void initState() {
     txtTitle = new TextEditingController(text: content.title);
@@ -334,11 +337,6 @@ class _EditPostState extends State<EditPostScreen>{
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    pr = new ProgressDialog(
-        context, showLogs: true, isDismissible: false
-    );
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(), message: 'Please wait...');
     return BlocProvider(
         create: (context) => EditPostCubit(PostRepository()),
         child: Scaffold(
@@ -382,15 +380,18 @@ class _EditPostState extends State<EditPostScreen>{
           body: BlocConsumer<EditPostCubit, EditPostState>(
             listener: (context, state){
               if (state is EditingPost) {
-                pr.show();
+                CustomProgressDialog.progressDialog(context);
               } else if (state is EditPostSuccess) {
-                pr.hide().whenComplete(() => {Navigator.pop(context)});
+                Navigator.pop(context);
+                Navigator.of(context).pop();
               } else if (state is EditPostFailed) {
-                pr.hide();
+                Navigator.pop(context);
               }
             },
             builder: (context, state){
-              return Container(
+              return Form(
+                key: formKey,
+                  child: Container(
                 color: Color.fromRGBO(255, 239, 215, 1),
                 child: SingleChildScrollView(
                   child: Column(
@@ -492,7 +493,9 @@ class _EditPostState extends State<EditPostScreen>{
                                     ),
                                   )),
                               onTap: () {
-                                _editPost(context);
+                                if(formKey.currentState.validate()) {
+                                  _editPost(context);
+                                }
                               },
                             )
                           ],
@@ -506,8 +509,8 @@ class _EditPostState extends State<EditPostScreen>{
                         child: Row(
                           children: <Widget>[
                             CircleAvatar(
-                              radius: 20,
-                              backgroundImage: AssetImage('assets/images/profile.png'),
+                              radius: 25,
+                              backgroundImage: content.avatar == null?AssetImage('assets/images/profile.png'): NetworkImage(content.avatar),
                             ),
                             SizedBox(
                               width: SizeConfig.blockSizeHorizontal * 2,
@@ -527,18 +530,11 @@ class _EditPostState extends State<EditPostScreen>{
                                 Container(
                                   width: 110,
                                   height: 20,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                      width: 1.0,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
                                   child: Center(
                                     child: Text(
-                                      '20/11/2020 at 12:00am',
+                                      "What's on your mind?",
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontFamily: 'Helvetica',
                                       ),
                                     ),
@@ -555,7 +551,8 @@ class _EditPostState extends State<EditPostScreen>{
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 95,
                         height: SizeConfig.blockSizeVertical * 20,
-                        child: TextField(
+                        child: TextFormField(
+                          validator: ValidationBuilder().minLength(1, 'Please type your title').build(),
                           controller: txtTitle,
                           maxLines: 5,
                           decoration: InputDecoration(
@@ -576,7 +573,8 @@ class _EditPostState extends State<EditPostScreen>{
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 95,
                         height: SizeConfig.blockSizeVertical * 25,
-                        child: TextField(
+                        child: TextFormField(
+                          validator: ValidationBuilder().minLength(1, 'Please type your content').build(),
                           controller: txtContent,
                           maxLines: 13,
                           decoration: InputDecoration(
@@ -695,7 +693,7 @@ class _EditPostState extends State<EditPostScreen>{
                     ],
                   ),
                 ),
-              );
+              ));
             },
           ),
         ),

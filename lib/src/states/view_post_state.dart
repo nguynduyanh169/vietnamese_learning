@@ -10,7 +10,8 @@ class InitialViewPost extends ViewPostState{
 
 class LoadPostSuccess extends ViewPostState{
   final List<Comment> comments;
-  const LoadPostSuccess(this.comments);
+  final String owner;
+  const LoadPostSuccess(this.comments, this.owner);
 }
 
 class LoadingPost extends ViewPostState{
@@ -18,7 +19,8 @@ class LoadingPost extends ViewPostState{
 }
 
 class LoadPostFailed extends ViewPostState{
-  const LoadPostFailed();
+  final String owner;
+  const LoadPostFailed(this.owner);
 }
 
 class CommentPostSuccess extends ViewPostState{
