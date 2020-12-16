@@ -63,6 +63,8 @@ dependencies:
   google_sign_in: ^4.5.6
   countdown: ^0.1.0
   countdown_flutter: ^0.1.2
+  firebase_ml_vision: ^0.9.8
+  translator: ^0.1.5
 
 dev_dependencies:
   flutter_test:

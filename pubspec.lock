@@ -323,6 +323,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.0.3"
+  firebase_ml_vision:
+    dependency: "direct main"
+    description:
+      name: firebase_ml_vision
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.10"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -1012,6 +1019,13 @@ packages:
     dependency: "direct main"
     description:
       name: toast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
+  translator:
+    dependency: "direct main"
+    description:
+      name: translator
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
