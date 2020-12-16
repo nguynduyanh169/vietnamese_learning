@@ -15,7 +15,7 @@ import 'package:google_speech/google_speech.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
-import 'dart:math';
+import 'dart:math' as Math;
 
 
 class SpeakingVocabulary extends StatefulWidget {
@@ -54,7 +54,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     MediaQueryData queryData = MediaQuery.of(context);
-    var rng = new Random();
+    var rng = new Math.Random();
     for (var i = 0; i < 100; i++) {
       values.add(rng.nextInt(70) * 1.0);
     }
@@ -190,7 +190,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                     children: <Widget>[
                       if (recognizeFinished)
                         _RecognizeContent(
-                          text: text,
+                          text: printSimilarity(widget.vietnamese, text),
                         ),
                       Center(
                         child: recognizing ? CupertinoActivityIndicator(
@@ -357,7 +357,57 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
       recognize();
     });
   }
+
+  int editDistance(String s1, String s2)
+  {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+    List<int> costs = new List<int>((s2.length + 1));
+    for (int i = 0; i <= s1.length; i++) {
+      int lastValue = i;
+      for (int j = 0; j <= s2.length; j++) {
+        if (i == 0) {
+          costs[j] = j;
+        } else {
+          if (j > 0) {
+            int newValue = costs[j - 1];
+            if (s1.codeUnitAt(i - 1) != s2.codeUnitAt(j - 1)) {
+              newValue = (Math.min(Math.min(newValue, lastValue), costs[j]) + 1);
+            }
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
+          }
+        }
+      }
+      if (i > 0) {
+        costs[s2.length] = lastValue;
+      }
+    }
+    return costs[s2.length];
+  }
+
+  double similarity(String s1, String s2)
+  {
+    String longer = s1;
+    String shorter = s2;
+    if (s1.length < s2.length) {
+      longer = s2;
+      shorter = s1;
+    }
+    int longerLength = longer.length;
+    if (longerLength == 0) {
+      return 1;
+    }
+    return (longerLength.toDouble() - editDistance(longer, shorter).toDouble()) / longerLength.toDouble();
+  }
+
+  String printSimilarity(String s, String t)
+  {
+    String result = (similarity(s, t) * 100).toString();
+    return result;
+  }
 }
+
 
 class _RecognizeContent extends StatelessWidget {
   final String text;

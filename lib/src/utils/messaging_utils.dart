@@ -10,6 +10,7 @@ class Messaging{
       _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings());
     }
 
+    _firebaseMessaging.subscribeToTopic('topic');
     _firebaseMessaging.configure(
       //Call when app in foreground and we receive a push notification
       onMessage: (Map<String, dynamic> message) async {
