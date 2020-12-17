@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       width: SizeConfig.blockSizeHorizontal * 85,
                       child: TextFormField(
-                        validator: ValidationBuilder().minLength(6, 'Username must be at least 6 character').maxLength(15, 'Username must be at most 15 character').build(),
+                        validator: ValidationBuilder().minLength(1, 'Please enter your username').build(),
                         focusNode: myFocusNode1,
                         controller: _usernameController,
                         decoration: InputDecoration(
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       width: SizeConfig.blockSizeHorizontal * 85,
                       child: TextFormField(
-                        validator: ValidationBuilder().minLength(8, 'Password must be at least 8 character').maxLength(16, 'Password must be at most 16 character').build(),
+                        validator: ValidationBuilder().minLength(1, 'Please enter your password').build(),
                         focusNode: myFocusNode,
                         controller: _passwordController,
                         obscureText: true,
