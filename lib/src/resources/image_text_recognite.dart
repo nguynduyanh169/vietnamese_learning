@@ -86,36 +86,37 @@ class _DetailTranslateScreenState extends State<DetailTranslateScreen> {
           SizedBox(
             height: 100,
           ),
-          // isImageLoaded
-          //     ? Center(
-          //         child: Container(
-          //           child: FittedBox(
-          //             child: SizedBox(
-          //               width: imageFile.width.toDouble(),
-          //               height: imageFile.height.toDouble(),
-          //               child: CustomPaint(
-          //                 painter:
-          //                     FacePainter(rect: rect, imageFile: imageFile),
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //       )
-          //     : Center(
-          //         child: Container(
-          //           height: 250.0,
-          //           width: 250.0,
-          //           decoration: BoxDecoration(
-          //               image: DecorationImage(
-          //                   image: FileImage(pickedImage), fit: BoxFit.cover)),
-          //         ),
-          //       ),
+          isImageLoaded
+              ?
+          Center(
+            child: Container(
+              height: 250.0,
+              width: 250.0,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: FileImage(pickedImage), fit: BoxFit.cover)),
+            ),
+          ):Center(
+                  child: Container(
+                    child: FittedBox(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: CustomPaint(
+                          painter:
+                              FacePainter(rect: rect, imageFile: imageFile),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
           SizedBox(
             height: 30,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(result),
+            child: Text(translator(result)),
           )
         ],
       ),

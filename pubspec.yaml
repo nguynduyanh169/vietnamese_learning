@@ -66,6 +66,8 @@ dependencies:
   countdown_flutter: ^0.1.2
   firebase_ml_vision: ^0.9.8
   translator: ^0.1.5
+  uuid: ^2.2.2
+
 
 dev_dependencies:
   flutter_test:

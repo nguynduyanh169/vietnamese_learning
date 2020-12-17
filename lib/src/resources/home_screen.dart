@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
 import 'package:vietnamese_learning/src/data/lesson_repository.dart';
@@ -17,6 +18,8 @@ import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 import 'package:vietnamese_learning/src/states/lessons_state.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
 import 'package:vietnamese_learning/src/widgets/searchbar.dart';
+
+import 'image_text_recognite.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -53,6 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
       create: (context) =>
           LessonsCubit(LessonRepository())..loadLessonByLevel(),
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+           heroTag: Uuid(),
+            onPressed: () => pushNewScreen(context,
+              screen: DetailTranslateScreen(),
+              withNavBar: false,
+              pageTransitionAnimation: PageTransitionAnimation.slideUp,),
+            child: Icon(CupertinoIcons.camera_fill),),
         body: BlocBuilder<LessonsCubit, LessonsState>(
           builder: (context, state) {
             if (state is LessonsLoaded) {
