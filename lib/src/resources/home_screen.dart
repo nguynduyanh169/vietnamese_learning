@@ -13,6 +13,7 @@ import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
 import 'package:vietnamese_learning/src/data/lesson_repository.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
+import 'package:vietnamese_learning/src/resources/alphabet_screen.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
 import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 import 'package:vietnamese_learning/src/states/lessons_state.dart';
@@ -22,7 +23,6 @@ import 'package:vietnamese_learning/src/widgets/searchbar.dart';
 import 'image_text_recognite.dart';
 
 class HomeScreen extends StatefulWidget {
-
   HomeScreen({Key key}) : super(key: key);
 
   @override
@@ -104,16 +104,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  
+
   Widget _gridLesson(List<Lesson> _listLessons, int leveIdOfUser) {
     String levelOfUser;
-    if(leveIdOfUser == 1){
+    if (leveIdOfUser == 1) {
       levelOfUser = 'Beginner';
     }
-    if(leveIdOfUser == 2){
+    if (leveIdOfUser == 2) {
       levelOfUser = 'Intermediate';
     }
-    if(leveIdOfUser == 3){
+    if (leveIdOfUser == 3) {
       levelOfUser = 'Advanced';
     }
     return Stack(children: <Widget>[
@@ -174,7 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ProfileScreen(userProfile: userProfile)));
+                          builder: (context) =>
+                              ProfileScreen(userProfile: userProfile)));
                     },
                     child: userProfile.avatar != null
                         ? CircleAvatar(
