@@ -10,6 +10,8 @@ class UserProfile {
     this.roleId,
     this.nation,
     this.avatar,
+    this.userProgress,
+    this.progressFinish
   });
 
   int id;
@@ -22,6 +24,8 @@ class UserProfile {
   int roleId;
   String nation;
   dynamic avatar;
+  double userProgress;
+  int progressFinish;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
     id: json["id"],
@@ -34,6 +38,8 @@ class UserProfile {
     roleId: json["roleID"],
     nation: json["nation"],
     avatar: json["avatar"],
+    userProgress: json["userProgress"],
+    progressFinish: json["progressFinish"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -47,6 +53,8 @@ class UserProfile {
     "roleID": roleId,
     "nation": nation,
     "avatar": avatar,
+    "userProgress": userProgress,
+    "progressFinish": progressFinish
   };
 }
 
@@ -131,21 +139,25 @@ class EditUser {
     this.avatarLink,
     this.email,
     this.fullname,
+    this.nationLink,
   });
 
   String avatarLink;
   String email;
   String fullname;
+  String nationLink;
 
   factory EditUser.fromJson(Map<String, dynamic> json) => EditUser(
     avatarLink: json["avatarLink"],
     email: json["email"],
     fullname: json["fullname"],
+    nationLink: json["nationLink"],
   );
 
   Map<String, dynamic> toJson() => {
     "avatarLink": avatarLink,
     "email": email,
     "fullname": fullname,
+    "nationLink": nationLink,
   };
 }

@@ -298,11 +298,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               Nation nation = value;
                               txtNation.text = nation.nation;
                               userProfile.nation = nation.image;
+                              print(userProfile.nation);
                             });
                           },
                           readOnly: true,
                           controller: txtNation,
-                          //obscureText: true,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0)),

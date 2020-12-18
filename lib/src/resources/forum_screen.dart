@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/resources/create_post_screen.dart';
 import 'package:vietnamese_learning/src/resources/forum_notification_screen.dart';
@@ -153,6 +154,7 @@ class _ForumScreenState extends State<ForumScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: Uuid(),
         onPressed: () => pushNewScreen(context,
             screen: CreatePostScreen(),
             withNavBar: false,

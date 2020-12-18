@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 lineHeight: 15.0,
                 percent: percent,
                 linearStrokeCap: LinearStrokeCap.roundAll,
-                progressColor: Colors.amberAccent,
+                progressColor: Colors.green,
               ),
             ),
           ],
@@ -71,7 +72,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
     void flashCardButton(BuildContext context) {
       BlocProvider.of<LearnVocabularyCubit>(context)
-          .learnWriting(_vocabularyIndex);
+          .learnSpeaking(_vocabularyIndex);
     }
 
     void checkWritingButton(BuildContext dialogContext) {
@@ -347,7 +348,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Arrange the vocabulary',
+              'Listen and arrange the vocabulary',
               style: TextStyle(
                   fontFamily: 'Helvetica',
                   fontSize: 25,
@@ -356,25 +357,43 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             SizedBox(
               height: SizeConfig.blockSizeVertical * 5,
             ),
+        InkWell(
+          child: ClipOval(
+            child: Container(
+              color: Colors.amberAccent,
+              width:
+              SizeConfig.blockSizeHorizontal * 18,
+              height:
+              SizeConfig.blockSizeVertical * 10,
+              child: Center(
+                child: Icon(
+                  CupertinoIcons.volume_up,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          onTap: () {
+            AssetsAudioPlayer.playAndForget(Audio.network(audio));
+          },),
             Text(
-              '$english',
-              style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600),
+              'Tap to listen',
+              style: TextStyle(fontSize: 12, fontFamily: 'Helvetica'),
+              textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 15,
+              height: SizeConfig.blockSizeVertical * 10,
             ),
             column,
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 26.5,
+              height: SizeConfig.blockSizeVertical * 35,
             ),
             ButtonTheme(
               buttonColor: Color.fromRGBO(255, 190, 51, 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
-              child: RaisedButton(
+              child: FlatButton(
+                color: Color.fromRGBO(255, 190, 51, 30),
                   onPressed: () {
                     check = chars.join('');
                     _loadDialogForMatching(context);
@@ -432,30 +451,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         vocabularyContext: context,
                       )
                     ],
-                  );
-                } else if (state is LearnVocabularyWriting) {
-                  _vocabularyIndex = state.vocabulariesIndex;
-                  vietnamese = vocabularies[_vocabularyIndex].vocabulary;
-                  english = vocabularies[_vocabularyIndex].description;
-                  audio = vocabularies[_vocabularyIndex].voice_link;
-                  var percent =
-                      _vocabularyIndex * (1 / (vocabularies.length + 1));
-                  return SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        _percentBar(percent),
-                        WritingVocabulary(
-                          vietnamese: vietnamese,
-                          english: english,
-                          vocabularyContext: context,
-                          checkWriting: checkWritingButton,
-                          input: input,
-                          txtInputVocabulary: txtInputVocabulary,
-                          audioInput: audio,
-                        )
-                      ],
-                    ),
                   );
                 } else if (state is LearnVocabularyPuzzle) {
                   _vocabularyIndex = state.vocabulariesIndex;

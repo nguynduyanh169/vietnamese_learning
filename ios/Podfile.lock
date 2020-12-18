@@ -8,7 +8,8 @@ PODS:
     - Flutter
   - assets_audio_player_web (0.0.1):
     - Flutter
-  - BIJKPlayer (0.7.8)
+  - audioplayers (0.0.1):
+    - Flutter
   - countdown_flutter (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.2):
@@ -42,9 +43,6 @@ PODS:
   - DKPhotoGallery/Resource (0.0.17):
     - SDWebImage
     - SwiftyGif
-  - fijkplayer (0.8.7):
-    - BIJKPlayer (~> 0.7.8)
-    - Flutter
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
@@ -62,6 +60,18 @@ PODS:
   - Firebase/MLVision (6.33.0):
     - Firebase/CoreOnly
     - FirebaseMLVision (~> 0.21.0)
+  - Firebase/MLVisionBarcodeModel (6.33.0):
+    - Firebase/CoreOnly
+    - FirebaseMLVisionBarcodeModel (~> 0.21.0)
+  - Firebase/MLVisionFaceModel (6.33.0):
+    - Firebase/CoreOnly
+    - FirebaseMLVisionFaceModel (~> 0.21.0)
+  - Firebase/MLVisionLabelModel (6.33.0):
+    - Firebase/CoreOnly
+    - FirebaseMLVisionLabelModel (~> 0.21.0)
+  - Firebase/MLVisionTextModel (6.33.0):
+    - Firebase/CoreOnly
+    - FirebaseMLVisionTextModel (~> 0.21.0)
   - Firebase/Storage (6.33.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.9.0)
@@ -146,6 +156,14 @@ PODS:
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - GTMSessionFetcher/Core (~> 1.1)
     - Protobuf (~> 3.12)
+  - FirebaseMLVisionBarcodeModel (0.21.0):
+    - FirebaseMLVision (~> 0.21)
+  - FirebaseMLVisionFaceModel (0.21.0):
+    - FirebaseMLVision (~> 0.21)
+  - FirebaseMLVisionLabelModel (0.21.0):
+    - FirebaseMLVision (~> 0.21)
+  - FirebaseMLVisionTextModel (0.21.0):
+    - FirebaseMLVision (~> 0.21)
   - FirebaseStorage (3.9.1):
     - FirebaseCore (~> 6.10)
     - GTMSessionFetcher/Core (~> 1.1)
@@ -248,9 +266,13 @@ PODS:
 DEPENDENCIES:
   - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
+  - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
   - countdown_flutter (from `.symlinks/plugins/countdown_flutter/ios`)
-  - fijkplayer (from `.symlinks/plugins/fijkplayer/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
+  - Firebase/MLVisionBarcodeModel
+  - Firebase/MLVisionFaceModel
+  - Firebase/MLVisionLabelModel
+  - Firebase/MLVisionTextModel
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
@@ -271,7 +293,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
-    - BIJKPlayer
     - DKImagePickerController
     - DKPhotoGallery
     - Firebase
@@ -284,6 +305,10 @@ SPEC REPOS:
     - FirebaseMessaging
     - FirebaseMLCommon
     - FirebaseMLVision
+    - FirebaseMLVisionBarcodeModel
+    - FirebaseMLVisionFaceModel
+    - FirebaseMLVisionLabelModel
+    - FirebaseMLVisionTextModel
     - FirebaseStorage
     - FMDB
     - GoogleAPIClientForREST
@@ -306,10 +331,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/assets_audio_player/ios"
   assets_audio_player_web:
     :path: ".symlinks/plugins/assets_audio_player_web/ios"
+  audioplayers:
+    :path: ".symlinks/plugins/audioplayers/ios"
   countdown_flutter:
     :path: ".symlinks/plugins/countdown_flutter/ios"
-  fijkplayer:
-    :path: ".symlinks/plugins/fijkplayer/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   firebase_auth:
@@ -349,11 +374,10 @@ SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
-  BIJKPlayer: 464bcb8d263331228758bfa34b45d00f399c9fb8
+  audioplayers: 84f968cea3f2deab00ec4f8ff53358b3c0b3992c
   countdown_flutter: 423a4cc24614ccb078c2ce4ac6739b1d85cbe98b
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  fijkplayer: 0c8728bf3b222203e1fddb08f6899719d88b2b6d
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
   firebase_auth: d5159db3873478d1ac839af7b10d2f831516136a
@@ -370,6 +394,10 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 5eca4ef173de76253352511aafef774caa1cba2a
   FirebaseMLCommon: d218d75dd1c6c4e447f731ac22da56b88cb79431
   FirebaseMLVision: 68dd092b4c52a7ac163ec0d4f541d5711fc9fec6
+  FirebaseMLVisionBarcodeModel: 394cd61c52dc03558088caf82b0dade8028f57d5
+  FirebaseMLVisionFaceModel: a67b2bf9b8407127a0bdb0ba98eb265637d1dc9d
+  FirebaseMLVisionLabelModel: c6922e607cf4549b14981c80bf0d69eb51a2b547
+  FirebaseMLVisionTextModel: e9f3cba0f31022ae9dd3d246aff9849075cacd98
   FirebaseStorage: 15e0f15ef3c7fec3d1899d68623e47d4447066b4
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_audio_recorder: eb998d4e75e59b39d9e3ca1818a5e0f3a82f5836
@@ -398,6 +426,6 @@ SPEC CHECKSUMS:
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: bfc7955c418d0db797614075aabbc58a39ab5107
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: e378da8ee5b36d69ab575cea940498c0e4d01494
 
 COCOAPODS: 1.9.3

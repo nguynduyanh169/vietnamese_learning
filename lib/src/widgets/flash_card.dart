@@ -171,7 +171,8 @@ class FlashCard extends StatelessWidget{
                   buttonColor: Color.fromRGBO(255, 190, 51, 30),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  child: RaisedButton(
+                  child: FlatButton(
+                    color: Color.fromRGBO(255, 190, 51, 30),
                       onPressed: (){
                         continueButton(vocabularyContext);
                       },

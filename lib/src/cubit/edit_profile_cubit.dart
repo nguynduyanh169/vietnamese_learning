@@ -45,7 +45,7 @@ class EditProfileCubit extends Cubit<EditProfileState>{
       String token = prefs.getString('accessToken');
       bool check;
       if(avatar == null){
-        EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname);
+        EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname, nationLink: userProfile.nation);
         check = await _userRepository.editProfile(token, editUser);
         if(check == false){
           emit(EditProfileFailed());
@@ -68,7 +68,7 @@ class EditProfileCubit extends Cubit<EditProfileState>{
             String fileUrl = await reference.getDownloadURL();
             print(fileUrl);
             userProfile.avatar = fileUrl;
-            EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname);
+            EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname, nationLink: userProfile.nation);
             bool check = await _userRepository.editProfile(token, editUser);
             if(check == false){
               emit(EditProfileFailed());
