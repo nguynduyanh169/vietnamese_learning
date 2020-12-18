@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:chewie/chewie.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
-import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
@@ -19,6 +19,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:video_player/video_player.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/post_cubit.dart';
 import 'package:vietnamese_learning/src/data/comment_repository.dart';
@@ -40,21 +41,18 @@ class ViewPost extends StatefulWidget {
 class _ViewPostState extends State<ViewPost> {
   Content content;
   final assetsAudioPlayer = AssetsAudioPlayer();
-  final FijkPlayer player = FijkPlayer();
+  VideoPlayerController videoPlayerController;
+  ChewieController chewieController;
   TextEditingController _txtComment;
   List<Widget> commentWidget = new List<Widget>();
-  bool isplaying = false;
   String username;
   int numberOfComment = 0;
-
-  String _fileName;
   File file;
   String path;
   FlutterAudioRecorder _recorder;
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
-  ProgressDialog pr;
   BuildContext _ctx;
 
   _ViewPostState({this.content});
@@ -62,15 +60,34 @@ class _ViewPostState extends State<ViewPost> {
   @override
   void initState() {
     super.initState();
-    print(content.link);
     if (content.link != null) {
       if (content.link.toLowerCase().contains('mp4') ||
           content.link.toLowerCase().contains('mov')) {
-        player.setDataSource(content.link, autoPlay: true);
+        initializeVideoPlayer(content.link);
       }
     }
     _txtComment = new TextEditingController();
   }
+
+  Future<void> initializeVideoPlayer(String link) async{
+    videoPlayerController = VideoPlayerController.network(link);
+    chewieController = ChewieController(
+      autoInitialize: true,
+      videoPlayerController: videoPlayerController,
+      autoPlay: false,
+      looping: false,
+      errorBuilder: (context, errorMessage) {
+        return Center(
+          child: Text(
+            errorMessage,
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+      },
+    );
+  }
+
+
 
   File _getAudioContent(String path) {
     return File(path);
@@ -97,7 +114,6 @@ class _ViewPostState extends State<ViewPost> {
         setState(() {
           _current = current;
           _currentStatus = current.status;
-          print(_currentStatus);
         });
       }
     } catch (e) {
@@ -133,8 +149,6 @@ class _ViewPostState extends State<ViewPost> {
 
   _stop() async {
     var result = await _recorder.stop();
-    print("Stop recording: ${result.path}");
-    print("Stop recording: ${result.duration}");
     setState(() {
       path = result.path;
       _current = result;
@@ -142,15 +156,12 @@ class _ViewPostState extends State<ViewPost> {
       file = _getAudioContent(path);
       _isRecording = false;
     });
-    print(_isRecording);
   }
 
   void clearCacheFile() {
     setState(() {
-      _fileName = null;
       file = null;
     });
-    print(_fileName);
   }
 
   _showRecordDialog(BuildContext context) {
@@ -327,8 +338,15 @@ class _ViewPostState extends State<ViewPost> {
 
   @override
   void dispose() {
-    player.dispose();
-    assetsAudioPlayer.dispose();
+    if(content.link != null) {
+      if (content.link.toLowerCase().contains('mp4') ||
+          content.link.toLowerCase().contains('mov')) {
+        videoPlayerController.dispose();
+        chewieController.dispose();
+      } else {
+        assetsAudioPlayer.dispose();
+      }
+    }
     super.dispose();
   }
 
@@ -343,12 +361,12 @@ class _ViewPostState extends State<ViewPost> {
     if (link != null) {
       if (link.toLowerCase().contains('mp4') ||
           link.toLowerCase().contains('mov')) {
-        return FijkView(
-          fit: FijkFit(aspectRatio: -1, sizeFactor: 2),
-          width: SizeConfig.blockSizeHorizontal * 85,
-          height: SizeConfig.blockSizeVertical * 30,
-          player: player,
-        );
+        return chewieController != null ? Container(
+          width: SizeConfig.blockSizeHorizontal * 80,
+          height: SizeConfig.blockSizeVertical * 60,
+          child: Chewie(
+          controller: chewieController,
+        ),): CupertinoActivityIndicator(radius: 15,);
       } else {
         return InkWell(
           child: Container(
@@ -814,10 +832,6 @@ class _ViewPostState extends State<ViewPost> {
   @override
   Widget build(BuildContext context) {
     _ctx = context;
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
     SizeConfig().init(context);
     return BlocProvider(
       create: (context) =>
@@ -843,15 +857,14 @@ class _ViewPostState extends State<ViewPost> {
           Navigator.pop(context);
         } else if (state is CommentingPost) {
           CustomProgressDialog.progressDialog(context);
-        } else if (state is CommentPostFailed){
+        } else if (state is CommentPostFailed) {
           Navigator.pop(context);
           Toast.show("Comment Failed!", context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               backgroundColor: Colors.redAccent,
               textColor: Colors.white);
-        }
-        else if (state is DeletePostSuccess) {
+        } else if (state is DeletePostSuccess) {
           Navigator.pop(context);
           Navigator.of(_ctx).pop('delete');
         } else if (state is DeletingPost) {
@@ -873,7 +886,7 @@ class _ViewPostState extends State<ViewPost> {
           Navigator.pop(context);
         } else if (state is DeletingComent) {
           CustomProgressDialog.progressDialog(context);
-        } else if(state is DeleteCommentFailed){
+        } else if (state is DeleteCommentFailed) {
           Toast.show("Delete Comment Failed!", context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,

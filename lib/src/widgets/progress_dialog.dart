@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CustomProgressDialog {
   static void progressDialog(BuildContext context){
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       context: context,
       builder: (context) => Container(
         child: Center(

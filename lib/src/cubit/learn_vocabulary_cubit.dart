@@ -16,15 +16,6 @@ class LearnVocabularyCubit extends Cubit<LearnVocabularyState>{
     }
   }
 
-  Future<void> learnWriting(int vocabulariesIndex) async{
-    if(vocabulariesIndex > vocabulariesLength - 1){
-      emit(LearnVocabularyDone(vocabulariesLength));
-    }
-    else {
-      emit(LearnVocabularyWriting(vocabulariesIndex));
-    }
-  }
-
   Future<void> learnSpeaking(int vocabulariesIndex) async{
     if(vocabulariesIndex > vocabulariesLength - 1){
       emit(LearnVocabularyDone(vocabulariesLength));

@@ -41,6 +41,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // TODO: implement build
     SizeConfig().init(context);
     _ctx = context;
+    String level;
+    if(userProfile.studentLevel == 1){
+      level = "Beginner";
+    }if(userProfile.studentLevel == 2){
+      level = "Intermediate";
+    }if(userProfile.studentLevel == 3){
+      level = "Advanced";
+    }
     return FutureBuilder(
         future: _loadUsername(),
         builder: (context, snapshot) {
@@ -101,9 +109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   animation: true,
                                   lineHeight: 15.0,
                                   animationDuration: 1000,
-                                  percent: 0.2,
+                                  percent: userProfile.userProgress / 100,
                                   center: Text(
-                                    "20.0%",
+                                    "${userProfile.userProgress}%",
                                     style: TextStyle(
                                         fontSize: 9, fontFamily: 'Helvetica'),
                                   ),
@@ -145,14 +153,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                "3",
+                                level,
                                 style: TextStyle(
                                     color: Colors.green,
-                                    fontSize: 25,
+                                    fontSize: 20,
                                     fontFamily: 'Helvetica'),
                               ),
+                              SizedBox(height: SizeConfig.blockSizeVertical * 0.5,),
                               Text(
-                                "Days learn",
+                                "Level",
                                 style: TextStyle(fontFamily: 'Helvetica'),
                               )
                             ],
@@ -174,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                "1",
+                                "${userProfile.progressFinish}",
                                 style: TextStyle(
                                     color: Colors.blue,
                                     fontSize: 25,

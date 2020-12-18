@@ -1,12 +1,14 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:path_provider/path_provider.dart';
@@ -143,43 +145,34 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                   ],
                 ),
                 Center(
-                  child: AvatarGlow(
-                    animate: _isRecording,
-                    //glowColor: Theme.of(context).primaryColor,
-                    endRadius: 90.0,
-                    duration: const Duration(milliseconds: 2000),
-                    repeatPauseDuration: const Duration(milliseconds: 100),
-                    repeat: true,
-                    child: Container(
-                      width: 140,
-                      height: 140,
-                      child: FloatingActionButton(
-                        onPressed: (){
-                          if(_isRecording == false) {
-                            setState(() {
-                              _isRecording = true;
-                            });
-                            _start();
-
-                          }else {
-                            setState(() {
-                              _isRecording = false;
-                            });
-                            _stop();
-
-                          }
-                        },
-                        child: _isRecording == true
-                            ? Icon(
-                          CupertinoIcons.stop,
-                          size: 80,
-                        )
-                            : Icon(CupertinoIcons.mic_solid, size: 80,),
-                        backgroundColor: Color.fromRGBO(255, 190, 51, 30),
-                      ),
+                  child: FlatButton(
+                    onPressed: () {
+                      if (_isRecording == false) {
+                        setState(() {
+                          _isRecording = true;
+                        });
+                        _start();
+                      } else {
+                        setState(() {
+                          _isRecording = false;
+                        });
+                        _stop();
+                      }
+                    },
+                    color: Color.fromRGBO(255, 190, 51, 30),
+                    textColor: Colors.white,
+                    child: _isRecording == true ? Icon(
+                      CupertinoIcons.stop,
+                      size: 100,
+                    ): Icon(
+                      CupertinoIcons.mic_solid,
+                      size: 100,
                     ),
+                    padding: EdgeInsets.all(25),
+                    shape: CircleBorder(),
                   ),
                 ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 2,),
                 Center(
                   child: Container(child: _isRecording == false ? Text('Tap to record your voice', style: TextStyle(fontFamily: 'Helvetica'),): Text('Recording', style: TextStyle(fontFamily: 'Helvetica'),),),
                 ),
@@ -212,7 +205,8 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               buttonColor: Color.fromRGBO(255, 190, 51, 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
-              child: RaisedButton(
+              child: FlatButton(
+                color: Color.fromRGBO(255, 190, 51, 30),
                   onPressed: (){
                     widget.next(widget.vocabularyContext);
                   },
@@ -414,6 +408,7 @@ class _RecognizeContent extends StatelessWidget {
 
   const _RecognizeContent({Key key, this.text}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -432,20 +427,22 @@ class _RecognizeContent extends StatelessWidget {
           Center(
             child: Container(
               margin: const EdgeInsets.all(2.0),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))
-              ),
               child: Padding(padding: const EdgeInsets.all(4.0),
-                child: AutoSizeText(
-                  text,
-                  maxLines: 3,
-                  style: TextStyle(fontFamily: 'Helvetica'),
-                  overflow: TextOverflow.ellipsis,
-                  maxFontSize: 20,
-                  minFontSize: 15,
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text)/100,
+                  center: new Text(
+                    text + "%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
                 ),
               ),
             ),
