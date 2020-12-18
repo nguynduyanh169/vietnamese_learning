@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               withNavBar: false,
               pageTransitionAnimation: PageTransitionAnimation.slideUp,),
             icon: Icon(CupertinoIcons.camera_fill),
-            label: Text('Translate'),
+            label: Text('Translator'),
         ),
         body: BlocBuilder<LessonsCubit, LessonsState>(
           builder: (context, state) {

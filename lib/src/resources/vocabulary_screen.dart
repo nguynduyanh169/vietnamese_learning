@@ -91,7 +91,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     Widget _card(String content) {
       return Container(
         width: SizeConfig.blockSizeHorizontal * 10,
-        height: SizeConfig.blockSizeVertical * 7,
+        height: SizeConfig.blockSizeVertical * 6,
         child: Center(
           child: Text(
             '$content',
@@ -102,14 +102,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           ),
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          shape: BoxShape.rectangle,
-          border: Border.all(
-            color: Colors.amber,
-            width: 2,
-          ),
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black26.withOpacity(0.05),
+                  offset: Offset(0.0, 6.0),
+                  blurRadius: 10.0,
+                  spreadRadius: 0.10)
+            ]),
       );
     }
 
