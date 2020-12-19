@@ -15,9 +15,9 @@ class Registering extends RegisterState{
 }
 
 class RegistedSuccess extends RegisterState {
-  final LoginResponse registerResponse;
+  //final LoginResponse registerResponse;
 
-  RegistedSuccess(this.registerResponse);
+  const RegistedSuccess();
 }
 
 class RegistedError extends RegisterState {

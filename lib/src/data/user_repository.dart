@@ -11,7 +11,7 @@ class UserRepository {
     return _userProvider.login(username, password);
   }
 
-  Future<LoginResponse> register(String username, String password, String email, String nation) {
+  Future<String> register(String username, String password, String email, String nation) {
     return _userProvider.register(username, password, email, nation);
   }
 

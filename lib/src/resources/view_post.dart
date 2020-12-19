@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayer/audioplayer.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:chewie/chewie.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
@@ -40,7 +41,7 @@ class ViewPost extends StatefulWidget {
 
 class _ViewPostState extends State<ViewPost> {
   Content content;
-  final assetsAudioPlayer = AssetsAudioPlayer();
+  final assetsAudioPlayer = AssetsAudioPlayer();  
   VideoPlayerController videoPlayerController;
   ChewieController chewieController;
   TextEditingController _txtComment;
@@ -53,6 +54,7 @@ class _ViewPostState extends State<ViewPost> {
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
+  bool isPlaying = false;
   BuildContext _ctx;
 
   _ViewPostState({this.content});
@@ -357,6 +359,20 @@ class _ViewPostState extends State<ViewPost> {
     clearCacheFile();
   }
 
+  void getAudio(String link) async{
+    if(isPlaying){
+      await audioPlayer.pause();
+      setState(() {
+        isPlaying = false;
+      });
+    }else{
+      await audioPlayer.play(link, isLocal: true);
+      setState(() {
+        isPlaying = true;
+      });
+    }
+  }
+
   Widget _mediaPlayer(BuildContext context, String link) {
     if (link != null) {
       if (link.toLowerCase().contains('mp4') ||
@@ -398,6 +414,7 @@ class _ViewPostState extends State<ViewPost> {
             assetsAudioPlayer.open(Audio.network(link));
           },
         );
+
       }
     } else {
       return Container();

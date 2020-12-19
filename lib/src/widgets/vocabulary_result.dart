@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class VocabularyResult extends StatelessWidget {
@@ -15,10 +16,9 @@ class VocabularyResult extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Awesome!!!',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontFamily: "Helvetica",
-                  fontWeight: FontWeight.bold,
+                style: GoogleFonts.varelaRound(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold
                 ),
               ),
               SizedBox(
@@ -66,9 +66,9 @@ class VocabularyResult extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () =>
-                    Navigator.of(context, rootNavigator: true).pop(context),
+                    Navigator.of(context, rootNavigator: true).popUntil(ModalRoute.withName('/lessonDetail')),
                 child: Text(
-                  "Back to Lesson Introduction",
+                  "Back to Lesson Details",
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: "Helvetica",
@@ -76,6 +76,9 @@ class VocabularyResult extends StatelessWidget {
                     decoration: TextDecoration.underline,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 8,
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 8,
@@ -90,34 +93,7 @@ class VocabularyResult extends StatelessWidget {
                   child: Center(
                     child: Padding(
                       child: Text(
-                        "Review",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Helvetica'),
-                      ),
-                      padding: new EdgeInsets.only(left: 0.0),
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-                color: Colors.blueGrey,
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 2,
-              ),
-              MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  height: 60.0,
-                  child: Center(
-                    child: Padding(
-                      child: Text(
-                        "Archive more",
+                        "Learn again",
                         style: TextStyle(
                             color: Colors.grey[700],
                             fontSize: 25,
@@ -128,7 +104,9 @@ class VocabularyResult extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
                 color: Color.fromRGBO(255, 210, 77, 10),
               ),
             ],

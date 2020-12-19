@@ -4,12 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:the_validator/the_validator.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/register_cubit.dart';
 import 'package:vietnamese_learning/src/models/nation.dart';
 import 'package:vietnamese_learning/src/states/register_state.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vietnamese_learning/src/widgets/choose_nation.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 import '../data/user_repository.dart';
 
@@ -26,7 +28,6 @@ class _SignUpState extends State<SignUpScreen> {
       _passwordController,
       _nationController,
       _usernameController;
-  ProgressDialog pr;
   FocusNode myFocusNode = new FocusNode();
   FocusNode myFocusNode1 = new FocusNode();
   FocusNode myFocusNode2 = new FocusNode();
@@ -77,10 +78,6 @@ class _SignUpState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
     return BlocProvider(
       create: (context) => RegisterCubit(UserRepository()),
       child: Scaffold(
@@ -88,12 +85,17 @@ class _SignUpState extends State<SignUpScreen> {
         body: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is RegistedError) {
-              pr.hide();
+              Navigator.pop(context);
+              Toast.show(state.message, context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  backgroundColor: Colors.redAccent,
+                  textColor: Colors.white);
             } else if (state is RegistedSuccess) {
-              pr.hide();
+              Navigator.pop(context);
               Navigator.pop(context);
             } else if(state is Registering){
-              pr.show();
+              CustomProgressDialog.progressDialog(context);
             }
           },
           builder: (context, state) {
@@ -106,6 +108,7 @@ class _SignUpState extends State<SignUpScreen> {
 
   Widget _registerScreen(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

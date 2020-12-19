@@ -36,6 +36,7 @@ class LoginCubit extends Cubit<LoginState>{
 
   Future<void> doLoginGmail(String email, String fullname, String uid, String avatarLink, String username)async{
     try{
+      emit(DoingLoginGmail());
       LoginResponse jwtToken = await _userRepository.login_gmail(avatarLink,email, fullname, uid, username);
       if(jwtToken.tokenType == 'Fail'){
         emit(LoginGmailFail(('Login Error!')));

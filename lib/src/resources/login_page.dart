@@ -418,6 +418,8 @@ class _LoginPageState extends State<LoginPage> {
                     loginResponse: state.loginResponse,
                     username: state.username,
                   )));
+            }else if(state is DoingLoginGmail){
+              CustomProgressDialog.progressDialog(context);
             }
           },
           builder: (context, state) {

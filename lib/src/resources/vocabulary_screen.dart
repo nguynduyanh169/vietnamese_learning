@@ -52,8 +52,49 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.clear),
-              onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pop(context),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) =>
+                  new CupertinoAlertDialog(
+                    title: new Text(
+                      "Confirm exit",
+                      style: TextStyle(fontFamily: 'Helvetica'),
+                    ),
+                    content: new Text(
+                      "Do you want to exit?",
+                      style: TextStyle(fontFamily: 'Helvetica'),
+                    ),
+                    actions: [
+                      CupertinoDialogAction(
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(
+                              fontFamily: 'Helvetica'),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, 'yes');
+                        },
+                      ),
+                      CupertinoDialogAction(
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                              fontFamily: 'Helvetica'),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, 'no');
+                        },
+                      ),
+                    ],
+                  ),
+                ).then((value) {
+                  if (value == 'yes') {
+                    Navigator.of(context).pop();
+                  }
+                });
+              }
+                  //Navigator.of(context, rootNavigator: true).pop(context),
             ),
             Container(
               child: new LinearPercentIndicator(
@@ -383,11 +424,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 10,
+              height: SizeConfig.blockSizeVertical * 5,
             ),
             column,
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 35,
+              height: SizeConfig.blockSizeVertical * 30,
             ),
             ButtonTheme(
               buttonColor: Color.fromRGBO(255, 190, 51, 30),

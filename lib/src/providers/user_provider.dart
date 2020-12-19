@@ -34,7 +34,8 @@ class UserProvider{
     }
   }
 
-  Future<LoginResponse> register(String username, String password, String email, String nation) async{
+  Future<String> register(String username, String password, String email, String nation) async{
+    String result = '';
     Map<String, String> header = {
       "Content-type": "application/json"
     };
@@ -46,10 +47,18 @@ class UserProvider{
     };
     try {
       Response response = await _dio.post(REGISTER, options: Options(headers: header), data: json.encode(body));
-      print(response.data);
-      LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
-      return _loginResponse;
+      if(response.statusCode == 200){
+        LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
+        result = "success!";
+      }else{
+        result = response.data;
+      }
+      return result;
     } catch (error, stacktrace) {
+      if(error.toString().contains('412')){
+        result = 'Account duplicate!';
+        return result;
+      }
       print("Exception occur: $error stackTrace: $stacktrace");
     }
   }

@@ -66,6 +66,8 @@ dependencies:
   firebase_ml_vision: ^0.9.8
   translator: ^0.1.5
   uuid: ^2.2.2
+  audioplayer: ^0.8.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
