@@ -8,6 +8,8 @@ PODS:
     - Flutter
   - assets_audio_player_web (0.0.1):
     - Flutter
+  - audioplayer (0.0.1):
+    - Flutter
   - audioplayers (0.0.1):
     - Flutter
   - countdown_flutter (0.0.1):
@@ -266,6 +268,7 @@ PODS:
 DEPENDENCIES:
   - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
+  - audioplayer (from `.symlinks/plugins/audioplayer/ios`)
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
   - countdown_flutter (from `.symlinks/plugins/countdown_flutter/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -331,6 +334,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/assets_audio_player/ios"
   assets_audio_player_web:
     :path: ".symlinks/plugins/assets_audio_player_web/ios"
+  audioplayer:
+    :path: ".symlinks/plugins/audioplayer/ios"
   audioplayers:
     :path: ".symlinks/plugins/audioplayers/ios"
   countdown_flutter:
@@ -374,6 +379,7 @@ SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
+  audioplayer: 0584f31a697e4b0bbad405ae7903d7a93585e784
   audioplayers: 84f968cea3f2deab00ec4f8ff53358b3c0b3992c
   countdown_flutter: 423a4cc24614ccb078c2ce4ac6739b1d85cbe98b
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d

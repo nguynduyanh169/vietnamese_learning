@@ -9,6 +9,7 @@ import 'package:chewie/chewie.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
@@ -359,20 +360,6 @@ class _ViewPostState extends State<ViewPost> {
     clearCacheFile();
   }
 
-  void getAudio(String link) async{
-    if(isPlaying){
-      await audioPlayer.pause();
-      setState(() {
-        isPlaying = false;
-      });
-    }else{
-      await audioPlayer.play(link, isLocal: true);
-      setState(() {
-        isPlaying = true;
-      });
-    }
-  }
-
   Widget _mediaPlayer(BuildContext context, String link) {
     if (link != null) {
       if (link.toLowerCase().contains('mp4') ||
@@ -463,6 +450,7 @@ class _ViewPostState extends State<ViewPost> {
                     }
                   },
                   child: ChatBubble(
+                    elevation: 0,
                     clipper:
                         ChatBubbleClipper5(type: BubbleType.receiverBubble),
                     alignment: Alignment.topRight,
@@ -756,6 +744,7 @@ class _ViewPostState extends State<ViewPost> {
                     style: TextStyle(fontFamily: 'Helvetica'),
                   ),
                   onPressed: () {
+                    Clipboard.setData(ClipboardData(text: comment.text));
                     Navigator.of(rootContext).pop();
                   }),
               CupertinoActionSheetAction(
