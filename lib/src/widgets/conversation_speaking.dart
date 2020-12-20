@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -449,9 +450,11 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             body: BlocBuilder<LearnConversationCubit, LearnConversationState>(
               builder: (context, state) {
                 if (state is LearnConversationSpeaking) {
+
                   var percent =
                       conversationIndex * (1 / (conversations.length + 1));
                   return Container(
+                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
                     color: Color.fromRGBO(255, 239, 215, 100),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -459,8 +462,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                       children: [
                         Container(
                           padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                              left: SizeConfig.blockSizeHorizontal * 1),
+                              top: SizeConfig.blockSizeVertical * 2,),
                           child: Row(
                             children: <Widget>[
                               IconButton(
@@ -471,7 +473,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                               ),
                               Container(
                                 child: new LinearPercentIndicator(
-                                  width: SizeConfig.blockSizeHorizontal * 78,
+                                  width: SizeConfig.blockSizeHorizontal * 75,
                                   animation: false,
                                   lineHeight: 15.0,
                                   percent: percent,
@@ -497,169 +499,132 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                 decoration: TextDecoration.none),
                           ),
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 10,
-                            ),
-                            Container(
-                              width: 45,
-                              height: 45,
-                              margin: EdgeInsets.only(left: 14),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(17),
-                                color: Color.fromRGBO(255, 190, 51, 100),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(255, 190, 51, 100),
-                                    spreadRadius: 1,
-                                    blurRadius: 1,
-                                    offset: Offset(
-                                        0, 1), // changes position of shadow
+                        Container(
+                          height: SizeConfig.blockSizeVertical * 66,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black26.withOpacity(0.05),
+                                    offset: Offset(0.0, 6.0),
+                                    blurRadius: 10.0,
+                                    spreadRadius: 0.10)
+                              ]),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 45,
+                                    height: 45,
+                                    margin: EdgeInsets.only(left: 14),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(17),
+                                      color: Color.fromRGBO(255, 190, 51, 100),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(255, 190, 51, 100),
+                                          spreadRadius: 1,
+                                          blurRadius: 1,
+                                          offset:
+                                          Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          CupertinoIcons.volume_up,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          AssetsAudioPlayer.playAndForget(Audio.network(conversations[conversationIndex].voiceLink));
+                                        }
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 70,
+                                    margin: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      conversations[conversationIndex].conversation,
+                                      style: TextStyle(
+                                          fontFamily: "Helvetica",
+                                          fontSize: 17,
+                                          color: Colors.black,
+                                          decoration: TextDecoration.none),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: IconButton(
-                                icon: Icon(
-                                  CupertinoIcons.volume_up,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  AssetsAudioPlayer.playAndForget(Audio.network(
-                                      conversations[conversationIndex]
-                                          .voiceLink));
-                                },
-                              ),
-                            ),
-                            FittedBox(
-                              child: Container(
-                                width: SizeConfig.blockSizeHorizontal * 80,
-                                margin: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  conversations[conversationIndex].conversation,
-                                  style: TextStyle(
-                                      fontFamily: "Helvetica",
-                                      fontSize: 17,
-                                      color: Colors.black,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 2,
-                        ),
-                        Center(
-                          // child: Container(
-                          //   width: 200,
-                          //   height: 200,
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(35),
-                          //     color: Color.fromRGBO(255, 190, 51, 100),
-                          //     boxShadow: [
-                          //       BoxShadow(
-                          //         color: Color.fromRGBO(255, 190, 51, 100)
-                          //             .withOpacity(0.5),
-                          //         spreadRadius: 1,
-                          //         blurRadius: 1,
-                          //         offset: Offset(
-                          //             0, 1), // changes position of shadow
-                          //       ),
-                          //     ],
-                          //   ),
-                          //   child: IconButton(
-                          //     iconSize: 100,
-                          //     icon: Icon(
-                          //       CupertinoIcons.mic_solid,
-                          //       color: Colors.white,
-                          //     ),
-                          //     onPressed: null,
-                          //   ),
-                          // ),
-                          child: AvatarGlow(
-                            animate: _isRecording,
-                            glowColor: Theme.of(context).primaryColor,
-                            endRadius: 130.0,
-                            duration: const Duration(milliseconds: 2000),
-                            repeatPauseDuration:
-                                const Duration(milliseconds: 100),
-                            repeat: true,
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              child: FloatingActionButton(
-                                onPressed: () {
-                                  if (_isRecording == false) {
-                                    _start();
-                                  } else {
-                                    _stop();
-                                  }
-                                },
-                                child: Icon(
-                                  _isRecording
-                                      ? CupertinoIcons.stop
-                                      : CupertinoIcons.mic,
-                                  size: 100,
-                                ),
-                                backgroundColor:
-                                    Color.fromRGBO(255, 190, 51, 30),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 1,
-                        ),
-                        Center(
-                          // child: Container(
-                          //   child: checkText ?
-                          //       Container(
-                          //         margin: const EdgeInsets.all(2.0),
-                          //         decoration: BoxDecoration(
-                          //             border: Border.all(
-                          //               color: Colors.black,
-                          //             ),
-                          //             borderRadius: BorderRadius.all(Radius.circular(20.0))
-                          //         ),
-                          //         child: Padding(padding: const EdgeInsets.all(2.0),
-                          //         child: AutoSizeText(
-                          //           '$text',
-                          //           maxLines: 3,
-                          //           overflow: TextOverflow.ellipsis,
-                          //           maxFontSize: 20,
-                          //           minFontSize: 15,
-                          //         ),
-                          //         ),
-                          //       )
-                          //       : Text("$text"),
-                          //
-                          // ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              if (recognizeFinished)
-                                _RecognizeContent(
-                                  text: text,
-                                ),
                               Center(
-                                child: recognizing
-                                    ? CircularProgressIndicator()
-                                    : Text(""),
-                              )
+                                child: FlatButton(
+                                  onPressed: () {
+                                    if (_isRecording == false) {
+                                      setState(() {
+                                        recognizeFinished = false;
+                                        _isRecording = true;
+                                      });
+                                      _start();
+                                    } else {
+                                      setState(() {
+                                        _isRecording = false;
+                                      });
+                                      _stop();
+                                    }
+                                  },
+                                  color: Color.fromRGBO(255, 190, 51, 30),
+                                  textColor: Colors.white,
+                                  child: _isRecording == true ? Icon(
+                                    CupertinoIcons.stop,
+                                    size: 100,
+                                  ): Icon(
+                                    CupertinoIcons.mic_solid,
+                                    size: 100,
+                                  ),
+                                  padding: EdgeInsets.all(25),
+                                  shape: CircleBorder(),
+                                ),
+                              ),
+                              SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+                              Center(
+                                child: Container(child: _isRecording == false ? Text('Tap to record your voice', style: TextStyle(fontFamily: 'Helvetica'),): Text('Recording', style: TextStyle(fontFamily: 'Helvetica'),),),
+                              ),
+                              SizedBox(height: SizeConfig.blockSizeVertical * 4,),
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    if (recognizeFinished)
+                                      _RecognizeContent(
+                                        text: printSimilarity(conversations[conversationIndex].conversation, text),
+                                      ),
+                                    Center(
+                                      child: recognizing ? CupertinoActivityIndicator(
+                                        radius: 10.0,
+                                      ) : Text(""),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
+
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical * 5,
+                          height: SizeConfig.blockSizeVertical * 4,
                         ),
                         Center(
                           child: ButtonTheme(
                             buttonColor: Color.fromRGBO(255, 190, 51, 30),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
-                            child: RaisedButton(
+                            child: FlatButton(
+                              color: Color.fromRGBO(255, 190, 51, 30),
                                 onPressed: () {
+                                  recognizeFinished = false;
                                   speakingButton(context);
                                 },
                                 child: Container(
@@ -814,7 +779,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
 
         var current = await _recorder.current(channel: 0);
         setState(() {
-          _isRecording = true;
           _current = current;
           _currentStatus = _current.status;
         });
@@ -831,7 +795,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
     // File file = widget.localFileSystem.file(result.path);
     // print("File length: ${await file.length()}");
     setState(() {
-      _isRecording = false;
       path = result.path;
       _current = result;
       _currentStatus = _current.status;
@@ -884,6 +847,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
 
   String printSimilarity(String s, String t)
   {
+    print(s);
     String result = (similarity(s, t) * 100).toString();
     return result;
   }
@@ -894,42 +858,123 @@ class _RecognizeContent extends StatelessWidget {
 
   const _RecognizeContent({Key key, this.text}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          Center(
-            child: Text(
-              'The conversation recognized from your voice',
-            ),
+  Widget _recognizeResult(){
+    double result = double.parse(text) / 100;
+    if(result == 1) {
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
           ),
-          SizedBox(
-            height: 4.0,
-          ),
-          Center(
-            child: Container(
-              margin: const EdgeInsets.all(2.0),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: AutoSizeText(
-                  text,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  maxFontSize: 20,
-                  minFontSize: 15,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Perfect!',), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
                 ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
               ),
             ),
-          )
-        ],
-      ),
-    );
+          )],
+        ),
+      );
+    }else if(result >= 0.6 && result < 1){
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Almost correct!'), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
+              ),
+            ),
+          )],
+        ),
+      );
+    }else{
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Pretty good!'), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
+              ),
+            ),
+          )],
+        ),
+      );
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return _recognizeResult();
   }
 }
