@@ -20,7 +20,7 @@ import 'dart:io' as io;
 import 'package:google_speech/google_speech.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'dart:math' as Math;
 import '../config/size_config.dart';
 import 'chat_bubble.dart';
 
@@ -861,6 +861,55 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
       _currentStatus = _current.status;
       recognize();
     });
+  }
+
+  int editDistance(String s1, String s2)
+  {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+    List<int> costs = new List<int>((s2.length + 1));
+    for (int i = 0; i <= s1.length; i++) {
+      int lastValue = i;
+      for (int j = 0; j <= s2.length; j++) {
+        if (i == 0) {
+          costs[j] = j;
+        } else {
+          if (j > 0) {
+            int newValue = costs[j - 1];
+            if (s1.codeUnitAt(i - 1) != s2.codeUnitAt(j - 1)) {
+              newValue = (Math.min(Math.min(newValue, lastValue), costs[j]) + 1);
+            }
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
+          }
+        }
+      }
+      if (i > 0) {
+        costs[s2.length] = lastValue;
+      }
+    }
+    return costs[s2.length];
+  }
+
+  double similarity(String s1, String s2)
+  {
+    String longer = s1;
+    String shorter = s2;
+    if (s1.length < s2.length) {
+      longer = s2;
+      shorter = s1;
+    }
+    int longerLength = longer.length;
+    if (longerLength == 0) {
+      return 1;
+    }
+    return (longerLength.toDouble() - editDistance(longer, shorter).toDouble()) / longerLength.toDouble();
+  }
+
+  String printSimilarity(String s, String t)
+  {
+    String result = (similarity(s, t) * 100).toString();
+    return result;
   }
 }
 

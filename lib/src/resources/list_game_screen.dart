@@ -7,6 +7,7 @@ import 'package:vietnamese_learning/src/resources/game_screen.dart';
 import 'package:vietnamese_learning/src/resources/home_screen_hangman.dart';
 import 'package:vietnamese_learning/src/resources/memory_game.dart';
 import 'package:vietnamese_learning/src/resources/memory_game_level.dart';
+import 'package:vietnamese_learning/src/resources/new_matching_card_game.dart';
 import 'package:vietnamese_learning/src/widgets/game_intro.dart';
 
 class ListGameScreen extends StatefulWidget {
@@ -152,6 +153,13 @@ class _ListGameScreenState extends State<ListGameScreen> {
                           withNavBar: false,
                           pageTransitionAnimation:
                               PageTransitionAnimation.cupertino),
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewMatchingGame()));
+                      },
                     ),
                   ),
                 ],

@@ -359,19 +359,19 @@ class _ViewPostState extends State<ViewPost> {
     clearCacheFile();
   }
 
-  void getAudio(String link) async{
-    if(isPlaying){
-      await audioPlayer.pause();
-      setState(() {
-        isPlaying = false;
-      });
-    }else{
-      await audioPlayer.play(link, isLocal: true);
-      setState(() {
-        isPlaying = true;
-      });
-    }
-  }
+  // void getAudio(String link) async{
+  //   if(isPlaying){
+  //     await audioPlayer.pause();
+  //     setState(() {
+  //       isPlaying = false;
+  //     });
+  //   }else{
+  //     await audioPlayer.play(link, isLocal: true);
+  //     setState(() {
+  //       isPlaying = true;
+  //     });
+  //   }
+  // }
 
   Widget _mediaPlayer(BuildContext context, String link) {
     if (link != null) {

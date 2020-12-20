@@ -34,48 +34,48 @@ List<TileModel>  getPairs(){
   tileModel = new TileModel();
 
   //2
-  // tileModel.setImageAssetPath("assets/hippo.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //3
-//  tileModel.setImageAssetPath("assets/horse.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //4
- // tileModel.setImageAssetPath("assets/monkey.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
   //5
-//  tileModel.setImageAssetPath("assets/panda.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //6
- // tileModel.setImageAssetPath("assets/parrot.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //7
-  //tileModel.setImageAssetPath("assets/rabbit.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //8
- // tileModel.setImageAssetPath("assets/zoo.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
@@ -91,55 +91,55 @@ List<TileModel>  getQuestionPairs(){
   TileModel tileModel = new TileModel();
 
   //1
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //2
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //3
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //4
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
   //5
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //6
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //7
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //8
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);

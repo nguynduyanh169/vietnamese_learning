@@ -3,9 +3,17 @@ class TileModel{
   String vocabulary;
   String description;
   bool isSelected;
+  String image;
 
-  TileModel({this.vocabulary, this.description, this.isSelected});
+  TileModel({this.vocabulary, this.description, this.isSelected, this.image});
 
+  String getImage(){
+    return image;
+  }
+
+  void setImage(String newImage){
+    image = newImage;
+  }
   String getVocabulary(){
     return vocabulary;
   }
