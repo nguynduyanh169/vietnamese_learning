@@ -11,6 +11,11 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   List<TileModel> gridViewTiles = new List<TileModel>();
   List<TileModel> questionPairs = new List<TileModel>();
 
+  @override
+  void initState() {
+    super.initState();
+    reStart();
+  }
   void reStart() {
 
     myPairs = getPairs();
@@ -31,19 +36,71 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Text("0/800"),
-            Text("Points"),
-            SizedBox(height: 20,),
-            GridView(
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisSpacing: 0.0,maxCrossAxisExtent: 100
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 40,),
+              points != 800 ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text("$points/800",
+                    style: TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  Text("Points",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w300
+                    ),
+                  ),
+                ],
+              ): Container(),
+              SizedBox(height: 20,),
+              points != 800 ? GridView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  mainAxisSpacing: 0.0, maxCrossAxisExtent: 100.0
+                ),
+                children: List.generate(gridViewTiles.length, (index) {
+                  return Tile(
+                    imagePathUrl: gridViewTiles[index].getImage(),
+                    tileIndex: index,
+                    parent: this,
+                  );
+                }),
+              ): Container(
+                child: Column(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          points = 0;
+                          reStart();
+                        });
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 200,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(24)
+                        ),
+                        child: Text("Replay", style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17, fontWeight: FontWeight.w500
+                        ),),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -66,6 +123,7 @@ class _TileState extends State<Tile> {
     return GestureDetector(
       onTap: () {
         if (!selected) {
+          print("Start");
           setState(() {
             myPairs[widget.tileIndex].setIsSelected(true);
           });
@@ -129,7 +187,7 @@ class _TileState extends State<Tile> {
             : widget.imagePathUrl)
             : Container(
           color: Colors.white,
-          child: Image.asset("assets/correct.png"),
+          child: Image.asset("assets/images/correct.png"),
         ),
       ),
     );

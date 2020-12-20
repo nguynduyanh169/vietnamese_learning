@@ -359,7 +359,6 @@ class _ViewPostState extends State<ViewPost> {
     BlocProvider.of<PostCubit>(context).saveComment(commentSave, file);
     clearCacheFile();
   }
-
   Widget _mediaPlayer(BuildContext context, String link) {
     if (link != null) {
       if (link.toLowerCase().contains('mp4') ||
