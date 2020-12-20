@@ -42,6 +42,7 @@ class ConversationLeft extends StatelessWidget {
             ),
           ),
           ChatBubble(
+            elevation: 0,
             clipper: ChatBubbleClipper4(type: BubbleType.receiverBubble),
             alignment: Alignment.topRight,
             margin: EdgeInsets.only(

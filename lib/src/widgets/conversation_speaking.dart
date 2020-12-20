@@ -94,7 +94,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                 lineHeight: 15.0,
                 percent: percent,
                 linearStrokeCap: LinearStrokeCap.roundAll,
-                progressColor: Colors.amberAccent,
+                progressColor: Colors.green,
               ),
             ),
           ],
@@ -139,48 +139,23 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
         child: Center(
           child: Text(
             '$content',
-            style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+            style: TextStyle(fontFamily: 'Helvetica', fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          shape: BoxShape.rectangle,
-          border: Border.all(
-            color: Colors.amber,
-            width: 2,
-          ),
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black26.withOpacity(0.05),
+                  offset: Offset(0.0, 6.0),
+                  blurRadius: 10.0,
+                  spreadRadius: 0.10)
+            ]),
       );
     }
 
     Widget _loadDialogForMatching(BuildContext dialogContext) {
-      // if (check.toLowerCase() == vietnamese.toLowerCase()) {
-      //   CoolAlert.show(
-      //       context: dialogContext,
-      //       type: CoolAlertType.success,
-      //       title: "Correct!",
-      //       confirmBtnText: 'Continue',
-      //       confirmBtnColor: Colors.green,
-      //       onConfirmBtnTap: () {
-      //         chars.clear();
-      //         elements.clear();
-      //         BlocProvider.of<LearnConversationCubit>(dialogContext)
-      //             .learnSpeaking(conversationIndex + 1);
-      //         Navigator.pop(context);
-      //         conversationIndex = conversationIndex + 1;
-      //       });
-      // } else if (check.toLowerCase() != vietnamese.toLowerCase()) {
-      //   CoolAlert.show(
-      //       context: dialogContext,
-      //       type: CoolAlertType.error,
-      //       title: "Incorrect!",
-      //       text: 'The correct answer is: $vietnamese',
-      //       confirmBtnText: 'Try again',
-      //       confirmBtnColor: Colors.red,
-      //       onConfirmBtnTap: null);
-      // }
-
       if (check.toLowerCase() == vietnamese.toLowerCase()) {
         showDialog(
             context: dialogContext,
@@ -438,7 +413,8 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
               buttonColor: Color.fromRGBO(255, 190, 51, 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
-              child: RaisedButton(
+              child: FlatButton(
+                color: Color.fromRGBO(255, 190, 51, 30),
                   onPressed: () {
                     check = chars.join(' ');
                     _loadDialogForMatching(context);
