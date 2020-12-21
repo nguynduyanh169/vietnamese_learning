@@ -7,6 +7,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/edit_profile.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
+import 'package:vietnamese_learning/src/resources/setup_schedule.dart';
 import 'package:vietnamese_learning/src/utils/firebase_util.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -255,16 +256,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           leading:
                                               Icon(CupertinoIcons.bell_fill),
                                           title: Text(
-                                            "Notification Setting",
+                                            "Reminder setting",
                                             style: TextStyle(
                                                 fontFamily: 'Helvetica'),
                                           ),
-                                          trailing: Switch(
-                                              value: isSwitch,
-                                              onChanged: (value) {
-                                                isSwitch = value;
-                                                print(isSwitch);
-                                              }),
+                                          trailing: Icon(CupertinoIcons.forward),
+                                          onTap: (){
+                                            pushNewScreen(context,
+                                                screen: SetupScheduleScreen(),
+                                                withNavBar: false,
+                                                pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .slideUp);
+                                          },
                                         )),
                                     Card(
                                       color: const Color.fromRGBO(

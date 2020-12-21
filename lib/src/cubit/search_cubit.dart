@@ -18,29 +18,44 @@ class SearchCubit extends Cubit<SearchState> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String username = prefs.getString("username");
       String token = prefs.getString('accessToken');
-      if(prefs.getString(username + "SearchHistory") == null){
-        List<Content> searchPost = await _postRepository.searchPosts(token, search);
-        if(searchPost.isNotEmpty){
-          SearchHistory searchHistory = new SearchHistory(date: DateTime.now(), searchString: search);
-          searchList.add(searchHistory);
-          prefs.setString(username + "SearchHistory", SearchHistory.encoder(searchList));
-          print(prefs.getString(username + "SearchHistory"));
-          emit(SearchSuccess(SearchHistory.decoder(prefs.getString(username + "SearchHistory")), search, searchPost));
-        }else{
-          emit(SearchFailed());
-        }
-
+      if(search == ''){
+        emit(SearchFailed());
       }else {
-        List<Content> searchPost = await _postRepository.searchPosts(token, search);
-        if(searchPost.isNotEmpty){
-          searchList = SearchHistory.decoder(prefs.getString(username + "SearchHistory"));
-          SearchHistory searchHistory = new SearchHistory(date: DateTime.now(), searchString: search);
-          searchList.add(searchHistory);
-          prefs.setString(username + "SearchHistory", SearchHistory.encoder(searchList));
-          emit(SearchSuccess(SearchHistory.decoder(prefs.getString(username + "SearchHistory")), search, searchPost));
+        if (prefs.getString(username + "SearchHistory") == null) {
+          List<Content> searchPost = await _postRepository.searchPosts(
+              token, search);
+          if (searchPost.isNotEmpty) {
+            SearchHistory searchHistory = new SearchHistory(
+                date: DateTime.now(), searchString: search);
+            searchList.add(searchHistory);
+            prefs.setString(
+                username + "SearchHistory", SearchHistory.encoder(searchList));
+            print(prefs.getString(username + "SearchHistory"));
+            emit(SearchSuccess(SearchHistory.decoder(
+                prefs.getString(username + "SearchHistory")), search,
+                searchPost));
+          } else {
+            emit(SearchFailed());
+          }
         }
-        else{
-          emit(SearchFailed());
+        else {
+          List<Content> searchPost = await _postRepository.searchPosts(
+              token, search);
+          if (searchPost.isNotEmpty) {
+            searchList = SearchHistory.decoder(
+                prefs.getString(username + "SearchHistory"));
+            SearchHistory searchHistory = new SearchHistory(
+                date: DateTime.now(), searchString: search);
+            searchList.add(searchHistory);
+            prefs.setString(
+                username + "SearchHistory", SearchHistory.encoder(searchList));
+            emit(SearchSuccess(SearchHistory.decoder(
+                prefs.getString(username + "SearchHistory")), search,
+                searchPost));
+          }
+          else {
+            emit(SearchFailed());
+          }
         }
       }
     } on Exception{

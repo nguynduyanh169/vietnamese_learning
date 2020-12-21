@@ -10,7 +10,14 @@ class Messaging {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   new FlutterLocalNotificationsPlugin();
 
+
+
   Future initialise() async {
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var ios = new IOSInitializationSettings();
+    var initSettings = new InitializationSettings(android: android, iOS: ios);
+    flutterLocalNotificationsPlugin.initialize(
+        initSettings);
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String username = prefs.getString('username');
     if (Platform.isIOS) {
@@ -22,7 +29,9 @@ class Messaging {
     _firebaseMessaging.configure(
       //Call when app in foreground and we receive a push notification
         onMessage: (Map<String, dynamic> message) async {
-          Map<dynamic, dynamic> details = message.values.elementAt(0);
+          _showNotification(0, message.toString(), message.toString());
+          Map<dynamic, dynamic> details = new Map();
+          details = message.values.elementAt(0).toMap();
           String title = details.values.elementAt(0).toString();
           String body = details.values.elementAt(1).toString();
           _showNotification(0, title, body);
@@ -30,6 +39,7 @@ class Messaging {
         },
         //Call when the app completely closed and it's open from  the push notification directly
         onLaunch: (Map<String, dynamic> message) async {
+          _showNotification(0, message.toString(), message.toString());
           Map<dynamic, dynamic> details = message.values.elementAt(0);
           String title = details.values.elementAt(0).toString();
           String body = details.values.elementAt(1).toString();
@@ -49,6 +59,7 @@ class Messaging {
   Future<void> _showNotification(int notificationId,
       String notificationTitle,
       String notificationContent) async {
+    print("id: " + notificationTitle);
     String channelId = '1234';
     String channelTitle = 'Android Channel';
     String channelDescription = 'Default Android Channel for notifications';
@@ -67,6 +78,7 @@ class Messaging {
     var platformChannelSpecifics = new NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
+    print(notificationTitle);
     await flutterLocalNotificationsPlugin.show(
         notificationId,
         notificationTitle,

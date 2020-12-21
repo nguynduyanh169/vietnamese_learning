@@ -70,7 +70,7 @@ class QualificationQuestion extends StatelessWidget{
                 width: SizeConfig.blockSizeHorizontal * 35,
                 height: SizeConfig.blockSizeVertical * 25,
                 child: Image(
-                    image: NetworkImage(UrlUtils.editImgUrl(questionText))
+                    image: NetworkImage(questionText)
                 ),
               )
             ],

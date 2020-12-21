@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:audioplayer/audioplayer.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:chewie/chewie.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';

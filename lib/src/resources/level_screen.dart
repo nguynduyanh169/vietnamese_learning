@@ -57,7 +57,26 @@ class _LevelScreenState extends State<LevelScreen> {
             }else if(state is LoadedEntranceQuiz){
               Navigator.pop(context);
               List<EntranceQuiz> entranceQuizzes = state.entranceQuizzes;
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,)));
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder:
+                      (context, animation, secondaryAnimation) =>
+                          EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,),
+                  transitionsBuilder: (context, animation,
+                      secondaryAnimation, child) {
+                    var begin = Offset(1.0, 0.0);
+                    var end = Offset.zero;
+                    var curve = Curves.ease;
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
+                    return SlideTransition(
+                      position: animation.drive(tween),
+                      child: child,
+                    );
+                  },
+                ),
+              );
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,)));
             }else if(state is LoadingEntranceQuiz){
               CustomProgressDialog.progressDialog(context);
             }

@@ -26,20 +26,27 @@ class _SearchState extends State<Search> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  searchHistory.searchString,
-                  style: TextStyle(
-                    fontFamily: 'Helvetica',
-                    fontSize: 16,
+          InkWell(
+            onTap: (){
+              BlocProvider.of<SearchCubit>(context)
+                  .searchPost(searchHistory.searchString);
+            },
+            child: Container(
+              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    searchHistory.searchString,
+                    style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
+
+                ],
+              ),
             ),
           ),
           IconButton(
