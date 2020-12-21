@@ -7,6 +7,13 @@ class TileModel{
 
   TileModel({this.vocabulary, this.description, this.isSelected, this.image});
 
+  factory TileModel.fromJson(Map<String, dynamic> json){
+    return TileModel(
+      vocabulary: json['vocabulary'],
+      description: json['description'],
+      image: json['image']
+    );
+  }
   String getImage(){
     return image;
   }
