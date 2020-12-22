@@ -1,4 +1,5 @@
 import 'package:vietnamese_learning/src/models/memory_model.dart';
+import 'package:vietnamese_learning/src/providers/game_provider.dart';
 
 String selectedTile = "";
 int selectedIndex ;
@@ -28,13 +29,14 @@ List<TileModel>  getPairs(){
 
   //1
   tileModel.setVocabulary("Xin Chào");
+  tileModel.setDiscription("Hello");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //2
-  tileModel.setVocabulary("Xin Chào");
+  tileModel.setVocabulary("Hello");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
@@ -125,25 +127,33 @@ List<TileModel>  getQuestionPairs(){
   tileModel = new TileModel();
 
   //6
-  tileModel.setImage("assets/images/question.png");
+  tileModel.setImage("assets/images/quest.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //7
-  tileModel.setImage("assets/images/question.png");
+  tileModel.setImage("assets/images/quest.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //8
-  tileModel.setImage("assets/images/question.png");
+  tileModel.setImage("assets/images/quest.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   return pairs;
+}
+
+class GameRepo{
+  GameProvider _gameProvider = new GameProvider();
+
+  Future<List<TileModel>> getVocabularyByLevel(int levelID, String token){
+    return _gameProvider.getVocabularyByLevel(levelID, token);
+  }
 }
