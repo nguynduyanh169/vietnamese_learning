@@ -42,27 +42,31 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    myPairs = new List<TileModel>();
+    selected = false;
+    points = 0;
     startTimer();
   }
 
-  void reStart() {
-    myPairs = getFromAPi;
-    myPairs.shuffle();
-
-    gridViewTiles = myPairs;
-
-    Future.delayed(const Duration(seconds: 1), () {
-// Here you can write your code
-      setState(() {
-        print("2 seconds done");
-        // Here you can write your code for open new view
-        questionPairs = getQuestionPairs();
-        gridViewTiles = questionPairs;
-        selected = false;
-      });
-    });
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
+  void reStart() {
+    BlocProvider.of<Game_Cubit>(context).loadVocabularyByLevel();
+  }
+
+
+  bool checkFinish(int point){
+    bool check = false;
+    if(point ==800){
+      timer.cancel();
+      check = true;
+    }
+    return check;
+  }
   Widget _gameDetails(List<TileModel> list) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -111,7 +115,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                         ),
                       ),
                 SizedBox(height: SizeConfig.blockSizeVertical * 10),
-                (time > 0)
+                (time > 0) && points != 800
                     ? GridView(
                         shrinkWrap: true,
                         //physics: ClampingScrollPhysics(),
@@ -148,13 +152,42 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                           );
                         }),
                       )
-                    : GameResult()
+                    : checkFinish(points) ? Container(
+                    child: Column(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              points = 0;
+                              reStart();
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 200,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Text("Replay", style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500
+                            ),),
+                          ),
+                        ),
+                      ],
+                    )
+                ):GameResult()
               ],
             ),
           ),
         ),
       ),
     );
+
+    
   }
 
   @override
@@ -263,6 +296,7 @@ class _TileState extends State<Tile> {
           if (selectedTile != "") {
             print(myPairs[widget.tileIndex].getImage());
             if (selectedTile == myPairs[widget.tileIndex].getImage()) {
+              points = points+100;
               TileModel tileModel = new TileModel();
               selected = true;
               Future.delayed(const Duration(seconds: 1), () {
