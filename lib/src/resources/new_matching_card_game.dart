@@ -128,18 +128,18 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                           List<String> str = generateList(list);
 
                           for (int i = 0; i < str.length; i++) {
-                            TileModel model = new TileModel();
-                            model.vocabulary = str[i];
-                            model.isSelected = false;
+                            TileModel tile = new TileModel();
+                            tile.vocabulary = str[i];
+                            tile.isSelected = false;
                             for (int j = 0; j < list.length; j++) {
-                              if(list[j].description == model.vocabulary){
-                                model.image = list[j].image;
+                              if(list[j].description == tile.vocabulary){
+                                tile.image = list[j].image;
                               }
-                              if(list[j].vocabulary == model.vocabulary){
-                                model.image = list[j].image;
+                              if(list[j].vocabulary == tile.vocabulary){
+                                tile.image = list[j].image;
                               }
                             }
-                            myPairs.add(model);
+                            myPairs.add(tile);
                           }
                           return Tile(
                             imagePathUrl: list[index].getImage(),
