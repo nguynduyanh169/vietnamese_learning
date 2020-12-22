@@ -41,7 +41,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    startTimer();
+    //startTimer();
   }
 
   void reStart() {
@@ -93,21 +93,21 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                     ],
                   ),
                 ),
-                (time > 0)
-                    ? Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text("Time left: $time s",
-                        style: TextStyle(
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 25)))
-                    : Center(
-                  child: Text(
-                    "",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30, fontFamily: 'Helvetica'),
-                  ),
-                ),
+                // (time > 0)
+                //     ? Padding(
+                //     padding: EdgeInsets.all(12.0),
+                //     child: Text("Time left: $time s",
+                //         style: TextStyle(
+                //             fontFamily: 'Helvetica',
+                //             fontWeight: FontWeight.w600,
+                //             fontSize: 25)))
+                //     : Center(
+                //   child: Text(
+                //     "",
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(fontSize: 30, fontFamily: 'Helvetica'),
+                //   ),
+                // ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 10
                 ),

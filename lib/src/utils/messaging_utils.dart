@@ -67,8 +67,9 @@ class Messaging {
   }
 
   Future<void> _showNotification(Map<dynamic, dynamic> message) async {
+    print(message.toString());
     NotiMessage notiMessage = NotiMessage.fromJson(message);
-    int notificationId = int.parse(notiMessage.notification.e);
+    int notificationId = int.parse('1');
         String notificationTitle = notiMessage.notification.title;
     String notificationContent = notiMessage.notification.body;
     String channelId = '1234';
@@ -80,12 +81,11 @@ class Messaging {
       channelId,
       channelTitle,
       channelDescription,
-      playSound: false,
+      playSound: true,
       importance: notificationImportance,
       priority: notificationPriority,
     );
-    var iOSPlatformChannelSpecifics =
-    new IOSNotificationDetails(presentSound: false);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails(presentSound: true);
     var platformChannelSpecifics = new NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);

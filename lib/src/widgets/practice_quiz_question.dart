@@ -48,7 +48,7 @@ class PracticeQuizQuestion extends StatelessWidget{
                 ),
               ),
               onTap: () {
-                AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(questionText)));
+                AssetsAudioPlayer.playAndForget(Audio.network(questionText));
               },
             ),
             SizedBox(height: SizeConfig.blockSizeVertical * 2,),
@@ -71,13 +71,13 @@ class PracticeQuizQuestion extends StatelessWidget{
                 width: SizeConfig.blockSizeHorizontal * 35,
                 height: SizeConfig.blockSizeVertical * 25,
                 child: Image(
-                    image: NetworkImage(UrlUtils.editImgUrl(questionText))
+                    image: NetworkImage(questionText)
                 ),
               )
             ],
           )
       );
-    }else if(questionType == 4){
+    }else if(questionType == 5){
       return Container(
           width: SizeConfig.blockSizeHorizontal * 75,
           height: SizeConfig.blockSizeVertical * 30,
