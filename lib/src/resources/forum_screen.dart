@@ -51,55 +51,54 @@ class _ForumScreenState extends State<ForumScreen> {
               ),
               child: Row(
                 children: <Widget>[
-                  SizedBox(width: SizeConfig.blockSizeHorizontal * 2,),
-                  IconButton(
-                    icon: Stack(
-                      children: <Widget>[
-                        Icon(
-                          CupertinoIcons.bell_solid,
-                          size: 30,
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: new Container(
-                            padding: EdgeInsets.all(1),
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            constraints: BoxConstraints(
-                              minWidth: 12,
-                              minHeight: 12,
-                            ),
-                            child: new Text(
-                              '10',
-                              style: new TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontFamily: 'Helvetica'),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    onPressed: () => pushNewScreen(context,
-                        screen: ForumNotificationScreen(),
-                        withNavBar: false,
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.slideUp),
-                  ),
+                  // IconButton(
+                  //   icon: Stack(
+                  //     children: <Widget>[
+                  //       Icon(
+                  //         CupertinoIcons.bell_solid,
+                  //         size: 30,
+                  //       ),
+                  //       Positioned(
+                  //         right: 0,
+                  //         child: new Container(
+                  //           padding: EdgeInsets.all(1),
+                  //           decoration: new BoxDecoration(
+                  //             color: Colors.red,
+                  //             borderRadius: BorderRadius.circular(6),
+                  //           ),
+                  //           constraints: BoxConstraints(
+                  //             minWidth: 12,
+                  //             minHeight: 12,
+                  //           ),
+                  //           child: new Text(
+                  //             '10',
+                  //             style: new TextStyle(
+                  //                 color: Colors.white,
+                  //                 fontSize: 12,
+                  //                 fontFamily: 'Helvetica'),
+                  //             textAlign: TextAlign.center,
+                  //           ),
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  //   onPressed: () => pushNewScreen(context,
+                  //       screen: ForumNotificationScreen(),
+                  //       withNavBar: false,
+                  //       pageTransitionAnimation:
+                  //           PageTransitionAnimation.slideUp),
+                  // ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 19,
+                    width: SizeConfig.blockSizeHorizontal * 5,
                   ),
                   Text(
                     'Xin chào Việt Nam',
                     style: GoogleFonts.sansita(
-                      fontSize: 20,
+                      fontSize: 25,
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 10,
+                    width: SizeConfig.blockSizeHorizontal * 29,
                   ),
                   IconButton(
                     icon: Stack(

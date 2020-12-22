@@ -21,11 +21,14 @@ Future<User_Gmail>googleSignIn() async{
 }
 
 Future<bool> signOutUser() async{
-  User user = await auth.currentUser;
-  print('hello');
-  if(user.providerData[1].providerId == 'google.com'){
-    await googleUser.disconnect();
+  if(auth.currentUser != null) {
+    User user = await auth.currentUser;
+    if (user.providerData[0].providerId == 'google.com') {
+      await googleUser.disconnect();
+    }
+    await auth.signOut();
+    return Future.value(true);
+  }else{
+    return Future.value(true);
   }
-  await auth.signOut();
-  return Future.value(true);
 }

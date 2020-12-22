@@ -17,7 +17,7 @@ class _DetailTranslateScreenState extends State<DetailTranslateScreen> {
   String selectedItem = '';
   File pickedImage;
   var imageFile;
-  var result = 'Translate here';
+  var result = 'Translation';
   bool isImageLoaded = false;
   List<Rect> rect = new List<Rect>();
   final translations = <String, String>{};
@@ -136,7 +136,9 @@ class _DetailTranslateScreenState extends State<DetailTranslateScreen> {
                   : Container(
                 height: SizeConfig.blockSizeVertical * 30,
                 width: SizeConfig.blockSizeHorizontal * 90,
-                child: Text('Take a picture', style: TextStyle(fontFamily: 'Helvetica', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black54),),
+                child: Center(
+                  child: Text('<Your image>', style: TextStyle(fontFamily: 'Helvetica', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black54), textAlign: TextAlign.center,),
+                )
 
             ),
             ),

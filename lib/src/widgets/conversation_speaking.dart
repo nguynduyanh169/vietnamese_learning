@@ -85,12 +85,52 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.clear),
-              onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pop(context),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                    new CupertinoAlertDialog(
+                      title: new Text(
+                        "Confirm exit",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      content: new Text(
+                        "Do you want to exit?",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Confirm',
+                            style: TextStyle(
+                                fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context, 'yes');
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context, 'no');
+                          },
+                        ),
+                      ],
+                    ),
+                  ).then((value) {
+                    if (value == 'yes') {
+                      Navigator.of(context).pop();
+                    }
+                  });
+                }
             ),
             Container(
               child: new LinearPercentIndicator(
-                width: SizeConfig.blockSizeHorizontal * 78,
+                width: SizeConfig.blockSizeHorizontal * 75,
                 animation: false,
                 lineHeight: 15.0,
                 percent: percent,
@@ -450,7 +490,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             body: BlocBuilder<LearnConversationCubit, LearnConversationState>(
               builder: (context, state) {
                 if (state is LearnConversationSpeaking) {
-
                   var percent =
                       conversationIndex * (1 / (conversations.length + 1));
                   return Container(
@@ -460,30 +499,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,),
-                          child: Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () =>
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop(context),
-                              ),
-                              Container(
-                                child: new LinearPercentIndicator(
-                                  width: SizeConfig.blockSizeHorizontal * 75,
-                                  animation: false,
-                                  lineHeight: 15.0,
-                                  percent: percent,
-                                  linearStrokeCap: LinearStrokeCap.roundAll,
-                                  progressColor: Colors.amberAccent,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        _percentBar(percent),
                         SizedBox(
                           height: SizeConfig.blockSizeVertical * 2,
                         ),

@@ -7,8 +7,9 @@ import 'package:vietnamese_learning/src/models/user_profile.dart';
 
 class UserProvider{
   static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL_HEROKU = "https://vn-master.herokuapp.com";
   static final String LOGIN = BASE_URL + "/api/authen/login";
-  static final String REGISTER = BASE_URL + "/api/authen/signup";
+  static final String REGISTER = BASE_URL_HEROKU + "/api/authen/signup";
   static final String GET_PROFILE = BASE_URL + "/api/authen/getUserDetail";
   static final String SEND_EMAIL = BASE_URL + "/api/authen/forget";
   static final String CHANGE_PASSWORD = BASE_URL + "/api/authen/updateNewPassword";
