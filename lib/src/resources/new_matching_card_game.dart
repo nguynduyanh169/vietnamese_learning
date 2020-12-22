@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
@@ -110,58 +111,58 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                 SizedBox(height: SizeConfig.blockSizeVertical * 10),
                 points != 800
                     ? GridView(
-                        shrinkWrap: true,
-                        //physics: ClampingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            mainAxisSpacing: 0.0, maxCrossAxisExtent: 100.0),
-                        children: List.generate(list.length, (index) {
-                          for (int i = 0; i < list.length; i++) {
-                            TileModel question = new TileModel();
-                            question.setImage("assets/images/question.png");
-                            question.setIsSelected(false);
-                            questionPairs.add(question);
-                          }
-                          myPairs = list;
-                          return Tile(
-                            imagePathUrl: list[index].getImage(),
-                            tileIndex: index,
-                            parent: this,
-                          );
-                        }),
-                      )
+                  shrinkWrap: true,
+                  //physics: ClampingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      mainAxisSpacing: 0.0, maxCrossAxisExtent: 100.0),
+                  children: List.generate(list.length, (index) {
+                    for (int i = 0; i < list.length; i++) {
+                      TileModel question = new TileModel();
+                      question.setImage("assets/images/question.png");
+                      question.setIsSelected(false);
+                      questionPairs.add(question);
+                    }
+                    myPairs = list;
+                    return Tile(
+                      imagePathUrl: list[index].getImage(),
+                      tileIndex: index,
+                      parent: this,
+                    );
+                  }),
+                )
                     : Container(
-                        child: Column(
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                points = 0;
-                                reStart();
-                              });
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 200,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              child: Text(
-                                "Replay",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500),
-                              ),
+                    child: Column(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              points = 0;
+                              reStart();
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 200,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Text(
+                              "Replay",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ))
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ))
               ],
             ),
           ),
@@ -190,7 +191,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
 
               var newList = [...getFromAPi, ...clone];
 
-              return _gameDetails(getFromAPi);
+              return _gameDetails(newList);
             } else if (state is GameLoadError) {
               return Center(
                 child: Text('Something went wrong'),
@@ -242,20 +243,17 @@ class _TileState extends State<Tile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('Click');
-        print(selected);
-        print(selectedTile);
-        if (!selected) {
+        if (selected == false) {
           setState(() {
             myPairs[widget.tileIndex].setIsSelected(true);
           });
+          //print(myPairs[widget.tileIndex].isSelected.toString());
           if (selectedTile != "") {
             /// testing if the selected tiles are same
-            if (selectedTile == myPairs[widget.tileIndex].getVocabulary()) {
-              print("add point");
-              points = points + 100;
-              print(selectedTile + " thishis" + widget.imagePathUrl);
 
+            if (selectedTile == myPairs[widget.tileIndex].getVocabulary()) {
+              print(myPairs[widget.tileIndex].getIsSelected());
+              print("so sanh");
               TileModel tileModel = new TileModel();
               print(widget.tileIndex);
               selected = true;
@@ -298,22 +296,22 @@ class _TileState extends State<Tile> {
         margin: EdgeInsets.all(5),
         child: myPairs[widget.tileIndex].getVocabulary() != ""
             ? myPairs[widget.tileIndex].getIsSelected()
-                ? Container(
-                    child: Center(
-                      child: Text(myPairs[widget.tileIndex].getVocabulary(),
-                          textAlign: TextAlign.center,
-                          style:
-                              TextStyle(fontSize: 15, fontFamily: 'Helvetica')),
-                    ),
-                    decoration: new BoxDecoration(
-                        color: Colors.purple,
-                        borderRadius: BorderRadius.circular(10)),
-                  )
-                : Image.asset("assets/images/quest.png")
+            ? Container(
+          child: Center(
+            child: Text(myPairs[widget.tileIndex].getVocabulary(),
+                textAlign: TextAlign.center,
+                style:
+                TextStyle(fontSize: 15, fontFamily: 'Helvetica')),
+          ),
+          decoration: new BoxDecoration(
+              color: Colors.purple,
+              borderRadius: BorderRadius.circular(10)),
+        )
+            : Image.asset("assets/images/quest.png")
             : Container(
-                color: Colors.white,
-                child: Image.asset("assets/images/correct.png"),
-              ),
+          color: Colors.white,
+          child: Image.asset("assets/images/correct.png"),
+        ),
       ),
     );
   }

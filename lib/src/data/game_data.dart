@@ -3,7 +3,7 @@ import 'package:vietnamese_learning/src/providers/game_provider.dart';
 
 String selectedTile = "";
 int selectedIndex ;
-bool selected = true;
+bool selected = false;
 int points = 0;
 
 List<TileModel> myPairs = new List<TileModel>();
