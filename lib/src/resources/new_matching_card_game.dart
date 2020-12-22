@@ -54,7 +54,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
     super.dispose();
   }
 
-  void reStart() {
+  void reStart(BuildContext context) {
     BlocProvider.of<Game_Cubit>(context).loadVocabularyByLevel();
   }
 
@@ -67,7 +67,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
     }
     return check;
   }
-  Widget _gameDetails(List<TileModel> list) {
+  Widget _gameDetails(List<TileModel> list, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -159,7 +159,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                           onTap: (){
                             setState(() {
                               points = 0;
-                              reStart();
+                              reStart(context);
                             });
                           },
                           child: Container(
@@ -211,7 +211,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
 
               var newList = [...getFromAPi, ...clone];
 
-              return _gameDetails(newList);
+              return _gameDetails(newList, context);
             } else if (state is GameLoadError) {
               return Center(
                 child: Text('Something went wrong'),
