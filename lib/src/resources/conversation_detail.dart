@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
+import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_left.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_right.dart';
@@ -69,8 +70,10 @@ class _ConversationDetailState extends State<ConversationDetail> {
               Container(
                 width: SizeConfig.blockSizeVertical * 60,
                 height: SizeConfig.blockSizeHorizontal * 40,
-                child: Image(
+                child: conversations[0].conversationImage == null ? Image(
                   image: AssetImage('assets/images/chaohoi.png'),
+                ): Image(
+                  image: NetworkImage(conversations[0].conversationImage),
                 ),
               ),
               Expanded(

@@ -303,6 +303,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     prefs.remove('accessToken');
     prefs.remove(_username + 'profile');
     prefs.remove(_username  + "SearchHistory");
+    prefs.remove(_username + 'schedule');
     signOutUser();
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);

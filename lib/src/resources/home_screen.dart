@@ -69,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, state) {
             if (state is LessonsLoaded) {
               userProfile = state.userProfile;
-              print(userProfile.toJson());
               return _gridLesson(state.lessons, userProfile.studentLevel);
             } else if (state is LessonLoadError) {
               return Center(

@@ -76,7 +76,6 @@ class _LevelScreenState extends State<LevelScreen> {
                   },
                 ),
               );
-              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,)));
             }else if(state is LoadingEntranceQuiz){
               CustomProgressDialog.progressDialog(context);
             }
@@ -162,7 +161,7 @@ class _LevelScreenState extends State<LevelScreen> {
                                     height: SizeConfig.blockSizeVertical * 10,
                                     child: Image(
                                       image: AssetImage(
-                                          'assets/images/owlexpertcolor.png'),
+                                          'assets/images/owlwithclassescolor.png'),
                                     ),
                                   ),
                                 ],
@@ -197,23 +196,23 @@ class _LevelScreenState extends State<LevelScreen> {
                                     height: 60,
                                     child: Image(
                                       image: AssetImage(
-                                          'assets/images/owlwithclassescolor.png'),
+                                        'assets/images/owlexpertcolor.png'),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.blockSizeVertical * 10,
+                                    width: SizeConfig.blockSizeVertical * 4,
                                   ),
                                   Column(
                                     children: [
                                       Text(
-                                        "Advanced",
+                                        "Entrance Quiz",
                                         style: GoogleFonts.sansita(
                                           fontSize: 33,
                                           color: Colors.white,
                                         ),
                                       ),
                                       Text(
-                                        "Test your qualification",
+                                        "Do a quiz to identify your level",
                                         style: TextStyle(
                                           fontFamily: 'Helvetica',
                                           fontSize: 17,

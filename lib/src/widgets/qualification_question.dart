@@ -47,7 +47,7 @@ class QualificationQuestion extends StatelessWidget{
                 ),
               ),
               onTap: () {
-                AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(questionText)));
+                AssetsAudioPlayer.playAndForget(Audio.network(questionText));
               },
             ),
             SizedBox(height: SizeConfig.blockSizeVertical * 2,),
@@ -76,7 +76,7 @@ class QualificationQuestion extends StatelessWidget{
             ],
           )
       );
-    }else if(questionType == 4){
+    }else if(questionType == 5){
       return Container(
           width: SizeConfig.blockSizeHorizontal * 75,
           height: SizeConfig.blockSizeVertical * 30,

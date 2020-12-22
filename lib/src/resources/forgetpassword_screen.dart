@@ -125,8 +125,6 @@ class ForgetPasswordScreen extends StatelessWidget {
               width: SizeConfig.blockSizeHorizontal * 85,
               child: TextFormField(
                 controller: txtCode,
-                maxLength: 4,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   errorText: codeInvalid,
                     border: OutlineInputBorder(

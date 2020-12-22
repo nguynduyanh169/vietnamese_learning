@@ -17,8 +17,6 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -41,7 +39,7 @@ class ViewPost extends StatefulWidget {
 
 class _ViewPostState extends State<ViewPost> {
   Content content;
-  final assetsAudioPlayer = AssetsAudioPlayer();  
+  final assetsAudioPlayer = AssetsAudioPlayer();
   VideoPlayerController videoPlayerController;
   ChewieController chewieController;
   TextEditingController _txtComment;
@@ -56,6 +54,7 @@ class _ViewPostState extends State<ViewPost> {
   bool _isRecording = false;
   bool isPlaying = false;
   BuildContext _ctx;
+
 
   _ViewPostState({this.content});
 
@@ -88,7 +87,6 @@ class _ViewPostState extends State<ViewPost> {
       },
     );
   }
-
 
 
   File _getAudioContent(String path) {
@@ -358,7 +356,7 @@ class _ViewPostState extends State<ViewPost> {
     BlocProvider.of<PostCubit>(context).saveComment(commentSave, file);
     clearCacheFile();
   }
-  Widget _mediaPlayer(BuildContext context, String link) {
+  Widget _mediaPlayer(BuildContext buildContext, String link) {
     if (link != null) {
       if (link.toLowerCase().contains('mp4') ||
           link.toLowerCase().contains('mov')) {
@@ -372,34 +370,41 @@ class _ViewPostState extends State<ViewPost> {
         return InkWell(
           child: Container(
             margin: EdgeInsets.only(top: 8),
-            width: SizeConfig.blockSizeHorizontal * 35,
+            width: SizeConfig.blockSizeHorizontal * 45,
             height: SizeConfig.blockSizeVertical * 8,
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(10.0),
               color: Color.fromRGBO(255, 190, 51, 1),
             ),
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    CupertinoIcons.play_arrow_solid,
-                    color: Colors.black54,
-                  ),
-                  iconSize: 20,
+            child: PlayerBuilder.isPlaying(
+                    player: assetsAudioPlayer,
+                    builder: (context, isPlaying) {
+                      return Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: (isPlaying == false) ? Icon(
+                              CupertinoIcons.play_arrow_solid,
+                              color: Colors.white,
+                            ): Icon(
+                              CupertinoIcons.waveform,
+                              color: Colors.white,
+                            ),
+                            iconSize: 20,
+                          ),
+                          Text(
+                            (isPlaying == false) ? 'Press to play audio' : 'Playing......',
+                            style: TextStyle(fontFamily: 'Helvetica', fontSize: 12, color: Colors.white),
+                          )
+                        ],
+                      );
+                    }
                 ),
-                Text(
-                  'Press to listen',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-                )
-              ],
-            ),
           ),
           onTap: () {
-            assetsAudioPlayer.open(Audio.network(link));
+            assetsAudioPlayer.open(Audio.network(content.link));
           },
         );
-
       }
     } else {
       return Container();
@@ -476,11 +481,12 @@ class _ViewPostState extends State<ViewPost> {
                                 SizedBox(
                                   width: SizeConfig.blockSizeHorizontal * 1.5,
                                 ),
+                                comment.nation != null?
                                 Image(
                                   width: 22,
                                   height: 22,
                                   image: NetworkImage(comment.nation),
-                                ),
+                                ): Container(),
                                 SizedBox(
                                   width: SizeConfig.blockSizeVertical * 0.5,
                                 ),

@@ -40,7 +40,6 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // startTimer();
   }
 
   void reStart() {

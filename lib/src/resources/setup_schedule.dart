@@ -3,6 +3,7 @@ import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class SetupScheduleScreen extends StatefulWidget{
@@ -17,14 +18,31 @@ class _SetupScheduleState extends State<SetupScheduleScreen>{
   TextEditingController _txtTime ;
   String time;
 
-  TimeOfDay _time = TimeOfDay.now().replacing(minute: 1);
+  TimeOfDay _time = TimeOfDay.now().replacing(minute: 30);
   bool iosStyle = true;
   Time setupTime;
+  bool isSetup = false;
 
   void onTimeChanged(TimeOfDay newTime) {
     setState(() {
       _time = newTime;
     });
+  }
+
+  Future<void> _loadSettingTime() async {
+    final SharedPreferences prefs =
+    await SharedPreferences.getInstance();
+    String username = prefs.getString('username');
+    String previousTime = prefs.getString(username + 'schedule');
+    if(previousTime == '' || previousTime == null){
+      setupTime = new Time(10, 0, 0);
+      showDailyAtTime(setupTime);
+      setState(() {
+        _txtTime.text = setupTime.hour.toString() + ':' + setupTime.minute.toString().padLeft(2, '0');
+      });
+    }else{
+      _txtTime.text = previousTime;
+    }
   }
 
   @override
@@ -35,11 +53,12 @@ class _SetupScheduleState extends State<SetupScheduleScreen>{
     var initSettings = new InitializationSettings(android: android, iOS: ios);
     flutterLocalNotificationsPlugin.initialize(
         initSettings);
+    _loadSettingTime();
     super.initState();
   }
 
   Future<void> showDailyAtTime(Time time) async {
-    print('show');
+    print(time.minute);
     var androidChannelSpecifics = AndroidNotificationDetails(
       'CHANNEL_ID 4',
       'CHANNEL_NAME 4',
@@ -58,6 +77,9 @@ class _SetupScheduleState extends State<SetupScheduleScreen>{
       platformChannelSpecifics,
       payload: 'Test Payload',
     );
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String username = prefs.getString('username');
+    prefs.setString(username + 'schedule', time.hour.toString() +':'+ time.minute.toString().padLeft(2,'0'));
   }
 
 
@@ -112,8 +134,11 @@ class _SetupScheduleState extends State<SetupScheduleScreen>{
                       maxMinute: 56,
                       // Optional onChange to receive value as DateTime
                       onChangeDateTime: (DateTime dateTime) {
-                        _txtTime.text = dateTime.hour.toString() + ":" + dateTime.minute.toString();
-                        setupTime = new Time(09, 40, 0);
+                        setState(() {
+                          isSetup = true;
+                          _txtTime.text = dateTime.hour.toString() + ":" + dateTime.minute.toString().padLeft(2, '0');
+                        });
+                        setupTime = new Time(dateTime.hour, dateTime.minute, 0);
                       },
                     ),
                   );
@@ -149,8 +174,11 @@ class _SetupScheduleState extends State<SetupScheduleScreen>{
               child: FlatButton(
                   color: Color.fromRGBO(255, 190, 51, 30),
                   onPressed: () {
-                    print('hello');
-                    showDailyAtTime(setupTime);
+                    if(isSetup == true) {
+                      showDailyAtTime(setupTime);
+                    }else{
+                      null;
+                    }
                   },
                   child: Container(
                     width: SizeConfig.blockSizeHorizontal * 70,
