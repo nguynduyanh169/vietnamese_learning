@@ -8,6 +8,7 @@ int points = 0;
 
 List<TileModel> myPairs = new List<TileModel>();
 List<bool> clicked = new List<bool>();
+List<String> strin = new List<String>();
 
 List<bool> getClicked(){
 

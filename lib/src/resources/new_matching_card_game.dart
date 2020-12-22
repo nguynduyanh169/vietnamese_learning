@@ -1,6 +1,6 @@
-
 import 'dart:async';
 
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +9,7 @@ import 'package:vietnamese_learning/src/cubit/game_cubit.dart';
 import 'package:vietnamese_learning/src/models/memory_model.dart';
 import 'package:vietnamese_learning/src/data/game_data.dart';
 import 'package:vietnamese_learning/src/states/game_state.dart';
+import 'package:vietnamese_learning/src/widgets/game_result.dart';
 
 class NewMatchingGame extends StatefulWidget {
   @override
@@ -41,6 +42,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    startTimer();
   }
 
   void reStart() {
@@ -69,7 +71,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
           child: Container(
             height: SizeConfig.blockSizeVertical * 100,
             color: Color.fromRGBO(255, 239, 215, 100),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
             child: Column(
               children: <Widget>[
                 Container(
@@ -92,77 +94,61 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                     ],
                   ),
                 ),
-                // (time > 0)
-                //     ? Padding(
-                //         padding: EdgeInsets.all(12.0),
-                //         child: Text("Time left: $time s",
-                //             style: TextStyle(
-                //                 fontFamily: 'Helvetica',
-                //                 fontWeight: FontWeight.w600,
-                //                 fontSize: 25)))
-                //     : Center(
-                //         child: Text(
-                //           "",
-                //           textAlign: TextAlign.center,
-                //           style:
-                //               TextStyle(fontSize: 30, fontFamily: 'Helvetica'),
-                //         ),
-                //       ),
+                (time > 0)
+                    ? Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text("Time left: $time s",
+                            style: TextStyle(
+                                fontFamily: 'Helvetica',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 25)))
+                    : Center(
+                        child: Text(
+                          "",
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(fontSize: 30, fontFamily: 'Helvetica'),
+                        ),
+                      ),
                 SizedBox(height: SizeConfig.blockSizeVertical * 10),
-                points != 800
+                (time > 0)
                     ? GridView(
-                  shrinkWrap: true,
-                  //physics: ClampingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      mainAxisSpacing: 0.0, maxCrossAxisExtent: 100.0),
-                  children: List.generate(list.length, (index) {
-                    for (int i = 0; i < list.length; i++) {
-                      TileModel question = new TileModel();
-                      question.setImage("assets/images/question.png");
-                      question.setIsSelected(false);
-                      questionPairs.add(question);
-                    }
-                    myPairs = list;
-                    return Tile(
-                      imagePathUrl: list[index].getImage(),
-                      tileIndex: index,
-                      parent: this,
-                    );
-                  }),
-                )
-                    : Container(
-                    child: Column(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              points = 0;
-                              reStart();
-                            });
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 200,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Text(
-                              "Replay",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ))
+                        shrinkWrap: true,
+                        //physics: ClampingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            mainAxisSpacing: 0.0, maxCrossAxisExtent: 100.0),
+                        children: List.generate(list.length, (index) {
+                          for (int i = 0; i < list.length; i++) {
+                            TileModel question = new TileModel();
+                            question.setImage("assets/images/question.png");
+                            question.setIsSelected(false);
+                            questionPairs.add(question);
+                          }
+                          List<String> str = generateList(list);
+
+                          for (int i = 0; i < str.length; i++) {
+                            TileModel tile = new TileModel();
+                            tile.vocabulary = str[i];
+                            tile.isSelected = false;
+                            for (int j = 0; j < list.length; j++) {
+                              if(list[j].description == tile.vocabulary){
+                                tile.image = list[j].image;
+                              }
+                              if(list[j].vocabulary == tile.vocabulary){
+                                tile.image = list[j].image;
+                              }
+                            }
+                            myPairs.add(tile);
+                          }
+                          return Tile(
+                            imagePathUrl: list[index].getImage(),
+                            tileIndex: index,
+                            parent: this,
+                          );
+                        }),
+                      )
+                    : GameResult()
               ],
             ),
           ),
@@ -187,6 +173,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                 }
                 getFromAPi[i].isSelected = false;
               }
+              getFromAPi.shuffle();
               List<TileModel> clone = []..addAll(getFromAPi);
 
               var newList = [...getFromAPi, ...clone];
@@ -225,6 +212,19 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
       ),
     );
   }
+
+  List<String> generateList(List<TileModel> list) {
+    List<String> str = new List<String>();
+    for (int i = 0; i < list.length; i++) {
+      str.add(list[i].vocabulary);
+      str.add(list[i].description);
+    }
+    var distinct = str.toSet().toList();
+    // for(int i=0; i<distinct.length; i++){
+    //   return distinct[i];
+    // }
+    return distinct;
+  }
 }
 
 class Tile extends StatefulWidget {
@@ -238,6 +238,19 @@ class Tile extends StatefulWidget {
   _TileState createState() => _TileState();
 }
 
+List<String> generateList(List<TileModel> list) {
+  List<String> str = new List<String>();
+  for (int i = 0; i < list.length; i++) {
+    str.add(list[i].vocabulary);
+    str.add(list[i].description);
+  }
+  var distinct = str.toSet().toList();
+  // for(int i=0; i<distinct.length; i++){
+  //   return distinct[i];
+  // }
+  return distinct;
+}
+
 class _TileState extends State<Tile> {
   @override
   Widget build(BuildContext context) {
@@ -247,20 +260,14 @@ class _TileState extends State<Tile> {
           setState(() {
             myPairs[widget.tileIndex].setIsSelected(true);
           });
-          //print(myPairs[widget.tileIndex].isSelected.toString());
           if (selectedTile != "") {
-            /// testing if the selected tiles are same
-
-            if (selectedTile == myPairs[widget.tileIndex].getVocabulary()) {
-              print(myPairs[widget.tileIndex].getIsSelected());
-              print("so sanh");
+            print(myPairs[widget.tileIndex].getImage());
+            if (selectedTile == myPairs[widget.tileIndex].getImage()) {
               TileModel tileModel = new TileModel();
-              print(widget.tileIndex);
               selected = true;
-              Future.delayed(const Duration(seconds: 2), () {
+              Future.delayed(const Duration(seconds: 1), () {
                 tileModel.setVocabulary("");
                 myPairs[widget.tileIndex] = tileModel;
-                print(selectedIndex);
                 myPairs[selectedIndex] = tileModel;
                 this.widget.parent.setState(() {});
                 setState(() {
@@ -283,12 +290,10 @@ class _TileState extends State<Tile> {
             }
           } else {
             setState(() {
-              selectedTile = myPairs[widget.tileIndex].getVocabulary();
+              selectedTile = myPairs[widget.tileIndex].getImage();
               selectedIndex = widget.tileIndex;
+              print(selectedTile);
             });
-
-            print("selected title " + selectedTile);
-            print("selected index " + selectedIndex.toString());
           }
         }
       },
@@ -296,22 +301,22 @@ class _TileState extends State<Tile> {
         margin: EdgeInsets.all(5),
         child: myPairs[widget.tileIndex].getVocabulary() != ""
             ? (myPairs[widget.tileIndex].getIsSelected()
-            ? Container(
-          child: Center(
-            child: Text(myPairs[widget.tileIndex].getVocabulary(),
-                textAlign: TextAlign.center,
-                style:
-                TextStyle(fontSize: 15, fontFamily: 'Helvetica')),
-          ),
-          decoration: new BoxDecoration(
-              color: Colors.purple,
-              borderRadius: BorderRadius.circular(10)),
-        )
-            : Image.asset("assets/images/quest.png"))
+                ? Container(
+                    child: Center(
+                      child: Text(myPairs[widget.tileIndex].getVocabulary(),
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(fontSize: 15, fontFamily: 'Helvetica')),
+                    ),
+                    decoration: new BoxDecoration(
+                        color: Colors.purple,
+                        borderRadius: BorderRadius.circular(10)),
+                  )
+                : Image.asset("assets/images/quest.png"))
             : Container(
-          color: Colors.white,
-          child: Image.asset("assets/images/correct.png"),
-        ),
+                color: Colors.white,
+                child: Image.asset("assets/images/correct.png"),
+              ),
       ),
     );
   }
