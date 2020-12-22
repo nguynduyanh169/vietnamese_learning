@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 
 class VocabularyProvider {
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String VOCABULARY = BASE_URL + "/api/vocabulary/getByLesson/";
   final Dio _dio = Dio();
 

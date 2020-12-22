@@ -66,11 +66,21 @@ dependencies:
   firebase_ml_vision: ^0.9.8
   translator: ^0.1.5
   uuid: ^2.2.2
+  flutter_local_notifications: ^3.0.2
+  day_night_time_picker: ^0.4.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^3.3.0
   flutter_gifimage: ^1.0.0
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  image_path: "assets/images/VL.jpg"
+  android: 'launcher_icon'
+  ios: true
 
 flutter:
   uses-material-design: true
@@ -92,6 +102,7 @@ flutter:
      - assets/images/quiz_logo.png
      - assets/images/email.png
      - assets/images/VL.png
+     - assets/images/VL.jpg
      - assets/images/rocket.png
      - assets/images/VLwithout.png
      - assets/images/chaohoi.png
@@ -166,6 +177,7 @@ flutter:
      - assets/images/v.png
      - assets/images/x.png
      - assets/images/y.png
+     - assets/images/question.png
      - res/hangman_words.txt
   fonts:
     - family: Helvetica

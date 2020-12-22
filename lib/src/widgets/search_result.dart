@@ -110,9 +110,13 @@ class SearchResult extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
+              content.avatar == null ?
               CircleAvatar(
                 radius: 20,
                 backgroundImage: AssetImage('assets/images/profile.png'),
+              ): CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(content.avatar),
               ),
               SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 2,
@@ -132,11 +136,12 @@ class SearchResult extends StatelessWidget {
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 2,
                       ),
+                      content.nation != null?
                       Image(
                         width: 22,
                         height: 22,
                         image: NetworkImage(content.nation),
-                      ),
+                      ): Container(),
                     ],
                   ),
                   SizedBox(

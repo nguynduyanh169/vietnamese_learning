@@ -8,6 +8,7 @@ import 'package:chewie/chewie.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
@@ -16,8 +17,6 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -53,7 +52,9 @@ class _ViewPostState extends State<ViewPost> {
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
+  bool isPlaying = false;
   BuildContext _ctx;
+
 
   _ViewPostState({this.content});
 
@@ -86,7 +87,6 @@ class _ViewPostState extends State<ViewPost> {
       },
     );
   }
-
 
 
   File _getAudioContent(String path) {
@@ -356,8 +356,7 @@ class _ViewPostState extends State<ViewPost> {
     BlocProvider.of<PostCubit>(context).saveComment(commentSave, file);
     clearCacheFile();
   }
-
-  Widget _mediaPlayer(BuildContext context, String link) {
+  Widget _mediaPlayer(BuildContext buildContext, String link) {
     if (link != null) {
       if (link.toLowerCase().contains('mp4') ||
           link.toLowerCase().contains('mov')) {
@@ -371,31 +370,39 @@ class _ViewPostState extends State<ViewPost> {
         return InkWell(
           child: Container(
             margin: EdgeInsets.only(top: 8),
-            width: SizeConfig.blockSizeHorizontal * 35,
+            width: SizeConfig.blockSizeHorizontal * 45,
             height: SizeConfig.blockSizeVertical * 8,
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(10.0),
               color: Color.fromRGBO(255, 190, 51, 1),
             ),
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    CupertinoIcons.play_arrow_solid,
-                    color: Colors.black54,
-                  ),
-                  iconSize: 20,
+            child: PlayerBuilder.isPlaying(
+                    player: assetsAudioPlayer,
+                    builder: (context, isPlaying) {
+                      return Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: (isPlaying == false) ? Icon(
+                              CupertinoIcons.play_arrow_solid,
+                              color: Colors.white,
+                            ): Icon(
+                              CupertinoIcons.waveform,
+                              color: Colors.white,
+                            ),
+                            iconSize: 20,
+                          ),
+                          Text(
+                            (isPlaying == false) ? 'Press to play audio' : 'Playing......',
+                            style: TextStyle(fontFamily: 'Helvetica', fontSize: 12, color: Colors.white),
+                          )
+                        ],
+                      );
+                    }
                 ),
-                Text(
-                  'Press to listen',
-                  style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
-                )
-              ],
-            ),
           ),
           onTap: () {
-            assetsAudioPlayer.open(Audio.network(link));
+            assetsAudioPlayer.open(Audio.network(content.link));
           },
         );
       }
@@ -446,6 +453,7 @@ class _ViewPostState extends State<ViewPost> {
                     }
                   },
                   child: ChatBubble(
+                    elevation: 0,
                     clipper:
                         ChatBubbleClipper5(type: BubbleType.receiverBubble),
                     alignment: Alignment.topRight,
@@ -473,11 +481,12 @@ class _ViewPostState extends State<ViewPost> {
                                 SizedBox(
                                   width: SizeConfig.blockSizeHorizontal * 1.5,
                                 ),
+                                comment.nation != null?
                                 Image(
                                   width: 22,
                                   height: 22,
                                   image: NetworkImage(comment.nation),
-                                ),
+                                ): Container(),
                                 SizedBox(
                                   width: SizeConfig.blockSizeVertical * 0.5,
                                 ),
@@ -739,6 +748,7 @@ class _ViewPostState extends State<ViewPost> {
                     style: TextStyle(fontFamily: 'Helvetica'),
                   ),
                   onPressed: () {
+                    Clipboard.setData(ClipboardData(text: comment.text));
                     Navigator.of(rootContext).pop();
                   }),
               CupertinoActionSheetAction(
@@ -1067,12 +1077,14 @@ class _ViewPostState extends State<ViewPost> {
                                                           .blockSizeHorizontal *
                                                       2,
                                                 ),
+                                                content.nation != null ?
                                                 Image(
                                                   width: 22,
                                                   height: 22,
                                                   image: NetworkImage(
                                                       content.nation),
-                                                ),
+                                                ):Container(),
+
                                               ],
                                             ),
                                             SizedBox(

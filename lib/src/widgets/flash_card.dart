@@ -74,27 +74,20 @@ class FlashCard extends StatelessWidget{
                             ),
                           )),
                       Positioned(
-                        left: SizeConfig.blockSizeHorizontal * 37,
+                        left: SizeConfig.blockSizeHorizontal * 34,
                         top: SizeConfig.blockSizeVertical * 53,
-                        child: InkWell(
-                          child: ClipOval(
-                            child: Container(
-                              color: Colors.amberAccent,
-                              width:
-                              SizeConfig.blockSizeHorizontal * 18,
-                              height:
-                              SizeConfig.blockSizeVertical * 10,
-                              child: Center(
-                                child: Icon(
-                                  CupertinoIcons.volume_up,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          onTap: () {
+                        child: FlatButton(
+                          onPressed: () {
                             AssetsAudioPlayer.playAndForget(Audio.network(audio));
                           },
+                          color: Colors.amberAccent,
+                          textColor: Colors.white,
+                          child: Icon(
+                            CupertinoIcons.volume_up,
+                            size: 24,
+                          ),
+                          padding: EdgeInsets.all(16),
+                          shape: CircleBorder(),
                         ),
                       )
                     ],
@@ -134,27 +127,20 @@ class FlashCard extends StatelessWidget{
                           ),
                         )),
                     Positioned(
-                      left: SizeConfig.blockSizeHorizontal * 37,
+                      left: SizeConfig.blockSizeHorizontal * 34,
                       top: SizeConfig.blockSizeVertical * 53,
-                      child: InkWell(
-                        child: ClipOval(
-                          child: Container(
-                            color: Colors.amberAccent,
-                            width:
-                            SizeConfig.blockSizeHorizontal * 18,
-                            height:
-                            SizeConfig.blockSizeVertical * 10,
-                            child: Center(
-                              child: Icon(
-                                CupertinoIcons.volume_up,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        onTap: () {
+                      child: FlatButton(
+                        onPressed: () {
                           AssetsAudioPlayer.playAndForget(Audio.network(audio));
                         },
+                        color: Colors.amberAccent,
+                        textColor: Colors.white,
+                        child: Icon(
+                          CupertinoIcons.volume_up,
+                          size: 24,
+                        ),
+                        padding: EdgeInsets.all(16),
+                        shape: CircleBorder(),
                       ),
                     )
                   ],),

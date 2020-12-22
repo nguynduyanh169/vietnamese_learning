@@ -5,8 +5,11 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
+import 'package:vietnamese_learning/src/resources/change_password.dart';
 import 'package:vietnamese_learning/src/resources/edit_profile.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
+import 'package:vietnamese_learning/src/resources/setup_schedule.dart';
+import 'package:vietnamese_learning/src/states/change_password_state.dart';
 import 'package:vietnamese_learning/src/utils/firebase_util.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -238,6 +241,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: const Color.fromRGBO(
                                             255, 190, 50, 30),
                                         child: ListTile(
+                                          onTap: (){
+                                            pushNewScreen(context,
+                                                screen: ChangePasswordScreen(email: userProfile.email, username: userProfile.username,),
+                                                withNavBar: false,
+                                                pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .slideUp);
+                                          },
                                           leading:
                                               Icon(CupertinoIcons.lock_fill),
                                           title: Text(
@@ -255,16 +266,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           leading:
                                               Icon(CupertinoIcons.bell_fill),
                                           title: Text(
-                                            "Notification Setting",
+                                            "Reminder setting",
                                             style: TextStyle(
                                                 fontFamily: 'Helvetica'),
                                           ),
-                                          trailing: Switch(
-                                              value: isSwitch,
-                                              onChanged: (value) {
-                                                isSwitch = value;
-                                                print(isSwitch);
-                                              }),
+                                          trailing: Icon(CupertinoIcons.forward),
+                                          onTap: (){
+                                            pushNewScreen(context,
+                                                screen: SetupScheduleScreen(),
+                                                withNavBar: false,
+                                                pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .slideUp);
+                                          },
                                         )),
                                     Card(
                                       color: const Color.fromRGBO(
@@ -298,10 +312,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     prefs.remove('username');
     prefs.remove('accessToken');
     prefs.remove(_username + 'profile');
+    prefs.remove(_username  + "SearchHistory");
+    prefs.remove(_username + 'schedule');
     signOutUser();
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-    // Navigator.of(context, rootNavigator: true).pushReplacement(
-    //     MaterialPageRoute(builder: (context) => new LoginPage()));
   }
 }

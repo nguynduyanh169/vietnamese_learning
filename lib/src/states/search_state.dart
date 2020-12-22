@@ -1,4 +1,5 @@
 import 'package:vietnamese_learning/src/models/post.dart';
+import 'package:vietnamese_learning/src/models/search_history.dart';
 
 abstract class SearchState {
   const SearchState();
@@ -12,7 +13,7 @@ class Searching extends SearchState{
   const Searching();
 }
 class SearchSuccess extends SearchState{
-  final Map<String, dynamic> searchList;
+  final List<SearchHistory> searchList;
   final String searchKey;
   final List<Content> searchPosts;
   const SearchSuccess(this.searchList, this.searchKey, this.searchPosts);
@@ -27,6 +28,15 @@ class LoadingSearchHistory extends SearchState{
 }
 
 class LoadedSearchHistory extends SearchState{
-  final Map<String, dynamic> searchList;
+  final List<SearchHistory> searchList;
   const LoadedSearchHistory(this.searchList);
+}
+
+class DeleteSearchHistory extends SearchState{
+  final List<SearchHistory> searchList;
+  const DeleteSearchHistory(this.searchList);
+}
+
+class ClearSearchHistory extends SearchState{
+  const ClearSearchHistory();
 }

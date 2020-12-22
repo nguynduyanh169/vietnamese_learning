@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vietnamese_learning/src/resources/memory_game_level.dart';
+import 'package:vietnamese_learning/src/resources/new_matching_card_game.dart';
 
 import '../config/size_config.dart';
 
@@ -61,7 +62,7 @@ class _GameDetailState extends State<GameDetail> {
             InkWell(
               onTap: () {
                 pushNewScreen(context,
-                    screen: MemoryGameLevelPage(),
+                    screen: NewMatchingGame(),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino);
               },

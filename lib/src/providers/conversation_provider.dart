@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 
 class ConversationProvider {
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String CONVERSATION = BASE_URL + "/api/conversation/getByLesson/";
   final Dio _dio = Dio();
 

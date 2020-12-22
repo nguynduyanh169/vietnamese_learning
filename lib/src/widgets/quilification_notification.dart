@@ -8,13 +8,14 @@ import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/models/login_respone.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/states/progress_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class QualificationNotification extends StatelessWidget {
   int level;
   LoginResponse loginResponse;
   String username;
-  ProgressDialog pr;
   BuildContext _ctx;
+  ProgressDialog pr;
   QualificationNotification({Key key, this.level, this.loginResponse, this.username});
 
   @override
@@ -31,20 +32,17 @@ class QualificationNotification extends StatelessWidget {
     }
     SizeConfig().init(context);
     _ctx = context;
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
     return BlocProvider(
         create: (context) => ProgressCubit(ProgressRepository()),
         child: BlocConsumer<ProgressCubit, ProgressState>(
           listener: (context, state){
             if(state is CreatingProgress){
-              pr.show();
+              //CustomProgressDialog.progressDialog(context);
+              print('hello');
             }else if(state is CreateProgressSuccess){
-              print('success');
-              pr.hide().whenComplete(() => Navigator.of(_ctx).pushReplacement(MaterialPageRoute(
-                  builder: (context) => HomePage())));
+              //Navigator.pop(context);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => HomePage()));
             }
           },
           builder: (context, state){
@@ -87,7 +85,7 @@ class QualificationNotification extends StatelessWidget {
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 22,
                     ),
-                    MaterialButton(
+                    FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100.0),
                       ),
@@ -99,7 +97,7 @@ class QualificationNotification extends StatelessWidget {
                             child: Text(
                               "Finish",
                               style: TextStyle(
-                                  color: Colors.grey[700],
+                                  color: Colors.white,
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Helvetica'),

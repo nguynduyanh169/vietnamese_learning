@@ -57,21 +57,18 @@ class _HomeScreenState extends State<HomeScreen> {
           LessonsCubit(LessonRepository())..loadLessonByLevel(),
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-          heroTag: Uuid(),
-          onPressed: () => pushNewScreen(
-            context,
-            screen: DetailTranslateScreen(),
-            withNavBar: false,
-            pageTransitionAnimation: PageTransitionAnimation.slideUp,
-          ),
-          icon: Icon(CupertinoIcons.camera_fill),
-          label: Text('Translate'),
+            heroTag: Uuid(),
+            onPressed: () => pushNewScreen(context,
+              screen: DetailTranslateScreen(),
+              withNavBar: false,
+              pageTransitionAnimation: PageTransitionAnimation.slideUp,),
+            icon: Icon(CupertinoIcons.camera_fill),
+            label: Text('Translator'),
         ),
         body: BlocBuilder<LessonsCubit, LessonsState>(
           builder: (context, state) {
             if (state is LessonsLoaded) {
               userProfile = state.userProfile;
-              print(userProfile.toJson());
               return _gridLesson(state.lessons, userProfile.studentLevel);
             } else if (state is LessonLoadError) {
               return Center(

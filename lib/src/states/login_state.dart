@@ -33,6 +33,10 @@ class LoginGmailSuccess extends LoginState{
   const LoginGmailSuccess();
 }
 
+class DoingLoginGmail extends LoginState{
+  const DoingLoginGmail();
+}
+
 class LoginGmailFail extends LoginState{
   final String message;
   const LoginGmailFail(this.message);

@@ -206,11 +206,12 @@ class ForumTabState extends State<ForumTab> {
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 2,
                       ),
+                      content.nation != null?
                       Image(
                         width: 22,
                         height: 22,
                         image: NetworkImage(content.nation),
-                      ),
+                      ): Container(),
                     ],
                   ),
                   SizedBox(

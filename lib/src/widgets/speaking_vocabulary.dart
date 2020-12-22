@@ -149,6 +149,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                     onPressed: () {
                       if (_isRecording == false) {
                         setState(() {
+                          recognizeFinished = false;
                           _isRecording = true;
                         });
                         _start();
@@ -408,48 +409,125 @@ class _RecognizeContent extends StatelessWidget {
 
   const _RecognizeContent({Key key, this.text}) : super(key: key);
 
+  Widget _recognizeResult(){
+    double result = double.parse(text) / 100;
+    if(result == 1) {
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Perfect!',), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
+              ),
+            ),
+          )],
+        ),
+      );
+    }else if(result >= 0.6 && result < 1){
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Almost correct!'), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
+              ),
+            ),
+          )],
+        ),
+      );
+    }else{
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Pretty good!'), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
+              ),
+            ),
+          )],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          Center(
-            child: Text(
-              'The word we hear from your voice',
-              style: TextStyle(fontFamily: 'Helvetica'),
-            ),
-          ),
-          SizedBox(
-            height: 4.0,
-          ),
-          Center(
-            child: Container(
-              margin: const EdgeInsets.all(2.0),
-              child: Padding(padding: const EdgeInsets.all(4.0),
-                child: CircularPercentIndicator(
-                  radius: 70,
-                  lineWidth: 5.0,
-                  animation: true,
-                  percent: double.parse(text)/100,
-                  center: new Text(
-                    text + "%",
-                    style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: Colors.green,
-                        fontFamily: "Helvetica"),
-                  ),
-                  circularStrokeCap: CircularStrokeCap.round,
-                  progressColor: Colors.green,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+    return _recognizeResult();
   }
 }
 

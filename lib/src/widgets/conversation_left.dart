@@ -24,9 +24,8 @@ class ConversationLeft extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              print('$voiceLink');
               AssetsAudioPlayer.playAndForget(
-                  Audio.network(UrlUtils.editAudioUrl(voiceLink)));
+                  Audio.network(voiceLink));
             },
             child: Container(
               decoration: BoxDecoration(
@@ -42,6 +41,7 @@ class ConversationLeft extends StatelessWidget {
             ),
           ),
           ChatBubble(
+            elevation: 0,
             clipper: ChatBubbleClipper4(type: BubbleType.receiverBubble),
             alignment: Alignment.topRight,
             margin: EdgeInsets.only(

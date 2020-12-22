@@ -4,7 +4,7 @@ import 'package:vietnamese_learning/src/models/comment.dart';
 
 
 class CommentProvider{
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String GET_COMMENTS = BASE_URL + "/api/comment/";
   static final String CREATE_COMMENT = BASE_URL + "/api/comment";
   static final String DELETE_COMMENT = BASE_URL + "/api/comment";

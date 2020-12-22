@@ -16,7 +16,6 @@ class PostsCubit extends Cubit<PostsState>{
       String token = prefs.getString('accessToken');
       String username = prefs.getString('username');
       Post post = await _postRepository.loadInitPosts(token);
-      print(post.toJson());
       List<Content> contents = post.content;
       if(contents.length == 0){
         emit(LoadPostsError());

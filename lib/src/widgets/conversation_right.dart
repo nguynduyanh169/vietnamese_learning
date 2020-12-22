@@ -16,23 +16,11 @@ class ConversationRight extends StatelessWidget {
       height: SizeConfig.blockSizeHorizontal * 30,
       width: MediaQuery.of(context).size.width,
       alignment: Alignment.centerRight,
-      // decoration: BoxDecoration(
-      //   //color: Colors.white,
-      //   // border: Border(
-      //   //   bottom: BorderSide(
-      //   //     color: Colors.black,
-      //   //     width: 1.0,
-      //   //   ),
-      //   //   top: BorderSide(
-      //   //     color: Colors.black,
-      //   //     width: 1.0,
-      //   //   ),
-      //   // ),
-      // ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           ChatBubble(
+            elevation: 0,
             clipper: ChatBubbleClipper4(type: BubbleType.sendBubble),
             alignment: Alignment.topRight,
             margin: EdgeInsets.only(
@@ -40,6 +28,7 @@ class ConversationRight extends StatelessWidget {
                 bottom: SizeConfig.blockSizeVertical * 2),
             //backGroundColor: Color(0xffE7E7ED),
             backGroundColor: Colors.white,
+            shadowColor: Colors.white,
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.7,
@@ -81,7 +70,7 @@ class ConversationRight extends StatelessWidget {
           InkWell(
             onTap: () {
               AssetsAudioPlayer.playAndForget(
-                  Audio.network(UrlUtils.editAudioUrl(voiceLink)));
+                  Audio.network(voiceLink));
             },
             child: Container(
               decoration: BoxDecoration(

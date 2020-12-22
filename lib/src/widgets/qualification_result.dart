@@ -36,7 +36,7 @@ class QualificationResult extends StatelessWidget {
                 height: SizeConfig.blockSizeVertical * 5,
               ),
               Text(
-                'You has correct',
+                'You got',
                 style: TextStyle(
                     fontSize: 27, fontFamily: "Helvetica", color: Colors.blue),
               ),
@@ -49,14 +49,14 @@ class QualificationResult extends StatelessWidget {
                 animation: true,
                 percent: percent,
                 center: new Text(
-                  "$correctAnswer/$totalAnswer",
+                  "${resultScore.toStringAsFixed(1)}/10",
                   style: new TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
                       fontFamily: "Helvetica"),
                 ),
                 footer: Text(
-                  'Questions',
+                  'score',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -69,7 +69,7 @@ class QualificationResult extends StatelessWidget {
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 15,
               ),
-              MaterialButton(
+              FlatButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0),
                 ),
@@ -81,9 +81,9 @@ class QualificationResult extends StatelessWidget {
                       child: Text(
                         "Next",
                         style: TextStyle(
-                            color: Colors.grey[700],
+                            color: Colors.white,
                             fontSize: 25,
-                            //fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.bold,
                             fontFamily: 'Helvetica'),
                       ),
                       padding: new EdgeInsets.only(left: 0.0),

@@ -43,7 +43,7 @@ class ReviewQuizScreen extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              print('hear');
+              AssetsAudioPlayer.playAndForget(Audio.network(question));
             }
         ),
       );
@@ -52,9 +52,11 @@ class ReviewQuizScreen extends StatelessWidget {
         child: Image(
           width: SizeConfig.blockSizeHorizontal * 20,
           height: SizeConfig.blockSizeVertical * 18,
-          image: NetworkImage(UrlUtils.editImgUrl(question)),
+          image: NetworkImage(question),
         ),
       );
+    }else{
+      return Container();
     }
   }
 

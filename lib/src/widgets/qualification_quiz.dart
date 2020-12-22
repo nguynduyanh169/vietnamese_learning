@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -60,7 +61,7 @@ class QualificationQuiz extends StatelessWidget {
             fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       );
-    } else if (type == 4) {
+    } else if (type == 5) {
       return Text(
         'Answer the question',
         style: TextStyle(
@@ -90,8 +91,48 @@ class QualificationQuiz extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.clear),
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: true).pop(context),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                        new CupertinoAlertDialog(
+                          title: new Text(
+                            "Confirm exit",
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          ),
+                          content: new Text(
+                            "Do you want to exit?",
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          ),
+                          actions: [
+                            CupertinoDialogAction(
+                              child: Text(
+                                'Confirm',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica'),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context, 'yes');
+                              },
+                            ),
+                            CupertinoDialogAction(
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica'),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context, 'no');
+                              },
+                            ),
+                          ],
+                        ),
+                      ).then((value) {
+                        if (value == 'yes') {
+                          Navigator.of(context, rootNavigator: true).pop();
+                        }
+                      });
+                    }
                 ),
                 Container(
                   child: new LinearPercentIndicator(
@@ -100,7 +141,7 @@ class QualificationQuiz extends StatelessWidget {
                     lineHeight: 15.0,
                     percent: percent,
                     linearStrokeCap: LinearStrokeCap.roundAll,
-                    progressColor: Colors.amberAccent,
+                    progressColor: Colors.green,
                   ),
                 ),
               ],
@@ -147,8 +188,13 @@ class QualificationQuiz extends StatelessWidget {
             buttonColor: Color.fromRGBO(255, 190, 51, 30),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            child: RaisedButton(
-                onPressed: tappedIndex != 5 ? answerQuestions:null,
+            child: FlatButton(
+                color: tappedIndex != 5 ? Color.fromRGBO(255, 190, 51, 30) : Colors.black26,
+                onPressed: (){
+                  if(tappedIndex != 5) {
+                    answerQuestions();
+                  }
+                },
                 child: Container(
                   width: SizeConfig.blockSizeHorizontal * 70,
                   height: SizeConfig.blockSizeVertical * 8,

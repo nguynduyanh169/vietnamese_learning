@@ -7,7 +7,7 @@ import 'package:vietnamese_learning/src/models/quiz.dart';
 import 'package:vietnamese_learning/src/models/quiz_submit.dart';
 
 class QuizProvider {
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String GET_QUIZ = BASE_URL + "/api/quiz/";
   static final String GET_QUESTIONS = BASE_URL + "/api/question/getByQuiz/";
   static final String SUBMIT_QUIZ = BASE_URL + "/api/history";

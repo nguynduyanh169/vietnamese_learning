@@ -14,14 +14,11 @@ class RegisterCubit extends Cubit<RegisterState>{
   Future<void> doRegister(String username, String password, String email, String nation) async{
     try{
       emit(Registering());
-      LoginResponse response = await _userRepository.register(username, password, email, nation);
-      print(response.toJson());
-      if(response.tokenType == 'Fail'){
-        emit(RegistedError('Register Failed!'));
+      String response = await _userRepository.register(username, password, email, nation);
+      if(response == 'Account duplicate!'){
+        emit(RegistedError('This account has been exist. Try Again!'));
       }else{
-        emit(RegistedSuccess(response));
-        // final SharedPreferences prefs = await SharedPreferences.getInstance();
-        // AuthUtils.insertDetails(prefs, response.accessToken, username);
+        emit(RegistedSuccess());
       }
     } on Exception{
       emit(RegistedError('Login Failed!'));

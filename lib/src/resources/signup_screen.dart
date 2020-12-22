@@ -4,12 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:the_validator/the_validator.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/register_cubit.dart';
 import 'package:vietnamese_learning/src/models/nation.dart';
 import 'package:vietnamese_learning/src/states/register_state.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vietnamese_learning/src/widgets/choose_nation.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 import '../data/user_repository.dart';
 
@@ -26,7 +28,6 @@ class _SignUpState extends State<SignUpScreen> {
       _passwordController,
       _nationController,
       _usernameController;
-  ProgressDialog pr;
   FocusNode myFocusNode = new FocusNode();
   FocusNode myFocusNode1 = new FocusNode();
   FocusNode myFocusNode2 = new FocusNode();
@@ -51,6 +52,9 @@ class _SignUpState extends State<SignUpScreen> {
     nationList.add(new Nation(nation: 'United State', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Funited-states.png?alt=media&token=15d0039d-e9df-437f-aed7-6b03f2569172'));
     nationList.add(new Nation(nation: 'United Kingdom', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Funited-kingdom.png?alt=media&token=cea37a6c-2566-4cbf-a5b4-f04b0891998d'));
     nationList.add(new Nation(nation: 'Korea', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fsouth-korea.png?alt=media&token=c7c69d25-cc3a-4c43-a54c-bcb647bae90b'));
+    nationList.add(new Nation(nation: 'Japan', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fjapan.png?alt=media&token=8792c7c8-2719-4cf1-9dbc-3043cdb8b59a'));
+    nationList.add(new Nation(nation: 'Germany', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fgermany.png?alt=media&token=0accf5ad-2e96-41b8-8572-e5e766cedd2b'));
+    nationList.add(new Nation(nation: 'China', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fchina.png?alt=media&token=de3069c8-b177-418b-828e-32683c6d176b'));
   }
 
   Widget _chooseNation() {
@@ -77,10 +81,6 @@ class _SignUpState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
     return BlocProvider(
       create: (context) => RegisterCubit(UserRepository()),
       child: Scaffold(
@@ -88,12 +88,17 @@ class _SignUpState extends State<SignUpScreen> {
         body: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is RegistedError) {
-              pr.hide();
+              Navigator.pop(context);
+              Toast.show(state.message, context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  backgroundColor: Colors.redAccent,
+                  textColor: Colors.white);
             } else if (state is RegistedSuccess) {
-              pr.hide();
+              Navigator.pop(context);
               Navigator.pop(context);
             } else if(state is Registering){
-              pr.show();
+              CustomProgressDialog.progressDialog(context);
             }
           },
           builder: (context, state) {
@@ -106,6 +111,7 @@ class _SignUpState extends State<SignUpScreen> {
 
   Widget _registerScreen(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

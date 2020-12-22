@@ -14,7 +14,7 @@ class GameResult extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-        margin: EdgeInsets.only(top: 40),
+        margin: EdgeInsets.only(top: 30),
         width: SizeConfig.blockSizeHorizontal * 80,
         height: SizeConfig.blockSizeVertical * 50,
         decoration: BoxDecoration(

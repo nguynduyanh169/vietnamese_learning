@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/search_cubit.dart';
 import 'package:vietnamese_learning/src/data/post_repository.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
+import 'package:vietnamese_learning/src/models/search_history.dart';
 import 'package:vietnamese_learning/src/states/search_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 import 'package:vietnamese_learning/src/widgets/search_bar.dart';
 import 'package:vietnamese_learning/src/widgets/search_result.dart';
 
@@ -17,32 +20,39 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  Map<String, dynamic> searchHistory = new Map<String, dynamic>();
-  Widget _searchHistoryElement(String searchHistory) {
+  List<SearchHistory> searchHistory = new List<SearchHistory>();
+  Widget _searchHistoryElement(SearchHistory searchHistory, BuildContext context) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  searchHistory,
-                  style: TextStyle(
-                    fontFamily: 'Helvetica',
-                    fontSize: 16,
+          InkWell(
+            onTap: (){
+              BlocProvider.of<SearchCubit>(context)
+                  .searchPost(searchHistory.searchString);
+            },
+            child: Container(
+              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    searchHistory.searchString,
+                    style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
+
+                ],
+              ),
             ),
           ),
           IconButton(
             icon: Icon(CupertinoIcons.xmark_circle),
             onPressed: () {
-              print("delete history");
+              BlocProvider.of<SearchCubit>(context).deleteSearchHistory(searchHistory);
             },
           )
         ],
@@ -58,11 +68,11 @@ class _SearchState extends State<Search> {
       child: BlocConsumer<SearchCubit, SearchState>(
         listener: (context, state) {
           if (state is Searching) {
-            print("Searching");
+            CustomProgressDialog.progressDialog(context);
           } else if (state is SearchSuccess) {
-            print('success');
+            Navigator.pop(context);
             searchHistory.clear();
-            searchHistory = state.searchList;
+            searchHistory = state.searchList.reversed.toList();
             List<Content> searchPosts = state.searchPosts;
             Navigator.push(
                 context,
@@ -71,8 +81,18 @@ class _SearchState extends State<Search> {
           }else if(state is LoadingSearchHistory){
             print('loading');
           }else if(state is LoadedSearchHistory){
-            print('success');
-            searchHistory = state.searchList;
+            searchHistory = state.searchList.reversed.toList();
+          }else if(state is SearchFailed){
+            Navigator.pop(context);
+            Toast.show('We cannot find any post', context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
+          }else if(state is DeleteSearchHistory){
+            searchHistory = state.searchList.reversed.toList();
+          }else if(state is ClearSearchHistory){
+            searchHistory.clear();
           }
         },
         builder: (context, state) {
@@ -108,13 +128,8 @@ class _SearchState extends State<Search> {
                             border: InputBorder.none,
                           ),
                           onSubmitted: (value) {
-                            print(value);
                             BlocProvider.of<SearchCubit>(context)
                                 .searchPost(value);
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => SearchResult()));
                           },
                         ),
                       )
@@ -153,7 +168,7 @@ class _SearchState extends State<Search> {
                           ),
                           InkWell(
                             onTap: (){
-                              print('delete histories');
+                              BlocProvider.of<SearchCubit>(context).clearSearchHistory();
                             },
                             child: Text(
                             "CLEAR",
@@ -172,122 +187,9 @@ class _SearchState extends State<Search> {
                       child: ListView.builder(
                         itemCount: searchHistory.length,
                         itemBuilder: (BuildContext context, int index){
-                          String key = searchHistory.keys.elementAt(index);
-                          return _searchHistoryElement(searchHistory[key]);
+                          return _searchHistoryElement(searchHistory[index], context);
                         },
                   ))
-                  // Container(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: <Widget>[
-                  //       Container(
-                  //         padding: EdgeInsets.only(
-                  //             left: SizeConfig.blockSizeHorizontal * 5),
-                  //         child: Column(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: <Widget>[
-                  //             Text(
-                  //               'hsfgihsadbfhjsdbf',
-                  //               style: TextStyle(
-                  //                 fontFamily: 'Helvetica',
-                  //                 fontSize: 16,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       IconButton(
-                  //         icon: Icon(CupertinoIcons.xmark_circle),
-                  //         onPressed: null,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  // Container(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: <Widget>[
-                  //       Container(
-                  //         padding: EdgeInsets.only(
-                  //             left: SizeConfig.blockSizeHorizontal * 5),
-                  //         child: Column(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: <Widget>[
-                  //             Text(
-                  //               'hsfgihsadbfhjsdbf',
-                  //               style: TextStyle(
-                  //                 fontFamily: 'Helvetica',
-                  //                 fontSize: 16,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       IconButton(
-                  //         icon: Icon(CupertinoIcons.xmark_circle),
-                  //         onPressed: null,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  // Container(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: <Widget>[
-                  //       Container(
-                  //         padding: EdgeInsets.only(
-                  //             left: SizeConfig.blockSizeHorizontal * 5),
-                  //         child: Column(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: <Widget>[
-                  //             Text(
-                  //               'hsfgihsadbfhjsdbf',
-                  //               style: TextStyle(
-                  //                 fontFamily: 'Helvetica',
-                  //                 fontSize: 16,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       IconButton(
-                  //         icon: Icon(CupertinoIcons.xmark_circle),
-                  //         onPressed: null,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  // Container(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: <Widget>[
-                  //       Container(
-                  //         padding: EdgeInsets.only(
-                  //             left: SizeConfig.blockSizeHorizontal * 5),
-                  //         child: Column(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: <Widget>[
-                  //             Text(
-                  //               'hsfgihsadbfhjsdbf',
-                  //               style: TextStyle(
-                  //                 fontFamily: 'Helvetica',
-                  //                 fontSize: 16,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       IconButton(
-                  //         icon: Icon(CupertinoIcons.xmark_circle),
-                  //         onPressed: null,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

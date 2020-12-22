@@ -57,7 +57,25 @@ class _LevelScreenState extends State<LevelScreen> {
             }else if(state is LoadedEntranceQuiz){
               Navigator.pop(context);
               List<EntranceQuiz> entranceQuizzes = state.entranceQuizzes;
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,)));
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder:
+                      (context, animation, secondaryAnimation) =>
+                          EntranceQuizScreen(entranceQuizzes: entranceQuizzes, loginResponse: loginResponse, username: username,),
+                  transitionsBuilder: (context, animation,
+                      secondaryAnimation, child) {
+                    var begin = Offset(1.0, 0.0);
+                    var end = Offset.zero;
+                    var curve = Curves.ease;
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
+                    return SlideTransition(
+                      position: animation.drive(tween),
+                      child: child,
+                    );
+                  },
+                ),
+              );
             }else if(state is LoadingEntranceQuiz){
               CustomProgressDialog.progressDialog(context);
             }
@@ -82,7 +100,7 @@ class _LevelScreenState extends State<LevelScreen> {
                     padding:
                     EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
                     child: Text(
-                      'CHOOSE YOUR LEVEL',
+                      'SET UP YOUR LEVEL',
                       style: GoogleFonts.sansita(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -143,7 +161,7 @@ class _LevelScreenState extends State<LevelScreen> {
                                     height: SizeConfig.blockSizeVertical * 10,
                                     child: Image(
                                       image: AssetImage(
-                                          'assets/images/owlexpertcolor.png'),
+                                          'assets/images/owlwithclassescolor.png'),
                                     ),
                                   ),
                                 ],
@@ -178,23 +196,23 @@ class _LevelScreenState extends State<LevelScreen> {
                                     height: 60,
                                     child: Image(
                                       image: AssetImage(
-                                          'assets/images/owlwithclassescolor.png'),
+                                        'assets/images/owlexpertcolor.png'),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.blockSizeVertical * 10,
+                                    width: SizeConfig.blockSizeVertical * 4,
                                   ),
                                   Column(
                                     children: [
                                       Text(
-                                        "Advanced",
+                                        "Entrance Quiz",
                                         style: GoogleFonts.sansita(
                                           fontSize: 33,
                                           color: Colors.white,
                                         ),
                                       ),
                                       Text(
-                                        "Test your qualification",
+                                        "Do a quiz to identify your level",
                                         style: TextStyle(
                                           fontFamily: 'Helvetica',
                                           fontSize: 17,

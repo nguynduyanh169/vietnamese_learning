@@ -1,12 +1,14 @@
 import 'package:vietnamese_learning/src/models/memory_model.dart';
+import 'package:vietnamese_learning/src/providers/game_provider.dart';
 
 String selectedTile = "";
 int selectedIndex ;
-bool selected = true;
+bool selected = false;
 int points = 0;
 
 List<TileModel> myPairs = new List<TileModel>();
 List<bool> clicked = new List<bool>();
+List<String> strin = new List<String>();
 
 List<bool> getClicked(){
 
@@ -28,54 +30,55 @@ List<TileModel>  getPairs(){
 
   //1
   tileModel.setVocabulary("Xin Chào");
+  tileModel.setDiscription("Hello");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //2
-  // tileModel.setImageAssetPath("assets/hippo.png");
+  tileModel.setVocabulary("Hello");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //3
-//  tileModel.setImageAssetPath("assets/horse.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //4
- // tileModel.setImageAssetPath("assets/monkey.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
   //5
-//  tileModel.setImageAssetPath("assets/panda.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //6
- // tileModel.setImageAssetPath("assets/parrot.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //7
-  //tileModel.setImageAssetPath("assets/rabbit.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //8
- // tileModel.setImageAssetPath("assets/zoo.png");
+  tileModel.setVocabulary("Xin Chào");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
@@ -91,59 +94,67 @@ List<TileModel>  getQuestionPairs(){
   TileModel tileModel = new TileModel();
 
   //1
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //2
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //3
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //4
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
   //5
- // tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/question.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //6
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/quest.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //7
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/quest.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   //8
-  //tileModel.setImageAssetPath("assets/question.png");
+  tileModel.setImage("assets/images/quest.png");
   tileModel.setIsSelected(false);
   pairs.add(tileModel);
   pairs.add(tileModel);
   tileModel = new TileModel();
 
   return pairs;
+}
+
+class GameRepo{
+  GameProvider _gameProvider = new GameProvider();
+
+  Future<List<TileModel>> getVocabularyByLevel(int levelID, String token){
+    return _gameProvider.getVocabularyByLevel(levelID, token);
+  }
 }

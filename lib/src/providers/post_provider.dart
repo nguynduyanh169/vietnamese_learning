@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 
 class PostProvider {
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String CREATE_POST = BASE_URL + "/api/post";
   static final String GET_POST = BASE_URL + "/api/post";
   static final String GET_NEXT_POST = BASE_URL + "/api/post/nextPost";

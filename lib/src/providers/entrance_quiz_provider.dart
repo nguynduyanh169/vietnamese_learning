@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
 
 class EntranceQuizProvider{
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String ENTRANCE_QUIZ = BASE_URL + "/api/question";
   final Dio _dio = new Dio();
 

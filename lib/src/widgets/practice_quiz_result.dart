@@ -50,7 +50,7 @@ class PracticeQuizResult extends StatelessWidget {
                 height: SizeConfig.blockSizeVertical * 3,
               ),
               Text(
-                'You has correct ',
+                'You got ',
                 style: TextStyle(
                     fontSize: 27, fontFamily: "Helvetica", color: Colors.blue),
               ),
@@ -70,7 +70,7 @@ class PracticeQuizResult extends StatelessWidget {
                       fontFamily: "Helvetica"),
                 ),
                 footer: Text(
-                  'Questions',
+                  'score',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,

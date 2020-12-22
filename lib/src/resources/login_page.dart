@@ -384,7 +384,7 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             if (state is LoginError) {
               Navigator.pop(context);
-              Toast.show("Login Failed!", context,
+              Toast.show("Invalid username or password!", context,
                   duration: Toast.LENGTH_LONG,
                   gravity: Toast.BOTTOM,
                   backgroundColor: Colors.redAccent,
@@ -418,6 +418,8 @@ class _LoginPageState extends State<LoginPage> {
                     loginResponse: state.loginResponse,
                     username: state.username,
                   )));
+            }else if(state is DoingLoginGmail){
+              CustomProgressDialog.progressDialog(context);
             }
           },
           builder: (context, state) {

@@ -31,26 +31,40 @@ class QuizQuestion extends StatelessWidget {
         height: SizeConfig.blockSizeVertical * 28,
         child: Column(
           children: [
-            InkWell(
-              child: ClipOval(
-                child: Container(
-                  color: Colors.amberAccent,
-                  width:
-                  SizeConfig.blockSizeHorizontal * 18,
-                  height:
-                  SizeConfig.blockSizeVertical * 10,
-                  child: Center(
-                    child: Icon(
-                      CupertinoIcons.volume_up,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              onTap: () {
-                AssetsAudioPlayer.playAndForget(Audio.network(UrlUtils.editAudioUrl(questionText)));
+            FlatButton(
+              onPressed: () {
+                AssetsAudioPlayer.playAndForget(Audio.network(questionText));
               },
+              color: Colors.amberAccent,
+              textColor: Colors.white,
+              child: Icon(
+                CupertinoIcons.volume_up,
+                size: 24,
+              ),
+              padding: EdgeInsets.all(16),
+              shape: CircleBorder(),
             ),
+            // InkWell(
+            //   // child: ClipOval(
+            //   //   child: Container(
+            //   //     color: Colors.amberAccent,
+            //   //     width:
+            //   //     SizeConfig.blockSizeHorizontal * 18,
+            //   //     height:
+            //   //     SizeConfig.blockSizeVertical * 10,
+            //   //     child: Center(
+            //   //       child: Icon(
+            //   //         CupertinoIcons.volume_up,
+            //   //         color: Colors.white,
+            //   //       ),
+            //   //     ),
+            //   //   ),
+            //   // ),
+            //   child: ,
+            //   onTap: () {
+            //
+            //   },
+            // ),
             SizedBox(height: SizeConfig.blockSizeVertical * 2,),
             Text(
               'Tap to listen',
@@ -71,13 +85,13 @@ class QuizQuestion extends StatelessWidget {
               width: SizeConfig.blockSizeHorizontal * 35,
               height: SizeConfig.blockSizeVertical * 25,
               child: Image(
-                  image: NetworkImage(UrlUtils.editImgUrl(questionText))
+                  image: NetworkImage(questionText)
               ),
             )
           ],
         )
       );
-    }else if(questionType == 4){
+    }else if(questionType == 5){
       return Container(
           width: SizeConfig.blockSizeHorizontal * 75,
           height: SizeConfig.blockSizeVertical * 30,

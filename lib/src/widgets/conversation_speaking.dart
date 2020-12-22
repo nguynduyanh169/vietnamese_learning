@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -20,7 +21,7 @@ import 'dart:io' as io;
 import 'package:google_speech/google_speech.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'dart:math' as Math;
 import '../config/size_config.dart';
 import 'chat_bubble.dart';
 
@@ -84,17 +85,57 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.clear),
-              onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pop(context),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                    new CupertinoAlertDialog(
+                      title: new Text(
+                        "Confirm exit",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      content: new Text(
+                        "Do you want to exit?",
+                        style: TextStyle(fontFamily: 'Helvetica'),
+                      ),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Confirm',
+                            style: TextStyle(
+                                fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context, 'yes');
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontFamily: 'Helvetica'),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context, 'no');
+                          },
+                        ),
+                      ],
+                    ),
+                  ).then((value) {
+                    if (value == 'yes') {
+                      Navigator.of(context).pop();
+                    }
+                  });
+                }
             ),
             Container(
               child: new LinearPercentIndicator(
-                width: SizeConfig.blockSizeHorizontal * 78,
+                width: SizeConfig.blockSizeHorizontal * 75,
                 animation: false,
                 lineHeight: 15.0,
                 percent: percent,
                 linearStrokeCap: LinearStrokeCap.roundAll,
-                progressColor: Colors.amberAccent,
+                progressColor: Colors.green,
               ),
             ),
           ],
@@ -139,48 +180,23 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
         child: Center(
           child: Text(
             '$content',
-            style: TextStyle(fontFamily: 'Helvetica', fontSize: 12),
+            style: TextStyle(fontFamily: 'Helvetica', fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          shape: BoxShape.rectangle,
-          border: Border.all(
-            color: Colors.amber,
-            width: 2,
-          ),
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black26.withOpacity(0.05),
+                  offset: Offset(0.0, 6.0),
+                  blurRadius: 10.0,
+                  spreadRadius: 0.10)
+            ]),
       );
     }
 
     Widget _loadDialogForMatching(BuildContext dialogContext) {
-      // if (check.toLowerCase() == vietnamese.toLowerCase()) {
-      //   CoolAlert.show(
-      //       context: dialogContext,
-      //       type: CoolAlertType.success,
-      //       title: "Correct!",
-      //       confirmBtnText: 'Continue',
-      //       confirmBtnColor: Colors.green,
-      //       onConfirmBtnTap: () {
-      //         chars.clear();
-      //         elements.clear();
-      //         BlocProvider.of<LearnConversationCubit>(dialogContext)
-      //             .learnSpeaking(conversationIndex + 1);
-      //         Navigator.pop(context);
-      //         conversationIndex = conversationIndex + 1;
-      //       });
-      // } else if (check.toLowerCase() != vietnamese.toLowerCase()) {
-      //   CoolAlert.show(
-      //       context: dialogContext,
-      //       type: CoolAlertType.error,
-      //       title: "Incorrect!",
-      //       text: 'The correct answer is: $vietnamese',
-      //       confirmBtnText: 'Try again',
-      //       confirmBtnColor: Colors.red,
-      //       onConfirmBtnTap: null);
-      // }
-
       if (check.toLowerCase() == vietnamese.toLowerCase()) {
         showDialog(
             context: dialogContext,
@@ -397,8 +413,8 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
               'Arrange the sentence',
               style: TextStyle(
                   fontFamily: 'Helvetica',
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 5,
@@ -438,7 +454,8 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
               buttonColor: Color.fromRGBO(255, 190, 51, 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
-              child: RaisedButton(
+              child: FlatButton(
+                color: Color.fromRGBO(255, 190, 51, 30),
                   onPressed: () {
                     check = chars.join(' ');
                     _loadDialogForMatching(context);
@@ -476,36 +493,13 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                   var percent =
                       conversationIndex * (1 / (conversations.length + 1));
                   return Container(
+                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
                     color: Color.fromRGBO(255, 239, 215, 100),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                              left: SizeConfig.blockSizeHorizontal * 1),
-                          child: Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () =>
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop(context),
-                              ),
-                              Container(
-                                child: new LinearPercentIndicator(
-                                  width: SizeConfig.blockSizeHorizontal * 78,
-                                  animation: false,
-                                  lineHeight: 15.0,
-                                  percent: percent,
-                                  linearStrokeCap: LinearStrokeCap.roundAll,
-                                  progressColor: Colors.amberAccent,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        _percentBar(percent),
                         SizedBox(
                           height: SizeConfig.blockSizeVertical * 2,
                         ),
@@ -521,169 +515,132 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                 decoration: TextDecoration.none),
                           ),
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 10,
-                            ),
-                            Container(
-                              width: 45,
-                              height: 45,
-                              margin: EdgeInsets.only(left: 14),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(17),
-                                color: Color.fromRGBO(255, 190, 51, 100),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(255, 190, 51, 100),
-                                    spreadRadius: 1,
-                                    blurRadius: 1,
-                                    offset: Offset(
-                                        0, 1), // changes position of shadow
+                        Container(
+                          height: SizeConfig.blockSizeVertical * 66,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black26.withOpacity(0.05),
+                                    offset: Offset(0.0, 6.0),
+                                    blurRadius: 10.0,
+                                    spreadRadius: 0.10)
+                              ]),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 45,
+                                    height: 45,
+                                    margin: EdgeInsets.only(left: 14),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(17),
+                                      color: Color.fromRGBO(255, 190, 51, 100),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(255, 190, 51, 100),
+                                          spreadRadius: 1,
+                                          blurRadius: 1,
+                                          offset:
+                                          Offset(0, 1), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          CupertinoIcons.volume_up,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          AssetsAudioPlayer.playAndForget(Audio.network(conversations[conversationIndex].voiceLink));
+                                        }
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 70,
+                                    margin: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      conversations[conversationIndex].conversation,
+                                      style: TextStyle(
+                                          fontFamily: "Helvetica",
+                                          fontSize: 17,
+                                          color: Colors.black,
+                                          decoration: TextDecoration.none),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: IconButton(
-                                icon: Icon(
-                                  CupertinoIcons.volume_up,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  AssetsAudioPlayer.playAndForget(Audio.network(
-                                      conversations[conversationIndex]
-                                          .voiceLink));
-                                },
-                              ),
-                            ),
-                            FittedBox(
-                              child: Container(
-                                width: SizeConfig.blockSizeHorizontal * 80,
-                                margin: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  conversations[conversationIndex].conversation,
-                                  style: TextStyle(
-                                      fontFamily: "Helvetica",
-                                      fontSize: 17,
-                                      color: Colors.black,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 2,
-                        ),
-                        Center(
-                          // child: Container(
-                          //   width: 200,
-                          //   height: 200,
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(35),
-                          //     color: Color.fromRGBO(255, 190, 51, 100),
-                          //     boxShadow: [
-                          //       BoxShadow(
-                          //         color: Color.fromRGBO(255, 190, 51, 100)
-                          //             .withOpacity(0.5),
-                          //         spreadRadius: 1,
-                          //         blurRadius: 1,
-                          //         offset: Offset(
-                          //             0, 1), // changes position of shadow
-                          //       ),
-                          //     ],
-                          //   ),
-                          //   child: IconButton(
-                          //     iconSize: 100,
-                          //     icon: Icon(
-                          //       CupertinoIcons.mic_solid,
-                          //       color: Colors.white,
-                          //     ),
-                          //     onPressed: null,
-                          //   ),
-                          // ),
-                          child: AvatarGlow(
-                            animate: _isRecording,
-                            glowColor: Theme.of(context).primaryColor,
-                            endRadius: 130.0,
-                            duration: const Duration(milliseconds: 2000),
-                            repeatPauseDuration:
-                                const Duration(milliseconds: 100),
-                            repeat: true,
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              child: FloatingActionButton(
-                                onPressed: () {
-                                  if (_isRecording == false) {
-                                    _start();
-                                  } else {
-                                    _stop();
-                                  }
-                                },
-                                child: Icon(
-                                  _isRecording
-                                      ? CupertinoIcons.stop
-                                      : CupertinoIcons.mic,
-                                  size: 100,
-                                ),
-                                backgroundColor:
-                                    Color.fromRGBO(255, 190, 51, 30),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 1,
-                        ),
-                        Center(
-                          // child: Container(
-                          //   child: checkText ?
-                          //       Container(
-                          //         margin: const EdgeInsets.all(2.0),
-                          //         decoration: BoxDecoration(
-                          //             border: Border.all(
-                          //               color: Colors.black,
-                          //             ),
-                          //             borderRadius: BorderRadius.all(Radius.circular(20.0))
-                          //         ),
-                          //         child: Padding(padding: const EdgeInsets.all(2.0),
-                          //         child: AutoSizeText(
-                          //           '$text',
-                          //           maxLines: 3,
-                          //           overflow: TextOverflow.ellipsis,
-                          //           maxFontSize: 20,
-                          //           minFontSize: 15,
-                          //         ),
-                          //         ),
-                          //       )
-                          //       : Text("$text"),
-                          //
-                          // ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              if (recognizeFinished)
-                                _RecognizeContent(
-                                  text: text,
-                                ),
                               Center(
-                                child: recognizing
-                                    ? CircularProgressIndicator()
-                                    : Text(""),
-                              )
+                                child: FlatButton(
+                                  onPressed: () {
+                                    if (_isRecording == false) {
+                                      setState(() {
+                                        recognizeFinished = false;
+                                        _isRecording = true;
+                                      });
+                                      _start();
+                                    } else {
+                                      setState(() {
+                                        _isRecording = false;
+                                      });
+                                      _stop();
+                                    }
+                                  },
+                                  color: Color.fromRGBO(255, 190, 51, 30),
+                                  textColor: Colors.white,
+                                  child: _isRecording == true ? Icon(
+                                    CupertinoIcons.stop,
+                                    size: 100,
+                                  ): Icon(
+                                    CupertinoIcons.mic_solid,
+                                    size: 100,
+                                  ),
+                                  padding: EdgeInsets.all(25),
+                                  shape: CircleBorder(),
+                                ),
+                              ),
+                              SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+                              Center(
+                                child: Container(child: _isRecording == false ? Text('Tap to record your voice', style: TextStyle(fontFamily: 'Helvetica'),): Text('Recording', style: TextStyle(fontFamily: 'Helvetica'),),),
+                              ),
+                              SizedBox(height: SizeConfig.blockSizeVertical * 4,),
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    if (recognizeFinished)
+                                      _RecognizeContent(
+                                        text: printSimilarity(conversations[conversationIndex].conversation, text),
+                                      ),
+                                    Center(
+                                      child: recognizing ? CupertinoActivityIndicator(
+                                        radius: 10.0,
+                                      ) : Text(""),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
+
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical * 5,
+                          height: SizeConfig.blockSizeVertical * 4,
                         ),
                         Center(
                           child: ButtonTheme(
                             buttonColor: Color.fromRGBO(255, 190, 51, 30),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
-                            child: RaisedButton(
+                            child: FlatButton(
+                              color: Color.fromRGBO(255, 190, 51, 30),
                                 onPressed: () {
+                                  recognizeFinished = false;
                                   speakingButton(context);
                                 },
                                 child: Container(
@@ -838,7 +795,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
 
         var current = await _recorder.current(channel: 0);
         setState(() {
-          _isRecording = true;
           _current = current;
           _currentStatus = _current.status;
         });
@@ -855,12 +811,61 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
     // File file = widget.localFileSystem.file(result.path);
     // print("File length: ${await file.length()}");
     setState(() {
-      _isRecording = false;
       path = result.path;
       _current = result;
       _currentStatus = _current.status;
       recognize();
     });
+  }
+
+  int editDistance(String s1, String s2)
+  {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+    List<int> costs = new List<int>((s2.length + 1));
+    for (int i = 0; i <= s1.length; i++) {
+      int lastValue = i;
+      for (int j = 0; j <= s2.length; j++) {
+        if (i == 0) {
+          costs[j] = j;
+        } else {
+          if (j > 0) {
+            int newValue = costs[j - 1];
+            if (s1.codeUnitAt(i - 1) != s2.codeUnitAt(j - 1)) {
+              newValue = (Math.min(Math.min(newValue, lastValue), costs[j]) + 1);
+            }
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
+          }
+        }
+      }
+      if (i > 0) {
+        costs[s2.length] = lastValue;
+      }
+    }
+    return costs[s2.length];
+  }
+
+  double similarity(String s1, String s2)
+  {
+    String longer = s1;
+    String shorter = s2;
+    if (s1.length < s2.length) {
+      longer = s2;
+      shorter = s1;
+    }
+    int longerLength = longer.length;
+    if (longerLength == 0) {
+      return 1;
+    }
+    return (longerLength.toDouble() - editDistance(longer, shorter).toDouble()) / longerLength.toDouble();
+  }
+
+  String printSimilarity(String s, String t)
+  {
+    print(s);
+    String result = (similarity(s, t) * 100).toString();
+    return result;
   }
 }
 
@@ -869,42 +874,123 @@ class _RecognizeContent extends StatelessWidget {
 
   const _RecognizeContent({Key key, this.text}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          Center(
-            child: Text(
-              'The conversation recognized from your voice',
-            ),
+  Widget _recognizeResult(){
+    double result = double.parse(text) / 100;
+    if(result == 1) {
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
           ),
-          SizedBox(
-            height: 4.0,
-          ),
-          Center(
-            child: Container(
-              margin: const EdgeInsets.all(2.0),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: AutoSizeText(
-                  text,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  maxFontSize: 20,
-                  minFontSize: 15,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Perfect!',), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
                 ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
               ),
             ),
-          )
-        ],
-      ),
-    );
+          )],
+        ),
+      );
+    }else if(result >= 0.6 && result < 1){
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Almost correct!'), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
+              ),
+            ),
+          )],
+        ),
+      );
+    }else{
+      return Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Pretty good!'), Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Padding(padding: const EdgeInsets.all(4.0),
+              child: CircularPercentIndicator(
+                radius: 70,
+                lineWidth: 5.0,
+                animation: true,
+                percent: double.parse(text)/100,
+                center: new Text(
+                  "${double.parse(text).toStringAsFixed(1)}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                      fontFamily: "Helvetica"),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.green,
+              ),
+            ),
+          )],
+        ),
+      );
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return _recognizeResult();
   }
 }

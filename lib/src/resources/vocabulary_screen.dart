@@ -12,7 +12,6 @@ import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
 import 'package:vietnamese_learning/src/widgets/flash_card.dart';
 import 'package:vietnamese_learning/src/widgets/speaking_vocabulary.dart';
 import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
-import 'package:vietnamese_learning/src/widgets/writing_vocabulary.dart';
 
 class VocabularyScreen extends StatefulWidget {
   List<Vocabulary> vocabularies;
@@ -52,8 +51,49 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.clear),
-              onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pop(context),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) =>
+                  new CupertinoAlertDialog(
+                    title: new Text(
+                      "Confirm exit",
+                      style: TextStyle(fontFamily: 'Helvetica'),
+                    ),
+                    content: new Text(
+                      "Do you want to exit?",
+                      style: TextStyle(fontFamily: 'Helvetica'),
+                    ),
+                    actions: [
+                      CupertinoDialogAction(
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(
+                              fontFamily: 'Helvetica'),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, 'yes');
+                        },
+                      ),
+                      CupertinoDialogAction(
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                              fontFamily: 'Helvetica'),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, 'no');
+                        },
+                      ),
+                    ],
+                  ),
+                ).then((value) {
+                  if (value == 'yes') {
+                    Navigator.of(context).pop();
+                  }
+                });
+              }
+                  //Navigator.of(context, rootNavigator: true).pop(context),
             ),
             Container(
               child: new LinearPercentIndicator(
@@ -91,7 +131,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     Widget _card(String content) {
       return Container(
         width: SizeConfig.blockSizeHorizontal * 10,
-        height: SizeConfig.blockSizeVertical * 7,
+        height: SizeConfig.blockSizeVertical * 6,
         child: Center(
           child: Text(
             '$content',
@@ -102,14 +142,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           ),
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          shape: BoxShape.rectangle,
-          border: Border.all(
-            color: Colors.amber,
-            width: 2,
-          ),
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black26.withOpacity(0.05),
+                  offset: Offset(0.0, 6.0),
+                  blurRadius: 10.0,
+                  spreadRadius: 0.10)
+            ]),
       );
     }
 
@@ -351,42 +392,36 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               'Listen and arrange the vocabulary',
               style: TextStyle(
                   fontFamily: 'Helvetica',
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 5,
             ),
-        InkWell(
-          child: ClipOval(
-            child: Container(
+            FlatButton(
+              onPressed: () {
+                AssetsAudioPlayer.playAndForget(Audio.network(audio));
+              },
               color: Colors.amberAccent,
-              width:
-              SizeConfig.blockSizeHorizontal * 18,
-              height:
-              SizeConfig.blockSizeVertical * 10,
-              child: Center(
-                child: Icon(
-                  CupertinoIcons.volume_up,
-                  color: Colors.white,
-                ),
+              textColor: Colors.white,
+              child: Icon(
+                CupertinoIcons.volume_up,
+                size: 24,
               ),
+              padding: EdgeInsets.all(16),
+              shape: CircleBorder(),
             ),
-          ),
-          onTap: () {
-            AssetsAudioPlayer.playAndForget(Audio.network(audio));
-          },),
             Text(
               'Tap to listen',
               style: TextStyle(fontSize: 12, fontFamily: 'Helvetica'),
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 10,
+              height: SizeConfig.blockSizeVertical * 5,
             ),
             column,
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 35,
+              height: SizeConfig.blockSizeVertical * 30,
             ),
             ButtonTheme(
               buttonColor: Color.fromRGBO(255, 190, 51, 30),

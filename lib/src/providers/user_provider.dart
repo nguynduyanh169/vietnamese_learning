@@ -6,9 +6,10 @@ import 'package:vietnamese_learning/src/models/login_respone.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 
 class UserProvider{
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
+  static final String BASE_URL_HEROKU = "https://vn-master.herokuapp.com";
   static final String LOGIN = BASE_URL + "/api/authen/login";
-  static final String REGISTER = BASE_URL + "/api/authen/signup";
+  static final String REGISTER = BASE_URL_HEROKU + "/api/authen/signup";
   static final String GET_PROFILE = BASE_URL + "/api/authen/getUserDetail";
   static final String SEND_EMAIL = BASE_URL + "/api/authen/forget";
   static final String CHANGE_PASSWORD = BASE_URL + "/api/authen/updateNewPassword";
@@ -34,7 +35,8 @@ class UserProvider{
     }
   }
 
-  Future<LoginResponse> register(String username, String password, String email, String nation) async{
+  Future<String> register(String username, String password, String email, String nation) async{
+    String result = '';
     Map<String, String> header = {
       "Content-type": "application/json"
     };
@@ -46,10 +48,18 @@ class UserProvider{
     };
     try {
       Response response = await _dio.post(REGISTER, options: Options(headers: header), data: json.encode(body));
-      print(response.data);
-      LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
-      return _loginResponse;
+      if(response.statusCode == 200){
+        LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
+        result = "success!";
+      }else{
+        result = response.data;
+      }
+      return result;
     } catch (error, stacktrace) {
+      if(error.toString().contains('412')){
+        result = 'Account duplicate!';
+        return result;
+      }
       print("Exception occur: $error stackTrace: $stacktrace");
     }
   }

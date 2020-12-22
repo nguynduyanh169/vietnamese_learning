@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
+import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_left.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_right.dart';
@@ -55,22 +56,32 @@ class _ConversationDetailState extends State<ConversationDetail> {
             children: [
               Row(
                 children: <Widget>[
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
                   IconButton(
                     icon: Icon(Icons.arrow_back_ios),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  SizedBox(width: SizeConfig.blockSizeHorizontal * 23,),
-                  Text(
-                    '$lessonTitle',
-                    style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-                  )
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
+                  FittedBox(
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 55,
+                      child: Text(
+                        "$lessonTitle",
+                        style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container()
                 ],
               ),
               Container(
                 width: SizeConfig.blockSizeVertical * 60,
                 height: SizeConfig.blockSizeHorizontal * 40,
-                child: Image(
+                child: conversations[0].conversationImage == null ? Image(
                   image: AssetImage('assets/images/chaohoi.png'),
+                ): Image(
+                  image: NetworkImage(conversations[0].conversationImage),
                 ),
               ),
               Expanded(
@@ -96,10 +107,25 @@ class _ConversationDetailState extends State<ConversationDetail> {
                   child: FlatButton(
                     color: Color.fromRGBO(255, 190, 51, 30),
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => ConversationSpeaking(
-                              conversations: conversations),
-                        ));
+                        Navigator.of(context).pushReplacement(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                ConversationSpeaking(conversations: conversations),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              var begin = Offset(1.0, 0.0);
+                              var end = Offset.zero;
+                              var curve = Curves.ease;
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              return SlideTransition(
+                                position: animation.drive(tween),
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
                       },
                       child: Container(
                         width: SizeConfig.blockSizeHorizontal * 70,
