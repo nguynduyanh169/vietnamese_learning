@@ -88,6 +88,7 @@ class _SetupScheduleState extends State<SetupScheduleScreen>{
     SizeConfig().init(context);
     return Scaffold(
       body: Container(
+        color: Color.fromRGBO(255, 239, 215, 100),
         child: Column(
           children: <Widget>[
             SizedBox(

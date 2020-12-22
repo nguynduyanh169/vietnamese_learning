@@ -52,6 +52,9 @@ class _SignUpState extends State<SignUpScreen> {
     nationList.add(new Nation(nation: 'United State', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Funited-states.png?alt=media&token=15d0039d-e9df-437f-aed7-6b03f2569172'));
     nationList.add(new Nation(nation: 'United Kingdom', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Funited-kingdom.png?alt=media&token=cea37a6c-2566-4cbf-a5b4-f04b0891998d'));
     nationList.add(new Nation(nation: 'Korea', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fsouth-korea.png?alt=media&token=c7c69d25-cc3a-4c43-a54c-bcb647bae90b'));
+    nationList.add(new Nation(nation: 'Japan', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fjapan.png?alt=media&token=8792c7c8-2719-4cf1-9dbc-3043cdb8b59a'));
+    nationList.add(new Nation(nation: 'Germany', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fgermany.png?alt=media&token=0accf5ad-2e96-41b8-8572-e5e766cedd2b'));
+    nationList.add(new Nation(nation: 'China', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fchina.png?alt=media&token=de3069c8-b177-418b-828e-32683c6d176b'));
   }
 
   Widget _chooseNation() {

@@ -24,9 +24,8 @@ class ConversationLeft extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              print('$voiceLink');
               AssetsAudioPlayer.playAndForget(
-                  Audio.network(UrlUtils.editAudioUrl(voiceLink)));
+                  Audio.network(voiceLink));
             },
             child: Container(
               decoration: BoxDecoration(

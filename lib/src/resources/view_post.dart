@@ -1077,12 +1077,14 @@ class _ViewPostState extends State<ViewPost> {
                                                           .blockSizeHorizontal *
                                                       2,
                                                 ),
+                                                content.nation != null ?
                                                 Image(
                                                   width: 22,
                                                   height: 22,
                                                   image: NetworkImage(
                                                       content.nation),
-                                                ),
+                                                ):Container(),
+
                                               ],
                                             ),
                                             SizedBox(

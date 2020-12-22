@@ -35,7 +35,7 @@ class PracticeQuiz extends StatelessWidget{
     if (checkCorrect == true) {
       showDialog(
           context: buildContext,
-          barrierDismissible: true,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
               shape: RoundedRectangleBorder(
@@ -133,7 +133,7 @@ class PracticeQuiz extends StatelessWidget{
     } else if (checkCorrect == false) {
       showDialog(
           context: buildContext,
-          barrierDismissible: true,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
               shape: RoundedRectangleBorder(
@@ -313,7 +313,7 @@ class PracticeQuiz extends StatelessWidget{
                     lineHeight: 15.0,
                     percent: percent,
                     linearStrokeCap: LinearStrokeCap.roundAll,
-                    progressColor: Colors.amberAccent,
+                    progressColor: Colors.green,
                   ),
                 ),
               ],

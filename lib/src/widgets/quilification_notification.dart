@@ -36,11 +36,11 @@ class QualificationNotification extends StatelessWidget {
         child: BlocConsumer<ProgressCubit, ProgressState>(
           listener: (context, state){
             if(state is CreatingProgress){
-              CustomProgressDialog.progressDialog(context);
+              //CustomProgressDialog.progressDialog(context);
+              print('hello');
             }else if(state is CreateProgressSuccess){
-              print('success');
-              Navigator.pop(context);
-              Navigator.of(_ctx).pushReplacement(MaterialPageRoute(
+              //Navigator.pop(context);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => HomePage()));
             }
           },
@@ -84,7 +84,7 @@ class QualificationNotification extends StatelessWidget {
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 22,
                     ),
-                    MaterialButton(
+                    FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100.0),
                       ),
@@ -96,7 +96,7 @@ class QualificationNotification extends StatelessWidget {
                             child: Text(
                               "Finish",
                               style: TextStyle(
-                                  color: Colors.grey[700],
+                                  color: Colors.white,
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Helvetica'),

@@ -37,7 +37,7 @@ class QuizResult extends StatelessWidget {
   }
 
   Widget _buttons(BuildContext context){
-    if(resultScore >= 8){
+    if(resultScore >= 8 && resultScore < 10){
       return Container(
         child: Column(
           children: <Widget>[
@@ -100,7 +100,45 @@ class QuizResult extends StatelessWidget {
           ],
         ),
       );
-    }else{
+    }
+    else if(resultScore == 10){
+      return Container(
+        child: Column(
+          children: <Widget>[
+
+            MaterialButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: 60.0,
+                child: Center(
+                  child: Padding(
+                    child: Text(
+                      "Learn other lessons",
+                      style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Helvetica'),
+                    ),
+                    padding: new EdgeInsets.only(left: 0.0),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                        (route) => false);
+              },
+              color: Color.fromRGBO(255, 210, 77, 10),
+            ),
+          ],
+        ),
+      );
+    }
+    else{
       return Container(
         child: MaterialButton(
           shape: RoundedRectangleBorder(
@@ -168,7 +206,7 @@ class QuizResult extends StatelessWidget {
                         height: SizeConfig.blockSizeVertical * 3,
                       ),
                       Text(
-                        'You has correct ',
+                        'You got ',
                         style: TextStyle(
                             fontSize: 27, fontFamily: "Helvetica", color: Colors.blue),
                       ),
@@ -185,7 +223,7 @@ class QuizResult extends StatelessWidget {
                           style:
                           new TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,fontFamily: "Helvetica"),
                         ),
-                        footer: Text('Questions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,fontFamily: "Helvetica"),),
+                        footer: Text('score', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,fontFamily: "Helvetica"),),
                         circularStrokeCap: CircularStrokeCap.round,
                         progressColor: Colors.green,
                       ),

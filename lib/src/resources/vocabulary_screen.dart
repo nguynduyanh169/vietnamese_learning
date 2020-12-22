@@ -12,7 +12,6 @@ import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
 import 'package:vietnamese_learning/src/widgets/flash_card.dart';
 import 'package:vietnamese_learning/src/widgets/speaking_vocabulary.dart';
 import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
-import 'package:vietnamese_learning/src/widgets/writing_vocabulary.dart';
 
 class VocabularyScreen extends StatefulWidget {
   List<Vocabulary> vocabularies;
@@ -393,8 +392,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               'Listen and arrange the vocabulary',
               style: TextStyle(
                   fontFamily: 'Helvetica',
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 5,

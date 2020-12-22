@@ -6,7 +6,7 @@ import 'package:vietnamese_learning/src/models/login_respone.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 
 class UserProvider{
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String BASE_URL_HEROKU = "https://vn-master.herokuapp.com";
   static final String LOGIN = BASE_URL + "/api/authen/login";
   static final String REGISTER = BASE_URL_HEROKU + "/api/authen/signup";

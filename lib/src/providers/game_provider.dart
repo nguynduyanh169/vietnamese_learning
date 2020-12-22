@@ -3,7 +3,7 @@ import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
 import 'package:vietnamese_learning/src/models/memory_model.dart';
 
 class GameProvider{
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String GAME = BASE_URL + "/api/vocabulary/loadGame/";
   final Dio _dio = Dio();
 

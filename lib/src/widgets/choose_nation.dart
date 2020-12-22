@@ -20,12 +20,7 @@ class _ChooseNationState extends State<ChooseNation> {
   Widget build(BuildContext context) {
     List<Nation> newNations = List.from(nations);
     onItemChanged(String value) {
-      setState(() {
-        newNations = nations
-            .where((data) => data.nation.toLowerCase().contains(value.toLowerCase()))
-            .toList();
-      });
-      print(newNations.toString());
+
     }
     return Material(
       child: SafeArea(
@@ -53,7 +48,13 @@ class _ChooseNationState extends State<ChooseNation> {
                     border: InputBorder.none,
                     prefixIcon: Icon(CupertinoIcons.search),
                   ),
-                  onChanged: onItemChanged,
+                  onChanged: (value){
+                    setState(() {
+                      newNations = nations
+                          .where((data) => data.nation.toLowerCase().contains(value.toLowerCase()))
+                          .toList();
+                    });
+                  },
                 ),
               ),
               Expanded(

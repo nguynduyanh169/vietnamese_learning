@@ -56,15 +56,23 @@ class _ConversationDetailState extends State<ConversationDetail> {
             children: [
               Row(
                 children: <Widget>[
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
                   IconButton(
                     icon: Icon(Icons.arrow_back_ios),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  SizedBox(width: SizeConfig.blockSizeHorizontal * 23,),
-                  Text(
-                    '$lessonTitle',
-                    style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-                  )
+                  SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
+                  FittedBox(
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 55,
+                      child: Text(
+                        "$lessonTitle",
+                        style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container()
                 ],
               ),
               Container(

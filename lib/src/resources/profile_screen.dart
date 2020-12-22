@@ -5,9 +5,11 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
+import 'package:vietnamese_learning/src/resources/change_password.dart';
 import 'package:vietnamese_learning/src/resources/edit_profile.dart';
 import 'package:vietnamese_learning/src/resources/login_page.dart';
 import 'package:vietnamese_learning/src/resources/setup_schedule.dart';
+import 'package:vietnamese_learning/src/states/change_password_state.dart';
 import 'package:vietnamese_learning/src/utils/firebase_util.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -239,6 +241,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: const Color.fromRGBO(
                                             255, 190, 50, 30),
                                         child: ListTile(
+                                          onTap: (){
+                                            pushNewScreen(context,
+                                                screen: ChangePasswordScreen(email: userProfile.email, username: userProfile.username,),
+                                                withNavBar: false,
+                                                pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .slideUp);
+                                          },
                                           leading:
                                               Icon(CupertinoIcons.lock_fill),
                                           title: Text(

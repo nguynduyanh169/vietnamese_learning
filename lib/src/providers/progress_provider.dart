@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class ProgressProvider {
-  static final String BASE_URL = "https://vn-master.azurewebsites.net";
+  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
   static final String CREATE_PROCESS =  BASE_URL + "/api/progress/createProgress";
   Dio _dio = new Dio();
 
