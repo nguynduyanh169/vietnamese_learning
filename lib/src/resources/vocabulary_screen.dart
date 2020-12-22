@@ -398,25 +398,19 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             SizedBox(
               height: SizeConfig.blockSizeVertical * 5,
             ),
-        InkWell(
-          child: ClipOval(
-            child: Container(
+            FlatButton(
+              onPressed: () {
+                AssetsAudioPlayer.playAndForget(Audio.network(audio));
+              },
               color: Colors.amberAccent,
-              width:
-              SizeConfig.blockSizeHorizontal * 18,
-              height:
-              SizeConfig.blockSizeVertical * 10,
-              child: Center(
-                child: Icon(
-                  CupertinoIcons.volume_up,
-                  color: Colors.white,
-                ),
+              textColor: Colors.white,
+              child: Icon(
+                CupertinoIcons.volume_up,
+                size: 24,
               ),
+              padding: EdgeInsets.all(16),
+              shape: CircleBorder(),
             ),
-          ),
-          onTap: () {
-            AssetsAudioPlayer.playAndForget(Audio.network(audio));
-          },),
             Text(
               'Tap to listen',
               style: TextStyle(fontSize: 12, fontFamily: 'Helvetica'),

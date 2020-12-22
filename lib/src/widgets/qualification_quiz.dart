@@ -61,7 +61,7 @@ class QualificationQuiz extends StatelessWidget {
             fontSize: 25, fontFamily: 'Helvetica', fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       );
-    } else if (type == 4) {
+    } else if (type == 5) {
       return Text(
         'Answer the question',
         style: TextStyle(

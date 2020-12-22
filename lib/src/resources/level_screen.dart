@@ -100,7 +100,7 @@ class _LevelScreenState extends State<LevelScreen> {
                     padding:
                     EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
                     child: Text(
-                      'CHOOSE YOUR LEVEL',
+                      'SET UP YOUR LEVEL',
                       style: GoogleFonts.sansita(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,

@@ -15,6 +15,7 @@ class QualificationNotification extends StatelessWidget {
   LoginResponse loginResponse;
   String username;
   BuildContext _ctx;
+  ProgressDialog pr;
   QualificationNotification({Key key, this.level, this.loginResponse, this.username});
 
   @override

@@ -413,8 +413,8 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
               'Arrange the sentence',
               style: TextStyle(
                   fontFamily: 'Helvetica',
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 5,

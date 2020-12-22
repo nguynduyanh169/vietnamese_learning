@@ -41,6 +41,7 @@ class SearchCubit extends Cubit<SearchState> {
         else {
           List<Content> searchPost = await _postRepository.searchPosts(
               token, search);
+          print(searchPost.length);
           if (searchPost.isNotEmpty) {
             searchList = SearchHistory.decoder(
                 prefs.getString(username + "SearchHistory"));

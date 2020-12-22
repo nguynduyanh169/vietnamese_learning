@@ -130,7 +130,7 @@ class ChangePasswordScreen extends StatelessWidget{
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Helvetica',
-                                    color: Colors.grey[700],
+                                    color: Colors.white,
                                     fontSize: 23,
                                   ),
                                 ),
