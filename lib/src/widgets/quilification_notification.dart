@@ -8,12 +8,12 @@ import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/models/login_respone.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/states/progress_state.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 class QualificationNotification extends StatelessWidget {
   int level;
   LoginResponse loginResponse;
   String username;
-  ProgressDialog pr;
   BuildContext _ctx;
   QualificationNotification({Key key, this.level, this.loginResponse, this.username});
 
@@ -31,20 +31,17 @@ class QualificationNotification extends StatelessWidget {
     }
     SizeConfig().init(context);
     _ctx = context;
-    pr = new ProgressDialog(context, showLogs: true, isDismissible: false);
-    pr.style(
-        progressWidget: CupertinoActivityIndicator(),
-        message: 'Please wait...');
     return BlocProvider(
         create: (context) => ProgressCubit(ProgressRepository()),
         child: BlocConsumer<ProgressCubit, ProgressState>(
           listener: (context, state){
             if(state is CreatingProgress){
-              pr.show();
+              CustomProgressDialog.progressDialog(context);
             }else if(state is CreateProgressSuccess){
               print('success');
-              pr.hide().whenComplete(() => Navigator.of(_ctx).pushReplacement(MaterialPageRoute(
-                  builder: (context) => HomePage())));
+              Navigator.pop(context);
+              Navigator.of(_ctx).pushReplacement(MaterialPageRoute(
+                  builder: (context) => HomePage()));
             }
           },
           builder: (context, state){

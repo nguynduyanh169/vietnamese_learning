@@ -295,7 +295,7 @@ class _TileState extends State<Tile> {
       child: Container(
         margin: EdgeInsets.all(5),
         child: myPairs[widget.tileIndex].getVocabulary() != ""
-            ? myPairs[widget.tileIndex].getIsSelected()
+            ? (myPairs[widget.tileIndex].getIsSelected()
             ? Container(
           child: Center(
             child: Text(myPairs[widget.tileIndex].getVocabulary(),
@@ -307,7 +307,7 @@ class _TileState extends State<Tile> {
               color: Colors.purple,
               borderRadius: BorderRadius.circular(10)),
         )
-            : Image.asset("assets/images/quest.png")
+            : Image.asset("assets/images/quest.png"))
             : Container(
           color: Colors.white,
           child: Image.asset("assets/images/correct.png"),

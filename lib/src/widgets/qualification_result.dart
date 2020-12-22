@@ -49,14 +49,14 @@ class QualificationResult extends StatelessWidget {
                 animation: true,
                 percent: percent,
                 center: new Text(
-                  "$correctAnswer/$totalAnswer",
+                  "${resultScore.toStringAsFixed(1)}/10",
                   style: new TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
                       fontFamily: "Helvetica"),
                 ),
                 footer: Text(
-                  'Questions',
+                  'Mark',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
