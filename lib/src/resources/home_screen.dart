@@ -239,6 +239,16 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                InkWell(
+                  onTap: () {
+                    pushNewScreen(context,
+                        screen: AlphabetScreen(),
+                        withNavBar: false,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.slideUp);
+                  },
+                  child: Container(width: 20, height: 20, color: Colors.red),
+                ),
                 Text(
                   'Beginner',
                   style: GoogleFonts.nunito(
