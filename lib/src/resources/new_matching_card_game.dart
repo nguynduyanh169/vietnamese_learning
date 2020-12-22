@@ -22,7 +22,6 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   int time = 60;
   Timer timer;
 
-
   startTimer() {
     timer = Timer.periodic(Duration(seconds: 1), (t) {
       if (this.mounted) {
@@ -41,7 +40,6 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //startTimer();
   }
 
   void reStart() {
@@ -95,22 +93,21 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                 ),
                 // (time > 0)
                 //     ? Padding(
-                //     padding: EdgeInsets.all(12.0),
-                //     child: Text("Time left: $time s",
-                //         style: TextStyle(
-                //             fontFamily: 'Helvetica',
-                //             fontWeight: FontWeight.w600,
-                //             fontSize: 25)))
+                //         padding: EdgeInsets.all(12.0),
+                //         child: Text("Time left: $time s",
+                //             style: TextStyle(
+                //                 fontFamily: 'Helvetica',
+                //                 fontWeight: FontWeight.w600,
+                //                 fontSize: 25)))
                 //     : Center(
-                //   child: Text(
-                //     "",
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(fontSize: 30, fontFamily: 'Helvetica'),
-                //   ),
-                // ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 10
-                ),
+                //         child: Text(
+                //           "",
+                //           textAlign: TextAlign.center,
+                //           style:
+                //               TextStyle(fontSize: 30, fontFamily: 'Helvetica'),
+                //         ),
+                //       ),
+                SizedBox(height: SizeConfig.blockSizeVertical * 10),
                 points != 800
                     ? GridView(
                         shrinkWrap: true,
@@ -189,6 +186,10 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                 }
                 getFromAPi[i].isSelected = false;
               }
+              List<TileModel> clone = []..addAll(getFromAPi);
+
+              var newList = [...getFromAPi, ...clone];
+
               return _gameDetails(getFromAPi);
             } else if (state is GameLoadError) {
               return Center(
@@ -241,6 +242,9 @@ class _TileState extends State<Tile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        print('Click');
+        print(selected);
+        print(selectedTile);
         if (!selected) {
           setState(() {
             myPairs[widget.tileIndex].setIsSelected(true);
@@ -292,8 +296,7 @@ class _TileState extends State<Tile> {
       },
       child: Container(
         margin: EdgeInsets.all(5),
-        child: myPairs[widget.tileIndex].getVocabulary() != "" ||
-                myPairs[widget.tileIndex].getDescription() != ""
+        child: myPairs[widget.tileIndex].getVocabulary() != ""
             ? myPairs[widget.tileIndex].getIsSelected()
                 ? Container(
                     child: Center(
@@ -309,7 +312,7 @@ class _TileState extends State<Tile> {
                 : Image.asset("assets/images/quest.png")
             : Container(
                 color: Colors.white,
-                child: Image.asset("assets/correct.png"),
+                child: Image.asset("assets/images/correct.png"),
               ),
       ),
     );
