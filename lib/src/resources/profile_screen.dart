@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontSize: 9, fontFamily: 'Helvetica'),
                                   ),
                                   linearStrokeCap: LinearStrokeCap.roundAll,
-                                  progressColor: Colors.amberAccent,
+                                  progressColor: Colors.green,
                                 ),
                               ),
                               SizedBox(
