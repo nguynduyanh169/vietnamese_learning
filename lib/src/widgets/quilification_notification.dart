@@ -32,17 +32,30 @@ class QualificationNotification extends StatelessWidget {
     }
     SizeConfig().init(context);
     _ctx = context;
+
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+        message: 'Please wait....',
+      borderRadius: 10.0,
+      backgroundColor: Colors.white,
+      progressWidget: CupertinoActivityIndicator(
+        radius: 20,
+      ),
+    );
     return BlocProvider(
         create: (context) => ProgressCubit(ProgressRepository()),
         child: BlocConsumer<ProgressCubit, ProgressState>(
           listener: (context, state){
             if(state is CreatingProgress){
               //CustomProgressDialog.progressDialog(context);
+              pr.show();
               print('hello');
             }else if(state is CreateProgressSuccess){
-              //Navigator.pop(context);
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => HomePage()));
+              pr.hide().then((value) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => HomePage()));
+              });
+
             }
           },
           builder: (context, state){

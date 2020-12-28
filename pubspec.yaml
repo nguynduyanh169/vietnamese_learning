@@ -178,6 +178,7 @@ flutter:
      - assets/images/x.png
      - assets/images/y.png
      - assets/images/question.png
+     - assets/images/medal.png
      - res/hangman_words.txt
   fonts:
     - family: Helvetica

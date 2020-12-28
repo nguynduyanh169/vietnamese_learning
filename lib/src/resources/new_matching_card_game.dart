@@ -4,6 +4,7 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/game_cubit.dart';
 import 'package:vietnamese_learning/src/models/memory_model.dart';
@@ -56,6 +57,11 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
 
   void reStart(BuildContext context) {
     BlocProvider.of<Game_Cubit>(context).loadVocabularyByLevel();
+    myPairs = new List<TileModel>();
+    selected = false;
+    points = 0;
+    time = 60;
+    startTimer();
   }
 
 
@@ -75,7 +81,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
           child: Container(
             height: SizeConfig.blockSizeVertical * 100,
             color: Color.fromRGBO(255, 239, 215, 100),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
+            padding: EdgeInsets.symmetric(horizontal: 2, vertical: 20),
             child: Column(
               children: <Widget>[
                 Container(
@@ -89,7 +95,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 10,
+                        width: SizeConfig.blockSizeHorizontal * 8,
                       ),
                       Text(
                         'Memory Card Game',
@@ -153,33 +159,196 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                         }),
                       )
                     : checkFinish(points) ? Container(
-                    child: Column(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              points = 0;
-                              reStart(context);
-                            });
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 200,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(24),
+                    child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: SizeConfig.blockSizeHorizontal * 80,
+                        height: SizeConfig.blockSizeVertical * 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 1,
                             ),
-                            child: Text("Replay", style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500
-                            ),),
+                            Text(
+                              "Congratulation",
+                              style: GoogleFonts.sansita(
+                                fontSize: 35,
+                                color: Colors.brown,
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            Text(
+                              "You win",
+                              style: GoogleFonts.sansita(
+                                fontSize: 25,
+                                color: Colors.red,
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            Container(
+                              width: 140,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: AssetImage('assets/images/medal.png',),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: SizeConfig.blockSizeHorizontal * 10,
+                                ),
+                                Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromRGBO(255, 190, 51, 1),
+                                  ),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.refresh,
+                                      color: Colors.black54,
+                                    ),
+                                    iconSize: 50,
+                                    onPressed: () => reStart(context),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: SizeConfig.blockSizeHorizontal * 23,
+                                ),
+                                Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromRGBO(255, 190, 51, 1),
+                                  ),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.list,
+                                      color: Colors.black54,
+                                    ),
+                                    iconSize: 50,
+                                    onPressed: () => {
+                                      Navigator.pop(
+                                        context,
+                                      )
+                                    },
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ))
+                ):Container(
+                    margin: EdgeInsets.only(top: 10),
+                    width: SizeConfig.blockSizeHorizontal * 80,
+                    height: SizeConfig.blockSizeVertical * 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 1,
+                        ),
+                        Text(
+                          "Game Over",
+                          style: GoogleFonts.sansita(
+                            fontSize: 35,
+                            color: Colors.brown,
                           ),
                         ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 1,
+                        ),
+                        Text(
+                          "You Lose",
+                          style: GoogleFonts.sansita(
+                            fontSize: 25,
+                            color: Colors.red,
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 2,
+                        ),
+                        Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/tryagain.png',),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 2,
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 10,
+                            ),
+                            Container(
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color.fromRGBO(255, 190, 51, 1),
+                              ),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.refresh,
+                                  color: Colors.black54,
+                                ),
+                                iconSize: 50,
+                                onPressed: () => reStart(context),
+                              ),
+                            ),
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 23,
+                            ),
+                            Container(
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color.fromRGBO(255, 190, 51, 1),
+                              ),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.list,
+                                  color: Colors.black54,
+                                ),
+                                iconSize: 50,
+                                onPressed: () => {
+                                  Navigator.pop(
+                                      context,
+                                      )
+                                },
+                              ),
+                            )
+                          ],
+                        )
                       ],
-                    )
-                ):GameResult()
+                    ))
               ],
             ),
           ),
@@ -227,7 +396,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
 
   Widget _loadingVocabulary() {
     return Container(
-      color: Colors.green,
+      color: Color.fromRGBO(255, 239, 215, 100),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

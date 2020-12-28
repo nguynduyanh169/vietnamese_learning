@@ -76,58 +76,13 @@ class _ListGameScreenState extends State<ListGameScreen> {
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
                   ),
-                  Container(
-                    width: 320,
-                    height: 48,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(29.5),
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Search",
-                          hintStyle: TextStyle(fontFamily: 'Helvetica'),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search)),
-                      onSubmitted: (value) {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => null));
-                      },
-                    ),
-                  ),
+
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical * 2,
+                    height: SizeConfig.blockSizeVertical * 10,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: const Color.fromRGBO(255, 190, 51, 50),
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/hangman.png"),
-                        fit: BoxFit.fill,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    width: SizeConfig.blockSizeHorizontal * 85,
-                    height: SizeConfig.blockSizeVertical * 30,
-                    child: InkWell(
-                      onTap: () => pushNewScreen(context,
-                          screen: HomeScreen(),
-                          withNavBar: false,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino),
-                    ),
-                  ),
+
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical * 5,
+                    height: SizeConfig.blockSizeVertical * 8,
                   ),
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 85,
@@ -155,13 +110,7 @@ class _ListGameScreenState extends State<ListGameScreen> {
                               PageTransitionAnimation.cupertino),
                     ),
                   ),
-                  Container(
-                    child: RaisedButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewMatchingGame()));
-                      },
-                    ),
-                  ),
+
                 ],
               ),
             ),
