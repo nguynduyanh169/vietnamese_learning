@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -12,15 +13,26 @@ class ChooseNation extends StatefulWidget {
 }
 
 class _ChooseNationState extends State<ChooseNation> {
-  final List<Nation> nations;
+  List<Nation> nations;
+  List<Nation> newNations;
   TextEditingController txtSearch = new TextEditingController();
   _ChooseNationState({this.nations});
 
   @override
-  Widget build(BuildContext context) {
-    List<Nation> newNations = List.from(nations);
-    onItemChanged(String value) {
+  void initState() {
+    newNations = List.from(nations);
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    onItemChanged(String value) {
+      setState(() {
+        newNations = nations
+            .where((data) => data.nation.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+      });
+      //print(newNations);
     }
     return Material(
       child: SafeArea(
@@ -48,13 +60,7 @@ class _ChooseNationState extends State<ChooseNation> {
                     border: InputBorder.none,
                     prefixIcon: Icon(CupertinoIcons.search),
                   ),
-                  onChanged: (value){
-                    setState(() {
-                      newNations = nations
-                          .where((data) => data.nation.toLowerCase().contains(value.toLowerCase()))
-                          .toList();
-                    });
-                  },
+                  onChanged: onItemChanged,
                 ),
               ),
               Expanded(
@@ -63,9 +69,17 @@ class _ChooseNationState extends State<ChooseNation> {
                       return ListTile(
                         title: Text(data.nation),
                         leading: Container(
-                            child: Image(
-                              image: NetworkImage(data.image),
-                            )),
+                            // child: Image(
+                            //   image: NetworkImage(data.image),
+                            // )
+                          child: CachedNetworkImage(
+                            imageUrl: data.image,
+                            placeholder: (context, url) => CupertinoActivityIndicator(
+                              radius: 15,
+                            ),
+                            errorWidget: (context, url, error) => Icon(CupertinoIcons.xmark_octagon_fill),
+                          ),
+                        ),
                         onTap: () => Navigator.pop(context, data),
                       );
                     }).toList(),

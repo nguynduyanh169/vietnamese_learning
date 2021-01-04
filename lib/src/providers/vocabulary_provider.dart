@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 
+import '../constants.dart';
+
 class VocabularyProvider {
-  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
-  static final String VOCABULARY = BASE_URL + "/api/vocabulary/getByLesson/";
   final Dio _dio = Dio();
 
   Future<List<Vocabulary>> getVocabularyByLessonId(
@@ -16,7 +16,7 @@ class VocabularyProvider {
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response = await _dio.get('$VOCABULARY$lessonId', options: Options(headers: header));
+      Response response = await _dio.get('${APIConstants.VOCABULARY}$lessonId', options: Options(headers: header));
       print(response.data.toString());
       return (response.data as List).map((i) => Vocabulary.fromJson(i)).toList();
     } catch (error, stacktrace) {

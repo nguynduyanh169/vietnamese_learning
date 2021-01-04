@@ -1,15 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/post.dart';
 
+import '../constants.dart';
+
 class PostProvider {
-  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
-  static final String CREATE_POST = BASE_URL + "/api/post";
-  static final String GET_POST = BASE_URL + "/api/post";
-  static final String GET_NEXT_POST = BASE_URL + "/api/post/nextPost";
-  static final String GET_MY_POST = BASE_URL + "/api/post/myPost";
-  static final String UPDATE_POST = BASE_URL + "/api/post";
-  static final String DELETE_POST = BASE_URL + "/api/post";
-  static final String SEARCH_POSTS = BASE_URL + "/api/post/search";
   Dio _dio = new Dio();
 
   Future<bool> createPost(String token, PostSave postSave) async {
@@ -19,7 +13,7 @@ class PostProvider {
       'studentToken': '$token'
     };
     try {
-      Response response = await _dio.post(CREATE_POST,
+      Response response = await _dio.post(APIConstants.CREATE_POST,
           options: Options(headers: headers), data: postSave.toJson());
       if (response.data == 'Create Success!!!') {
         return true;
@@ -27,7 +21,7 @@ class PostProvider {
         return false;
       }
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -38,7 +32,7 @@ class PostProvider {
       'studentToken': '$token'
     };
     try {
-      Response response = await _dio.put(CREATE_POST,
+      Response response = await _dio.put(APIConstants.UPDATE_POST,
           options: Options(headers: headers), data: postUpdate.toJson());
       if (response.data == 'Update Success!!!') {
         return true;
@@ -46,7 +40,7 @@ class PostProvider {
         return false;
       }
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
 
   }
@@ -59,7 +53,7 @@ class PostProvider {
     };
     try {
       print('deleting');
-      Response response = await _dio.delete('$DELETE_POST/$postId',
+      Response response = await _dio.delete('${APIConstants.DELETE_POST}/$postId',
           options: Options(headers: headers));
       if (response.data == 'Delete Success!!!') {
         return true;
@@ -67,7 +61,7 @@ class PostProvider {
         return false;
       }
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -79,11 +73,11 @@ class PostProvider {
     };
     try {
       Response response =
-          await _dio.get(GET_POST, options: Options(headers: headers));
+          await _dio.get(APIConstants.GET_POST, options: Options(headers: headers));
       Post post = Post.fromJson(response.data);
       return post;
     } catch (error, stacktrace) {
-      print("Exception occurred: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -96,12 +90,12 @@ class PostProvider {
     };
     try {
       Response response =
-      await _dio.get(GET_MY_POST, options: Options(headers: headers));
+      await _dio.get(APIConstants.GET_MY_POST, options: Options(headers: headers));
       return (response.data as List)
           .map((i) => Content.fromJson(i))
           .toList();
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
 
   }
@@ -113,12 +107,12 @@ class PostProvider {
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response = await _dio.post(GET_NEXT_POST,
+      Response response = await _dio.post(APIConstants.GET_NEXT_POST,
           options: Options(headers: headers), data: currentPage.toJson());
       Post post = Post.fromJson(response.data);
       return post;
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -130,12 +124,12 @@ class PostProvider {
     };
     try {
       Response response =
-      await _dio.get('$SEARCH_POSTS/$search', options: Options(headers: headers));
+      await _dio.get('${APIConstants.SEARCH_POSTS}/$search', options: Options(headers: headers));
       return (response.data as List)
           .map((i) => Content.fromJson(i))
           .toList();
     } catch (error, stacktrace) {
-      print("Exception occurred: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
 
   }

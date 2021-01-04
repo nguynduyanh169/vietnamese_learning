@@ -53,7 +53,8 @@ class _LevelScreenState extends State<LevelScreen> {
               CustomProgressDialog.progressDialog(context);
             }else if(state is CreateProgressSuccess){
               Navigator.pop(context);
-              Navigator.of(_ctx).pushReplacementNamed("/home");
+              Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
             }else if(state is LoadedEntranceQuiz){
               Navigator.pop(context);
               List<EntranceQuiz> entranceQuizzes = state.entranceQuizzes;

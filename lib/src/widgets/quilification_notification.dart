@@ -52,8 +52,8 @@ class QualificationNotification extends StatelessWidget {
               print('hello');
             }else if(state is CreateProgressSuccess){
               pr.hide().then((value) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => HomePage()));
+                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
               });
 
             }

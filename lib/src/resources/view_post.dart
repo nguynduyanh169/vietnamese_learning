@@ -528,20 +528,33 @@ class _ViewPostState extends State<ViewPost> {
         ),
         comment.voiceLink != null
             ? Positioned(
-                right: SizeConfig.blockSizeHorizontal * 6,
+                right: SizeConfig.blockSizeHorizontal * 0,
                 top: SizeConfig.blockSizeVertical * 1.5,
-                child: InkWell(
-                  child: Center(
-                    child: Icon(
-                      CupertinoIcons.volume_up,
-                      color: Colors.blueAccent,
-                      size: 20,
-                    ),
-                  ),
-                  onTap: () {
-                    AssetsAudioPlayer.playAndForget(
-                        Audio.network(comment.voiceLink));
+                // child: InkWell(
+                //   child: Center(
+                //     child: Icon(
+                //       CupertinoIcons.volume_up,
+                //       color: Colors.blueAccent,
+                //       size: 20,
+                //     ),
+                //   ),
+                //   onTap: () {
+                //     AssetsAudioPlayer.playAndForget(
+                //         Audio.network(comment.voiceLink));
+                //   },
+                // ),
+                child: FlatButton(
+                  color: Colors.amberAccent,
+                  onPressed: () {
+                    AssetsAudioPlayer.playAndForget(Audio.network(comment.voiceLink));
                   },
+                  child: Icon(
+                    CupertinoIcons.volume_up,
+                    size: 20,
+                    color: Colors.grey,
+                  ),
+                  padding: EdgeInsets.all(5.0),
+                  shape: CircleBorder(),
                 ),
               )
             : Container()
@@ -791,8 +804,10 @@ class _ViewPostState extends State<ViewPost> {
                       ],
                     ),
                   ).then((value) {
-                    BlocProvider.of<PostCubit>(rootContext)
-                        .deleteComment(comment.commentId, content.id);
+                    if(value == 'yes') {
+                      BlocProvider.of<PostCubit>(rootContext)
+                          .deleteComment(comment.commentId, content.id);
+                    }
                   });
                 },
               ),

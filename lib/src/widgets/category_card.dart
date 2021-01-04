@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -74,18 +75,27 @@ class CategoryCard extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(bottom: 3),
-                  child: Container(
-                    width: 180,
-                    height: 110,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color.fromRGBO(230, 157, 0, 30),
+                  child: CachedNetworkImage(
+                    imageUrl: img,
+                    placeholder: (context, url) => CupertinoActivityIndicator(radius: 15,),
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 180,
+                      height: 110,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromRGBO(230, 157, 0, 30),
+                          // image: DecorationImage(
+                          //     image: NetworkImage(img),
+                          //     fit: BoxFit.fill)
                         image: DecorationImage(
-                            image: NetworkImage(img),
-                            fit: BoxFit.fill)),
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: _lock(),
+                          image: imageProvider,
+                          fit: BoxFit.fill
+                        )
+                      ),
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: _lock(),
+                      ),
                     ),
                   ),
                 ),
