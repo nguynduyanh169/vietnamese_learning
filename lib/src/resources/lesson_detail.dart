@@ -26,6 +26,41 @@ class _LessonDetailState extends State<LessonDetail> {
 
   _LessonDetailState({this.title, this.lessonId, this.progressId});
 
+  Widget _progress() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.lime,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromRGBO(255, 239, 215, 10),
+            ),
+            child: Center(
+              child: Text(
+                "100%",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.grey[700],
+                  fontFamily: "Helvetica",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -47,13 +82,16 @@ class _LessonDetailState extends State<LessonDetail> {
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
-                    SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 5,
+                    ),
                     FittedBox(
                       child: Container(
                         width: SizeConfig.blockSizeHorizontal * 55,
                         child: Text(
                           "$title",
-                          style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
+                          style:
+                              TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -76,50 +114,69 @@ class _LessonDetailState extends State<LessonDetail> {
                         elevation: 6,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0)),
-                        child: Column(children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2),
-                            child: Text(
-                              'Vocabulary',
-                              style: TextStyle(
-                                  fontFamily: 'Helvetica',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 19,
+                                  ),
+                                  child: Text(
+                                    'Vocabulary',
+                                    style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Container(
+                                  child: Container(
+                                    padding: EdgeInsets.only(top: 4, right: 4),
+                                    child: _progress(),
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2),
-                            child: Image(
-                              image: AssetImage(
-                                  'assets/images/vocabulary_logo.png'),
-                              width: 90,
-                              height: 90,
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 2,
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                bottom: SizeConfig.blockSizeVertical * 2),
-                            child: Text(
-                              'Vocabulary is the key to mastering a language',
-                              style: TextStyle(
-                                  fontFamily: 'Helvetica', fontSize: 12),
-                              textAlign: TextAlign.center,
+                            Container(
+                              child: Image(
+                                image: AssetImage(
+                                    'assets/images/vocabulary_logo.png'),
+                                width: 90,
+                                height: 90,
+                              ),
                             ),
-                          )
-                        ]),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            Container(
+                              child: Text(
+                                'Vocabulary is the key to mastering a language',
+                                style: TextStyle(
+                                    fontFamily: 'Helvetica', fontSize: 12),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 2,
+                            ),
+                          ],
+                        ),
                       ),
                       onTap: () {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                VocabDetailScreen(
-                                  lessonId: lessonId,
-                                  lessonName: title,
-                                ),
+                                    VocabDetailScreen(
+                              lessonId: lessonId,
+                              lessonName: title,
+                            ),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);
@@ -143,18 +200,31 @@ class _LessonDetailState extends State<LessonDetail> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0)),
                         child: Column(children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2),
-                            child: Text(
-                              'Conversation',
-                              style: TextStyle(
-                                  fontFamily: 'Helvetica',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 16,
+                                ),
+                                child: Text(
+                                  'Conversation',
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Container(
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 4, right: 4),
+                                  child: _progress(),
+                                ),
+                              )
+                            ],
                           ),
-                          Padding(
+                          Container(
                             padding: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2),
                             child: Image(
@@ -164,7 +234,7 @@ class _LessonDetailState extends State<LessonDetail> {
                               height: 90,
                             ),
                           ),
-                          Padding(
+                          Container(
                             padding: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
                                 bottom: SizeConfig.blockSizeVertical * 2),
@@ -182,10 +252,10 @@ class _LessonDetailState extends State<LessonDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                ConversationGetStarted(
-                                  lessonId: lessonId,
-                                  lessonName: title,
-                                ),
+                                    ConversationGetStarted(
+                              lessonId: lessonId,
+                              lessonName: title,
+                            ),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);
@@ -209,18 +279,31 @@ class _LessonDetailState extends State<LessonDetail> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0)),
                         child: Column(children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2),
-                            child: Text(
-                              'Quiz',
-                              style: TextStyle(
-                                  fontFamily: 'Helvetica',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 27,
+                                ),
+                                child: Text(
+                                  'Quiz',
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Container(
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 4, right: 4),
+                                  child: _progress(),
+                                ),
+                              )
+                            ],
                           ),
-                          Padding(
+                          Container(
                             padding: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2),
                             child: Image(
@@ -229,7 +312,7 @@ class _LessonDetailState extends State<LessonDetail> {
                               height: 90,
                             ),
                           ),
-                          Padding(
+                          Container(
                             padding: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
                                 bottom: SizeConfig.blockSizeVertical * 2,
@@ -252,7 +335,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                     QuizGetStarted(
                               lessonId: lessonId,
                               progressId: progressId,
-                                      lessonName: title,
+                              lessonName: title,
                             ),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
