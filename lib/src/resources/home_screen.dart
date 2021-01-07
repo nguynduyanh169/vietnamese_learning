@@ -20,6 +20,7 @@ import 'package:vietnamese_learning/src/resources/alphabet_screen.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
 import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 import 'package:vietnamese_learning/src/states/lessons_state.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
 
 import 'image_text_recognite.dart';
@@ -59,13 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
           LessonsCubit(LessonRepository())..loadLessonByLevel(),
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-            heroTag: Uuid(),
-            onPressed: () => pushNewScreen(context,
-              screen: DetailTranslateScreen(),
-              withNavBar: false,
-              pageTransitionAnimation: PageTransitionAnimation.slideUp,),
-            icon: Icon(CupertinoIcons.camera_fill),
-            label: Text('Translator'),
+          heroTag: Uuid(),
+          onPressed: () => pushNewScreen(
+            context,
+            screen: DetailTranslateScreen(),
+            withNavBar: false,
+            pageTransitionAnimation: PageTransitionAnimation.slideUp,
+          ),
+          icon: Icon(CupertinoIcons.camera_fill),
+          label: Text('Translator'),
         ),
         body: BlocBuilder<LessonsCubit, LessonsState>(
           builder: (context, state) {
@@ -107,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _gridLesson(List<Lesson> _listLessons, int leveIdOfUser) {
+    HiveUtils _hiveUtils = new HiveUtils();
     String levelOfUser;
     if (leveIdOfUser == 1) {
       levelOfUser = 'Beginner';
@@ -179,15 +183,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               ProfileScreen(userProfile: userProfile)));
                     },
                     child: userProfile.avatar != null
-                        ? CachedNetworkImage(
-                            imageUrl: userProfile.avatar,
-                            imageBuilder: (context, imageProvider) => CircleAvatar(
-                              radius: 25.0,
-                              backgroundImage: imageProvider,
-                              backgroundColor: Colors.transparent,
-                            ),
-                      placeholder: (context, url) => CupertinoActivityIndicator(radius: 15,),
-                        )
+                        ? CircleAvatar(
+                            radius: 25.0,
+                            backgroundImage: FileImage(File(_hiveUtils.getFile(boxName: 'CacheFile', url: userProfile.avatar))),
+                            backgroundColor: Colors.transparent,
+                          )
                         : Container(
                             height: 52,
                             width: 52,

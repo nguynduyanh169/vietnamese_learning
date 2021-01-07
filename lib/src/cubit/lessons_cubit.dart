@@ -27,6 +27,13 @@ class LessonsCubit extends Cubit<LessonsState>{
       _hiveUtils = new HiveUtils();
       UserProfile userProfile = await _userRepository.getUserProfile(token, username);
       prefs.setString(username + 'profile', json.encode(userProfile));
+      bool avatarExist = _hiveUtils.fileExist(url: userProfile.avatar, boxName: 'CacheFile');
+      if(!avatarExist){
+        if(userProfile.avatar != null){
+          String filePath  = await _hiveUtils.downloadFile(userProfile.avatar);
+          _hiveUtils.addFile(filePath: filePath, url: userProfile.avatar, boxName: 'CacheFile');
+        }
+      }
       List<Lesson> listLessons = await _lessonRepository.getLessonsByLevelId(token);
       var connectivityResult = await (Connectivity().checkConnectivity());
       if(connectivityResult != ConnectivityResult.none){
