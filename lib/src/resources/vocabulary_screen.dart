@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/learn_vocabulary_cubit.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/widgets/flash_card.dart';
 import 'package:vietnamese_learning/src/widgets/speaking_vocabulary.dart';
 import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
@@ -377,6 +381,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     }
 
     Widget _matchingVocabulary(BuildContext context) {
+      HiveUtils _hiveUtils = new HiveUtils();
       return Container(
         padding: EdgeInsets.only(
             top: SizeConfig.blockSizeVertical * 3,
@@ -399,8 +404,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               height: SizeConfig.blockSizeVertical * 5,
             ),
             FlatButton(
-              onPressed: () {
-                AssetsAudioPlayer.playAndForget(Audio.network(audio));
+              onPressed: () async{
+                AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: audio)));
               },
               color: Colors.amberAccent,
               textColor: Colors.white,

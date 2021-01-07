@@ -74,16 +74,20 @@ class UserProvider{
 
     try {
       ResponseAPI responseAPI = new ResponseAPI();
-      //bool exist = await _hiveUtils.isExists(boxName: 'UserProfile');
       var connectivityResult = await (Connectivity().checkConnectivity());
       if(connectivityResult == ConnectivityResult.none){
-        responseAPI = await _hiveUtils.getBoxes('UserProfile', APIConstants.GET_PROFILE);
+        responseAPI = _hiveUtils.getBoxes('JSON', APIConstants.GET_PROFILE);
       }else {
+        bool exist = _hiveUtils.isExists(name: APIConstants.GET_PROFILE, boxName: 'JSON');
         Response response = await _dio.get(
             APIConstants.GET_PROFILE, options: Options(headers: headers),
             queryParameters: query);
         responseAPI = new ResponseAPI(name: APIConstants.GET_PROFILE, response: jsonEncode(response.data));
-        await _hiveUtils.addBox(responseAPI, 'UserProfile');
+        if(exist){
+          _hiveUtils.updateBox(responseAPI, 'JSON');
+        }else{
+          _hiveUtils.addBox(responseAPI, 'JSON');
+        }
       }
       UserProfile userProfile = UserProfile.fromJson(jsonDecode(responseAPI.response));
       return userProfile;

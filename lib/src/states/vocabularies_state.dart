@@ -9,6 +9,11 @@ class VocabulariesLoading extends VocabulariesState{
   const VocabulariesLoading();
 }
 
+class DownloadingPercentage extends VocabulariesState{
+  final double percent;
+  const DownloadingPercentage(this.percent);
+}
+
 class VocabulariesLoaded extends VocabulariesState{
   final List<Vocabulary> vocabularies;
 

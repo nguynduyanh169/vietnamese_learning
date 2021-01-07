@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadUsername();
     super.initState();
   }
-
 
   void _loadUsername() async {
     final SharedPreferences sharedPreferences =

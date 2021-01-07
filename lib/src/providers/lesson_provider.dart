@@ -22,15 +22,19 @@ class LessonProvider {
     };
     try {
       ResponseAPI responseAPI = new ResponseAPI();
-      //bool exist = await _hiveUtils.isExists(boxName: 'LessonByLevel');
       var connectivityResult = await (Connectivity().checkConnectivity());
       if(connectivityResult == ConnectivityResult.none){
-        responseAPI = await _hiveUtils.getBoxes('LessonByLevel', APIConstants.LESSONS_BY_LEVEL);
+        print('open lesson');
+        responseAPI = _hiveUtils.getBoxes('JSON', APIConstants.LESSONS_BY_LEVEL);
       }else{
+        bool exist = await _hiveUtils.isExists(name: APIConstants.LESSONS_BY_LEVEL, boxName: 'JSON');
         Response response = await _dio.get(APIConstants.LESSONS_BY_LEVEL, options: Options(headers: headers));
-        //Response response = await _dioUtils.get(url: APIConstants.LESSONS_BY_LEVEL, options: buildServiceCacheOptions(options: Options(headers: headers)));
         responseAPI = new ResponseAPI(name: APIConstants.LESSONS_BY_LEVEL, response: jsonEncode(response.data));
-        await _hiveUtils.addBox(responseAPI, 'LessonByLevel');
+        if(exist){
+          _hiveUtils.updateBox(responseAPI, 'JSON');
+        }else{
+          _hiveUtils.addBox(responseAPI, 'JSON');
+        }
       }
       return (jsonDecode(responseAPI.response) as List).map((i) => Lesson.fromJson(i)).toList();
     } catch (error, stacktrace) {

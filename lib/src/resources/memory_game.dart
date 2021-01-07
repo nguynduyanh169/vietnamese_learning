@@ -3,7 +3,6 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
-import 'package:vietnamese_learning/src/data/game_data.dart';
 import 'package:vietnamese_learning/src/resources/memory_game_level.dart';
 import 'package:vietnamese_learning/src/widgets/game_result.dart';
 

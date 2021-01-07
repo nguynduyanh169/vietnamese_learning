@@ -35,11 +35,11 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
     _usernameController = new TextEditingController();
     _passwordController = new TextEditingController();
-    Firebase.initializeApp();
+    //Firebase.initializeApp();
   }
 
   final formKey = new GlobalKey<FormState>();

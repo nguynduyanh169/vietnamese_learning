@@ -13,11 +13,25 @@ void main() async{
   final appDirectory = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDirectory.path);
   Hive.registerAdapter(ResponseAPIAdapter());
+  await Hive.openBox("JSON");
+  await Hive.openBox("CacheFile");
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
 
+class MyApp extends StatefulWidget{
+
+  @override
+  _MyAppState createState() {
+    return _MyAppState();
+  }
+}
+class _MyAppState extends State<MyApp> {
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
