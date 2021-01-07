@@ -40,7 +40,41 @@ class CategoryCard extends StatelessWidget {
         ),
       );
     } else {
-      return Container();
+      return Container(
+        padding: EdgeInsets.all(4),
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.lime,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color.fromRGBO(255, 239, 215, 10),
+                ),
+                child: Center(
+                  child: Text(
+                    "100%",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey[700],
+                      fontFamily: "Helvetica",
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     }
   }
 
@@ -81,8 +115,7 @@ class CategoryCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromRGBO(230, 157, 0, 30),
                         image: DecorationImage(
-                            image: NetworkImage(img),
-                            fit: BoxFit.fill)),
+                            image: NetworkImage(img), fit: BoxFit.fill)),
                     child: Container(
                       alignment: Alignment.topRight,
                       child: _lock(),

@@ -57,13 +57,15 @@ class _HomeScreenState extends State<HomeScreen> {
           LessonsCubit(LessonRepository())..loadLessonByLevel(),
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-            heroTag: Uuid(),
-            onPressed: () => pushNewScreen(context,
-              screen: DetailTranslateScreen(),
-              withNavBar: false,
-              pageTransitionAnimation: PageTransitionAnimation.slideUp,),
-            icon: Icon(CupertinoIcons.camera_fill),
-            label: Text('Translator'),
+          heroTag: Uuid(),
+          onPressed: () => pushNewScreen(
+            context,
+            screen: DetailTranslateScreen(),
+            withNavBar: false,
+            pageTransitionAnimation: PageTransitionAnimation.slideUp,
+          ),
+          icon: Icon(CupertinoIcons.camera_fill),
+          label: Text('Translator'),
         ),
         body: BlocBuilder<LessonsCubit, LessonsState>(
           builder: (context, state) {
@@ -236,16 +238,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () {
-                    pushNewScreen(context,
-                        screen: AlphabetScreen(),
-                        withNavBar: false,
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.slideUp);
-                  },
-                  child: Container(width: 20, height: 20, color: Colors.red),
-                ),
                 Text(
                   'Beginner',
                   style: GoogleFonts.nunito(
