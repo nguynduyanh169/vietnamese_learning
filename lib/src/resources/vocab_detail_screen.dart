@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/vocabularies_cubit.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
@@ -23,6 +24,7 @@ class VocabDetailScreen extends StatefulWidget {
 class _VocabDetailScreenState extends State<VocabDetailScreen> {
   String lessonId;
   String title;
+  double percent = 0;
 
   _VocabDetailScreenState({this.lessonId, this.title});
 
@@ -38,7 +40,13 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
       create: (context) => VocabulariesCubit(VocabularyRepository())
         ..loadVocabulariesByLessonId(lessonId),
       child: Scaffold(
-          body: BlocBuilder<VocabulariesCubit, VocabulariesState>(
+          body: BlocConsumer<VocabulariesCubit, VocabulariesState>(
+            listener: (context, state){
+              if(state is DownloadingPercentage){
+                print(state.percent);
+                percent = state.percent;
+              }
+            },
             builder: (context, state) {
               if (state is VocabulariesLoaded) {
                 return _vocabDetails(state.vocabularies);
@@ -167,13 +175,36 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CupertinoActivityIndicator(
-              radius: 20,
+            Container(
+              child: Image(
+                image: AssetImage('assets/images/vocabulary_logo.png'),
+                width: 160,
+                height: 160,
+              ),
             ),
+            SizedBox(height: SizeConfig.blockSizeVertical * 5,),
+            Container(
+              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 15, right: SizeConfig.blockSizeHorizontal * 15),
+              child: LinearPercentIndicator(
+                width: SizeConfig.blockSizeHorizontal * 60,
+                animation: false,
+                lineHeight: 18.0,
+                animationDuration: 1000,
+                percent: percent,
+                center: Text(
+                  "${(percent * 100).toStringAsFixed(2)}%",
+                  style: TextStyle(
+                      fontSize: 9, fontFamily: 'Helvetica'),
+                ),
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                progressColor: Colors.amberAccent,
+              ),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical * 2,),
             Text(
-              'Loading....',
-              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-            )
+              'Loading...',
+              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica', color: Colors.black38),
+            ),
           ],
         ),
       ),

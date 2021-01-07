@@ -2,13 +2,10 @@
 import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/comment.dart';
 
+import '../constants.dart';
+
 
 class CommentProvider{
-  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
-  static final String GET_COMMENTS = BASE_URL + "/api/comment/";
-  static final String CREATE_COMMENT = BASE_URL + "/api/comment";
-  static final String DELETE_COMMENT = BASE_URL + "/api/comment";
-
   final Dio _dio = Dio();
 
   Future<List<Comment>> getCommentsByPostId(String token, int postId) async{
@@ -18,13 +15,13 @@ class CommentProvider{
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response = await _dio.get('$GET_COMMENTS$postId',
+      Response response = await _dio.get('${APIConstants.GET_COMMENTS}$postId',
           options: Options(headers: header));
       return (response.data as List)
           .map((i) => Comment.fromJson(i))
           .toList();
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -35,7 +32,7 @@ class CommentProvider{
       'studentToken' : '$token'
     };
     try {
-      Response response = await _dio.post(CREATE_COMMENT,
+      Response response = await _dio.post(APIConstants.CREATE_COMMENT,
           options: Options(headers: headers), data: comment.toJson());
       if(response.data == 'Comment Success!!!'){
         return true;
@@ -43,7 +40,7 @@ class CommentProvider{
         return false;
       }
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -53,7 +50,7 @@ class CommentProvider{
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response = await _dio.delete('$DELETE_COMMENT/$commentId',
+      Response response = await _dio.delete('${APIConstants.DELETE_COMMENT}/$commentId',
           options: Options(headers: headers));
       if(response.statusCode == 200) {
         if (response.data == 'Delete Success!!!') {
@@ -65,7 +62,7 @@ class CommentProvider{
         return false;
       }
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
 
   }

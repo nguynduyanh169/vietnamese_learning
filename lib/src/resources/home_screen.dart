@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,13 +14,13 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lessons_cubit.dart';
 import 'package:vietnamese_learning/src/data/lesson_repository.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
+import 'package:vietnamese_learning/src/models/response_api.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/alphabet_screen.dart';
 import 'package:vietnamese_learning/src/resources/lesson_detail.dart';
 import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 import 'package:vietnamese_learning/src/states/lessons_state.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
-import 'package:vietnamese_learning/src/widgets/searchbar.dart';
 
 import 'image_text_recognite.dart';
 
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   _HomeScreenState();
 
   @override
-  void initState() {
+  initState() {
     _loadUsername();
     super.initState();
   }
@@ -179,11 +181,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ProfileScreen(userProfile: userProfile)));
                     },
                     child: userProfile.avatar != null
-                        ? CircleAvatar(
-                            radius: 25.0,
-                            backgroundImage: NetworkImage(userProfile.avatar),
-                            backgroundColor: Colors.transparent,
-                          )
+                        ? CachedNetworkImage(
+                            imageUrl: userProfile.avatar,
+                            imageBuilder: (context, imageProvider) => CircleAvatar(
+                              radius: 25.0,
+                              backgroundImage: imageProvider,
+                              backgroundColor: Colors.transparent,
+                            ),
+                      placeholder: (context, url) => CupertinoActivityIndicator(radius: 15,),
+                        )
                         : Container(
                             height: 52,
                             width: 52,

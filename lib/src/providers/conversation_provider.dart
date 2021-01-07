@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 
+import '../constants.dart';
+
 class ConversationProvider {
-  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
-  static final String CONVERSATION = BASE_URL + "/api/conversation/getByLesson/";
   final Dio _dio = Dio();
 
   Future<List<Conversation>> getConversationByLessonId(
@@ -16,7 +16,7 @@ class ConversationProvider {
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response = await _dio.get('$CONVERSATION$lessonId',
+      Response response = await _dio.get('${APIConstants.CONVERSATION}$lessonId',
           options: Options(headers: header));
       print(response.data.toString());
       return (response.data as List)

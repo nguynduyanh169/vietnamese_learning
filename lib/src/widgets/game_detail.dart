@@ -107,43 +107,48 @@ class _GameDetailState extends State<GameDetail> {
             SizedBox(
               height: SizeConfig.blockSizeVertical * 3,
             ),
-            Container(
-              margin: EdgeInsets.all(8),
-              width: 300,
-              height: 70,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Color.fromRGBO(255, 198, 26, 60),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
+            InkWell(
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(8),
                 width: 300,
                 height: 70,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.yellow[900],
+                  borderRadius: BorderRadius.circular(30),
+                  color: Color.fromRGBO(255, 198, 26, 60),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                 ),
-                child: Center(
-                  child: Text(
-                    "INTRODUCTION",
-                    style: GoogleFonts.teko(
-                      textStyle: TextStyle(
-                        color: Color.fromRGBO(255, 204, 51, 1),
-                        fontSize: 35,
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  width: 300,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.yellow[900],
+                  ),
+                  child: Center(
+                    child: Text(
+                      "BACK",
+                      style: GoogleFonts.teko(
+                        textStyle: TextStyle(
+                          color: Color.fromRGBO(255, 204, 51, 1),
+                          fontSize: 35,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+            )
           ],
         ),
       ),

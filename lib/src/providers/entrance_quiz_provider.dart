@@ -3,9 +3,9 @@ import 'dart:core';
 import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
 
+import '../constants.dart';
+
 class EntranceQuizProvider{
-  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
-  static final String ENTRANCE_QUIZ = BASE_URL + "/api/question";
   final Dio _dio = new Dio();
 
   Future<List<EntranceQuiz>> getEntranceQuiz() async{
@@ -14,7 +14,7 @@ class EntranceQuizProvider{
       'Accept': 'application/json',
     };
     try {
-      Response response = await _dio.get(ENTRANCE_QUIZ, options: Options(headers: header));
+      Response response = await _dio.get(APIConstants.ENTRANCE_QUIZ, options: Options(headers: header));
       return (response.data as List).map((i) => EntranceQuiz.fromJson(i)).toList();
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");

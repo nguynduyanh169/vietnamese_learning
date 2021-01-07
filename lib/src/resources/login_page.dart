@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:hive/hive.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
@@ -38,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _usernameController = new TextEditingController();
     _passwordController = new TextEditingController();
-    Firebase.initializeApp();
+    //Firebase.initializeApp();
   }
 
   final formKey = new GlobalKey<FormState>();
@@ -264,27 +265,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 60.0,
-                          width: 60.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(58, 89, 152, 1.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 2),
-                                blurRadius: 6.0,
-                              ),
-                            ],
-                            image: DecorationImage(
-                              scale: 13,
-                              image:
-                              AssetImage('assets/images/facebook_logo.png'),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
+                        //SizedBox(width: SizeConfig.blockSizeHorizontal * 10),
                         InkWell(
                           child: Container(
                             height: 60.0,

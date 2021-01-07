@@ -1,24 +1,21 @@
 
 import 'dart:convert';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:vietnamese_learning/src/models/login_respone.dart';
+import 'package:vietnamese_learning/src/models/response_api.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
+
+import '../constants.dart';
 
 class UserProvider{
-  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
-  static final String BASE_URL_HEROKU = "https://vn-master.herokuapp.com";
-  static final String LOGIN = BASE_URL + "/api/authen/login";
-  static final String REGISTER = BASE_URL_HEROKU + "/api/authen/signup";
-  static final String GET_PROFILE = BASE_URL + "/api/authen/getUserDetail";
-  static final String SEND_EMAIL = BASE_URL + "/api/authen/forget";
-  static final String CHANGE_PASSWORD = BASE_URL + "/api/authen/updateNewPassword";
-  static final String LOGIN_GMAIL = BASE_URL + "/api/authen/signin-gmail";
-  static final String EDIT_PROFILE = BASE_URL + "/api/authen/editProfile";
   final Dio _dio = Dio();
+  HiveUtils _hiveUtils = new HiveUtils();
 
   Future<LoginResponse> login(String username, String password) async{
-    Map<String, String> header = {
+    Map<String, String> headers = {
       "Content-type": "application/json"
     };
     Map<String, String> body = {
@@ -26,7 +23,7 @@ class UserProvider{
       'username': username
     };
     try {
-      Response response = await _dio.post(LOGIN, options: Options(headers: header), data: json.encode(body));
+      Response response = await _dio.post(APIConstants.LOGIN, options: Options(headers: headers), data: json.encode(body));
       print(response.data);
       LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
       return _loginResponse;
@@ -37,7 +34,7 @@ class UserProvider{
 
   Future<String> register(String username, String password, String email, String nation) async{
     String result = '';
-    Map<String, String> header = {
+    Map<String, String> headers = {
       "Content-type": "application/json"
     };
     Map<String, String> body = {
@@ -47,7 +44,7 @@ class UserProvider{
       'nation' : nation
     };
     try {
-      Response response = await _dio.post(REGISTER, options: Options(headers: header), data: json.encode(body));
+      Response response = await _dio.post(APIConstants.REGISTER, options: Options(headers: headers), data: json.encode(body));
       if(response.statusCode == 200){
         LoginResponse _loginResponse = LoginResponse.fromJson(response.data);
         result = "success!";
@@ -68,7 +65,7 @@ class UserProvider{
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $token',
     };
 
     Map<String, String> query = {
@@ -76,8 +73,23 @@ class UserProvider{
     };
 
     try {
-      Response response = await _dio.get(GET_PROFILE, options: Options(headers: headers), queryParameters: query);
-      UserProfile userProfile = UserProfile.fromJson(response.data);
+      ResponseAPI responseAPI = new ResponseAPI();
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if(connectivityResult == ConnectivityResult.none){
+        responseAPI = _hiveUtils.getBoxes('JSON', APIConstants.GET_PROFILE);
+      }else {
+        bool exist = _hiveUtils.isExists(name: APIConstants.GET_PROFILE, boxName: 'JSON');
+        Response response = await _dio.get(
+            APIConstants.GET_PROFILE, options: Options(headers: headers),
+            queryParameters: query);
+        responseAPI = new ResponseAPI(name: APIConstants.GET_PROFILE, response: jsonEncode(response.data));
+        if(exist){
+          _hiveUtils.updateBox(responseAPI, 'JSON');
+        }else{
+          _hiveUtils.addBox(responseAPI, 'JSON');
+        }
+      }
+      UserProfile userProfile = UserProfile.fromJson(jsonDecode(responseAPI.response));
       return userProfile;
     } catch (error, stacktrace) {
       print("Exception occur: $error stackTrace: $stacktrace");
@@ -95,7 +107,7 @@ class UserProvider{
       'nation' : null
     };
     try {
-      Response response = await _dio.post(SEND_EMAIL, options: Options(headers: headers), data: body);
+      Response response = await _dio.post(APIConstants.SEND_EMAIL, options: Options(headers: headers), data: body);
       String result = response.data;
       return result;
     } catch (error, stacktrace) {
@@ -114,7 +126,7 @@ class UserProvider{
       'nation' : null
     };
     try {
-      Response response = await _dio.put(CHANGE_PASSWORD, options: Options(headers: headers), data: body);
+      Response response = await _dio.put(APIConstants.CHANGE_PASSWORD, options: Options(headers: headers), data: body);
       String result = response.data;
       if(result == 'Update success'){
         return true;
@@ -129,7 +141,7 @@ class UserProvider{
   }
 
   Future<LoginResponse> signinGmail(String email, String fullname, String uid, String avatar, String username) async{
-    Map<String, String> header = {
+    Map<String, String> headers = {
       "Content-type": "application/json"
     };
     Map<String, String> body = {
@@ -140,7 +152,7 @@ class UserProvider{
       'username': username
     };
     try{
-      Response response = await _dio.post(LOGIN_GMAIL, options: Options(headers: header), data: json.encode(body));
+      Response response = await _dio.post(APIConstants.LOGIN_GMAIL, options: Options(headers: headers), data: json.encode(body));
       print(response.data);
       LoginResponse jwtToken = LoginResponse.fromJson(response.data);
       return jwtToken;
@@ -155,7 +167,7 @@ class UserProvider{
       'Authorization': 'Bearer $token'
     };
     try{
-      Response response = await _dio.put(EDIT_PROFILE, options: Options(headers: headers), data: editUser.toJson());
+      Response response = await _dio.put(APIConstants.EDIT_PROFILE, options: Options(headers: headers), data: editUser.toJson());
       print(response.data);
       if(response.statusCode == 200){
         if(response.data == 'Update success'){

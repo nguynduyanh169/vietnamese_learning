@@ -125,7 +125,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
           Container(
             margin: EdgeInsets.only(top: 10),
             child: Text(
-              "Quiz 1 | 20pts | $numberOfQuestion Questions",
+              "10pts | $numberOfQuestion Questions",
               style: GoogleFonts.sansita(
                 textStyle: TextStyle(
                   fontSize: 16,

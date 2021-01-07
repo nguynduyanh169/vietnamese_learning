@@ -127,7 +127,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                         //physics: ClampingScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            mainAxisSpacing: 0.0, maxCrossAxisExtent: 100.0),
+                            mainAxisSpacing: 5.0, maxCrossAxisExtent: 120.0),
                         children: List.generate(list.length, (index) {
                           for (int i = 0; i < list.length; i++) {
                             TileModel question = new TileModel();
@@ -136,6 +136,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                             questionPairs.add(question);
                           }
                           List<String> str = generateList(list);
+                          str.shuffle();
 
                           for (int i = 0; i < str.length; i++) {
                             TileModel tile = new TileModel();
@@ -239,7 +240,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                                   ),
                                   child: IconButton(
                                     icon: Icon(
-                                      Icons.list,
+                                      Icons.arrow_back_rounded,
                                       color: Colors.black54,
                                     ),
                                     iconSize: 50,
@@ -334,7 +335,7 @@ class _NewMatchingGameState extends State<NewMatchingGame> {
                               ),
                               child: IconButton(
                                 icon: Icon(
-                                  Icons.list,
+                                  Icons.arrow_back_rounded,
                                   color: Colors.black54,
                                 ),
                                 iconSize: 50,

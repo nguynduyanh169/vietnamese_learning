@@ -98,7 +98,7 @@ class _ForumScreenState extends State<ForumScreen> {
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 29,
+                    width: SizeConfig.blockSizeHorizontal * 28,
                   ),
                   IconButton(
                     icon: Stack(

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +14,7 @@ import 'package:vietnamese_learning/src/resources/login_page.dart';
 import 'package:vietnamese_learning/src/resources/setup_schedule.dart';
 import 'package:vietnamese_learning/src/states/change_password_state.dart';
 import 'package:vietnamese_learning/src/utils/firebase_util.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 
 class ProfileScreen extends StatefulWidget {
   UserProfile userProfile;
@@ -24,6 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _username = "";
   bool isSwitch = false;
   UserProfile userProfile;
+
+  HiveUtils _hiveUtils = new HiveUtils();
 
   _ProfileScreenState({this.userProfile});
   @override
@@ -315,6 +321,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     prefs.remove(_username  + "SearchHistory");
     prefs.remove(_username + 'schedule');
     signOutUser();
+    _hiveUtils.deleteBox('JSON');
+    _hiveUtils.deleteBox('CacheFile');
+    final dir = Directory((await getApplicationDocumentsDirectory()).path);
+    dir.deleteSync(recursive: true);
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
   }

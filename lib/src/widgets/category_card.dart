@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -80,6 +84,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HiveUtils _hiveUtils = new HiveUtils();
     SizeConfig().init(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(13),
@@ -106,20 +111,21 @@ class CategoryCard extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(bottom: 3),
+                  width: 180,
+                  height: 110,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromRGBO(230, 157, 0, 30),
+                      // image: DecorationImage(
+                      //     image: NetworkImage(img),
+                      //     fit: BoxFit.fill)
+                      image: DecorationImage(
+                          image: FileImage(File(_hiveUtils.getFile(
+                              boxName: 'CacheFile', url: img))),
+                          fit: BoxFit.fill)),
                   child: Container(
-                    width: 180,
-                    height: 110,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color.fromRGBO(230, 157, 0, 30),
-                        image: DecorationImage(
-                            image: NetworkImage(img), fit: BoxFit.fill)),
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: _lock(),
-                    ),
+                    alignment: Alignment.topRight,
+                    child: _lock(),
                   ),
                 ),
                 SizedBox(

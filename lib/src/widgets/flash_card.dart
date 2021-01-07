@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class FlashCard extends StatelessWidget{
@@ -18,7 +23,7 @@ class FlashCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    HiveUtils _hiveUtils = new HiveUtils();
     SizeConfig().init(context);
     return Container(
         padding: EdgeInsets.only(
@@ -57,7 +62,9 @@ class FlashCard extends StatelessWidget{
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal * 40,
                                   height: SizeConfig.blockSizeVertical * 30,
-                                  child: Image(image: NetworkImage(img)),
+                                  child: img !=null ? Image(
+                                    image: FileImage(File(_hiveUtils.getFile(boxName: 'CacheFile', url: img))),
+                                  ) : Container(),
                                 ),
                                 SizedBox(
                                   height: SizeConfig.blockSizeVertical * 4,
@@ -78,7 +85,7 @@ class FlashCard extends StatelessWidget{
                         top: SizeConfig.blockSizeVertical * 53,
                         child: FlatButton(
                           onPressed: () {
-                            AssetsAudioPlayer.playAndForget(Audio.network(audio));
+                            AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: audio)));
                           },
                           color: Colors.amberAccent,
                           textColor: Colors.white,
@@ -130,8 +137,8 @@ class FlashCard extends StatelessWidget{
                       left: SizeConfig.blockSizeHorizontal * 34,
                       top: SizeConfig.blockSizeVertical * 53,
                       child: FlatButton(
-                        onPressed: () {
-                          AssetsAudioPlayer.playAndForget(Audio.network(audio));
+                        onPressed: () async{
+                          AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: audio)));
                         },
                         color: Colors.amberAccent,
                         textColor: Colors.white,

@@ -68,12 +68,19 @@ dependencies:
   uuid: ^2.2.2
   flutter_local_notifications: ^3.0.2
   day_night_time_picker: ^0.4.0
+  cached_network_image: ^2.5.0
+  connectivity: ^2.0.2
+  hive: any
+  hive_flutter: any
+  flutter_cache_manager: ^2.1.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^3.3.0
+  hive_generator: ^0.8.2
+  build_runner: ^1.10.11
   flutter_gifimage: ^1.0.0
   flutter_launcher_icons: ^0.8.1
 

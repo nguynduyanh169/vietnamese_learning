@@ -1,10 +1,17 @@
+import 'dart:convert';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:vietnamese_learning/src/models/entrance_quiz.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
+import 'package:vietnamese_learning/src/models/response_api.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
+
+import '../constants.dart';
 
 class LessonProvider {
-  static final String BASE_URL = "https://master-vnam.azurewebsites.net";
-  static final String LESSONSBYLEVEL = BASE_URL + "/api/lessons";
   Dio _dio = new Dio();
+  HiveUtils _hiveUtils = new HiveUtils();
 
   Future<List<Lesson>> getLessonByLevel(String token) async {
     Map<String, String> headers = {
@@ -14,12 +21,25 @@ class LessonProvider {
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response =
-          await _dio.get(LESSONSBYLEVEL, options: Options(headers: headers));
-      print(response.data);
-      return (response.data as List).map((i) => Lesson.fromJson(i)).toList();
+      ResponseAPI responseAPI = new ResponseAPI();
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if(connectivityResult == ConnectivityResult.none){
+        print('open lesson');
+        responseAPI = _hiveUtils.getBoxes('JSON', APIConstants.LESSONS_BY_LEVEL);
+      }else{
+        bool exist = await _hiveUtils.isExists(name: APIConstants.LESSONS_BY_LEVEL, boxName: 'JSON');
+        Response response = await _dio.get(APIConstants.LESSONS_BY_LEVEL, options: Options(headers: headers));
+        responseAPI = new ResponseAPI(name: APIConstants.LESSONS_BY_LEVEL, response: jsonEncode(response.data));
+        if(exist){
+          _hiveUtils.updateBox(responseAPI, 'JSON');
+        }else{
+          _hiveUtils.addBox(responseAPI, 'JSON');
+        }
+      }
+      return (jsonDecode(responseAPI.response) as List).map((i) => Lesson.fromJson(i)).toList();
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
+
   }
 }
