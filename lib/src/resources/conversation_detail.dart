@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_speaking.dart';
 import 'package:vietnamese_learning/src/widgets/conversation_left.dart';
@@ -20,6 +23,7 @@ class ConversationDetail extends StatefulWidget {
 class _ConversationDetailState extends State<ConversationDetail> {
   List<Conversation> conversations;
   String lessonTitle;
+  HiveUtils _hiveUtils = new HiveUtils();
   _ConversationDetailState({this.conversations, this.lessonTitle});
 
   var conversationIndex = 0;
@@ -81,7 +85,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                 child: conversations[0].conversationImage == null ? Image(
                   image: AssetImage('assets/images/chaohoi.png'),
                 ): Image(
-                  image: NetworkImage(conversations[0].conversationImage),
+                  image: FileImage(File(_hiveUtils.getFile(boxName: 'CacheFile', url: conversations[0].conversationImage))),
                 ),
               ),
               Expanded(

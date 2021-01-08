@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,7 +27,6 @@ class HiveUtils {
   addBox(ResponseAPI responseAPI, String boxName) {
     final openBox = Hive.box(boxName);
     openBox.put(responseAPI.name, responseAPI);
-    //openBox.close();
   }
 
   addFile({String filePath, String url, String boxName}) {
@@ -39,7 +37,6 @@ class HiveUtils {
   String getFile({String boxName, String url}) {
     final openBox = Hive.box(boxName);
     String filePath = openBox.get(url);
-    print(filePath);
     return filePath;
   }
 

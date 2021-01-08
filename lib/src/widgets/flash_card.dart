@@ -11,7 +11,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
-class FlashCard extends StatelessWidget{
+class FlashCard extends StatelessWidget {
   String vietnamese;
   String english;
   String img;
@@ -19,7 +19,13 @@ class FlashCard extends StatelessWidget{
   Function continueButton;
   BuildContext vocabularyContext;
 
-  FlashCard({this.vietnamese, this.english, this.audio, this.img, this.continueButton, this.vocabularyContext});
+  FlashCard(
+      {this.vietnamese,
+      this.english,
+      this.audio,
+      this.img,
+      this.continueButton,
+      this.vocabularyContext});
 
   @override
   Widget build(BuildContext context) {
@@ -43,116 +49,132 @@ class FlashCard extends StatelessWidget{
                   width: SizeConfig.blockSizeHorizontal * 100,
                   height: SizeConfig.blockSizeVertical * 69,
                   child: FlipCard(
-                  front: Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeHorizontal * 5),
-                          width: SizeConfig.blockSizeHorizontal * 85,
-                          height: SizeConfig.blockSizeVertical * 59,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical * 4,
-                                ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal * 40,
-                                  height: SizeConfig.blockSizeVertical * 30,
-                                  child: img !=null ? Image(
-                                    image: FileImage(File(_hiveUtils.getFile(boxName: 'CacheFile', url: img))),
-                                  ) : Container(),
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical * 4,
-                                ),
-                                Text(
-                                  '$english',
-                                  style: GoogleFonts.dmSans(
-                                      textStyle: TextStyle(fontSize: 25)),
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical * 2,
-                                ),
-                              ],
-                            ),
-                          )),
-                      Positioned(
-                        left: SizeConfig.blockSizeHorizontal * 34,
-                        top: SizeConfig.blockSizeVertical * 53,
-                        child: FlatButton(
-                          onPressed: () {
-                            AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: audio)));
-                          },
-                          color: Colors.amberAccent,
-                          textColor: Colors.white,
-                          child: Icon(
-                            CupertinoIcons.volume_up,
-                            size: 24,
-                          ),
-                          padding: EdgeInsets.all(16),
-                          shape: CircleBorder(),
-                        ),
-                      )
-                    ],
-                  ),
-                  back: Stack(children: <Widget>[
-                    Container(
-                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2, left: SizeConfig.blockSizeHorizontal * 5),
-                        width: SizeConfig.blockSizeHorizontal * 85,
-                        height: SizeConfig.blockSizeVertical * 59,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 10,
+                    front: Stack(
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2,
+                                left: SizeConfig.blockSizeHorizontal * 5),
+                            width: SizeConfig.blockSizeHorizontal * 85,
+                            height: SizeConfig.blockSizeVertical * 59,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              Container(
-                                child: Text('$vietnamese',
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 4,
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    height: SizeConfig.blockSizeVertical * 30,
+                                    child: img != null
+                                        ? Image(
+                                            image: FileImage(File(
+                                                _hiveUtils.getFile(
+                                                    boxName: 'CacheFile',
+                                                    url: img))),
+                                          )
+                                        : Container(),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 4,
+                                  ),
+                                  Text(
+                                    '$english',
+                                    style: GoogleFonts.dmSans(
+                                        textStyle: TextStyle(fontSize: 25)),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 2,
+                                  ),
+                                ],
+                              ),
+                            )),
+                        Positioned(
+                          left: SizeConfig.blockSizeHorizontal * 34,
+                          top: SizeConfig.blockSizeVertical * 53,
+                          child: FlatButton(
+                            onPressed: () {
+                              print(_hiveUtils.fileExist(url: audio, boxName: 'CacheFile'));
+                              AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: audio)));
+                            },
+                            color: Colors.amberAccent,
+                            textColor: Colors.white,
+                            child: Icon(
+                              CupertinoIcons.volume_up,
+                              size: 24,
+                            ),
+                            padding: EdgeInsets.all(16),
+                            shape: CircleBorder(),
+                          ),
+                        )
+                      ],
+                    ),
+                    back: Stack(
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2,
+                                left: SizeConfig.blockSizeHorizontal * 5),
+                            width: SizeConfig.blockSizeHorizontal * 85,
+                            height: SizeConfig.blockSizeVertical * 59,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 10,
+                                  ),
+                                  Container(
+                                    child: Text('$vietnamese',
+                                        style: TextStyle(
+                                            fontFamily: 'Helvetica',
+                                            fontSize: 30)),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 5,
+                                  ),
+                                  Text(
+                                    '$english',
                                     style: TextStyle(
-                                        fontFamily: 'Helvetica', fontSize: 30)),
+                                        fontFamily: 'Helvetica', fontSize: 25),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical * 20,
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 5,
-                              ),
-                              Text(
-                                '$english',
-                                style: TextStyle(
-                                    fontFamily: 'Helvetica', fontSize: 25),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 20,
-                              ),
-                            ],
+                            )),
+                        Positioned(
+                          left: SizeConfig.blockSizeHorizontal * 34,
+                          top: SizeConfig.blockSizeVertical * 53,
+                          child: FlatButton(
+                            onPressed: () async {
+                              AssetsAudioPlayer.playAndForget(Audio.file(
+                                  _hiveUtils.getFile(
+                                      boxName: 'CacheFile', url: audio)));
+                            },
+                            color: Colors.amberAccent,
+                            textColor: Colors.white,
+                            child: Icon(
+                              CupertinoIcons.volume_up,
+                              size: 24,
+                            ),
+                            padding: EdgeInsets.all(16),
+                            shape: CircleBorder(),
                           ),
-                        )),
-                    Positioned(
-                      left: SizeConfig.blockSizeHorizontal * 34,
-                      top: SizeConfig.blockSizeVertical * 53,
-                      child: FlatButton(
-                        onPressed: () async{
-                          AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: audio)));
-                        },
-                        color: Colors.amberAccent,
-                        textColor: Colors.white,
-                        child: Icon(
-                          CupertinoIcons.volume_up,
-                          size: 24,
-                        ),
-                        padding: EdgeInsets.all(16),
-                        shape: CircleBorder(),
-                      ),
-                    )
-                  ],),
-                  direction: FlipDirection.HORIZONTAL,
-                ),),
+                        )
+                      ],
+                    ),
+                    direction: FlipDirection.HORIZONTAL,
+                  ),
+                ),
                 Text(
                   'Touch to flip card',
                   style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
@@ -165,8 +187,8 @@ class FlashCard extends StatelessWidget{
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   child: FlatButton(
-                    color: Color.fromRGBO(255, 190, 51, 30),
-                      onPressed: (){
+                      color: Color.fromRGBO(255, 190, 51, 30),
+                      onPressed: () {
                         continueButton(vocabularyContext);
                       },
                       child: Container(
@@ -188,5 +210,4 @@ class FlashCard extends StatelessWidget{
           ],
         ));
   }
-
 }

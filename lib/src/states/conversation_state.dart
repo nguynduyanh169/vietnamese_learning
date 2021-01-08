@@ -8,6 +8,11 @@ class ConversationsLoading extends ConversationState {
   const ConversationsLoading();
 }
 
+class DownloadingPercentage extends ConversationState{
+  final double percent;
+  const DownloadingPercentage(this.percent);
+}
+
 class ConversationsLoaded extends ConversationState {
   final List<Conversation> conversations;
 

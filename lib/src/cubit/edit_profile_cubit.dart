@@ -62,9 +62,7 @@ class EditProfileCubit extends Cubit<EditProfileState>{
             .child('audio_for_user_post')
             .child(userProfile.username +
             "/" +
-            basename(avatar.path) +
-            '_' +
-            DateTime.now().toString());
+            DateTime.now().toIso8601String());
         UploadTask uploadTask = reference.putFile(avatar);
         uploadTask.whenComplete(() async {
           try {

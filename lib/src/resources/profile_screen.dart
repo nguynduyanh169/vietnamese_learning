@@ -34,7 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   _ProfileScreenState({this.userProfile});
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
   BuildContext _ctx;
@@ -78,7 +77,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: <Widget>[
                       userProfile.avatar != null ? CircleAvatar(
                         radius: 40.0,
-                        backgroundImage: NetworkImage(userProfile.avatar),
+                        backgroundImage: FileImage(
+                            File(
+                            _hiveUtils.getFile(
+                                boxName: 'CacheFile',
+                                url: userProfile.avatar))
+                        ),
                         backgroundColor: Colors.transparent,
                       )
                       : Container(

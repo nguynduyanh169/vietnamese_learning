@@ -209,7 +209,8 @@ class _VocabDetailScreenState extends State<VocabDetailScreen> {
                   value: percent,
                   backgroundColor: Colors.white,
                   valueColor: AlwaysStoppedAnimation(
-                    Color.fromRGBO(255, 190, 51, 30),
+                    // Color.fromRGBO(255, 190, 51, 30),
+                    Colors.blueAccent,
                   ),
                   borderRadius: 12.0,
                   center: Text(

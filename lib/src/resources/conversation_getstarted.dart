@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/cubit/conversation_cubit.dart';
@@ -22,6 +23,7 @@ class ConversationGetStarted extends StatefulWidget {
 class _ConversationGetStartedState extends State<ConversationGetStarted> {
   String lessonId;
   String title;
+  double percent = 0;
   _ConversationGetStartedState({this.lessonId, this.title});
 
   @override
@@ -35,7 +37,13 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
     return BlocProvider(
       create: (context) => ConversationsCubit(ConversationRepository())
         ..loadConversationsByLessonId(lessonId),
-      child: Scaffold(body: BlocBuilder<ConversationsCubit, ConversationState>(
+      child: Scaffold(
+          body: BlocConsumer<ConversationsCubit, ConversationState>(
+            listener: (context, state){
+              if(state is DownloadingPercentage){
+                percent = state.percent;
+              }
+            },
         builder: (context, state) {
           if (state is ConversationsLoaded) {
             return _conversationDetails(state.conversations);
@@ -167,6 +175,7 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
   }
 
   Widget _loadingConversation() {
+    final percentage = percent * 100;
     return Container(
       color: Colors.amber[400],
       child: Center(
@@ -174,13 +183,64 @@ class _ConversationGetStartedState extends State<ConversationGetStarted> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CupertinoActivityIndicator(
-              radius: 20,
+            Container(
+              child: Image(
+                image: AssetImage('assets/images/vocabulary_logo.png'),
+                width: 160,
+                height: 160,
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 5,
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 15,
+                  right: SizeConfig.blockSizeHorizontal * 15),
+              child: Container(
+                width: SizeConfig.blockSizeHorizontal * 150,
+                height: 40.0,
+                child: LiquidLinearProgressIndicator(
+                  value: percent,
+                  backgroundColor: Colors.white,
+                  valueColor: AlwaysStoppedAnimation(
+                    //Color.fromRGBO(255, 190, 51, 30),
+                    Colors.blueAccent,
+                  ),
+                  borderRadius: 12.0,
+                  center: Text(
+                    "${percentage.toStringAsFixed(0)}%",
+                    style: TextStyle(
+                      color: Colors.lightBlueAccent,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              // LinearPercentIndicator(
+              //   width: SizeConfig.blockSizeHorizontal * 60,
+              //   animation: false,
+              //   lineHeight: 18.0,
+              //   animationDuration: 1000,
+              //   percent: percent,
+              //   center: Text(
+              //     "${(percent * 100).toStringAsFixed(2)}%",
+              //     style: TextStyle(
+              //         fontSize: 9, fontFamily: 'Helvetica'),
+              //   ),
+              //   linearStrokeCap: LinearStrokeCap.roundAll,
+              //   progressColor: Colors.amberAccent,
+              // ),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 2,
             ),
             Text(
-              'Loading....',
-              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-            )
+              'Loading...',
+              style: TextStyle(
+                  fontSize: 20, fontFamily: 'Helvetica', color: Colors.black38),
+            ),
           ],
         ),
       ),
