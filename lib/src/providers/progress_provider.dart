@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:vietnamese_learning/src/models/sync_progress.dart';
 
 import '../constants.dart';
 
@@ -25,4 +26,9 @@ class ProgressProvider {
       print("Exception occured: $error stackTrace: $stacktrace");
     }
   }
+
+  Future<SyncProgress> syncProgress(SyncProgress syncProgress) async{
+
+  }
+
 }

@@ -9,7 +9,7 @@ import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/models/nation.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/states/edit_profile_state.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 
 
 class EditProfileCubit extends Cubit<EditProfileState>{
@@ -62,12 +62,11 @@ class EditProfileCubit extends Cubit<EditProfileState>{
             .child('audio_for_user_post')
             .child(userProfile.username +
             "/" +
-            DateTime.now().toIso8601String());
+            DateTime.now().toIso8601String() + p.extension(avatar.path));
         UploadTask uploadTask = reference.putFile(avatar);
         uploadTask.whenComplete(() async {
           try {
             String fileUrl = await reference.getDownloadURL();
-            print(fileUrl);
             userProfile.avatar = fileUrl;
             EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname, nationLink: userProfile.nation);
             bool check = await _userRepository.editProfile(token, editUser);

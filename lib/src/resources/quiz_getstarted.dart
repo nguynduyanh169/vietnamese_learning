@@ -213,7 +213,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  QuizScreen(questions: questions, progressId: progressId, quizId: questions.asMap()[1].quizId, lessonId: lessonId.trim(),),
+                                  QuizScreen(questions: questions, progressId: progressId, lessonId: lessonId.trim(),),
                           transitionsBuilder: (context, animation,
                               secondaryAnimation, child) {
                             var begin = Offset(1.0, 0.0);

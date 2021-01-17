@@ -27,17 +27,17 @@ class QuizProvider {
 
   }
 
-  Future<List<Question>> getQuestionsByQuizId(String token, int quizId) async{
+  Future<List<Question>> getQuestionsByQuizId(String token, String lessonID) async{
     Map<String, String> header = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     };
     try {
-      Response response = await _dio.get('${APIConstants.GET_QUESTIONS}$quizId', options: Options(headers: header));
+      Response response = await _dio.get('${APIConstants.GET_QUESTIONS}$lessonID', options: Options(headers: header));
       return (response.data as List).map((i) => Question.fromJson(i)).toList();
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 
@@ -60,4 +60,5 @@ class QuizProvider {
       print("Exception occured: $error stackTrace: $stacktrace");
     }
   }
+
 }

@@ -124,7 +124,7 @@ class Quiz extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: questions[questionIndex].options.length,
                     itemBuilder: (context, index){
-                      return QuizAnswer(questions[questionIndex].options[index].optionName, questions[questionIndex].options[index].checkCorrect, correctAns(), rootContext, index, choice, tappedIndex, questions[questionIndex].options[index].optionID, questions[questionIndex].question, questions[questionIndex].quizType);
+                      return QuizAnswer(questions[questionIndex].options[index].optionName, questions[questionIndex].options[index].checkCorrect, correctAns(), rootContext, index, choice, tappedIndex, questions[questionIndex].options[index].optionId, questions[questionIndex].question, questions[questionIndex].quizType);
                     })
               ],
             ),

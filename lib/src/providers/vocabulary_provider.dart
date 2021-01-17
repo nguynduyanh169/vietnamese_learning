@@ -39,4 +39,17 @@ class VocabularyProvider {
       print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
+
+  Future<List<Vocabulary>> getVocabularyFromLocalStorage(String lessonId) async {
+    List<Vocabulary> result = null;
+    try{
+      ResponseAPI responseAPI = _hiveUtils.getBoxes(HiveBoxName.JSON_BOX, '${APIConstants.VOCABULARY}$lessonId');
+      if(responseAPI != null){
+        result = (jsonDecode(responseAPI.response) as List).map((i) => Vocabulary.fromJson(i)).toList();
+      }
+    }catch(error, stacktrace){
+      print("Exception occur: $error stackTrace: $stacktrace");
+    }
+    return result;
+  }
 }

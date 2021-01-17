@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
@@ -19,7 +18,6 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'dart:math' as Math;
 
-
 class SpeakingVocabulary extends StatefulWidget {
   String vietnamese;
   String english;
@@ -27,10 +25,19 @@ class SpeakingVocabulary extends StatefulWidget {
   Function next;
   BuildContext vocabularyContext;
   LocalFileSystem localFileSystem;
+  Function caculateMark;
+  double answerMark;
 
-  SpeakingVocabulary({this.english, this.vietnamese, this.audioInput, this.next, this.vocabularyContext});
+  SpeakingVocabulary(
+      {this.english,
+      this.vietnamese,
+      this.audioInput,
+      this.next,
+      this.vocabularyContext,
+      this.caculateMark, this.answerMark});
+
   @override
-  _SpeakingVocabularyState createState() => _SpeakingVocabularyState();
+  _SpeakingVocabularyState createState() => _SpeakingVocabularyState(caculateMark, answerMark);
 }
 
 class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
@@ -44,14 +51,17 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
-  List<double> values =[];
+  List<double> values = [];
+  Function caculateMark;
+  double answerMark;
 
+  _SpeakingVocabularyState(this.caculateMark, this.answerMark);
   @override
   void initState() {
     super.initState();
     _init();
-
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -62,7 +72,9 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     }
     return Container(
       color: Color.fromRGBO(255, 239, 215, 100),
-      padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+      padding: EdgeInsets.only(
+          left: SizeConfig.blockSizeHorizontal * 5,
+          right: SizeConfig.blockSizeHorizontal * 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,15 +83,15 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             margin: EdgeInsets.only(left: 15),
             padding: EdgeInsets.only(top: 10),
             child: Center(
-            child: Text(
-              "Speak this vocabulary",
-              style: TextStyle(
-                  fontFamily: "Helvetica",
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  decoration: TextDecoration.none),
-            ),
+              child: Text(
+                "Speak this vocabulary",
+                style: TextStyle(
+                    fontFamily: "Helvetica",
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    decoration: TextDecoration.none),
+              ),
             ),
           ),
           SizedBox(
@@ -101,7 +113,9 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: SizeConfig.blockSizeVertical * 2,),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
                 Row(
                   children: [
                     Container(
@@ -116,8 +130,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                             color: Color.fromRGBO(255, 190, 51, 100),
                             spreadRadius: 1,
                             blurRadius: 1,
-                            offset:
-                            Offset(0, 1), // changes position of shadow
+                            offset: Offset(0, 1), // changes position of shadow
                           ),
                         ],
                       ),
@@ -127,9 +140,9 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            AssetsAudioPlayer.playAndForget(Audio.network(widget.audioInput));
-                          }
-                      ),
+                            AssetsAudioPlayer.playAndForget(
+                                Audio.network(widget.audioInput));
+                          }),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 5),
@@ -162,22 +175,38 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                     },
                     color: Color.fromRGBO(255, 190, 51, 30),
                     textColor: Colors.white,
-                    child: _isRecording == true ? Icon(
-                      CupertinoIcons.stop,
-                      size: 100,
-                    ): Icon(
-                      CupertinoIcons.mic_solid,
-                      size: 100,
-                    ),
+                    child: _isRecording == true
+                        ? Icon(
+                            CupertinoIcons.stop,
+                            size: 100,
+                          )
+                        : Icon(
+                            CupertinoIcons.mic_solid,
+                            size: 100,
+                          ),
                     padding: EdgeInsets.all(25),
                     shape: CircleBorder(),
                   ),
                 ),
-                SizedBox(height: SizeConfig.blockSizeVertical * 2,),
-                Center(
-                  child: Container(child: _isRecording == false ? Text('Tap to record your voice', style: TextStyle(fontFamily: 'Helvetica'),): Text('Recording', style: TextStyle(fontFamily: 'Helvetica'),),),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
                 ),
-                SizedBox(height: SizeConfig.blockSizeVertical * 4,),
+                Center(
+                  child: Container(
+                    child: _isRecording == false
+                        ? Text(
+                            'Tap to record your voice',
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          )
+                        : Text(
+                            'Recording',
+                            style: TextStyle(fontFamily: 'Helvetica'),
+                          ),
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 4,
+                ),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -187,9 +216,11 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                           text: printSimilarity(widget.vietnamese, text),
                         ),
                       Center(
-                        child: recognizing ? CupertinoActivityIndicator(
-                          radius: 10.0,
-                        ) : Text(""),
+                        child: recognizing
+                            ? CupertinoActivityIndicator(
+                                radius: 10.0,
+                              )
+                            : Text(""),
                       )
                     ],
                   ),
@@ -197,7 +228,6 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               ],
             ),
           ),
-
           SizedBox(
             height: SizeConfig.blockSizeVertical * 4,
           ),
@@ -207,8 +237,12 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
               child: FlatButton(
-                color: Color.fromRGBO(255, 190, 51, 30),
-                  onPressed: (){
+                  color: Color.fromRGBO(255, 190, 51, 30),
+                  onPressed: () {
+                    caculateMark(answerMark);
+                    // if(similarity(widget.vietnamese, text) >= 0.8){
+                    //   caculateMark(0.3125);
+                    // }
                     widget.next(widget.vocabularyContext);
                   },
                   child: Container(
@@ -231,7 +265,6 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     );
   }
 
-
   void recognize() async {
     setState(() {
       recognizing = true;
@@ -247,13 +280,13 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
             .map((e) => e.alternatives.first.transcript)
             .join('\n');
       });
-
     }).whenComplete(() => setState(() {
-      recognizeFinished = true;
-      recognizing = false;
-      _init();
-    }));
+          recognizeFinished = true;
+          recognizing = false;
+          _init();
+        }));
   }
+
   RecognitionConfig _getConfig() => RecognitionConfig(
       encoding: AudioEncoding.LINEAR16,
       model: RecognitionModel.command_and_search,
@@ -269,8 +302,6 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
-
-
   Future<List<int>> _getAudioContent(String name) async {
     final directory = await getApplicationDocumentsDirectory();
     // final pathAudio = directory.path + '/$name';
@@ -280,22 +311,23 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     return io.File(name).readAsBytesSync().toList();
   }
 
-  _init() async{
-    try{
-      if(await FlutterAudioRecorder.hasPermissions){
+  _init() async {
+    try {
+      if (await FlutterAudioRecorder.hasPermissions) {
         String customPath = '/flutter_audio_recorder_';
         io.Directory appDocDicrectory;
-        if(io.Platform.isIOS){
+        if (io.Platform.isIOS) {
           appDocDicrectory = await getApplicationDocumentsDirectory();
-        }else{
+        } else {
           appDocDicrectory = await getExternalStorageDirectory();
         }
 
-        customPath = appDocDicrectory.path + customPath + DateTime.now().microsecondsSinceEpoch.toString();
+        customPath = appDocDicrectory.path +
+            customPath +
+            DateTime.now().microsecondsSinceEpoch.toString();
 
-        _recorder = FlutterAudioRecorder(
-          customPath, audioFormat: AudioFormat.WAV, sampleRate: 16000
-        );
+        _recorder = FlutterAudioRecorder(customPath,
+            audioFormat: AudioFormat.WAV, sampleRate: 16000);
 
         await _recorder.initialized;
 
@@ -307,13 +339,13 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
           print(_currentStatus);
         });
       }
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
-  _start() async{
-    try{
+  _start() async {
+    try {
       await _recorder.start();
       var recording = await _recorder.current(channel: 0);
       setState(() {
@@ -322,7 +354,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
 
       const tick = const Duration(milliseconds: 50);
       new Timer.periodic(tick, (Timer t) async {
-        if(_currentStatus == RecordingStatus.Stopped){
+        if (_currentStatus == RecordingStatus.Stopped) {
           t.cancel();
         }
 
@@ -333,12 +365,12 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
           _currentStatus = _current.status;
         });
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
-  _stop() async{
+  _stop() async {
     var result = await _recorder.stop();
     print("Stop recording: ${result.path}");
     print("Stop recording: ${result.duration}");
@@ -353,8 +385,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     });
   }
 
-  int editDistance(String s1, String s2)
-  {
+  int editDistance(String s1, String s2) {
     s1 = s1.toLowerCase();
     s2 = s2.toLowerCase();
     List<int> costs = new List<int>((s2.length + 1));
@@ -367,7 +398,8 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
           if (j > 0) {
             int newValue = costs[j - 1];
             if (s1.codeUnitAt(i - 1) != s2.codeUnitAt(j - 1)) {
-              newValue = (Math.min(Math.min(newValue, lastValue), costs[j]) + 1);
+              newValue =
+                  (Math.min(Math.min(newValue, lastValue), costs[j]) + 1);
             }
             costs[j - 1] = lastValue;
             lastValue = newValue;
@@ -381,8 +413,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     return costs[s2.length];
   }
 
-  double similarity(String s1, String s2)
-  {
+  double similarity(String s1, String s2) {
     String longer = s1;
     String shorter = s2;
     if (s1.length < s2.length) {
@@ -393,27 +424,29 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     if (longerLength == 0) {
       return 1;
     }
-    return (longerLength.toDouble() - editDistance(longer, shorter).toDouble()) / longerLength.toDouble();
+    return (longerLength.toDouble() -
+            editDistance(longer, shorter).toDouble()) /
+        longerLength.toDouble();
   }
 
-  String printSimilarity(String s, String t)
-  {
+  String printSimilarity(String s, String t) {
     String result = (similarity(s, t) * 100).toString();
     return result;
   }
 }
-
 
 class _RecognizeContent extends StatelessWidget {
   final String text;
 
   const _RecognizeContent({Key key, this.text}) : super(key: key);
 
-  Widget _recognizeResult(){
+  Widget _recognizeResult() {
     double result = double.parse(text) / 100;
-    if(result == 1) {
+    if (result == 1) {
       return Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 60,
         height: SizeConfig.blockSizeVertical * 15,
         decoration: BoxDecoration(
@@ -425,32 +458,40 @@ class _RecognizeContent extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Perfect!',), Container(
-            margin: const EdgeInsets.all(2.0),
-            child: Padding(padding: const EdgeInsets.all(4.0),
-              child: CircularPercentIndicator(
-                radius: 70,
-                lineWidth: 5.0,
-                animation: true,
-                percent: double.parse(text)/100,
-                center: new Text(
-                  "${double.parse(text).toStringAsFixed(1)}%",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.green,
-                      fontFamily: "Helvetica"),
-                ),
-                circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.green,
-              ),
+          children: [
+            Text(
+              'Perfect!',
             ),
-          )],
+            Container(
+              margin: const EdgeInsets.all(2.0),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text) / 100,
+                  center: new Text(
+                    "${double.parse(text).toStringAsFixed(1)}%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
+                ),
+              ),
+            )
+          ],
         ),
       );
-    }else if(result >= 0.6 && result < 1){
+    } else if (result >= 0.6 && result < 1) {
       return Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 60,
         height: SizeConfig.blockSizeVertical * 15,
         decoration: BoxDecoration(
@@ -462,32 +503,38 @@ class _RecognizeContent extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Almost correct!'), Container(
-            margin: const EdgeInsets.all(2.0),
-            child: Padding(padding: const EdgeInsets.all(4.0),
-              child: CircularPercentIndicator(
-                radius: 70,
-                lineWidth: 5.0,
-                animation: true,
-                percent: double.parse(text)/100,
-                center: new Text(
-                  "${double.parse(text).toStringAsFixed(1)}%",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.green,
-                      fontFamily: "Helvetica"),
+          children: [
+            Text('Almost correct!'),
+            Container(
+              margin: const EdgeInsets.all(2.0),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text) / 100,
+                  center: new Text(
+                    "${double.parse(text).toStringAsFixed(1)}%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
                 ),
-                circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.green,
               ),
-            ),
-          )],
+            )
+          ],
         ),
       );
-    }else{
+    } else {
       return Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 60,
         height: SizeConfig.blockSizeVertical * 15,
         decoration: BoxDecoration(
@@ -499,27 +546,31 @@ class _RecognizeContent extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Pretty good!'), Container(
-            margin: const EdgeInsets.all(2.0),
-            child: Padding(padding: const EdgeInsets.all(4.0),
-              child: CircularPercentIndicator(
-                radius: 70,
-                lineWidth: 5.0,
-                animation: true,
-                percent: double.parse(text)/100,
-                center: new Text(
-                  "${double.parse(text).toStringAsFixed(1)}%",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.green,
-                      fontFamily: "Helvetica"),
+          children: [
+            Text('Pretty good!'),
+            Container(
+              margin: const EdgeInsets.all(2.0),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text) / 100,
+                  center: new Text(
+                    "${double.parse(text).toStringAsFixed(1)}%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
                 ),
-                circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.green,
               ),
-            ),
-          )],
+            )
+          ],
         ),
       );
     }
@@ -530,4 +581,3 @@ class _RecognizeContent extends StatelessWidget {
     return _recognizeResult();
   }
 }
-

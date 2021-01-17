@@ -41,4 +41,17 @@ class ConversationProvider {
       print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
+
+  Future<List<Conversation>>  getConversationFromLocalStorage(String lessonId) async {
+    List<Conversation> result;
+    try{
+      ResponseAPI responseAPI = _hiveUtils.getBoxes(HiveBoxName.JSON_BOX, '${APIConstants.CONVERSATION}$lessonId');
+      if(responseAPI != null){
+        result = (jsonDecode(responseAPI.response) as List).map((i) => Conversation.fromJson(i)).toList();
+      }
+    }catch(error, stacktrace){
+      print("Exception occur: $error stackTrace: $stacktrace");
+    }
+    return result;
+  }
 }

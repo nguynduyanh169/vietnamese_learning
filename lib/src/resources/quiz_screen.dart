@@ -7,15 +7,14 @@ import 'package:vietnamese_learning/src/widgets/quiz_result.dart';
 class QuizScreen extends StatefulWidget {
   List<Question> questions;
   int progressId;
-  int quizId;
   String lessonId;
 
-  QuizScreen({Key key, this.questions, this.progressId, this.quizId, this.lessonId})
+  QuizScreen({Key key, this.questions, this.progressId, this.lessonId})
       : super(key: key);
 
   @override
   _QuizScreenState createState() => _QuizScreenState(
-      questions: questions, progressId: progressId, quizId: quizId, lessonId: lessonId);
+      questions: questions, progressId: progressId, lessonId: lessonId);
 }
 
 class _QuizScreenState extends State<QuizScreen> {

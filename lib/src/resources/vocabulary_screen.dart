@@ -9,7 +9,9 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/cubit/learn_vocabulary_cubit.dart';
+import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
 import 'package:vietnamese_learning/src/utils/hive_utils.dart';
@@ -19,17 +21,19 @@ import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 class VocabularyScreen extends StatefulWidget {
   List<Vocabulary> vocabularies;
+  String lessonID;
 
-  VocabularyScreen({Key key, this.vocabularies}) : super(key: key);
+  VocabularyScreen({Key key, this.vocabularies, this.lessonID}) : super(key: key);
 
   _VocabularyScreenState createState() =>
-      _VocabularyScreenState(vocabularies: vocabularies);
+      _VocabularyScreenState(vocabularies: vocabularies, lessonID: lessonID);
 }
 
 class _VocabularyScreenState extends State<VocabularyScreen> {
   List<Vocabulary> vocabularies;
+  String lessonID;
 
-  _VocabularyScreenState({this.vocabularies});
+  _VocabularyScreenState({this.vocabularies, this.lessonID});
 
   var _vocabularyIndex = 0;
   List<String> chars = new List();
@@ -37,7 +41,19 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   String check;
   String input;
   TextEditingController txtInputVocabulary = new TextEditingController();
+  double finalMark = 0;
+  double markForAnswer;
+  HiveUtils _hiveUtils = new HiveUtils();
 
+  @override
+  void initState() {
+    markForAnswer = 10 / (vocabularies.length * 2);
+    super.initState();
+  }
+
+  void caculateMark(double answerMark){
+    finalMark = finalMark + answerMark;
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -119,15 +135,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           .learnSpeaking(_vocabularyIndex);
     }
 
-    void checkWritingButton(BuildContext dialogContext) {
-      txtInputVocabulary.clear();
-      BlocProvider.of<LearnVocabularyCubit>(dialogContext)
-          .learnSpeaking(_vocabularyIndex);
-      Navigator.pop(context);
-    }
-
     void speakingButton(BuildContext context) {
-      print('speaking');
       BlocProvider.of<LearnVocabularyCubit>(context)
           .learnMatching(_vocabularyIndex);
     }
@@ -188,7 +196,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       children: <Widget>[wrap],
     );
 
-    Widget _loadDialogForMatching(BuildContext dialogContext) {
+    void _loadDialogForMatching(BuildContext dialogContext) {
       if(check.toLowerCase() == vietnamese.toLowerCase()){
         showDialog(
             context: dialogContext,
@@ -257,11 +265,14 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       ),
                       InkWell(
                         onTap: () {
+                          print(markForAnswer);
+                                  caculateMark(markForAnswer);
                                   chars.clear();
                                   elements.clear();
                                   BlocProvider.of<LearnVocabularyCubit>(dialogContext)
                                       .learnFlashCard(_vocabularyIndex + 1);
                                   Navigator.pop(context);
+                                  print('final mark ' +  finalMark.toString());
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -355,7 +366,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pop();
+                          chars.clear();
+                          elements.clear();
+                          BlocProvider.of<LearnVocabularyCubit>(dialogContext)
+                              .learnFlashCard(_vocabularyIndex + 1);
+                          Navigator.pop(context);
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -366,7 +381,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                 bottomRight: Radius.circular(32.0)),
                           ),
                           child: Text(
-                            "Try Again",
+                            "Continue",
                             style: TextStyle(color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
@@ -471,11 +486,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
-                  if(vocabularies[_vocabularyIndex].image == null){
-                    img = 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/image%2Fnot-found.png?alt=media&token=ebdfeec7-1b91-4f6c-b46b-811f96fc91c7';
-                  }else {
-                    img = vocabularies[_vocabularyIndex].image;
-                  }
+                  img = vocabularies[_vocabularyIndex].image;
                   audio = vocabularies[_vocabularyIndex].voice_link;
                   var percent =
                       _vocabularyIndex * (1 / (vocabularies.length + 1));
@@ -529,12 +540,25 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         next: speakingButton,
                         audioInput: audio,
                         vocabularyContext: context,
+                        caculateMark: caculateMark,
+                        answerMark: markForAnswer,
                       )
                     ],
                   );
                 } else {
+                  bool progressExist = _hiveUtils.isProgressExist(lessonID: lessonID, boxName: HiveBoxName.PROGRESS_BOX);
+                  if(!progressExist){
+                    SaveProgressLocal newProgressLocal = new SaveProgressLocal(lessonID: lessonID, vocabProgress: finalMark, converProgress: 0, quizProgress: 0, updateTime: DateTime.now(), isSync: false);
+                    _hiveUtils.addProgress(progressLocal: newProgressLocal, boxName: HiveBoxName.PROGRESS_BOX);
+                  }else{
+                    SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
+                    updateProgress.vocabProgress = finalMark;
+                    updateProgress.updateTime = DateTime.now();
+                    _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
+                  }
                   return VocabularyResult(
                     words: vocabularies.length,
+                    finalMark: finalMark,
                   );
                 }
               },

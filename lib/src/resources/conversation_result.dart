@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 
 class ConversationResult extends StatelessWidget {
   int words;
-  ConversationResult({this.words});
+  double finalMark;
+  ConversationResult({this.words, this.finalMark});
   @override
   Widget build(BuildContext context) {
+    double percent = ( finalMark / 10) * 100;
     return Scaffold(
         body: Container(
             padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
@@ -54,7 +57,7 @@ class ConversationResult extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              "$words Conversations",
+                              "${percent.toStringAsFixed(2)} % of Conversations",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 21,
@@ -69,8 +72,10 @@ class ConversationResult extends StatelessWidget {
                     ),
                   ),
                   MaterialButton(
-                    onPressed: () =>
-                        Navigator.of(context, rootNavigator: true).popUntil(ModalRoute.withName('/lessonDetail')),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).popUntil(ModalRoute.withName('/lessonDetail'));
+                    },
+
                     child: Text(
                       "Back to Lesson Details",
                       style: TextStyle(

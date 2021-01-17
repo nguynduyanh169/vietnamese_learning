@@ -10,8 +10,8 @@ class QuizRepository {
     return _quizProvider.getQuizByLessonId(token, lessonId);
   }
 
-  Future<List<Question>> getQuestionsByQuizId(String token, int quizId) {
-    return _quizProvider.getQuestionsByQuizId(token, quizId);
+  Future<List<Question>> getQuestionsByQuizId(String token, String lessonID) {
+    return _quizProvider.getQuestionsByQuizId(token, lessonID);
   }
 
   Future<bool> submitQuiz(String token, QuizSubmit quizSubmit){

@@ -11,10 +11,13 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/cubit/learn_conversation_cubit.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
+import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/states/learn_converasation_state.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
@@ -27,18 +30,20 @@ import 'chat_bubble.dart';
 
 class ConversationSpeaking extends StatefulWidget {
   List<Conversation> conversations;
+  String lessonID;
 
-  ConversationSpeaking({Key key, this.conversations}) : super(key: key);
+  ConversationSpeaking({Key key, this.conversations, this.lessonID}) : super(key: key);
 
   _ConversationSpeakingState createState() =>
-      _ConversationSpeakingState(conversations: conversations);
+      _ConversationSpeakingState(conversations: conversations, lessonID: lessonID);
 }
 
 @override
 class _ConversationSpeakingState extends State<ConversationSpeaking> {
   List<Conversation> conversations;
+  String lessonID;
 
-  _ConversationSpeakingState({this.conversations});
+  _ConversationSpeakingState({this.conversations, this.lessonID});
 
   int conversationIndex = 0;
   var percent = 0.0;
@@ -56,12 +61,15 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool _isRecording = false;
   String path;
+  double finalMark = 0;
+  double markForAnswer;
+  HiveUtils _hiveUtils = new HiveUtils();
 
   void initState() {
     super.initState();
+    markForAnswer = 10 / (conversations.length * 2);
     _init();
   }
-
   void nextQuestion() {
     setState(() {
       percent = conversationIndex * 0.1;
@@ -72,6 +80,11 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
   void speakingButton(BuildContext context) {
     BlocProvider.of<LearnConversationCubit>(context)
         .learnMatching(conversationIndex);
+  }
+
+  void caculateMark(){
+    finalMark = finalMark + markForAnswer;
+    print(finalMark);
   }
 
   @override
@@ -196,7 +209,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
       );
     }
 
-    Widget _loadDialogForMatching(BuildContext dialogContext) {
+    void _loadDialogForMatching(BuildContext dialogContext) {
       if (check.toLowerCase() == vietnamese.toLowerCase()) {
         showDialog(
             context: dialogContext,
@@ -267,6 +280,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                           )),
                       InkWell(
                         onTap: () {
+                          caculateMark();
                           chars.clear();
                           elements.clear();
                           BlocProvider.of<LearnConversationCubit>(dialogContext)
@@ -372,7 +386,12 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                           )),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pop();
+                          chars.clear();
+                          elements.clear();
+                          BlocProvider.of<LearnConversationCubit>(dialogContext)
+                              .learnSpeaking(conversationIndex + 1);
+                          Navigator.pop(context);
+                          conversationIndex = conversationIndex + 1;
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -383,7 +402,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                 bottomRight: Radius.circular(32.0)),
                           ),
                           child: Text(
-                            "Try Again",
+                            "Continue",
                             style: TextStyle(color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
@@ -640,6 +659,10 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                             child: FlatButton(
                               color: Color.fromRGBO(255, 190, 51, 30),
                                 onPressed: () {
+                                caculateMark();
+                                  // if(similarity(conversations[conversationIndex].conversation, text) >= 0.8){
+                                  //   caculateMark();
+                                  // }
                                   recognizeFinished = false;
                                   speakingButton(context);
                                 },
@@ -683,8 +706,21 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                     ],
                   );
                 } else {
+                  bool progressExist = _hiveUtils.isProgressExist(lessonID: lessonID, boxName: HiveBoxName.PROGRESS_BOX);
+                  if(!progressExist){
+                    SaveProgressLocal progressLocal = new SaveProgressLocal(lessonID: lessonID, vocabProgress: 0, converProgress: finalMark, quizProgress: 0, updateTime: DateTime.now(), isSync: false);
+                    _hiveUtils.addProgress(progressLocal: progressLocal, boxName: HiveBoxName.PROGRESS_BOX);
+                  }else{
+                    SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
+                    updateProgress.converProgress = finalMark;
+                    updateProgress.updateTime = DateTime.now();
+                    _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
+                  }
+                  SaveProgressLocal returnProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
+                  print(returnProgress.lessonID + returnProgress.updateTime.toString());
                   return ConversationResult(
                     words: conversationIndex,
+                    finalMark: finalMark,
                   );
                 }
               },
