@@ -38,7 +38,8 @@ class APIConstants{
   static const String CHANGE_PASSWORD = BASE_URL + "/api/authen/updateNewPassword";
   static const String LOGIN_GMAIL = BASE_URL + "/api/authen/signin-gmail";
   static const String EDIT_PROFILE = BASE_URL + "/api/authen/editProfile";
-  static final String VOCABULARY = BASE_URL + "/api/vocabulary/getByLesson/";
+  static const String VOCABULARY = BASE_URL + "/api/vocabulary/getByLesson/";
+  static const String SYNC_PROGRESS = BASE_URL + "/api/syns/sysProgress";
 }
 
 class HiveBoxName{

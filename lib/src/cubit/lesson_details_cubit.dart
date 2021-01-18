@@ -77,9 +77,11 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
 
   Future<void> loadLessonFromLocalStorage(String lessonId) async{
     emit(LoadingLocalLesson());
+    print(lessonId);
     List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesFromLocalStorage(lessonId);
     List<Conversation> conversations = await _conversationRepository.getConversationsFromLocalStorage(lessonId);
     SaveProgressLocal saveProgressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
+    //print(saveProgressLocal.vocabProgress.toString() + saveProgressLocal.converProgress.toString());
     if(vocabularies != null && conversations != null){
       emit(LoadLocalLessonSuccess(vocabularies, conversations, saveProgressLocal));
     }else{

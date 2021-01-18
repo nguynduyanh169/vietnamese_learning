@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
+import 'package:vietnamese_learning/src/models/quiz_submit.dart';
 import 'package:vietnamese_learning/src/models/review_quiz.dart';
 import 'package:vietnamese_learning/src/widgets/quiz.dart';
 import 'package:vietnamese_learning/src/widgets/quiz_result.dart';
 
 class QuizScreen extends StatefulWidget {
   List<Question> questions;
-  int progressId;
+  Progress progress;
   String lessonId;
 
-  QuizScreen({Key key, this.questions, this.progressId, this.lessonId})
+  QuizScreen({Key key, this.questions, this.progress, this.lessonId})
       : super(key: key);
 
   @override
   _QuizScreenState createState() => _QuizScreenState(
-      questions: questions, progressId: progressId, lessonId: lessonId);
+      questions: questions, progress: progress, lessonId: lessonId);
 }
 
 class _QuizScreenState extends State<QuizScreen> {
   var _questionIndex = 0;
   double _totalScore = 0;
   List<Question> questions;
-  int progressId;
+  Progress progress;
   String lessonId;
   int quizId;
-  List<int> optionIds = new List();
+  List<ListAswer> listAnswer = new List();
   int chooseOptionId;
+  int chooseQuestionId;
   int tappedIndex;
   bool optionCheckCorrect = false;
   String userChoice;
@@ -34,7 +37,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int questionType;
   List<ReviewQuiz> incorrects = new List();
 
-  _QuizScreenState({this.questions, this.progressId, this.quizId, this.lessonId});
+  _QuizScreenState({this.questions, this.progress, this.quizId, this.lessonId});
 
   void _resetQuiz() {
     setState(() {
@@ -43,10 +46,11 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  void tapped(int index, int optionId, bool checkCorrect, String userChoose, String correctAnswer, String quizQuestion, int type) {
+  void tapped(int index, int optionId, bool checkCorrect, String userChoose, String correctAnswer, String quizQuestion, int type, int questionId) {
     setState(() {
       tappedIndex = index;
       chooseOptionId = optionId;
+      chooseQuestionId = questionId;
       optionCheckCorrect = checkCorrect;
       userChoice = userChoose;
       correctAns = correctAnswer;
@@ -64,10 +68,11 @@ class _QuizScreenState extends State<QuizScreen> {
     } else {
       _totalScore += score;
     }
+    ListAswer answer = new ListAswer(optionId: chooseOptionId, questionId: chooseQuestionId);
     setState(() {
       _questionIndex = _questionIndex + 1;
       tappedIndex = 5;
-      optionIds.add(chooseOptionId);
+      listAnswer.add(answer);
     });
   }
 
@@ -95,7 +100,7 @@ class _QuizScreenState extends State<QuizScreen> {
         correctAnswer: correctAns,
       )
           : QuizResult(
-          _totalScore, _resetQuiz, quizId, progressId, optionIds, lessonId, incorrects),
+          _totalScore, _resetQuiz, quizId, progress, listAnswer, lessonId, incorrects),
     );
   }
 }

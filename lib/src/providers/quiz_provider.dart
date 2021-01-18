@@ -57,7 +57,7 @@ class QuizProvider {
         return false;
       }
     } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+      print("Exception occur: $error stackTrace: $stacktrace");
     }
   }
 

@@ -285,8 +285,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .lessonName
                                         .trim(),
                                     lessonId: beginnerLessons[index].lessonID,
-                                    progressId:
-                                        beginnerLessons[index].progress.progressID,
+                                    progress:
+                                        beginnerLessons[index].progress,
                                   ),
                                   settings:
                                       RouteSettings(name: '/lessonDetail'),
@@ -352,8 +352,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .trim(),
                                     lessonId:
                                         intermediateLessons[index].lessonID,
-                                    progressId:
-                                        intermediateLessons[index].progress.progressID,
+                                    progress:
+                                        intermediateLessons[index].progress,
                                   ),
                                   settings:
                                       RouteSettings(name: '/lessonDetail'),
@@ -415,8 +415,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .lessonName
                                         .trim(),
                                     lessonId: advancedLessons[index].lessonID,
-                                    progressId:
-                                        advancedLessons[index].progress.progressID,
+                                    progress:
+                                        advancedLessons[index].progress,
                                   ),
                                   settings:
                                       RouteSettings(name: '/lessonDetail'),

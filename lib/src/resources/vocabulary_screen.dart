@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';

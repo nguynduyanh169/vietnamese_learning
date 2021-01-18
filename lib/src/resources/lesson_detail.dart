@@ -9,6 +9,7 @@ import 'package:vietnamese_learning/src/cubit/lesson_details_cubit.dart';
 import 'package:vietnamese_learning/src/data/conversation_repository.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
@@ -21,20 +22,20 @@ import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 class LessonDetail extends StatefulWidget {
   String lessonName;
   String lessonId;
-  int progressId;
+  Progress progress;
 
-  LessonDetail({Key key, this.lessonName, this.lessonId, this.progressId})
+  LessonDetail({Key key, this.lessonName, this.lessonId, this.progress})
       : super(key: key);
 
   @override
   _LessonDetailState createState() => _LessonDetailState(
-      title: lessonName, lessonId: lessonId, progressId: progressId);
+      title: lessonName, lessonId: lessonId, progress: progress);
 }
 
 class _LessonDetailState extends State<LessonDetail> {
   String title;
   String lessonId;
-  int progressId;
+  Progress progress;
   double percent = 0;
   bool isDownload = true;
   List<Conversation> conversations = new List();
@@ -44,7 +45,7 @@ class _LessonDetailState extends State<LessonDetail> {
   double quizProgress = 0;
   SaveProgressLocal progressLocal;
 
-  _LessonDetailState({this.title, this.lessonId, this.progressId});
+  _LessonDetailState({this.title, this.lessonId, this.progress});
 
   Widget _progress(double progress) {
     return Container(
@@ -442,7 +443,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                 ]),
                               ),
                               onTap: () {
-                                if(vocabProgress >0.8 && converProgress >= 0.8){
+                                if(vocabProgress < 0.8 && converProgress < 0.8){
                                   Toast.show(
                                       'You need to finish the lesson before do the quiz',
                                       context,
@@ -457,7 +458,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                           secondaryAnimation) =>
                                           QuizGetStarted(
                                             lessonId: lessonId,
-                                            progressId: progressId,
+                                            progress: progress,
                                             lessonName: title,
                                           ),
                                       transitionsBuilder: (context, animation,

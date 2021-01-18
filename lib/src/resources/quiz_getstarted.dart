@@ -6,6 +6,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/cubit/quiz_cubit.dart';
 import 'package:vietnamese_learning/src/data/quiz_repository.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
 import 'package:vietnamese_learning/src/models/quiz.dart';
 import 'package:vietnamese_learning/src/resources/practice_quiz_screen.dart';
@@ -14,21 +15,21 @@ import 'package:vietnamese_learning/src/states/quiz_state.dart';
 
 class QuizGetStarted extends StatefulWidget {
   String lessonId;
-  int progressId;
+  Progress progress;
   String lessonName;
 
-  QuizGetStarted({Key key, this.lessonId, this.progressId, this.lessonName}) : super(key: key);
+  QuizGetStarted({Key key, this.lessonId, this.progress, this.lessonName}) : super(key: key);
 
   _QuizGetStartedState createState() =>
-      _QuizGetStartedState(lessonId: lessonId, progressId: progressId, lessonName: lessonName);
+      _QuizGetStartedState(lessonId: lessonId, progress: progress, lessonName: lessonName);
 }
 
 class _QuizGetStartedState extends State<QuizGetStarted> {
   String lessonId;
-  int progressId;
+  Progress progress;
   String lessonName;
 
-  _QuizGetStartedState({this.lessonId, this.progressId, this.lessonName});
+  _QuizGetStartedState({this.lessonId, this.progress, this.lessonName});
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +214,7 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  QuizScreen(questions: questions, progressId: progressId, lessonId: lessonId.trim(),),
+                                  QuizScreen(questions: questions, progress: progress, lessonId: lessonId,),
                           transitionsBuilder: (context, animation,
                               secondaryAnimation, child) {
                             var begin = Offset(1.0, 0.0);

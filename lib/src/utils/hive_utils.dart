@@ -80,6 +80,7 @@ class HiveUtils {
   }
 
   SaveProgressLocal getLocalProgress({String boxName, String lessonId}){
+    print(lessonId);
     SaveProgressLocal progressLocal;
     final openBox = Hive.box(boxName);
     progressLocal = openBox.get(lessonId);
