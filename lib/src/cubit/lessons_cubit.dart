@@ -46,8 +46,7 @@ class LessonsCubit extends Cubit<LessonsState>{
         }
       }
       emit(LessonsLoaded(listLessons, userProfile));
-    } on Exception catch(e){
-      print(e.toString());
+    } on Exception{
       emit(LessonLoadError('Load Lesson Error'));
     }
   }
