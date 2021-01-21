@@ -544,16 +544,10 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     ],
                   );
                 } else {
-                  bool progressExist = _hiveUtils.isProgressExist(lessonID: lessonID, boxName: HiveBoxName.PROGRESS_BOX);
-                  if(!progressExist){
-                    SaveProgressLocal newProgressLocal = new SaveProgressLocal(lessonID: lessonID, vocabProgress: finalMark, converProgress: 0, quizProgress: 0, updateTime: DateTime.now(), isSync: false);
-                    _hiveUtils.addProgress(progressLocal: newProgressLocal, boxName: HiveBoxName.PROGRESS_BOX);
-                  }else{
-                    SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
-                    updateProgress.vocabProgress = finalMark;
-                    updateProgress.updateTime = DateTime.now();
-                    _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
-                  }
+                  SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
+                  updateProgress.vocabProgress = finalMark;
+                  updateProgress.updateTime = DateTime.now();
+                  _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
                   return VocabularyResult(
                     words: vocabularies.length,
                     finalMark: finalMark,

@@ -30,7 +30,7 @@ class SubmitQuizCubit extends Cubit<SubmitQuizState> {
       DateTime dateTime = DateTime.now();
       SaveProgressLocal progressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
       progressLocal.quizProgress = quizMark;
-      progressLocal.updateTime = DateTime.now();
+      progressLocal.updateTime = dateTime;
       if(connectivityResult == ConnectivityResult.none) {
         _hiveUtils.updateLocalProgress(progressLocal: progressLocal, boxName: HiveBoxName.PROGRESS_BOX);
 
@@ -40,7 +40,7 @@ class SubmitQuizCubit extends Cubit<SubmitQuizState> {
         progress.converPercent = progressLocal.converProgress * 10;
         progress.vocabPercent = progressLocal.vocabProgress * 10;
         progress.quizPercent = quizMark * 10;
-        progress.updateDate = DateTime.now().toIso8601String();
+        progress.updateDate = dateTime.toIso8601String();
         QuizSubmit quizSubmit = new QuizSubmit(
             lessonId: lessonId,
             progress: progress,

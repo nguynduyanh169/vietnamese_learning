@@ -28,6 +28,7 @@ class LessonProvider {
       }else{
         bool exist = await _hiveUtils.isExists(name: APIConstants.LESSONS_BY_LEVEL, boxName: HiveBoxName.JSON_BOX);
         Response response = await _dio.get(APIConstants.LESSONS_BY_LEVEL, options: Options(headers: headers));
+        print(response.headers);
         responseAPI = new ResponseAPI(name: APIConstants.LESSONS_BY_LEVEL, response: jsonEncode(response.data));
         if(exist){
           _hiveUtils.updateBox(responseAPI, HiveBoxName.JSON_BOX);

@@ -7,6 +7,7 @@ import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lesson_details_cubit.dart';
 import 'package:vietnamese_learning/src/data/conversation_repository.dart';
+import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
@@ -38,6 +39,7 @@ class _LessonDetailState extends State<LessonDetail> {
   Progress progress;
   double percent = 0;
   bool isDownload = true;
+  bool isProgressSync = true;
   List<Conversation> conversations = new List();
   List<Vocabulary> vocabularies = new List();
   double vocabProgress = 0;
@@ -82,13 +84,48 @@ class _LessonDetailState extends State<LessonDetail> {
     );
   }
 
+  Widget _button(BuildContext context){
+    if(isDownload == false){
+      return Container(
+        width: SizeConfig.blockSizeHorizontal * 16,
+        height: SizeConfig.blockSizeVertical * 5,
+        child: FlatButton(
+            onPressed: (){
+              BlocProvider.of<LessonDetailsCubit>(
+                  context)
+                  .downloadLesson(lessonId);
+            },
+            color: Colors.blueAccent,
+            child: Text('Download', style: TextStyle(fontFamily: 'Helvetica', fontSize: 10)),
+      ));
+    }else {
+      if(isProgressSync == false){
+        return Container(
+            width: SizeConfig.blockSizeHorizontal * 16,
+            height: SizeConfig.blockSizeVertical * 5,
+            child: FlatButton(
+              onPressed: (){
+                BlocProvider.of<LessonDetailsCubit>(
+                    context)
+                    .syncNewProgress(progress, progressLocal);
+              },
+              color: Colors.blueAccent,
+              child: Text('Sync', style: TextStyle(fontFamily: 'Helvetica', fontSize: 10)),
+            ));
+      }else {
+        return Container();
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return BlocProvider(
       create: (context) =>
-          LessonDetailsCubit(VocabularyRepository(), ConversationRepository())
-            ..loadLessonFromLocalStorage(lessonId),
+          LessonDetailsCubit(VocabularyRepository(), ConversationRepository(), ProgressRepository())
+            ..loadLessonFromLocalStorage(lessonId, progress),
       child: BlocConsumer<LessonDetailsCubit, LessonDetailsState>(
         listener: (context, state) {
           if (state is DownloadingLesson) {
@@ -108,7 +145,7 @@ class _LessonDetailState extends State<LessonDetail> {
             converProgress = progressLocal.converProgress;
             vocabProgress = progressLocal.vocabProgress;
             quizProgress = progressLocal.quizProgress;
-
+            isProgressSync = state.isSyncProgress;
           } else if (state is CannotLoadLocalLesson) {
             isDownload = false;
             Toast.show(state.message, context,
@@ -116,6 +153,12 @@ class _LessonDetailState extends State<LessonDetail> {
                 gravity: Toast.BOTTOM,
                 backgroundColor: Colors.redAccent,
                 textColor: Colors.white);
+          } else if(state is SyncingProgress){
+            CustomProgressDialog.progressDialog(context);
+          } else if(state is SyncProgressSuccess){
+            Navigator.pop(context);
+            print('success');
+            isProgressSync = true;
           }
         },
         builder: (context, state) {
@@ -154,19 +197,20 @@ class _LessonDetailState extends State<LessonDetail> {
                                 ),
                               ),
                             ),
-                            isDownload == false
-                                ? Container(
-                                    child: IconButton(
-                                      icon: Icon(CupertinoIcons.arrow_down_doc),
-                                      iconSize: 30,
-                                      onPressed: () {
-                                        BlocProvider.of<LessonDetailsCubit>(
-                                                context)
-                                            .downloadLesson(lessonId);
-                                      },
-                                    ),
-                                  )
-                                : Container(),
+                            // isDownload == false
+                            //     ? Container(
+                            //         child: IconButton(
+                            //           icon: Icon(CupertinoIcons.arrow_down_doc),
+                            //           iconSize: 30,
+                            //           onPressed: () {
+                            //             BlocProvider.of<LessonDetailsCubit>(
+                            //                     context)
+                            //                 .downloadLesson(lessonId);
+                            //           },
+                            //         ),
+                            //       )
+                            //     : Container(),
+                            _button(context)
                           ],
                         ),
                       ),
@@ -278,7 +322,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                       },
                                     ),
                                   ).whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId);
+                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId, progress);
                                   });
                                 }
                               },
@@ -376,7 +420,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                       },
                                     ),
                                   ).whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId);
+                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId, progress);
                                   });
                                 }
                               },
@@ -474,7 +518,9 @@ class _LessonDetailState extends State<LessonDetail> {
                                         );
                                       },
                                     ),
-                                  );
+                                  ).whenComplete(() {
+                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId, progress);
+                                  });
                                 }
                               },
                             )
@@ -535,20 +581,6 @@ class _LessonDetailState extends State<LessonDetail> {
                     ),
                   ),
                 ),
-                // LinearPercentIndicator(
-                //   width: SizeConfig.blockSizeHorizontal * 60,
-                //   animation: false,
-                //   lineHeight: 18.0,
-                //   animationDuration: 1000,
-                //   percent: percent,
-                //   center: Text(
-                //     "${(percent * 100).toStringAsFixed(2)}%",
-                //     style: TextStyle(
-                //         fontSize: 9, fontFamily: 'Helvetica'),
-                //   ),
-                //   linearStrokeCap: LinearStrokeCap.roundAll,
-                //   progressColor: Colors.amberAccent,
-                // ),
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 2,

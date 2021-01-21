@@ -34,10 +34,25 @@ class LoadLocalLessonSuccess extends LessonDetailsState{
   final List<Vocabulary> vocabularies;
   final List<Conversation> conversations;
   final SaveProgressLocal progressLocal;
-  const LoadLocalLessonSuccess(this.vocabularies, this.conversations, this.progressLocal);
+  final bool isSyncProgress;
+  const LoadLocalLessonSuccess(this.vocabularies, this.conversations, this.progressLocal, this.isSyncProgress);
 }
 
 class CannotLoadLocalLesson extends LessonDetailsState{
   final String message;
   const CannotLoadLocalLesson(this.message);
+}
+
+class SyncingProgress extends LessonDetailsState{
+  const SyncingProgress();
+}
+
+class SyncProgressSuccess extends LessonDetailsState{
+  final SaveProgressLocal newProgressLocal;
+  const SyncProgressSuccess(this.newProgressLocal);
+}
+
+class SyncProgressFailed extends LessonDetailsState{
+  final String message;
+  const SyncProgressFailed(this.message);
 }

@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/data/conversation_repository.dart';
+import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/states/lesson_details_state.dart';
@@ -14,9 +16,10 @@ import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   final VocabularyRepository _vocabularyRepository;
   final ConversationRepository _conversationRepository;
+  final ProgressRepository _progressRepository;
   HiveUtils _hiveUtils = new HiveUtils();
 
-  LessonDetailsCubit(this._vocabularyRepository, this._conversationRepository) : super(InitialState());
+  LessonDetailsCubit(this._vocabularyRepository, this._conversationRepository, this._progressRepository) : super(InitialState());
 
   Future<void> downloadLesson(String lessonId) async{
     try{
@@ -75,15 +78,61 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
     }
   }
 
-  Future<void> loadLessonFromLocalStorage(String lessonId) async{
+  Future<void> syncNewProgress(Progress progress, SaveProgressLocal progressLocal) async{
+    try{
+      DateTime localProgressUpdateDate = progressLocal.updateTime;
+      DateTime apiProgressDate = DateTime.parse(progress.updateDate);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString('accessToken');
+      if(localProgressUpdateDate.compareTo(apiProgressDate) > 0){
+        progress.converPercent = progressLocal.converProgress * 10;
+        progress.vocabPercent = progressLocal.vocabProgress * 10;
+        progress.quizPercent = progressLocal.quizProgress * 10;
+        progress.updateDate = localProgressUpdateDate.toIso8601String();
+        Progress updatedProgress = await _progressRepository.syncProgress(token, progress);
+        print('Update' + updatedProgress.toJson().toString());
+        emit(SyncProgressSuccess(progressLocal));
+      }else if(localProgressUpdateDate.compareTo(apiProgressDate) < 0){
+        progressLocal.quizProgress = progress.quizPercent / 10;
+        progressLocal.vocabProgress = progress.vocabPercent / 10;
+        progressLocal.converProgress = progress.converPercent / 10;
+        progressLocal.updateTime = apiProgressDate;
+        print('Update' + progressLocal.toString());
+        _hiveUtils.updateLocalProgress(progressLocal: progressLocal, boxName: HiveBoxName.PROGRESS_BOX);
+      }
+    }on Exception{
+      emit(SyncProgressFailed('Sync Failed!'));
+    }
+
+  }
+
+  Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress) async{
     emit(LoadingLocalLesson());
-    print(lessonId);
+    SaveProgressLocal saveProgressLocal;
+    bool isSyncProgress = false;
     List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesFromLocalStorage(lessonId);
     List<Conversation> conversations = await _conversationRepository.getConversationsFromLocalStorage(lessonId);
-    SaveProgressLocal saveProgressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
-    //print(saveProgressLocal.vocabProgress.toString() + saveProgressLocal.converProgress.toString());
+    bool localProgressExist = _hiveUtils.isProgressExist(lessonID: lessonId, boxName: HiveBoxName.PROGRESS_BOX);
+    if(!localProgressExist){
+      saveProgressLocal = new SaveProgressLocal(lessonID: lessonId, vocabProgress: progress.vocabPercent, converProgress: progress.converPercent, quizProgress: progress.quizPercent, updateTime: DateTime.parse(progress.updateDate), isSync: true);
+      _hiveUtils.addProgress(progressLocal: saveProgressLocal, boxName: HiveBoxName.PROGRESS_BOX);
+      isSyncProgress = true;
+    }else{
+      saveProgressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
+      DateTime localProgressUpdateDate = saveProgressLocal.updateTime;
+      print('Local ' + localProgressUpdateDate.toIso8601String());
+      DateTime apiProgressDate = DateTime.parse(progress.updateDate.replaceAll(RegExp('+00:00'), ''));
+      print('Api ' + apiProgressDate.toString());
+      if(localProgressUpdateDate.compareTo(apiProgressDate) == 0){
+        print('true');
+        isSyncProgress = true;
+      }else{
+        print('false');
+        isSyncProgress = false;
+      }
+    }
     if(vocabularies != null && conversations != null){
-      emit(LoadLocalLessonSuccess(vocabularies, conversations, saveProgressLocal));
+      emit(LoadLocalLessonSuccess(vocabularies, conversations, saveProgressLocal, isSyncProgress));
     }else{
       emit(CannotLoadLocalLesson('Please download lesson before learn!'));
     }
