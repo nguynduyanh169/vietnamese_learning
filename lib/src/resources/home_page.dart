@@ -1,7 +1,9 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/resources/forum_screen.dart';
 import 'package:vietnamese_learning/src/resources/home_screen.dart';
@@ -20,6 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
+  bool connectivityResult = false;
 
   List<Widget> _buildScreens() {
     return [
@@ -50,6 +53,11 @@ class _HomePageState extends State<HomePage> {
         inactiveColor: CupertinoColors.systemGrey,
       ),
     ];
+  }
+   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override

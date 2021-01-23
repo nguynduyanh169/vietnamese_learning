@@ -92,7 +92,7 @@ class QuizQuestion extends StatelessWidget {
               child: Image(
                 image: FileImage(File(
                     _hiveUtils.getFile(
-                        boxName: 'CacheFile',
+                        boxName: HiveBoxName.CACHE_FILE_BOX,
                         url: questionText))),
               ),
             )

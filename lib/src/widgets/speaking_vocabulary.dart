@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/constants.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
@@ -54,6 +56,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   List<double> values = [];
   Function caculateMark;
   double answerMark;
+  HiveUtils _hiveUtils = new HiveUtils();
 
   _SpeakingVocabularyState(this.caculateMark, this.answerMark);
   @override
@@ -140,8 +143,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            AssetsAudioPlayer.playAndForget(
-                                Audio.network(widget.audioInput));
+                            AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: HiveBoxName.CACHE_FILE_BOX, url: widget.audioInput)));
                           }),
                     ),
                     Container(

@@ -165,6 +165,10 @@ class _LessonDetailState extends State<LessonDetail> {
             Navigator.pop(context);
             print('success');
             isProgressSync = true;
+            progressLocal = state.newProgressLocal;
+            converProgress = progressLocal.converProgress;
+            vocabProgress = progressLocal.vocabProgress;
+            quizProgress = progressLocal.quizProgress;
           } else if(state is SyncProgressFailed){
             Navigator.pop(context);
             isProgressSync = false;
