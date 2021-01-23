@@ -84,48 +84,78 @@ class _LessonDetailState extends State<LessonDetail> {
     );
   }
 
-  Widget _button(BuildContext context){
-    if(isDownload == false){
+  Widget _button(BuildContext context) {
+    if (isDownload == false) {
       return Container(
-        width: SizeConfig.blockSizeHorizontal * 16,
-        height: SizeConfig.blockSizeVertical * 5,
-        child: FlatButton(
-            onPressed: (){
-              BlocProvider.of<LessonDetailsCubit>(
-                  context)
-                  .downloadLesson(lessonId);
-            },
-            color: Colors.blueAccent,
-            child: Text('Download', style: TextStyle(fontFamily: 'Helvetica', fontSize: 10)),
-      ));
-    }else {
-      if(isProgressSync == false){
-        return Container(
-            width: SizeConfig.blockSizeHorizontal * 16,
-            height: SizeConfig.blockSizeVertical * 5,
-            child: FlatButton(
-              onPressed: (){
-                BlocProvider.of<LessonDetailsCubit>(
-                    context)
-                    .syncNewProgress(progress, progressLocal);
+        alignment: Alignment.topRight,
+        width: SizeConfig.blockSizeHorizontal * 30,
+        height: SizeConfig.blockSizeVertical * 9,
+        child: Column(
+          children: [
+            IconButton(
+              onPressed: () {
+                BlocProvider.of<LessonDetailsCubit>(context)
+                    .downloadLesson(lessonId);
               },
-              color: Colors.blueAccent,
-              child: Text('Sync', style: TextStyle(fontFamily: 'Helvetica', fontSize: 10)),
+              icon: Icon(
+                CupertinoIcons.cloud_download,
+                size: 30,
+                color: Colors.blue,
+              ),
+            ),
+            Text(
+              "Download",
+              style: TextStyle(
+                color: Colors.blue,
+                fontFamily: 'Helvetica',
+                fontSize: 10,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      if (isProgressSync == false) {
+        return Container(
+            alignment: Alignment.topRight,
+            width: SizeConfig.blockSizeHorizontal * 30,
+            height: SizeConfig.blockSizeVertical * 9,
+            child: Column(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    CupertinoIcons.cloud_upload,
+                    color: Colors.blue,
+                  ),
+                  iconSize: 30,
+                  onPressed: () {
+                    BlocProvider.of<LessonDetailsCubit>(context)
+                        .syncNewProgress(progress, progressLocal);
+                  },
+                ),
+                Text(
+                  "Upload",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontFamily: 'Helvetica',
+                    fontSize: 10,
+                  ),
+                ),
+              ],
             ));
-      }else {
+      } else {
         return Container();
       }
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return BlocProvider(
-      create: (context) =>
-          LessonDetailsCubit(VocabularyRepository(), ConversationRepository(), ProgressRepository())
-            ..loadLessonFromLocalStorage(lessonId, progress),
+      create: (context) => LessonDetailsCubit(VocabularyRepository(),
+          ConversationRepository(), ProgressRepository())
+        ..loadLessonFromLocalStorage(lessonId, progress),
       child: BlocConsumer<LessonDetailsCubit, LessonDetailsState>(
         listener: (context, state) {
           if (state is DownloadingLesson) {
@@ -158,14 +188,14 @@ class _LessonDetailState extends State<LessonDetail> {
                 gravity: Toast.BOTTOM,
                 backgroundColor: Colors.redAccent,
                 textColor: Colors.white);
-          } else if(state is SyncingProgress){
+          } else if (state is SyncingProgress) {
             print('Sync');
             CustomProgressDialog.progressDialog(context);
-          } else if(state is SyncProgressSuccess){
+          } else if (state is SyncProgressSuccess) {
             Navigator.pop(context);
             print('success');
             isProgressSync = true;
-          } else if(state is SyncProgressFailed){
+          } else if (state is SyncProgressFailed) {
             Navigator.pop(context);
             isProgressSync = false;
             print('failed');
@@ -189,44 +219,52 @@ class _LessonDetailState extends State<LessonDetail> {
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 2,
-                            left: SizeConfig.blockSizeVertical * 2),
+                            left: SizeConfig.blockSizeVertical * 0.1),
                         child: Row(
                           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.arrow_back_ios),
+                            FlatButton.icon(
+                              icon: Icon(
+                                CupertinoIcons.back,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                              label: Text(
+                                "Back",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.w500),
+                              ),
                               onPressed: () => Navigator.of(context).pop(),
                             ),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 5,
+                              width: SizeConfig.blockSizeHorizontal * 36,
                             ),
-                            FittedBox(
-                              child: Container(
-                                width: SizeConfig.blockSizeHorizontal * 55,
-                                child: Text(
-                                  "$title",
-                                  style: TextStyle(
-                                      fontSize: 20, fontFamily: 'Helvetica'),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                            // isDownload == false
-                            //     ? Container(
-                            //         child: IconButton(
-                            //           icon: Icon(CupertinoIcons.arrow_down_doc),
-                            //           iconSize: 30,
-                            //           onPressed: () {
-                            //             BlocProvider.of<LessonDetailsCubit>(
-                            //                     context)
-                            //                 .downloadLesson(lessonId);
-                            //           },
-                            //         ),
-                            //       )
-                            //     : Container(),
                             _button(context)
                           ],
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        width: SizeConfig.blockSizeHorizontal * 87,
+                        child: Text(
+                          "$title",
+                          style: TextStyle(
+                            fontSize: 29,
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.black12,
+                              width: 1.0,
+                            ),
+                          ),
                         ),
                       ),
                       Container(
@@ -234,7 +272,7 @@ class _LessonDetailState extends State<LessonDetail> {
                             top: SizeConfig.blockSizeVertical * 0,
                             left: SizeConfig.blockSizeHorizontal * 5,
                             right: SizeConfig.blockSizeHorizontal * 5),
-                        height: SizeConfig.blockSizeVertical * 90,
+                        height: SizeConfig.blockSizeVertical * 84,
                         // card height
                         child: ListView(
                           children: <Widget>[
@@ -252,7 +290,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                         Container(
                                           padding: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
-                                                2,
+                                                1,
                                             right:
                                                 SizeConfig.blockSizeHorizontal *
                                                     19,
@@ -275,7 +313,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                       ],
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 2,
+                                      height: SizeConfig.blockSizeVertical * 1,
                                     ),
                                     Container(
                                       child: Image(
@@ -286,7 +324,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 2,
+                                      height: SizeConfig.blockSizeVertical * 1,
                                     ),
                                     Container(
                                       child: Text(
@@ -313,14 +351,15 @@ class _LessonDetailState extends State<LessonDetail> {
                                       backgroundColor: Colors.redAccent,
                                       textColor: Colors.white);
                                 } else {
-                                  Navigator.of(context).push(
+                                  Navigator.of(context)
+                                      .push(
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation,
                                               secondaryAnimation) =>
                                           VocabDetailScreen(
                                         lessonId: lessonId,
                                         lessonName: title,
-                                            vocabularies: vocabularies,
+                                        vocabularies: vocabularies,
                                       ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
@@ -336,8 +375,11 @@ class _LessonDetailState extends State<LessonDetail> {
                                         );
                                       },
                                     ),
-                                  ).whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId, progress);
+                                  )
+                                      .whenComplete(() {
+                                    BlocProvider.of<LessonDetailsCubit>(context)
+                                        .loadLessonFromLocalStorage(
+                                            lessonId, progress);
                                   });
                                 }
                               },
@@ -354,7 +396,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                     children: [
                                       Container(
                                         padding: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 2,
+                                          top: SizeConfig.blockSizeVertical * 1,
                                           right:
                                               SizeConfig.blockSizeHorizontal *
                                                   16,
@@ -378,7 +420,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 2),
+                                        top: SizeConfig.blockSizeVertical * 1),
                                     child: Image(
                                       image: AssetImage(
                                           'assets/images/conversation_logo.png'),
@@ -388,7 +430,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 2,
+                                        top: SizeConfig.blockSizeVertical * 1,
                                         bottom:
                                             SizeConfig.blockSizeVertical * 2),
                                     child: Text(
@@ -410,23 +452,24 @@ class _LessonDetailState extends State<LessonDetail> {
                                       gravity: Toast.BOTTOM,
                                       backgroundColor: Colors.redAccent,
                                       textColor: Colors.white);
-                                }else {
-                                  Navigator.of(context).push(
+                                } else {
+                                  Navigator.of(context)
+                                      .push(
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
+                                              secondaryAnimation) =>
                                           ConversationGetStarted(
-                                            lessonId: lessonId,
-                                            lessonName: title,
-                                            conversations: conversations,
-                                          ),
+                                        lessonId: lessonId,
+                                        lessonName: title,
+                                        conversations: conversations,
+                                      ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         var begin = Offset(1.0, 0.0);
                                         var end = Offset.zero;
                                         var curve = Curves.ease;
                                         var tween = Tween(
-                                            begin: begin, end: end)
+                                                begin: begin, end: end)
                                             .chain(CurveTween(curve: curve));
                                         return SlideTransition(
                                           position: animation.drive(tween),
@@ -434,8 +477,11 @@ class _LessonDetailState extends State<LessonDetail> {
                                         );
                                       },
                                     ),
-                                  ).whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId, progress);
+                                  )
+                                      .whenComplete(() {
+                                    BlocProvider.of<LessonDetailsCubit>(context)
+                                        .loadLessonFromLocalStorage(
+                                            lessonId, progress);
                                   });
                                 }
                               },
@@ -476,7 +522,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 2),
+                                        top: SizeConfig.blockSizeVertical * 1),
                                     child: Image(
                                       image: AssetImage(
                                           'assets/images/quiz_logo.png'),
@@ -486,7 +532,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 2,
+                                        top: SizeConfig.blockSizeVertical * 1,
                                         bottom:
                                             SizeConfig.blockSizeVertical * 2,
                                         left: 4.0,
@@ -502,7 +548,8 @@ class _LessonDetailState extends State<LessonDetail> {
                                 ]),
                               ),
                               onTap: () {
-                                if(vocabProgress < 0.8 && converProgress < 0.8){
+                                if (vocabProgress < 0.8 &&
+                                    converProgress < 0.8) {
                                   Toast.show(
                                       'You need to finish the lesson before do the quiz',
                                       context,
@@ -510,22 +557,24 @@ class _LessonDetailState extends State<LessonDetail> {
                                       gravity: Toast.BOTTOM,
                                       backgroundColor: Colors.redAccent,
                                       textColor: Colors.white);
-                                }else{
-                                  Navigator.of(context).push(
+                                } else {
+                                  Navigator.of(context)
+                                      .push(
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
+                                              secondaryAnimation) =>
                                           QuizGetStarted(
-                                            lessonId: lessonId,
-                                            progress: progress,
-                                            lessonName: title,
-                                          ),
+                                        lessonId: lessonId,
+                                        progress: progress,
+                                        lessonName: title,
+                                      ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         var begin = Offset(1.0, 0.0);
                                         var end = Offset.zero;
                                         var curve = Curves.ease;
-                                        var tween = Tween(begin: begin, end: end)
+                                        var tween = Tween(
+                                                begin: begin, end: end)
                                             .chain(CurveTween(curve: curve));
                                         return SlideTransition(
                                           position: animation.drive(tween),
@@ -533,8 +582,11 @@ class _LessonDetailState extends State<LessonDetail> {
                                         );
                                       },
                                     ),
-                                  ).whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context).loadLessonFromLocalStorage(lessonId, progress);
+                                  )
+                                      .whenComplete(() {
+                                    BlocProvider.of<LessonDetailsCubit>(context)
+                                        .loadLessonFromLocalStorage(
+                                            lessonId, progress);
                                   });
                                 }
                               },
@@ -603,7 +655,9 @@ class _LessonDetailState extends State<LessonDetail> {
               Text(
                 'Loading...',
                 style: TextStyle(
-                    fontSize: 20, fontFamily: 'Helvetica', color: Colors.black38),
+                    fontSize: 20,
+                    fontFamily: 'Helvetica',
+                    color: Colors.black38),
               ),
             ],
           ),
