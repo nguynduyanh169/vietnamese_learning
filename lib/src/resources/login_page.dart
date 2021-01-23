@@ -56,9 +56,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _submitGmail(BuildContext context, User_Gmail user_gmail){
-    BlocProvider.of<LoginCubit>(context).doLoginGmail(user_gmail.email,user_gmail.fullname, user_gmail.uid, user_gmail.avatarLink, user_gmail.username);
+  void _submitGmail(BuildContext context, User_Gmail user_gmail) {
+    BlocProvider.of<LoginCubit>(context).doLoginGmail(
+        user_gmail.email,
+        user_gmail.fullname,
+        user_gmail.uid,
+        user_gmail.avatarLink,
+        user_gmail.username);
   }
+
   final color = const Color(0xffF2CE5E);
 
   Widget _loginScreen(BuildContext context) {
@@ -93,7 +99,9 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       width: SizeConfig.blockSizeHorizontal * 85,
                       child: TextFormField(
-                        validator: ValidationBuilder().minLength(1, 'Please enter your username').build(),
+                        validator: ValidationBuilder()
+                            .minLength(1, 'Please enter your username')
+                            .build(),
                         focusNode: myFocusNode1,
                         controller: _usernameController,
                         decoration: InputDecoration(
@@ -136,7 +144,9 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       width: SizeConfig.blockSizeHorizontal * 85,
                       child: TextFormField(
-                        validator: ValidationBuilder().minLength(1, 'Please enter your password').build(),
+                        validator: ValidationBuilder()
+                            .minLength(1, 'Please enter your password')
+                            .build(),
                         focusNode: myFocusNode,
                         controller: _passwordController,
                         obscureText: true,
@@ -183,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                             PageRouteBuilder(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                  ForgetPasswordScreen(),
+                                      ForgetPasswordScreen(),
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {
                                 var begin = Offset(1.0, 0.0);
@@ -283,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
                               image: DecorationImage(
                                 scale: 13,
                                 image:
-                                AssetImage('assets/images/google_logo.png'),
+                                    AssetImage('assets/images/google_logo.png'),
                               ),
                             ),
                           ),
@@ -304,8 +314,8 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           Text(
                             "Don't have an Account?",
-                            style:
-                            TextStyle(fontFamily: 'Helvetica', fontSize: 13),
+                            style: TextStyle(
+                                fontFamily: 'Helvetica', fontSize: 13),
                           ),
                           SizedBox(
                             width: 5,
@@ -321,8 +331,8 @@ class _LoginPageState extends State<LoginPage> {
                             onTap: () {
                               Navigator.of(context).push(
                                 PageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) =>
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
                                       SignUpScreen(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
@@ -365,7 +375,7 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             if (state is LoginError) {
               Navigator.pop(context);
-              Toast.show("Invalid username or password!", context,
+              Toast.show(state.message, context,
                   duration: Toast.LENGTH_LONG,
                   gravity: Toast.BOTTOM,
                   backgroundColor: Colors.redAccent,
@@ -382,24 +392,24 @@ class _LoginPageState extends State<LoginPage> {
                       )));
             } else if (state is DoingLogin) {
               CustomProgressDialog.progressDialog(context);
-            } else if (state is LoginGmailSuccess){
+            } else if (state is LoginGmailSuccess) {
               Navigator.pop(context);
               Navigator.of(_ctx).pushReplacementNamed("/home");
-            }else if (state is LoginGmailFail){
+            } else if (state is LoginGmailFail) {
               Navigator.pop(context);
               Toast.show("Login Failed!", context,
                   duration: Toast.LENGTH_LONG,
                   gravity: Toast.BOTTOM,
                   backgroundColor: Colors.redAccent,
                   textColor: Colors.white);
-            }else if (state is NewLoginGmail){
+            } else if (state is NewLoginGmail) {
               Navigator.pop(context);
               Navigator.of(_ctx).push(MaterialPageRoute(
                   builder: (context) => LevelScreen(
-                    loginResponse: state.loginResponse,
-                    username: state.username,
-                  )));
-            }else if(state is DoingLoginGmail){
+                        loginResponse: state.loginResponse,
+                        username: state.username,
+                      )));
+            } else if (state is DoingLoginGmail) {
               CustomProgressDialog.progressDialog(context);
             }
           },
