@@ -13,10 +13,11 @@ class QuizAnswer extends StatelessWidget {
   final int tappedIndex;
   final int optionId;
   final String question;
+  final int questionId;
   final int questionType;
 
   QuizAnswer(this.answerText, this.checkCorrect,
-      this.correct, this.rootContext, this.index, this.choice, this.tappedIndex, this.optionId, this.question, this.questionType);
+      this.correct, this.rootContext, this.index, this.choice, this.tappedIndex, this.optionId, this.question, this.questionType, this.questionId);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class QuizAnswer extends StatelessWidget {
           side: BorderSide(color: tappedIndex == index ? Colors.blueAccent : Colors.black87, width: 2.0)),
       child: InkWell(
         onTap: () {
-          choice(index, optionId, checkCorrect, answerText, correct, question, questionType);
+          choice(index, optionId, checkCorrect, answerText, correct, question, questionType, questionId);
         },
         child: Column(
           children: [

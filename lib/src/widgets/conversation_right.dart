@@ -5,10 +5,12 @@ import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class ConversationRight extends StatelessWidget {
   String english, vietnamese, voiceLink;
+  HiveUtils _hiveUtils = new HiveUtils();
   ConversationRight({this.english, this.vietnamese, this.voiceLink});
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,7 @@ class ConversationRight extends StatelessWidget {
           InkWell(
             onTap: () {
               AssetsAudioPlayer.playAndForget(
-                  Audio.network(voiceLink));
+                  Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: voiceLink)));
             },
             child: Container(
               decoration: BoxDecoration(

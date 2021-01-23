@@ -9,4 +9,8 @@ class VocabularyRepository{
     return _vocabularyProvider.getVocabularyByLessonId(lessonId, token);
   }
 
+  Future<List<Vocabulary>> getVocabulariesFromLocalStorage(String lessonId){
+    return _vocabularyProvider.getVocabularyFromLocalStorage(lessonId);
+  }
+
 }

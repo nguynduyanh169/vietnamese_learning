@@ -13,18 +13,20 @@ import 'package:vietnamese_learning/src/widgets/conversation_right.dart';
 class ConversationDetail extends StatefulWidget {
   List<Conversation> conversations;
   String lessonTitle;
-  ConversationDetail({Key key, this.conversations, this.lessonTitle})
+  String lessonID;
+  ConversationDetail({Key key, this.conversations, this.lessonTitle, this.lessonID})
       : super(key: key);
 
   _ConversationDetailState createState() => _ConversationDetailState(
-      conversations: conversations, lessonTitle: lessonTitle);
+      conversations: conversations, lessonTitle: lessonTitle, lessonID: lessonID);
 }
 
 class _ConversationDetailState extends State<ConversationDetail> {
   List<Conversation> conversations;
   String lessonTitle;
+  String lessonID;
   HiveUtils _hiveUtils = new HiveUtils();
-  _ConversationDetailState({this.conversations, this.lessonTitle});
+  _ConversationDetailState({this.conversations, this.lessonTitle, this.lessonID});
 
   var conversationIndex = 0;
 
@@ -115,7 +117,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                ConversationSpeaking(conversations: conversations),
+                                ConversationSpeaking(conversations: conversations, lessonID: lessonID,),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

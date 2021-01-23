@@ -24,16 +24,16 @@ class LessonProvider {
       ResponseAPI responseAPI = new ResponseAPI();
       var connectivityResult = await (Connectivity().checkConnectivity());
       if(connectivityResult == ConnectivityResult.none){
-        print('open lesson');
-        responseAPI = _hiveUtils.getBoxes('JSON', APIConstants.LESSONS_BY_LEVEL);
+        responseAPI = _hiveUtils.getBoxes(HiveBoxName.JSON_BOX, APIConstants.LESSONS_BY_LEVEL);
       }else{
-        bool exist = await _hiveUtils.isExists(name: APIConstants.LESSONS_BY_LEVEL, boxName: 'JSON');
+        bool exist = await _hiveUtils.isExists(name: APIConstants.LESSONS_BY_LEVEL, boxName: HiveBoxName.JSON_BOX);
         Response response = await _dio.get(APIConstants.LESSONS_BY_LEVEL, options: Options(headers: headers));
+        print(response.headers);
         responseAPI = new ResponseAPI(name: APIConstants.LESSONS_BY_LEVEL, response: jsonEncode(response.data));
         if(exist){
-          _hiveUtils.updateBox(responseAPI, 'JSON');
+          _hiveUtils.updateBox(responseAPI, HiveBoxName.JSON_BOX);
         }else{
-          _hiveUtils.addBox(responseAPI, 'JSON');
+          _hiveUtils.addBox(responseAPI, HiveBoxName.JSON_BOX);
         }
       }
       return (jsonDecode(responseAPI.response) as List).map((i) => Lesson.fromJson(i)).toList();

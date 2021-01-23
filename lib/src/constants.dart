@@ -11,7 +11,7 @@ class ColorConstants{
 }
 
 class APIConstants{
-  static const String BASE_URL = "https://master-vnam.azurewebsites.net";
+  static const String BASE_URL = "https://master-vietnamese.azurewebsites.net";
   static const String BASE_URL_HEROKU = "https://vn-master.herokuapp.com";
   static const String GET_COMMENTS = BASE_URL + "/api/comment/";
   static const String CREATE_COMMENT = BASE_URL + "/api/comment";
@@ -38,5 +38,12 @@ class APIConstants{
   static const String CHANGE_PASSWORD = BASE_URL + "/api/authen/updateNewPassword";
   static const String LOGIN_GMAIL = BASE_URL + "/api/authen/signin-gmail";
   static const String EDIT_PROFILE = BASE_URL + "/api/authen/editProfile";
-  static final String VOCABULARY = BASE_URL + "/api/vocabulary/getByLesson/";
+  static const String VOCABULARY = BASE_URL + "/api/vocabulary/getByLesson/";
+  static const String SYNC_PROGRESS = BASE_URL + "/api/syns/sysProgress";
+}
+
+class HiveBoxName{
+  static const String CACHE_FILE_BOX = 'CacheFile';
+  static const String PROGRESS_BOX = 'Progress';
+  static const String JSON_BOX = 'JSON';
 }

@@ -4,9 +4,11 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 
 class VocabularyResult extends StatelessWidget {
   int words;
-  VocabularyResult({this.words});
+  double finalMark;
+  VocabularyResult({this.words, this.finalMark});
   @override
   Widget build(BuildContext context) {
+    double percent = ( finalMark / 10) * 100;
     return Container(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
         color: Color.fromRGBO(255, 239, 215, 100),
@@ -51,13 +53,14 @@ class VocabularyResult extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          "$words Words",
+                          "${percent.toStringAsFixed(2)}% of Words",
                           style: TextStyle(
                             fontSize: 27,
                             color: Colors.grey[700],
                             fontFamily: "Helvetica",
                             fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),

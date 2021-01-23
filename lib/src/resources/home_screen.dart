@@ -219,13 +219,13 @@ class _HomeScreenState extends State<HomeScreen> {
     List<Lesson> advancedLessons = new List();
 
     for (Lesson lesson in _listLessons) {
-      if (lesson.levelId == 1) {
+      if (lesson.levelID == 1) {
         beginnerLessons.add(lesson);
       }
-      if (lesson.levelId == 2) {
+      if (lesson.levelID == 2) {
         intermediateLessons.add(lesson);
       }
-      if (lesson.levelId == 3) {
+      if (lesson.levelID == 3) {
         advancedLessons.add(lesson);
       }
     }
@@ -264,9 +264,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: beginnerLessons[index].lessonName,
                           img: beginnerLessons[index].lessonImage,
                           progressStatus:
-                              beginnerLessons[index].progresStatus.trim(),
+                              beginnerLessons[index].progress.progresStatus.trim(),
                           press: () {
-                            if (beginnerLessons[index].progresStatus.trim() ==
+                            if (beginnerLessons[index].progress.progresStatus.trim() ==
                                 "lock") {
                               String lessonBefore =
                                   beginnerLessons[index - 1].lessonName;
@@ -284,9 +284,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     lessonName: beginnerLessons[index]
                                         .lessonName
                                         .trim(),
-                                    lessonId: beginnerLessons[index].lessonId,
-                                    progressId:
-                                        beginnerLessons[index].progressId,
+                                    lessonId: beginnerLessons[index].lessonID,
+                                    progress:
+                                        beginnerLessons[index].progress,
                                   ),
                                   settings:
                                       RouteSettings(name: '/lessonDetail'),
@@ -328,10 +328,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: intermediateLessons[index].lessonName,
                           img: intermediateLessons[index].lessonImage,
                           progressStatus:
-                              intermediateLessons[index].progresStatus.trim(),
+                              intermediateLessons[index].progress.progresStatus.trim(),
                           press: () {
                             if (intermediateLessons[index]
-                                    .progresStatus
+                                    .progress.progresStatus
                                     .trim() ==
                                 "lock") {
                               String lessonBefore =
@@ -351,9 +351,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .lessonName
                                         .trim(),
                                     lessonId:
-                                        intermediateLessons[index].lessonId,
-                                    progressId:
-                                        intermediateLessons[index].progressId,
+                                        intermediateLessons[index].lessonID,
+                                    progress:
+                                        intermediateLessons[index].progress,
                                   ),
                                   settings:
                                       RouteSettings(name: '/lessonDetail'),
@@ -394,9 +394,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: advancedLessons[index].lessonName,
                           img: advancedLessons[index].lessonImage,
                           progressStatus:
-                              advancedLessons[index].progresStatus.trim(),
+                              advancedLessons[index].progress.progresStatus.trim(),
                           press: () {
-                            if (advancedLessons[index].progresStatus.trim() ==
+                            if (advancedLessons[index].progress.progresStatus.trim() ==
                                 "lock") {
                               String lessonBefore =
                                   advancedLessons[index - 1].lessonName;
@@ -414,9 +414,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     lessonName: advancedLessons[index]
                                         .lessonName
                                         .trim(),
-                                    lessonId: advancedLessons[index].lessonId,
-                                    progressId:
-                                        advancedLessons[index].progressId,
+                                    lessonId: advancedLessons[index].lessonID,
+                                    progress:
+                                        advancedLessons[index].progress,
                                   ),
                                   settings:
                                       RouteSettings(name: '/lessonDetail'),

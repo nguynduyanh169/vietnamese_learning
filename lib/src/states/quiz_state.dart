@@ -10,10 +10,9 @@ class QuizLoading extends QuizState {
 }
 
 class QuizLoaded extends QuizState {
-  final Quiz quiz;
   final List<Question> questions;
 
-  const QuizLoaded(this.quiz, this.questions);
+  const QuizLoaded(this.questions);
 }
 
 class QuizLoadError extends QuizState {

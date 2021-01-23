@@ -5,6 +5,8 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/submit_quiz_cubit.dart';
 import 'package:vietnamese_learning/src/data/quiz_repository.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
+import 'package:vietnamese_learning/src/models/quiz_submit.dart';
 import 'package:vietnamese_learning/src/models/review_quiz.dart';
 import 'package:vietnamese_learning/src/resources/home_page.dart';
 import 'package:vietnamese_learning/src/resources/review_quiz_screen.dart';
@@ -15,27 +17,11 @@ class QuizResult extends StatelessWidget {
   final Function resetHandlar;
   final int quizId;
   final String lessonId;
-  final int progressId;
-  final List<int> optionIds;
+  final Progress progress;
+  final List<ListAswer> listAnswers;
   final List<ReviewQuiz> incorrects;
 
-  QuizResult(this.resultScore, this.resetHandlar, this.quizId, this.progressId, this.optionIds, this.lessonId, this.incorrects);
-
-  String resultText;
-
-  String get resultPhrase {
-    if (resultScore <= 3) {
-      resultText = 'Limited level!';
-    } else if (resultScore <= 5) {
-      resultText = 'Modest level!';
-    } else if (resultScore <= 7) {
-      resultText = 'Competent level!';
-    } else {
-      resultText = 'Good level!';
-    }
-    return resultText;
-  }
-
+  QuizResult(this.resultScore, this.resetHandlar, this.quizId, this.progress, this.listAnswers, this.lessonId, this.incorrects);
   Widget _buttons(BuildContext context){
     if(resultScore >= 8 && resultScore < 10){
       return Container(
@@ -175,7 +161,7 @@ class QuizResult extends StatelessWidget {
     SizeConfig().init(context);
     var percent = resultScore / 10;
     return BlocProvider(
-        create: (context) => SubmitQuizCubit(QuizRepository())..submitQuiz(quizId: quizId, quizMark: resultScore, processId: progressId, optionIDs: optionIds, lessonId: lessonId),
+        create: (context) => SubmitQuizCubit(QuizRepository())..submitQuiz(quizId: quizId, quizMark: resultScore, listAnswer: listAnswers, lessonId: lessonId, progress: progress),
         child: BlocConsumer<SubmitQuizCubit, SubmitQuizState>(
           listener: (context, state){
             if(state is SubmitQuizSuccess){

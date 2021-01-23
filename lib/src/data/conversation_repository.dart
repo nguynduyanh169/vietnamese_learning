@@ -8,4 +8,8 @@ class ConversationRepository {
       String lessonId, String token) {
     return _conversationProvider.getConversationByLessonId(lessonId, token);
   }
+
+  Future<List<Conversation>> getConversationsFromLocalStorage(String lessonId){
+    return _conversationProvider.getConversationFromLocalStorage(lessonId);
+  }
 }
