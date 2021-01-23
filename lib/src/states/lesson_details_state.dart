@@ -40,7 +40,9 @@ class LoadLocalLessonSuccess extends LessonDetailsState{
 
 class CannotLoadLocalLesson extends LessonDetailsState{
   final String message;
-  const CannotLoadLocalLesson(this.message);
+  final SaveProgressLocal progressLocal;
+  final bool isSyncProgress;
+  const CannotLoadLocalLesson(this.message, this.progressLocal, this.isSyncProgress);
 }
 
 class SyncingProgress extends LessonDetailsState{

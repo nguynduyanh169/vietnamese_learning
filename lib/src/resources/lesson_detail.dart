@@ -148,17 +148,32 @@ class _LessonDetailState extends State<LessonDetail> {
             isProgressSync = state.isSyncProgress;
           } else if (state is CannotLoadLocalLesson) {
             isDownload = false;
+            progressLocal = state.progressLocal;
+            converProgress = progressLocal.converProgress;
+            vocabProgress = progressLocal.vocabProgress;
+            quizProgress = progressLocal.quizProgress;
+            isProgressSync = state.isSyncProgress;
             Toast.show(state.message, context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 backgroundColor: Colors.redAccent,
                 textColor: Colors.white);
           } else if(state is SyncingProgress){
+            print('Sync');
             CustomProgressDialog.progressDialog(context);
           } else if(state is SyncProgressSuccess){
             Navigator.pop(context);
             print('success');
             isProgressSync = true;
+          } else if(state is SyncProgressFailed){
+            Navigator.pop(context);
+            isProgressSync = false;
+            print('failed');
+            Toast.show(state.message, context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
           }
         },
         builder: (context, state) {

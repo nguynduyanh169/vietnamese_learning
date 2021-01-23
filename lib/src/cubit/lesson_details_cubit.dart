@@ -79,9 +79,10 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   }
 
   Future<void> syncNewProgress(Progress progress, SaveProgressLocal progressLocal) async{
+    emit(SyncingProgress());
     try{
       DateTime localProgressUpdateDate = progressLocal.updateTime;
-      DateTime apiProgressDate = DateTime.parse(progress.updateDate);
+      DateTime apiProgressDate = DateTime.parse(progress.updateDate.replaceAll('+00:00', ''));
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
       if(localProgressUpdateDate.compareTo(apiProgressDate) > 0){
@@ -90,15 +91,16 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
         progress.quizPercent = progressLocal.quizProgress * 10;
         progress.updateDate = localProgressUpdateDate.toIso8601String();
         Progress updatedProgress = await _progressRepository.syncProgress(token, progress);
-        print('Update' + updatedProgress.toJson().toString());
+        print('Update Online' + updatedProgress.toJson().toString());
         emit(SyncProgressSuccess(progressLocal));
       }else if(localProgressUpdateDate.compareTo(apiProgressDate) < 0){
         progressLocal.quizProgress = progress.quizPercent / 10;
         progressLocal.vocabProgress = progress.vocabPercent / 10;
         progressLocal.converProgress = progress.converPercent / 10;
         progressLocal.updateTime = apiProgressDate;
-        print('Update' + progressLocal.toString());
+        print('Update Local' + progressLocal.updateTime.toString());
         _hiveUtils.updateLocalProgress(progressLocal: progressLocal, boxName: HiveBoxName.PROGRESS_BOX);
+        emit(SyncProgressSuccess(progressLocal));
       }
     }on Exception{
       emit(SyncProgressFailed('Sync Failed!'));
@@ -109,20 +111,22 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress) async{
     emit(LoadingLocalLesson());
     SaveProgressLocal saveProgressLocal;
+    print(progress.toJson());
     bool isSyncProgress = false;
     List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesFromLocalStorage(lessonId);
     List<Conversation> conversations = await _conversationRepository.getConversationsFromLocalStorage(lessonId);
     bool localProgressExist = _hiveUtils.isProgressExist(lessonID: lessonId, boxName: HiveBoxName.PROGRESS_BOX);
     if(!localProgressExist){
-      saveProgressLocal = new SaveProgressLocal(lessonID: lessonId, vocabProgress: progress.vocabPercent, converProgress: progress.converPercent, quizProgress: progress.quizPercent, updateTime: DateTime.parse(progress.updateDate), isSync: true);
+      saveProgressLocal = new SaveProgressLocal(lessonID: lessonId, vocabProgress: progress.vocabPercent / 10, converProgress: progress.converPercent / 10, quizProgress: progress.quizPercent / 10, updateTime: DateTime.parse(progress.updateDate.replaceAll('+00:00', '')), isSync: true);
       _hiveUtils.addProgress(progressLocal: saveProgressLocal, boxName: HiveBoxName.PROGRESS_BOX);
       isSyncProgress = true;
     }else{
       saveProgressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
+      print(saveProgressLocal.converProgress.toString());
       DateTime localProgressUpdateDate = saveProgressLocal.updateTime;
-      print('Local ' + localProgressUpdateDate.toIso8601String());
-      DateTime apiProgressDate = DateTime.parse(progress.updateDate.replaceAll(RegExp('+00:00'), ''));
-      print('Api ' + apiProgressDate.toString());
+      DateTime apiProgressDate = DateTime.parse(progress.updateDate.replaceAll('+00:00', ''));
+      print('online: ' + apiProgressDate.toLocal().toString());
+      print('local ' + localProgressUpdateDate.toString());
       if(localProgressUpdateDate.compareTo(apiProgressDate) == 0){
         print('true');
         isSyncProgress = true;
@@ -132,9 +136,11 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       }
     }
     if(vocabularies != null && conversations != null){
+      print('success');
       emit(LoadLocalLessonSuccess(vocabularies, conversations, saveProgressLocal, isSyncProgress));
     }else{
-      emit(CannotLoadLocalLesson('Please download lesson before learn!'));
+      print('failed');
+      emit(CannotLoadLocalLesson('Please download lesson before learn!', saveProgressLocal, isSyncProgress));
     }
   }
 }
