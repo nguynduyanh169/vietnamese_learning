@@ -51,4 +51,25 @@ class LessonsCubit extends Cubit<LessonsState>{
     }
   }
 
+  Future<void> reloadLessons() async{
+    try{
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString('accessToken');
+      List<Lesson> listLessons = await _lessonRepository.getLessonsByLevelId(token);
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if(connectivityResult != ConnectivityResult.none){
+        for(Lesson lesson in listLessons){
+          bool fileExist = _hiveUtils.fileExist(url: lesson.lessonImage, boxName: 'CacheFile');
+          if(!fileExist){
+            String filePath = await _hiveUtils.downloadFile(lesson.lessonImage);
+            _hiveUtils.addFile(filePath: filePath, url: lesson.lessonImage, boxName: 'CacheFile');
+          }
+        }
+      }
+      emit(ReloadLessonsSuccess(listLessons));
+    }on Exception{
+      emit(LessonLoadError('LoadLessonError'));
+    }
+  }
+
 }
