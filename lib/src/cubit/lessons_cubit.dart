@@ -30,6 +30,7 @@ class LessonsCubit extends Cubit<LessonsState>{
       bool avatarExist = _hiveUtils.fileExist(url: userProfile.avatar, boxName: 'CacheFile');
       if(!avatarExist){
         if(userProfile.avatar != null){
+          print(userProfile.avatar);
           String filePath  = await _hiveUtils.downloadFile(userProfile.avatar);
           _hiveUtils.addFile(filePath: filePath, url: userProfile.avatar, boxName: 'CacheFile');
         }

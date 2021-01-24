@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
-  bool connectivityResult;
+  bool checkInternet;
 
   List<Widget> _buildScreens() {
     return [
@@ -41,18 +41,6 @@ class _HomePageState extends State<HomePage> {
         inactiveColor: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        onPressed: (){
-          connectivityResult = true;
-          if(connectivityResult == true){
-            Toast.show('No', context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                backgroundColor: Colors.redAccent,
-                textColor: Colors.white);
-          }else{
-            return ForumScreen();
-          }
-        },
         icon: Icon(CupertinoIcons.bubble_left_bubble_right_fill),
         title: ("Xin chào Việt Nam"),
         activeColor: CupertinoColors.activeBlue,
@@ -69,9 +57,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    connectivityResult = true;
+    checkInternet = true;
     super.initState();
   }
+
+  Future<bool> checkConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if(connectivityResult == ConnectivityResult.none){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +104,20 @@ class _HomePageState extends State<HomePage> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style3, // Choose the nav bar style with this property.
+          NavBarStyle.style3,
+      onItemSelected: (index) async {
+        if(index == 1 || index == 2){
+          checkInternet = await checkConnectivity();
+          if(checkInternet == false){
+                Toast.show('This function required internet connection!', context,
+                    duration: Toast.LENGTH_LONG,
+                    gravity: Toast.BOTTOM,
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white);
+                _controller.index = 0;
+          }
+        }
+      },// Choose the nav bar style with this property.
     );
   }
 }

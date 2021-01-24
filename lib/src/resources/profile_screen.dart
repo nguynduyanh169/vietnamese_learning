@@ -335,7 +335,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future<Null> logout() async {
-
-  }
 }
