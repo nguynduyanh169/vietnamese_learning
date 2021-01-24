@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,10 +37,12 @@ class SpeakingVocabulary extends StatefulWidget {
       this.audioInput,
       this.next,
       this.vocabularyContext,
-      this.caculateMark, this.answerMark});
+      this.caculateMark,
+      this.answerMark});
 
   @override
-  _SpeakingVocabularyState createState() => _SpeakingVocabularyState(caculateMark, answerMark);
+  _SpeakingVocabularyState createState() =>
+      _SpeakingVocabularyState(caculateMark, answerMark);
 }
 
 class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
@@ -52,6 +55,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   FlutterAudioRecorder _recorder;
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
+  bool isConnect = true;
   bool _isRecording = false;
   List<double> values = [];
   Function caculateMark;
@@ -63,6 +67,16 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
   void initState() {
     super.initState();
     _init();
+    connectivity();
+  }
+
+  void connectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnect = false;
+    } else {
+      isConnect = true;
+    }
   }
 
   @override
@@ -372,19 +386,111 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
     }
   }
 
+  Widget alert(BuildContext buildContext) {
+    print("You In");
+    if (isConnect == false) {
+      showDialog(
+        context: buildContext,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: EdgeInsets.only(top: 10.0),
+            content: Container(
+              width: SizeConfig.blockSizeHorizontal * 70,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        "No Internet Connection",
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Helvetica'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                    height: 4.0,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Container(
+                        height: SizeConfig.blockSizeVertical * 20,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 3,
+                            ),
+                            Text(
+                              'You need internet connection to use speaking method',
+                              style: TextStyle(
+                                  fontFamily: 'Helvetica', fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      )),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      widget.next(widget.vocabularyContext);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(32.0),
+                            bottomRight: Radius.circular(32.0)),
+                      ),
+                      child: Text(
+                        "Continue",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
+  }
+
   _stop() async {
     var result = await _recorder.stop();
     print("Stop recording: ${result.path}");
     print("Stop recording: ${result.duration}");
-    // File file = widget.localFileSystem.file(result.path);
-    // print("File length: ${await file.length()}");
-    setState(() {
-      //_isRecording = false;
-      path = result.path;
-      _current = result;
-      _currentStatus = _current.status;
-      recognize();
-    });
+    if (isConnect == false) {
+      print("No Connection");
+      alert(context);
+    } else {
+      // File file = widget.localFileSystem.file(result.path);
+      // print("File length: ${await file.length()}");
+      print("Connected");
+      setState(() {
+        //_isRecording = false;
+        path = result.path;
+        _current = result;
+        _currentStatus = _current.status;
+        recognize();
+      });
+    }
   }
 
   int editDistance(String s1, String s2) {
