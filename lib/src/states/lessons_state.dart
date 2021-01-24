@@ -22,3 +22,12 @@ class LessonLoadError extends LessonsState{
   final String error;
   const LessonLoadError(this.error);
 }
+
+class ReloadLessonsSuccess extends LessonsState{
+  final List<Lesson> lessons;
+  const ReloadLessonsSuccess(this.lessons);
+}
+
+class ReloadingLessons extends LessonsState{
+  const ReloadingLessons();
+}

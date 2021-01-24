@@ -576,7 +576,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                                           color: Colors.white,
                                         ),
                                         onPressed: () {
-                                          AssetsAudioPlayer.playAndForget(Audio.network(conversations[conversationIndex].voiceLink));
+                                          AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: HiveBoxName.CACHE_FILE_BOX, url: conversations[conversationIndex].voiceLink)));
                                         }
                                     ),
                                   ),
@@ -717,7 +717,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                     _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
                   }
                   SaveProgressLocal returnProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
-                  print(returnProgress.lessonID + returnProgress.updateTime.toString());
                   return ConversationResult(
                     words: conversationIndex,
                     finalMark: finalMark,

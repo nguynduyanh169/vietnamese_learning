@@ -74,13 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, state) {
             if (state is LessonsLoaded) {
               userProfile = state.userProfile;
-              return _gridLesson(state.lessons, userProfile.studentLevel);
+              return _gridLesson(state.lessons, userProfile.studentLevel, context);
             } else if (state is LessonLoadError) {
               return Center(
                 child: Text(
                   'Something went wrong!',
                 ),
               );
+            } else if (state is ReloadLessonsSuccess) {
+              return _gridLesson(state.lessons, userProfile.studentLevel, context);
             } else {
               return _loadingLessons(context);
             }
@@ -109,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _gridLesson(List<Lesson> _listLessons, int leveIdOfUser) {
+  Widget _gridLesson(List<Lesson> _listLessons, int leveIdOfUser, BuildContext context) {
     HiveUtils _hiveUtils = new HiveUtils();
     String levelOfUser;
     if (leveIdOfUser == 1) {
@@ -185,7 +187,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: userProfile.avatar != null
                         ? CircleAvatar(
                             radius: 25.0,
-                            backgroundImage: FileImage(File(_hiveUtils.getFile(boxName: 'CacheFile', url: userProfile.avatar))),
+                            backgroundImage: FileImage(File(_hiveUtils.getFile(
+                                boxName: 'CacheFile',
+                                url: userProfile.avatar))),
                             backgroundColor: Colors.transparent,
                           )
                         : Container(
@@ -206,14 +210,14 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: SizeConfig.blockSizeHorizontal * 8,
             ),
-            Expanded(child: gridHeader(_listLessons))
+            Expanded(child: gridHeader(_listLessons, context))
           ],
         ),
       ),
     ]);
   }
 
-  Widget gridHeader(List<Lesson> _listLessons) {
+  Widget gridHeader(List<Lesson> _listLessons, BuildContext context) {
     List<Lesson> beginnerLessons = new List();
     List<Lesson> intermediateLessons = new List();
     List<Lesson> advancedLessons = new List();
@@ -230,211 +234,235 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
     List<String> levels = ['Beginner', 'Intermediate', 'Advanced'];
-    return ListView.separated(
-      separatorBuilder: (context, index) => SizedBox(
-        height: SizeConfig.blockSizeVertical * 1.5,
-      ),
-      itemCount: levels.length,
-      itemBuilder: (context, index) {
-        if (index == 0 && beginnerLessons.isNotEmpty) {
-          return Container(
-            height: SizeConfig.blockSizeVertical * 100,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Beginner',
-                  style: GoogleFonts.nunito(
-                      fontSize: 30, fontWeight: FontWeight.bold),
-                  //textAlign: TextAlign.start,
+    return RefreshIndicator(
+        child: ListView.separated(
+          separatorBuilder: (context, index) => SizedBox(
+            height: SizeConfig.blockSizeVertical * 1.5,
+          ),
+          itemCount: levels.length,
+          itemBuilder: (context, index) {
+            if (index == 0 && beginnerLessons.isNotEmpty) {
+              return Container(
+                height: SizeConfig.blockSizeVertical * 100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Beginner',
+                      style: GoogleFonts.nunito(
+                          fontSize: 30, fontWeight: FontWeight.bold),
+                      //textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    Container(
+                      height: SizeConfig.blockSizeVertical * 90,
+                      child: GridView.count(
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: .85,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          children:
+                              List.generate(beginnerLessons.length, (index) {
+                            return CategoryCard(
+                              title: beginnerLessons[index].lessonName,
+                              img: beginnerLessons[index].lessonImage,
+                              progressStatus: beginnerLessons[index]
+                                  .progress
+                                  .progresStatus
+                                  .trim(),
+                              press: () {
+                                if (beginnerLessons[index]
+                                        .progress
+                                        .progresStatus
+                                        .trim() ==
+                                    "lock") {
+                                  String lessonBefore =
+                                      beginnerLessons[index - 1].lessonName;
+                                  Toast.show(
+                                      "You must finish lesson $lessonBefore!",
+                                      context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.BOTTOM,
+                                      backgroundColor: Colors.blueAccent,
+                                      textColor: Colors.white);
+                                } else {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .push(
+                                    MaterialPageRoute(
+                                      builder: (context) => LessonDetail(
+                                        lessonName: beginnerLessons[index]
+                                            .lessonName
+                                            .trim(),
+                                        lessonId:
+                                            beginnerLessons[index].lessonID,
+                                        progress:
+                                            beginnerLessons[index].progress,
+                                      ),
+                                      settings:
+                                          RouteSettings(name: '/lessonDetail'),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          })),
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 2,
+              );
+            } else if (index == 1 && intermediateLessons.isNotEmpty) {
+              return Container(
+                height: SizeConfig.blockSizeVertical * 100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Intermediate',
+                      style: GoogleFonts.nunito(
+                          fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    Container(
+                      height: SizeConfig.blockSizeVertical * 90,
+                      child: GridView.count(
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: .85,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          children: List.generate(intermediateLessons.length,
+                              (index) {
+                            return CategoryCard(
+                              title: intermediateLessons[index].lessonName,
+                              img: intermediateLessons[index].lessonImage,
+                              progressStatus: intermediateLessons[index]
+                                  .progress
+                                  .progresStatus
+                                  .trim(),
+                              press: () {
+                                if (intermediateLessons[index]
+                                        .progress
+                                        .progresStatus
+                                        .trim() ==
+                                    "lock") {
+                                  String lessonBefore =
+                                      intermediateLessons[index - 1].lessonName;
+                                  Toast.show(
+                                      "You must finish lesson $lessonBefore!",
+                                      context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.BOTTOM,
+                                      backgroundColor: Colors.blueAccent,
+                                      textColor: Colors.white);
+                                } else {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .push(
+                                    MaterialPageRoute(
+                                      builder: (context) => LessonDetail(
+                                        lessonName: intermediateLessons[index]
+                                            .lessonName
+                                            .trim(),
+                                        lessonId:
+                                            intermediateLessons[index].lessonID,
+                                        progress:
+                                            intermediateLessons[index].progress,
+                                      ),
+                                      settings:
+                                          RouteSettings(name: '/lessonDetail'),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          })),
+                    )
+                  ],
                 ),
-                Container(
-                  height: SizeConfig.blockSizeVertical * 90,
-                  child: GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      childAspectRatio: .85,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      children: List.generate(beginnerLessons.length, (index) {
-                        return CategoryCard(
-                          title: beginnerLessons[index].lessonName,
-                          img: beginnerLessons[index].lessonImage,
-                          progressStatus:
-                              beginnerLessons[index].progress.progresStatus.trim(),
-                          press: () {
-                            if (beginnerLessons[index].progress.progresStatus.trim() ==
-                                "lock") {
-                              String lessonBefore =
-                                  beginnerLessons[index - 1].lessonName;
-                              Toast.show(
-                                  "You must finish lesson $lessonBefore!",
-                                  context,
-                                  duration: Toast.LENGTH_LONG,
-                                  gravity: Toast.BOTTOM,
-                                  backgroundColor: Colors.blueAccent,
-                                  textColor: Colors.white);
-                            } else {
-                              Navigator.of(context, rootNavigator: true).push(
-                                MaterialPageRoute(
-                                  builder: (context) => LessonDetail(
-                                    lessonName: beginnerLessons[index]
-                                        .lessonName
-                                        .trim(),
-                                    lessonId: beginnerLessons[index].lessonID,
-                                    progress:
-                                        beginnerLessons[index].progress,
-                                  ),
-                                  settings:
-                                      RouteSettings(name: '/lessonDetail'),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      })),
-                )
-              ],
-            ),
-          );
-        } else if (index == 1 && intermediateLessons.isNotEmpty) {
-          return Container(
-            height: SizeConfig.blockSizeVertical * 100,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Intermediate',
-                  style: GoogleFonts.nunito(
-                      fontSize: 30, fontWeight: FontWeight.bold),
+              );
+            } else if (index == 2 && advancedLessons.isNotEmpty) {
+              return Container(
+                height: SizeConfig.blockSizeVertical * 100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Advanced',
+                      style: GoogleFonts.nunito(
+                          fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    Container(
+                      height: SizeConfig.blockSizeVertical * 90,
+                      child: GridView.count(
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: .85,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          children:
+                              List.generate(advancedLessons.length, (index) {
+                            return CategoryCard(
+                              title: advancedLessons[index].lessonName,
+                              img: advancedLessons[index].lessonImage,
+                              progressStatus: advancedLessons[index]
+                                  .progress
+                                  .progresStatus
+                                  .trim(),
+                              press: () {
+                                if (advancedLessons[index]
+                                        .progress
+                                        .progresStatus
+                                        .trim() ==
+                                    "lock") {
+                                  String lessonBefore =
+                                      advancedLessons[index - 1].lessonName;
+                                  Toast.show(
+                                      "You must finish lesson $lessonBefore!",
+                                      context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.BOTTOM,
+                                      backgroundColor: Colors.blueAccent,
+                                      textColor: Colors.white);
+                                } else {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .push(
+                                    MaterialPageRoute(
+                                      builder: (context) => LessonDetail(
+                                        lessonName: advancedLessons[index]
+                                            .lessonName
+                                            .trim(),
+                                        lessonId:
+                                            advancedLessons[index].lessonID,
+                                        progress:
+                                            advancedLessons[index].progress,
+                                      ),
+                                      settings:
+                                          RouteSettings(name: '/lessonDetail'),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          })),
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 2,
-                ),
-                Container(
-                  height: SizeConfig.blockSizeVertical * 90,
-                  child: GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      childAspectRatio: .85,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      children:
-                          List.generate(intermediateLessons.length, (index) {
-                        return CategoryCard(
-                          title: intermediateLessons[index].lessonName,
-                          img: intermediateLessons[index].lessonImage,
-                          progressStatus:
-                              intermediateLessons[index].progress.progresStatus.trim(),
-                          press: () {
-                            if (intermediateLessons[index]
-                                    .progress.progresStatus
-                                    .trim() ==
-                                "lock") {
-                              String lessonBefore =
-                                  intermediateLessons[index - 1].lessonName;
-                              Toast.show(
-                                  "You must finish lesson $lessonBefore!",
-                                  context,
-                                  duration: Toast.LENGTH_LONG,
-                                  gravity: Toast.BOTTOM,
-                                  backgroundColor: Colors.blueAccent,
-                                  textColor: Colors.white);
-                            } else {
-                              Navigator.of(context, rootNavigator: true).push(
-                                MaterialPageRoute(
-                                  builder: (context) => LessonDetail(
-                                    lessonName: intermediateLessons[index]
-                                        .lessonName
-                                        .trim(),
-                                    lessonId:
-                                        intermediateLessons[index].lessonID,
-                                    progress:
-                                        intermediateLessons[index].progress,
-                                  ),
-                                  settings:
-                                      RouteSettings(name: '/lessonDetail'),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      })),
-                )
-              ],
-            ),
-          );
-        } else if (index == 2 && advancedLessons.isNotEmpty) {
-          return Container(
-            height: SizeConfig.blockSizeVertical * 100,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Advanced',
-                  style: GoogleFonts.nunito(
-                      fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 2,
-                ),
-                Container(
-                  height: SizeConfig.blockSizeVertical * 90,
-                  child: GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      childAspectRatio: .85,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      children: List.generate(advancedLessons.length, (index) {
-                        return CategoryCard(
-                          title: advancedLessons[index].lessonName,
-                          img: advancedLessons[index].lessonImage,
-                          progressStatus:
-                              advancedLessons[index].progress.progresStatus.trim(),
-                          press: () {
-                            if (advancedLessons[index].progress.progresStatus.trim() ==
-                                "lock") {
-                              String lessonBefore =
-                                  advancedLessons[index - 1].lessonName;
-                              Toast.show(
-                                  "You must finish lesson $lessonBefore!",
-                                  context,
-                                  duration: Toast.LENGTH_LONG,
-                                  gravity: Toast.BOTTOM,
-                                  backgroundColor: Colors.blueAccent,
-                                  textColor: Colors.white);
-                            } else {
-                              Navigator.of(context, rootNavigator: true).push(
-                                MaterialPageRoute(
-                                  builder: (context) => LessonDetail(
-                                    lessonName: advancedLessons[index]
-                                        .lessonName
-                                        .trim(),
-                                    lessonId: advancedLessons[index].lessonID,
-                                    progress:
-                                        advancedLessons[index].progress,
-                                  ),
-                                  settings:
-                                      RouteSettings(name: '/lessonDetail'),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      })),
-                )
-              ],
-            ),
-          );
-        } else {
-          return Container();
-        }
-      },
-      shrinkWrap: true,
-    );
+              );
+            } else {
+              return Container();
+            }
+          },
+          shrinkWrap: true,
+        ),
+        onRefresh: () async {
+          BlocProvider.of<LessonsCubit>(context).reloadLessons();
+        });
   }
 }
