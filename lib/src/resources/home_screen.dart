@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,7 @@ import 'package:vietnamese_learning/src/resources/profile_screen.dart';
 import 'package:vietnamese_learning/src/states/lessons_state.dart';
 import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/widgets/category_card.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
 import 'image_text_recognite.dart';
 
@@ -35,6 +37,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String username = "user";
   UserProfile userProfile = new UserProfile();
+  List<Lesson> _listLessons = new List<Lesson>();
 
   _HomeScreenState();
 
@@ -52,6 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<bool> checkConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if(connectivityResult == ConnectivityResult.none){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -61,30 +73,52 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           heroTag: Uuid(),
-          onPressed: () => pushNewScreen(
-            context,
-            screen: DetailTranslateScreen(),
-            withNavBar: false,
-            pageTransitionAnimation: PageTransitionAnimation.slideUp,
-          ),
+          onPressed: () async {
+            bool checkInternet = await checkConnectivity();
+            if(checkInternet == true){
+              pushNewScreen(
+                context,
+                screen: DetailTranslateScreen(),
+                withNavBar: false,
+                pageTransitionAnimation: PageTransitionAnimation.slideUp,
+              );
+            }else{
+              Toast.show(
+                  "This function required internet connection!",
+                  context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  backgroundColor: Colors.redAccent,
+                  textColor: Colors.white);
+            }
+
+          },
           icon: Icon(CupertinoIcons.camera_fill),
           label: Text('Translator'),
         ),
-        body: BlocBuilder<LessonsCubit, LessonsState>(
-          builder: (context, state) {
-            if (state is LessonsLoaded) {
+        body: BlocConsumer<LessonsCubit, LessonsState>(
+          listener: (context, state){
+            if(state is ReloadingLessons){
+              CustomProgressDialog.progressDialog(context);
+            }else if(state is LessonsLoaded){
               userProfile = state.userProfile;
-              return _gridLesson(state.lessons, userProfile.studentLevel, context);
-            } else if (state is LessonLoadError) {
+              _listLessons = state.lessons;
+            }else if(state is ReloadLessonsSuccess){
+              _listLessons = state.lessons;
+              Navigator.of(context, rootNavigator: true).pop();
+            }
+          },
+          builder: (context, state) {
+            if (state is LessonLoadError) {
               return Center(
                 child: Text(
                   'Something went wrong!',
                 ),
               );
-            } else if (state is ReloadLessonsSuccess) {
-              return _gridLesson(state.lessons, userProfile.studentLevel, context);
-            } else {
+            } else if(state is LessonsLoading){
               return _loadingLessons(context);
+            }else{
+              return _gridLesson(_listLessons, userProfile.studentLevel, context);
             }
           },
         ),

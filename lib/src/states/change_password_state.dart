@@ -17,3 +17,7 @@ class ChangePasswordSuccess extends ChangePasswordState{
 class ChangePasswordFailed extends ChangePasswordState{
   const ChangePasswordFailed();
 }
+
+class NoInternet extends ChangePasswordState{
+  const NoInternet();
+}

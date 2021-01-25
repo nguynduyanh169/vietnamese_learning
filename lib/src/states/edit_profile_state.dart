@@ -28,7 +28,8 @@ class EditingProfile extends EditProfileState{
 }
 
 class EditProfileFailed extends EditProfileState{
-  const EditProfileFailed();
+  final String message;
+  const EditProfileFailed(this.message);
 }
 
 class EditProfileSuccess extends EditProfileState{

@@ -8,7 +8,6 @@ import 'package:vietnamese_learning/src/cubit/quiz_cubit.dart';
 import 'package:vietnamese_learning/src/data/quiz_repository.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/question.dart';
-import 'package:vietnamese_learning/src/models/quiz.dart';
 import 'package:vietnamese_learning/src/resources/practice_quiz_screen.dart';
 import 'package:vietnamese_learning/src/resources/quiz_screen.dart';
 import 'package:vietnamese_learning/src/states/quiz_state.dart';
@@ -63,13 +62,26 @@ class _QuizGetStartedState extends State<QuizGetStarted> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              child: Image(
+                image: AssetImage('assets/images/quiz_logo.png'),
+                width: 160,
+                height: 160,
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 5,
+            ),
             CupertinoActivityIndicator(
               radius: 20,
             ),
             Text(
-              'Loading....',
-              style: TextStyle(fontSize: 20, fontFamily: 'Helvetica'),
-            )
+              'Loading...',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Helvetica',
+                  color: Colors.black38),
+            ),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +48,15 @@ class _LessonDetailState extends State<LessonDetail> {
   double quizProgress = 0;
   SaveProgressLocal progressLocal;
 
+  Future<bool> checkConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if(connectivityResult == ConnectivityResult.none){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   _LessonDetailState({this.title, this.lessonId, this.progress});
 
   Widget _progress(double progress) {
@@ -87,15 +97,24 @@ class _LessonDetailState extends State<LessonDetail> {
   Widget _button(BuildContext context) {
     if (isDownload == false) {
       return Container(
-        alignment: Alignment.topRight,
+        alignment: Alignment.centerRight,
         width: SizeConfig.blockSizeHorizontal * 30,
         height: SizeConfig.blockSizeVertical * 9,
-        child: Column(
+        child: Row(
           children: [
             IconButton(
-              onPressed: () {
-                BlocProvider.of<LessonDetailsCubit>(context)
-                    .downloadLesson(lessonId);
+              onPressed: () async {
+                bool checkInternet = await checkConnectivity();
+                if(checkInternet == true) {
+                  BlocProvider.of<LessonDetailsCubit>(context)
+                      .downloadLesson(lessonId);
+                }else{
+                  Toast.show('Please connect internet to download lesson!', context,
+                      duration: Toast.LENGTH_LONG,
+                      gravity: Toast.BOTTOM,
+                      backgroundColor: Colors.redAccent,
+                      textColor: Colors.white);
+                }
               },
               icon: Icon(
                 CupertinoIcons.cloud_download,
@@ -117,24 +136,34 @@ class _LessonDetailState extends State<LessonDetail> {
     } else {
       if (isProgressSync == false) {
         return Container(
-            alignment: Alignment.topRight,
+            alignment: Alignment.centerLeft,
             width: SizeConfig.blockSizeHorizontal * 30,
             height: SizeConfig.blockSizeVertical * 9,
-            child: Column(
+            child: Row(
               children: [
                 IconButton(
                   icon: Icon(
-                    CupertinoIcons.cloud_upload,
+                    CupertinoIcons.arrow_up_arrow_down_circle,
                     color: Colors.blue,
                   ),
                   iconSize: 30,
-                  onPressed: () {
-                    BlocProvider.of<LessonDetailsCubit>(context)
-                        .syncNewProgress(progress, progressLocal);
+                  onPressed: () async {
+                    bool checkInternet = await checkConnectivity();
+                    if(checkInternet == true){
+                      BlocProvider.of<LessonDetailsCubit>(context)
+                          .syncNewProgress(progress, progressLocal);
+                    }else{
+                      Toast.show('Please connect internet to sync progress lesson!', context,
+                          duration: Toast.LENGTH_LONG,
+                          gravity: Toast.BOTTOM,
+                          backgroundColor: Colors.redAccent,
+                          textColor: Colors.white);
+                    }
+
                   },
                 ),
                 Text(
-                  "Upload",
+                  "Sync Progress",
                   style: TextStyle(
                     color: Colors.blue,
                     fontFamily: 'Helvetica',
@@ -225,7 +254,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeVertical * 0.1),
                         child: Row(
-                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             FlatButton.icon(
                               icon: Icon(
@@ -243,7 +272,7 @@ class _LessonDetailState extends State<LessonDetail> {
                               onPressed: () => Navigator.of(context).pop(),
                             ),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 36,
+                              width: SizeConfig.blockSizeHorizontal * 42,
                             ),
                             _button(context)
                           ],
@@ -346,7 +375,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                 ),
                               ),
                               onTap: () {
-                                if (vocabularies.isEmpty) {
+                                if(isDownload == false){
                                   Toast.show(
                                       'Please download lesson before learn!',
                                       context,
@@ -354,38 +383,49 @@ class _LessonDetailState extends State<LessonDetail> {
                                       gravity: Toast.BOTTOM,
                                       backgroundColor: Colors.redAccent,
                                       textColor: Colors.white);
-                                } else {
-                                  Navigator.of(context)
-                                      .push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          VocabDetailScreen(
-                                        lessonId: lessonId,
-                                        lessonName: title,
-                                        vocabularies: vocabularies,
+                                }else{
+                                  if (vocabularies.isEmpty) {
+                                    Toast.show(
+                                        'This lesson has not updated vocabulary part!',
+                                        context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.BOTTOM,
+                                        backgroundColor: Colors.redAccent,
+                                        textColor: Colors.white);
+                                  } else {
+                                    Navigator.of(context)
+                                        .push(
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                            VocabDetailScreen(
+                                              lessonId: lessonId,
+                                              lessonName: title,
+                                              vocabularies: vocabularies,
+                                            ),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          var begin = Offset(1.0, 0.0);
+                                          var end = Offset.zero;
+                                          var curve = Curves.ease;
+                                          var tween = Tween(
+                                              begin: begin, end: end)
+                                              .chain(CurveTween(curve: curve));
+                                          return SlideTransition(
+                                            position: animation.drive(tween),
+                                            child: child,
+                                          );
+                                        },
                                       ),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        var begin = Offset(1.0, 0.0);
-                                        var end = Offset.zero;
-                                        var curve = Curves.ease;
-                                        var tween = Tween(
-                                                begin: begin, end: end)
-                                            .chain(CurveTween(curve: curve));
-                                        return SlideTransition(
-                                          position: animation.drive(tween),
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                      .whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context)
-                                        .loadLessonFromLocalStorage(
-                                            lessonId, progress);
-                                  });
+                                    )
+                                        .whenComplete(() {
+                                      BlocProvider.of<LessonDetailsCubit>(context)
+                                          .loadLessonFromLocalStorage(
+                                          lessonId, progress);
+                                    });
+                                  }
                                 }
+
                               },
                             ),
                             InkWell(
@@ -448,7 +488,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                 ]),
                               ),
                               onTap: () {
-                                if (conversations.isEmpty) {
+                                if(isDownload == false){
                                   Toast.show(
                                       'Please download lesson before learn!',
                                       context,
@@ -456,38 +496,49 @@ class _LessonDetailState extends State<LessonDetail> {
                                       gravity: Toast.BOTTOM,
                                       backgroundColor: Colors.redAccent,
                                       textColor: Colors.white);
-                                } else {
-                                  Navigator.of(context)
-                                      .push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          ConversationGetStarted(
-                                        lessonId: lessonId,
-                                        lessonName: title,
-                                        conversations: conversations,
+                                }else{
+                                  if (conversations.isEmpty) {
+                                    Toast.show(
+                                        'This lesson has not updated conversation part!',
+                                        context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.BOTTOM,
+                                        backgroundColor: Colors.redAccent,
+                                        textColor: Colors.white);
+                                  } else {
+                                    Navigator.of(context)
+                                        .push(
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                            ConversationGetStarted(
+                                              lessonId: lessonId,
+                                              lessonName: title,
+                                              conversations: conversations,
+                                            ),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          var begin = Offset(1.0, 0.0);
+                                          var end = Offset.zero;
+                                          var curve = Curves.ease;
+                                          var tween = Tween(
+                                              begin: begin, end: end)
+                                              .chain(CurveTween(curve: curve));
+                                          return SlideTransition(
+                                            position: animation.drive(tween),
+                                            child: child,
+                                          );
+                                        },
                                       ),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        var begin = Offset(1.0, 0.0);
-                                        var end = Offset.zero;
-                                        var curve = Curves.ease;
-                                        var tween = Tween(
-                                                begin: begin, end: end)
-                                            .chain(CurveTween(curve: curve));
-                                        return SlideTransition(
-                                          position: animation.drive(tween),
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                      .whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context)
-                                        .loadLessonFromLocalStorage(
-                                            lessonId, progress);
-                                  });
+                                    )
+                                        .whenComplete(() {
+                                      BlocProvider.of<LessonDetailsCubit>(context)
+                                          .loadLessonFromLocalStorage(
+                                          lessonId, progress);
+                                    });
+                                  }
                                 }
+
                               },
                             ),
                             InkWell(
@@ -551,47 +602,60 @@ class _LessonDetailState extends State<LessonDetail> {
                                   )
                                 ]),
                               ),
-                              onTap: () {
-                                if (vocabProgress < 0.8 &&
-                                    converProgress < 0.8) {
+                              onTap: () async {
+                                bool checkInternet = await checkConnectivity();
+                                if(checkInternet == true){
+                                  print(converProgress);
+                                  if (vocabProgress < 8 ||
+                                      converProgress < 8) {
+                                    Toast.show(
+                                        'You need to finish the lesson before do the quiz',
+                                        context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.BOTTOM,
+                                        backgroundColor: Colors.redAccent,
+                                        textColor: Colors.white);
+                                  } else {
+                                    Navigator.of(context)
+                                        .push(
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                            QuizGetStarted(
+                                              lessonId: lessonId,
+                                              progress: progress,
+                                              lessonName: title,
+                                            ),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          var begin = Offset(1.0, 0.0);
+                                          var end = Offset.zero;
+                                          var curve = Curves.ease;
+                                          var tween = Tween(
+                                              begin: begin, end: end)
+                                              .chain(CurveTween(curve: curve));
+                                          return SlideTransition(
+                                            position: animation.drive(tween),
+                                            child: child,
+                                          );
+                                        },
+                                      ),
+                                    )
+                                        .whenComplete(() {
+                                      BlocProvider.of<LessonDetailsCubit>(context)
+                                          .loadLessonFromLocalStorage(
+                                          lessonId, progress);
+                                    });
+                                  }
+                                }
+                                else{
                                   Toast.show(
-                                      'You need to finish the lesson before do the quiz',
+                                      'Please connect internet to do quiz!',
                                       context,
                                       duration: Toast.LENGTH_LONG,
                                       gravity: Toast.BOTTOM,
                                       backgroundColor: Colors.redAccent,
                                       textColor: Colors.white);
-                                } else {
-                                  Navigator.of(context)
-                                      .push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          QuizGetStarted(
-                                        lessonId: lessonId,
-                                        progress: progress,
-                                        lessonName: title,
-                                      ),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        var begin = Offset(1.0, 0.0);
-                                        var end = Offset.zero;
-                                        var curve = Curves.ease;
-                                        var tween = Tween(
-                                                begin: begin, end: end)
-                                            .chain(CurveTween(curve: curve));
-                                        return SlideTransition(
-                                          position: animation.drive(tween),
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                      .whenComplete(() {
-                                    BlocProvider.of<LessonDetailsCubit>(context)
-                                        .loadLessonFromLocalStorage(
-                                            lessonId, progress);
-                                  });
                                 }
                               },
                             )

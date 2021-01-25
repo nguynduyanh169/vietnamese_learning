@@ -196,9 +196,9 @@ class _DetailTranslateScreenState extends State<DetailTranslateScreen> {
                   child: Row(
                     children: [
                       Image(
-                          image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fvietnam.png?alt=media&token=4d353d03-50f4-469c-aaa8-96afabb59fd9'),
-                          width: SizeConfig.blockSizeVertical * 7,
-                          height: SizeConfig.blockSizeHorizontal * 7,
+                        width: SizeConfig.blockSizeVertical * 7,
+                        height: SizeConfig.blockSizeHorizontal * 7,
+                        image: AssetImage('assets/images/vietnamflag.png'),
                       ),
                       Text(
                         'Vietnamese',
@@ -235,9 +235,9 @@ class _DetailTranslateScreenState extends State<DetailTranslateScreen> {
                   child: Row(
                     children: [
                       Image(
-                        image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Funited-states.png?alt=media&token=15d0039d-e9df-437f-aed7-6b03f2569172'),
                         width: SizeConfig.blockSizeVertical * 7,
                         height: SizeConfig.blockSizeHorizontal * 7,
+                        image: AssetImage('assets/images/usaflag.png'),
                       ),
                       Text(
                         'English',

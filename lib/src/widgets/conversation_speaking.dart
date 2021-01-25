@@ -706,16 +706,12 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                     ],
                   );
                 } else {
-                  bool progressExist = _hiveUtils.isProgressExist(lessonID: lessonID, boxName: HiveBoxName.PROGRESS_BOX);
-                  if(!progressExist){
-                    SaveProgressLocal progressLocal = new SaveProgressLocal(lessonID: lessonID, vocabProgress: 0, converProgress: finalMark, quizProgress: 0, updateTime: DateTime.now(), isSync: false);
-                    _hiveUtils.addProgress(progressLocal: progressLocal, boxName: HiveBoxName.PROGRESS_BOX);
-                  }else{
-                    SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
-                    updateProgress.converProgress = finalMark;
-                    updateProgress.updateTime = DateTime.now();
-                    _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
-                  }
+                  SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
+                  updateProgress.converProgress = finalMark;
+                  DateTime now = DateTime.now();
+                  DateTime currentDate = new DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
+                  updateProgress.updateTime = currentDate.toLocal();
+                  _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
                   SaveProgressLocal returnProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
                   return ConversationResult(
                     words: conversationIndex,

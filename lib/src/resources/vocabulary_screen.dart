@@ -393,7 +393,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       }
     }
 
-    Widget _matchingVocabulary(BuildContext context) {
+    Widget _matchingVocabulary(BuildContext context, String audioInput) {
       HiveUtils _hiveUtils = new HiveUtils();
       return Container(
         padding: EdgeInsets.only(
@@ -418,7 +418,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ),
             FlatButton(
               onPressed: () async{
-                AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: 'CacheFile', url: audio)));
+                print('audio' + audio);
+                AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: HiveBoxName.CACHE_FILE_BOX, url: audioInput)));
               },
               color: Colors.amberAccent,
               textColor: Colors.white,
@@ -505,6 +506,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   _vocabularyIndex = state.vocabulariesIndex;
                   vietnamese = vocabularies[_vocabularyIndex].vocabulary;
                   english = vocabularies[_vocabularyIndex].description;
+                  audio = vocabularies[_vocabularyIndex].voice_link;
                   var percent =
                       _vocabularyIndex * (1 / (vocabularies.length + 1));
                   if (chars.isEmpty == true) {
@@ -519,7 +521,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   return Column(
                     children: [
                       _percentBar(percent),
-                      _matchingVocabulary(context)
+                      _matchingVocabulary(context, audio)
                     ],
                   );
                 } else if (state is LearnVocabularySpeaking) {
@@ -546,7 +548,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 } else {
                   SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
                   updateProgress.vocabProgress = finalMark;
-                  updateProgress.updateTime = DateTime.now();
+                  DateTime now = DateTime.now();
+                  DateTime currentDate = new DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
+                  updateProgress.updateTime = currentDate.toLocal();
                   _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
                   return VocabularyResult(
                     words: vocabularies.length,

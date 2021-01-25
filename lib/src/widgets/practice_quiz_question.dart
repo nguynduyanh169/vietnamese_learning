@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/constants.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
 
 class PracticeQuizQuestion extends StatelessWidget{
   final String questionText;
   final int questionType;
+  HiveUtils _hiveUtils = new HiveUtils();
   PracticeQuizQuestion({this.questionText, this.questionType});
 
 
@@ -33,7 +38,7 @@ class PracticeQuizQuestion extends StatelessWidget{
           children: [
             FlatButton(
               onPressed: () {
-                AssetsAudioPlayer.playAndForget(Audio.network(questionText));
+                AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: HiveBoxName.CACHE_FILE_BOX, url: questionText)));
               },
               color: Colors.amberAccent,
               textColor: Colors.white,
@@ -64,7 +69,10 @@ class PracticeQuizQuestion extends StatelessWidget{
                 width: SizeConfig.blockSizeHorizontal * 35,
                 height: SizeConfig.blockSizeVertical * 25,
                 child: Image(
-                    image: NetworkImage(questionText)
+                  image: FileImage(File(
+                      _hiveUtils.getFile(
+                          boxName: HiveBoxName.CACHE_FILE_BOX,
+                          url: questionText))),
                 ),
               )
             ],

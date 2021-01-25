@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/change_password_cubit.dart';
 import 'package:vietnamese_learning/src/data/user_repository.dart';
@@ -38,6 +39,13 @@ class ChangePasswordScreen extends StatelessWidget{
               }else if(state is ChangePasswordFailed){
                 Navigator.pop(context);
                 error = 'Confirm password is not correct';
+              }else if(state is NoInternet){
+                Navigator.pop(context);
+                Toast.show('No internet connection!', context,
+                    duration: Toast.LENGTH_LONG,
+                    gravity: Toast.BOTTOM,
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white);
               }
             },
             builder:(context, state) {

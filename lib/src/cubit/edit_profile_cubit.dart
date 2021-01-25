@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,41 +48,46 @@ class EditProfileCubit extends Cubit<EditProfileState>{
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('accessToken');
       bool check;
-      if(avatar == null){
-        EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname, nationLink: userProfile.nation);
-        check = await _userRepository.editProfile(token, editUser);
-        if(check == false){
-          emit(EditProfileFailed());
-        }else{
-          emit(EditProfileSuccess());
-        }
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if(connectivityResult == ConnectivityResult.none){
+        emit(EditProfileFailed('No internet connection!'));
       }else{
-        await Firebase.initializeApp();
-        Reference reference = FirebaseStorage.instance
-            .ref()
-            .child('audio_for_user_post')
-            .child(userProfile.username +
-            "/" +
-            DateTime.now().toIso8601String() + p.extension(avatar.path));
-        UploadTask uploadTask = reference.putFile(avatar);
-        uploadTask.whenComplete(() async {
-          try {
-            String fileUrl = await reference.getDownloadURL();
-            userProfile.avatar = fileUrl;
-            EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname, nationLink: userProfile.nation);
-            bool check = await _userRepository.editProfile(token, editUser);
-            if(check == false){
-              emit(EditProfileFailed());
-            }else{
-              emit(EditProfileSuccess());
-            }
-          } catch (onError) {
-            emit(EditProfileFailed());
+        if(avatar == null){
+          EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname, nationLink: userProfile.nation);
+          check = await _userRepository.editProfile(token, editUser);
+          if(check == false){
+            emit(EditProfileFailed('Submit failed!'));
+          }else{
+            emit(EditProfileSuccess());
           }
-        });
+        }else{
+          await Firebase.initializeApp();
+          Reference reference = FirebaseStorage.instance
+              .ref()
+              .child('audio_for_user_post')
+              .child(userProfile.username +
+              "/" +
+              DateTime.now().toIso8601String() + p.extension(avatar.path));
+          UploadTask uploadTask = reference.putFile(avatar);
+          uploadTask.whenComplete(() async {
+            try {
+              String fileUrl = await reference.getDownloadURL();
+              userProfile.avatar = fileUrl;
+              EditUser editUser = new EditUser(avatarLink: userProfile.avatar, email: userProfile.email, fullname: userProfile.fullname, nationLink: userProfile.nation);
+              bool check = await _userRepository.editProfile(token, editUser);
+              if(check == false){
+                emit(EditProfileFailed('Submit failed!'));
+              }else{
+                emit(EditProfileSuccess());
+              }
+            } catch (onError) {
+              emit(EditProfileFailed('Submit failed!'));
+            }
+          });
+        }
       }
     } on Exception{
-      emit(EditProfileFailed());
+      emit(EditProfileFailed('Submit failed!'));
     }
   }
 }

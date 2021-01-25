@@ -6,12 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/cubit/edit_profile_cubit.dart';
 import 'package:vietnamese_learning/src/data/user_repository.dart';
 import 'package:vietnamese_learning/src/models/nation.dart';
 import 'package:vietnamese_learning/src/models/user_profile.dart';
 import 'package:vietnamese_learning/src/states/edit_profile_state.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/widgets/choose_nation.dart';
 import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 
@@ -30,6 +33,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   List<Nation> nations;
   String userNationLink;
   final formKey = new GlobalKey<FormState>();
+  HiveUtils _hiveUtils = new HiveUtils();
 
   File _image;
   final picker = ImagePicker();
@@ -56,7 +60,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (imageUrl != null) {
       return CircleAvatar(
         radius: 45,
-        backgroundImage: NetworkImage(imageUrl),
+        backgroundImage: FileImage(File(_hiveUtils.getFile(boxName: HiveBoxName.CACHE_FILE_BOX, url: imageUrl))),
       );
     }
   }
@@ -100,6 +104,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => HomePage()),
                     (route) => false);
+          }else if(state is EditProfileFailed){
+            Navigator.pop(context);
+            Toast.show(state.message, context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
           }
         },
         builder: (context, state) {
@@ -184,8 +195,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 backgroundImage: FileImage(_image),
                               ),
                               Positioned(
-                                  left: SizeConfig.blockSizeHorizontal * 17,
-                                  bottom: SizeConfig.blockSizeVertical * 8,
+                                  left: SizeConfig.blockSizeHorizontal * 16,
+                                  bottom: SizeConfig.blockSizeVertical * 7,
                                   child: InkWell(
                                     onTap: () {
                                       getImage();
@@ -194,7 +205,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       width: SizeConfig.blockSizeHorizontal * 6,
                                       height: SizeConfig.blockSizeVertical * 7,
                                       child: Icon(
-                                        CupertinoIcons.pen,
+                                        CupertinoIcons.photo_fill,
                                         size: 15,
                                         color: Colors.white,
                                       ),
