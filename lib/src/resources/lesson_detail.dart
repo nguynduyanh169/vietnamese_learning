@@ -96,82 +96,86 @@ class _LessonDetailState extends State<LessonDetail> {
 
   Widget _button(BuildContext context) {
     if (isDownload == false) {
-      return Container(
-        alignment: Alignment.centerRight,
-        width: SizeConfig.blockSizeHorizontal * 30,
-        height: SizeConfig.blockSizeVertical * 9,
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: () async {
-                bool checkInternet = await checkConnectivity();
-                if(checkInternet == true) {
-                  BlocProvider.of<LessonDetailsCubit>(context)
-                      .downloadLesson(lessonId);
-                }else{
-                  Toast.show('Please connect internet to download lesson!', context,
-                      duration: Toast.LENGTH_LONG,
-                      gravity: Toast.BOTTOM,
-                      backgroundColor: Colors.redAccent,
-                      textColor: Colors.white);
-                }
-              },
-              icon: Icon(
-                CupertinoIcons.cloud_download,
-                size: 30,
-                color: Colors.blue,
+      return InkWell(
+        onTap: () async {
+          bool checkInternet = await checkConnectivity();
+          if(checkInternet == true) {
+            BlocProvider.of<LessonDetailsCubit>(context)
+                .downloadLesson(lessonId);
+          }else{
+            Toast.show('Please connect internet to download lesson!', context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
+          }
+        },
+        child: Container(
+          alignment: Alignment.centerRight,
+          width: SizeConfig.blockSizeHorizontal * 30,
+          height: SizeConfig.blockSizeVertical * 9,
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(
+                  CupertinoIcons.cloud_download,
+                  size: 30,
+                  color: Colors.blue,
+                ),
               ),
-            ),
-            Text(
-              "Download",
-              style: TextStyle(
-                color: Colors.blue,
-                fontFamily: 'Helvetica',
-                fontSize: 10,
+              Text(
+                "Download",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontFamily: 'Helvetica',
+                  fontSize: 10,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     } else {
       if (isProgressSync == false) {
-        return Container(
-            alignment: Alignment.centerLeft,
-            width: SizeConfig.blockSizeHorizontal * 30,
-            height: SizeConfig.blockSizeVertical * 9,
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    CupertinoIcons.arrow_up_arrow_down_circle,
-                    color: Colors.blue,
-                  ),
-                  iconSize: 30,
-                  onPressed: () async {
-                    bool checkInternet = await checkConnectivity();
-                    if(checkInternet == true){
-                      BlocProvider.of<LessonDetailsCubit>(context)
-                          .syncNewProgress(progress, progressLocal);
-                    }else{
-                      Toast.show('Please connect internet to sync progress lesson!', context,
-                          duration: Toast.LENGTH_LONG,
-                          gravity: Toast.BOTTOM,
-                          backgroundColor: Colors.redAccent,
-                          textColor: Colors.white);
-                    }
+        return InkWell(
+          onTap: () async {
+            bool checkInternet = await checkConnectivity();
+            if(checkInternet == true){
+              BlocProvider.of<LessonDetailsCubit>(context)
+                  .syncNewProgress(progress, progressLocal);
+            }else{
+              Toast.show('Please connect internet to sync progress lesson!', context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  backgroundColor: Colors.redAccent,
+                  textColor: Colors.white);
+            }
 
-                  },
-                ),
-                Text(
-                  "Sync Progress",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontFamily: 'Helvetica',
-                    fontSize: 10,
+          },
+          child: Container(
+              alignment: Alignment.centerLeft,
+              width: SizeConfig.blockSizeHorizontal * 30,
+              height: SizeConfig.blockSizeVertical * 9,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      CupertinoIcons.arrow_up_arrow_down_circle,
+                      color: Colors.blue,
+                    ),
+                    iconSize: 30,
                   ),
-                ),
-              ],
-            ));
+                  Text(
+                    "Sync Progress",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontFamily: 'Helvetica',
+                      fontSize: 10,
+                    ),
+                  ),
+                ],
+              )),
+        );
       } else {
         return Container();
       }
