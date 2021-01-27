@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/data/conversation_repository.dart';
@@ -111,7 +110,6 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress) async{
     emit(LoadingLocalLesson());
     SaveProgressLocal saveProgressLocal;
-    print(progress.toJson());
     bool isSyncProgress = false;
     List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesFromLocalStorage(lessonId);
     List<Conversation> conversations = await _conversationRepository.getConversationsFromLocalStorage(lessonId);
@@ -122,24 +120,19 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       isSyncProgress = true;
     }else{
       saveProgressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
-      print(saveProgressLocal.converProgress.toString());
       DateTime localProgressUpdateDate = saveProgressLocal.updateTime;
       DateTime apiProgressDate = DateTime.parse(progress.updateDate.replaceAll('+00:00', ''));
       print('online: ' + apiProgressDate.toLocal().toString());
       print('local ' + localProgressUpdateDate.toString());
       if(localProgressUpdateDate.compareTo(apiProgressDate) == 0){
-        print('true');
         isSyncProgress = true;
       }else{
-        print('false');
         isSyncProgress = false;
       }
     }
     if(vocabularies != null && conversations != null){
-      print('success');
       emit(LoadLocalLessonSuccess(vocabularies, conversations, saveProgressLocal, isSyncProgress));
     }else{
-      print('failed');
       emit(CannotLoadLocalLesson('Please download lesson before learn!', saveProgressLocal, isSyncProgress));
     }
   }

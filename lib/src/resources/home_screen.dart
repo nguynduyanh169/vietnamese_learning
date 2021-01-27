@@ -325,18 +325,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                 } else {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(
-                                    MaterialPageRoute(
-                                      builder: (context) => LessonDetail(
-                                        lessonName: beginnerLessons[index]
-                                            .lessonName
-                                            .trim(),
-                                        lessonId:
+                                    PageRouteBuilder(
+                                      settings: RouteSettings(name: '/lessonDetail'),
+                                      pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                          LessonDetail(
+                                            lessonName: beginnerLessons[index]
+                                                .lessonName
+                                                .trim(),
+                                            lessonId:
                                             beginnerLessons[index].lessonID,
-                                        progress:
+                                            progress:
                                             beginnerLessons[index].progress,
-                                      ),
-                                      settings:
-                                          RouteSettings(name: '/lessonDetail'),
+                                          ),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        var begin = Offset(1.0, 0.0);
+                                        var end = Offset.zero;
+                                        var curve = Curves.ease;
+                                        var tween = Tween(
+                                            begin: begin, end: end)
+                                            .chain(CurveTween(curve: curve));
+                                        return SlideTransition(
+                                          position: animation.drive(tween),
+                                          child: child,
+                                        );
+                                      },
                                     ),
                                   );
                                 }
@@ -396,18 +410,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                 } else {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(
-                                    MaterialPageRoute(
-                                      builder: (context) => LessonDetail(
-                                        lessonName: intermediateLessons[index]
-                                            .lessonName
-                                            .trim(),
-                                        lessonId:
+                                    PageRouteBuilder(
+                                      settings: RouteSettings(name: '/lessonDetail'),
+                                      pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                          LessonDetail(
+                                            lessonName: intermediateLessons[index]
+                                                .lessonName
+                                                .trim(),
+                                            lessonId:
                                             intermediateLessons[index].lessonID,
-                                        progress:
+                                            progress:
                                             intermediateLessons[index].progress,
-                                      ),
-                                      settings:
-                                          RouteSettings(name: '/lessonDetail'),
+                                          ),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        var begin = Offset(1.0, 0.0);
+                                        var end = Offset.zero;
+                                        var curve = Curves.ease;
+                                        var tween = Tween(
+                                            begin: begin, end: end)
+                                            .chain(CurveTween(curve: curve));
+                                        return SlideTransition(
+                                          position: animation.drive(tween),
+                                          child: child,
+                                        );
+                                      },
                                     ),
                                   );
                                 }
@@ -467,18 +495,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                 } else {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(
-                                    MaterialPageRoute(
-                                      builder: (context) => LessonDetail(
-                                        lessonName: advancedLessons[index]
-                                            .lessonName
-                                            .trim(),
-                                        lessonId:
+                                    PageRouteBuilder(
+                                      settings: RouteSettings(name: '/lessonDetail'),
+                                      pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                          LessonDetail(
+                                            lessonName: advancedLessons[index]
+                                                .lessonName
+                                                .trim(),
+                                            lessonId:
                                             advancedLessons[index].lessonID,
-                                        progress:
+                                            progress:
                                             advancedLessons[index].progress,
-                                      ),
-                                      settings:
-                                          RouteSettings(name: '/lessonDetail'),
+                                          ),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        var begin = Offset(1.0, 0.0);
+                                        var end = Offset.zero;
+                                        var curve = Curves.ease;
+                                        var tween = Tween(
+                                            begin: begin, end: end)
+                                            .chain(CurveTween(curve: curve));
+                                        return SlideTransition(
+                                          position: animation.drive(tween),
+                                          child: child,
+                                        );
+                                      },
                                     ),
                                   );
                                 }

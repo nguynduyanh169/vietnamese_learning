@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,15 @@ class _LoginPageState extends State<LoginPage> {
         user_gmail.uid,
         user_gmail.avatarLink,
         user_gmail.username);
+  }
+
+  Future<bool> checkConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if(connectivityResult == ConnectivityResult.none){
+      return false;
+    }else{
+      return true;
+    }
   }
 
   final color = const Color(0xffF2CE5E);
@@ -215,8 +225,18 @@ class _LoginPageState extends State<LoginPage> {
                       height: SizeConfig.blockSizeVertical * 5,
                     ),
                     InkWell(
-                      onTap: () {
-                        _submit(context);
+                      onTap: () async {
+                        bool checkInternet = await checkConnectivity();
+                        if(checkInternet == true){
+                          _submit(context);
+                        }else{
+                          Toast.show('No internet connection!', context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM,
+                              backgroundColor: Colors.redAccent,
+                              textColor: Colors.white);
+                        }
+
                       },
                       child: Container(
                         width: SizeConfig.blockSizeHorizontal * 87,
@@ -298,8 +318,17 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           onTap: () async {
-                            User_Gmail user_gmail = await googleSignIn();
-                            _submitGmail(context, user_gmail);
+                            bool checkInternet = await checkConnectivity();
+                            if(checkInternet == true) {
+                              User_Gmail user_gmail = await googleSignIn();
+                              _submitGmail(context, user_gmail);
+                            }else{
+                              Toast.show('No internet connection!', context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM,
+                                  backgroundColor: Colors.redAccent,
+                                  textColor: Colors.white);
+                            }
                           },
                         ),
                       ],

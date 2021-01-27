@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,6 +56,15 @@ class _SignUpState extends State<SignUpScreen> {
     nationList.add(new Nation(nation: 'Japan', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fjapan.png?alt=media&token=8792c7c8-2719-4cf1-9dbc-3043cdb8b59a'));
     nationList.add(new Nation(nation: 'Germany', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fgermany.png?alt=media&token=0accf5ad-2e96-41b8-8572-e5e766cedd2b'));
     nationList.add(new Nation(nation: 'China', image: 'https://firebasestorage.googleapis.com/v0/b/master-vietnamese.appspot.com/o/country%2Fchina.png?alt=media&token=de3069c8-b177-418b-828e-32683c6d176b'));
+  }
+
+  Future<bool> checkConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if(connectivityResult == ConnectivityResult.none){
+      return false;
+    }else{
+      return true;
+    }
   }
 
   Widget _chooseNation() {
@@ -304,8 +314,18 @@ class _SignUpState extends State<SignUpScreen> {
                         height: SizeConfig.blockSizeVertical * 4,
                       ),
                       InkWell(
-                        onTap: () {
-                          _submit(context);
+                        onTap: () async {
+                          bool checkInternet = await checkConnectivity();
+                          if(checkInternet == true){
+                            _submit(context);
+                          }else{
+                            Toast.show('No internet connection!', context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.BOTTOM,
+                                backgroundColor: Colors.redAccent,
+                                textColor: Colors.white);
+                          }
+
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.87,

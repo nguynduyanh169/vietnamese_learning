@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
+import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/utils/hive_utils.dart';
@@ -84,10 +85,10 @@ class _ConversationDetailState extends State<ConversationDetail> {
               Container(
                 width: SizeConfig.blockSizeVertical * 60,
                 height: SizeConfig.blockSizeHorizontal * 40,
-                child: conversations[0].conversationImage == null ? Image(
+                child: (conversations[0].conversationImage == null || conversations[0].conversationImage == '') ? Image(
                   image: AssetImage('assets/images/chaohoi.png'),
                 ): Image(
-                  image: FileImage(File(_hiveUtils.getFile(boxName: 'CacheFile', url: conversations[0].conversationImage))),
+                  image: FileImage(File(_hiveUtils.getFile(boxName: HiveBoxName.CACHE_FILE_BOX, url: conversations[0].conversationImage))),
                 ),
               ),
               Expanded(
