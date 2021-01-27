@@ -3,6 +3,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/data/conversation_repository.dart';
+import 'package:vietnamese_learning/src/data/lesson_repository.dart';
 import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
@@ -11,11 +12,13 @@ import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/states/lesson_details_state.dart';
 import 'package:vietnamese_learning/src/utils/hive_utils.dart';
+import 'dart:convert';
 
 class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   final VocabularyRepository _vocabularyRepository;
   final ConversationRepository _conversationRepository;
   final ProgressRepository _progressRepository;
+
   HiveUtils _hiveUtils = new HiveUtils();
 
   LessonDetailsCubit(this._vocabularyRepository, this._conversationRepository, this._progressRepository) : super(InitialState());
@@ -27,6 +30,10 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       String token = prefs.getString('accessToken');
       List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesByLessonId(lessonId, token);
       List<Conversation> conversations = await _conversationRepository.getConversationsByLessonId(lessonId, token);
+      LessonRepository _lessonRepository = new LessonRepository();
+      List<Lesson> lessons = await _lessonRepository.getLessonsByLevelId(token);
+      List<Lesson> lessonsLocal = await _lessonRepository.getLessonsLocal();
+
       var connectivityResult = await (Connectivity().checkConnectivity());
       double percent = 0;
       int totalLength = vocabularies.length + conversations.length;
@@ -104,13 +111,13 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
     }on Exception{
       emit(SyncProgressFailed('Sync Failed!'));
     }
-
   }
 
   Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress) async{
     emit(LoadingLocalLesson());
     SaveProgressLocal saveProgressLocal;
     bool isSyncProgress = false;
+    bool isUpdate = false;
     List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesFromLocalStorage(lessonId);
     List<Conversation> conversations = await _conversationRepository.getConversationsFromLocalStorage(lessonId);
     bool localProgressExist = _hiveUtils.isProgressExist(lessonID: lessonId, boxName: HiveBoxName.PROGRESS_BOX);
@@ -119,11 +126,41 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       _hiveUtils.addProgress(progressLocal: saveProgressLocal, boxName: HiveBoxName.PROGRESS_BOX);
       isSyncProgress = true;
     }else{
+      try{
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        LessonRepository _lessonRepository = new LessonRepository();
+        String token = prefs.getString('accessToken');
+        List<Lesson> lessons = await _lessonRepository.getLessonsByLevelId(token);
+        List<Lesson> lessonsLocal = await _lessonRepository.getLessonsLocal();
+        DateTime apiTime;
+        DateTime localTime;
+        var connectivityResult = await (Connectivity().checkConnectivity());
+        if(connectivityResult != ConnectivityResult.none){
+          HiveUtils _hiveUtils = new HiveUtils();
+          Lesson api = new Lesson();
+          api = findLesson(lessonId, lessons);
+          Lesson local = new Lesson();
+          local = findLesson(lessonId, lessonsLocal);
+          apiTime = DateTime.parse(api.lessonUpdate.replaceAll('+00:00', ''));
+          localTime = DateTime.parse(local.lessonUpdate.replaceAll('+00:00', ''));
+          print('api: ' + apiTime.toLocal().toString() + ' word: ' + api.lessonName);
+          print('local: ' + localTime.toLocal().toString() + ' word: ' + local.lessonName);
+          if(localTime.compareTo(apiTime) == 0){
+            print(true);
+            isUpdate = true;
+          }else{
+            print(false);
+            isUpdate = false;
+          }
+        }else{
+          print('local');
+        }
+      } on Exception{
+      }
       saveProgressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
       DateTime localProgressUpdateDate = saveProgressLocal.updateTime;
       DateTime apiProgressDate = DateTime.parse(progress.updateDate.replaceAll('+00:00', ''));
-      print('online: ' + apiProgressDate.toLocal().toString());
-      print('local ' + localProgressUpdateDate.toString());
+
       if(localProgressUpdateDate.compareTo(apiProgressDate) == 0){
         isSyncProgress = true;
       }else{
@@ -131,9 +168,25 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       }
     }
     if(vocabularies != null && conversations != null){
-      emit(LoadLocalLessonSuccess(vocabularies, conversations, saveProgressLocal, isSyncProgress));
+      print('success');
+      print(isUpdate);
+      emit(LoadLocalLessonSuccess(vocabularies, conversations, saveProgressLocal, isSyncProgress, isUpdate));
     }else{
       emit(CannotLoadLocalLesson('Please download lesson before learn!', saveProgressLocal, isSyncProgress));
     }
+  }
+
+  Future<bool> checkUpdate(String lessonIdAPI) async {
+
+  }
+
+  Lesson findLesson(String lessonID, List<Lesson> lessons){
+    Lesson result = new Lesson();
+    for(int i = 0; i <lessons.length; i++){
+      if(lessonID == lessons[i].lessonID){
+        result = lessons[i];
+      }
+    }
+    return result;
   }
 }

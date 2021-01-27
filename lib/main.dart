@@ -19,6 +19,7 @@ void main() async{
   await Hive.openBox(HiveBoxName.JSON_BOX);
   await Hive.openBox(HiveBoxName.CACHE_FILE_BOX);
   await Hive.openBox(HiveBoxName.PROGRESS_BOX);
+  await Hive.openBox(HiveBoxName.LOCAL_LESSON);
   runApp(MyApp());
 }
 

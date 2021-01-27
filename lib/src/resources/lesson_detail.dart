@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/lesson_details_cubit.dart';
 import 'package:vietnamese_learning/src/data/conversation_repository.dart';
+import 'package:vietnamese_learning/src/data/lesson_repository.dart';
 import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
@@ -19,7 +21,10 @@ import 'package:vietnamese_learning/src/resources/conversation_getstarted.dart';
 import 'package:vietnamese_learning/src/resources/quiz_getstarted.dart';
 import 'package:vietnamese_learning/src/resources/vocab_detail_screen.dart';
 import 'package:vietnamese_learning/src/states/lesson_details_state.dart';
+import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
+
+import '../constants.dart';
 
 class LessonDetail extends StatefulWidget {
   String lessonName;
@@ -35,11 +40,15 @@ class LessonDetail extends StatefulWidget {
 }
 
 class _LessonDetailState extends State<LessonDetail> {
+  VocabularyRepository _vocabularyRepository = new VocabularyRepository();
+  ConversationRepository _conversationRepository =  new ConversationRepository();
+  LessonRepository _lessonRepository = new LessonRepository();
   String title;
   String lessonId;
   Progress progress;
   double percent = 0;
   bool isDownload = true;
+  bool isUpdate = true;
   bool isProgressSync = true;
   List<Conversation> conversations = new List();
   List<Vocabulary> vocabularies = new List();
@@ -59,6 +68,7 @@ class _LessonDetailState extends State<LessonDetail> {
 
   _LessonDetailState({this.title, this.lessonId, this.progress});
 
+  
   Widget _progress(double progress) {
     return Container(
       width: 40,
@@ -135,6 +145,40 @@ class _LessonDetailState extends State<LessonDetail> {
           ),
         ),
       );
+    }if (isUpdate == false) {
+      return InkWell(
+        onTap: () async {
+          bool checkInternet = await checkConnectivity();
+          if(checkInternet == true) {
+            BlocProvider.of<LessonDetailsCubit>(context)
+                .downloadLesson(lessonId);
+          }
+        },
+        child: Container(
+          alignment: Alignment.centerRight,
+          width: SizeConfig.blockSizeHorizontal * 30,
+          height: SizeConfig.blockSizeVertical * 9,
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(
+                  CupertinoIcons.cloud_download,
+                  size: 30,
+                  color: Colors.blue,
+                ),
+              ),
+              Text(
+                "Update",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontFamily: 'Helvetica',
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     } else {
       if (isProgressSync == false) {
         return InkWell(
@@ -182,6 +226,11 @@ class _LessonDetailState extends State<LessonDetail> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -739,4 +788,6 @@ class _LessonDetailState extends State<LessonDetail> {
       ),
     );
   }
+
+
 }
