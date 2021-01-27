@@ -30,13 +30,14 @@ class LessonDetail extends StatefulWidget {
   String lessonName;
   String lessonId;
   Progress progress;
+  Lesson lesson;
 
-  LessonDetail({Key key, this.lessonName, this.lessonId, this.progress})
+  LessonDetail({Key key, this.lessonName, this.lessonId, this.progress, this.lesson})
       : super(key: key);
 
   @override
   _LessonDetailState createState() => _LessonDetailState(
-      title: lessonName, lessonId: lessonId, progress: progress);
+      title: lessonName, lessonId: lessonId, progress: progress, lesson: lesson);
 }
 
 class _LessonDetailState extends State<LessonDetail> {
@@ -56,6 +57,7 @@ class _LessonDetailState extends State<LessonDetail> {
   double converProgress = 0;
   double quizProgress = 0;
   SaveProgressLocal progressLocal;
+  Lesson lesson;
 
   Future<bool> checkConnectivity() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -66,7 +68,7 @@ class _LessonDetailState extends State<LessonDetail> {
     }
   }
 
-  _LessonDetailState({this.title, this.lessonId, this.progress});
+  _LessonDetailState({this.title, this.lessonId, this.progress, this.lesson});
 
   
   Widget _progress(double progress) {
@@ -238,7 +240,7 @@ class _LessonDetailState extends State<LessonDetail> {
         child: BlocProvider(
           create: (context) => LessonDetailsCubit(VocabularyRepository(),
               ConversationRepository(), ProgressRepository())
-            ..loadLessonFromLocalStorage(lessonId, progress),
+            ..loadLessonFromLocalStorage(lessonId, progress, lesson),
           child: BlocConsumer<LessonDetailsCubit, LessonDetailsState>(
             listener: (context, state) {
               if (state is DownloadingLesson) {
@@ -478,11 +480,13 @@ class _LessonDetailState extends State<LessonDetail> {
                                             },
                                           ),
                                         )
-                                            .whenComplete(() {
-                                          BlocProvider.of<LessonDetailsCubit>(context)
-                                              .loadLessonFromLocalStorage(
-                                              lessonId, progress);
-                                        });
+                                            ..then((data) {
+                                              if(data != 'No reload'){
+                                                BlocProvider.of<LessonDetailsCubit>(context)
+                                                    .loadLessonFromLocalStorage(
+                                                    lessonId, progress, lesson);
+                                              }
+                                            });
                                       }
                                     }
 
@@ -595,7 +599,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                               if(data != 'No reload'){
                                                 BlocProvider.of<LessonDetailsCubit>(context)
                                                     .loadLessonFromLocalStorage(
-                                                    lessonId, progress);
+                                                    lessonId, progress, lesson);
                                               }
                                         });
                                       }
@@ -706,7 +710,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                             .whenComplete(() {
                                           BlocProvider.of<LessonDetailsCubit>(context)
                                               .loadLessonFromLocalStorage(
-                                              lessonId, progress);
+                                              lessonId, progress, lesson);
                                         });
                                       }
                                     }

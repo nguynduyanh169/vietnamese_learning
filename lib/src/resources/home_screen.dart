@@ -337,6 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             beginnerLessons[index].lessonID,
                                             progress:
                                             beginnerLessons[index].progress,
+                                            lesson: beginnerLessons[index],
                                           ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
@@ -422,6 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             intermediateLessons[index].lessonID,
                                             progress:
                                             intermediateLessons[index].progress,
+                                            lesson: intermediateLessons[index],
                                           ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
@@ -507,6 +509,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             advancedLessons[index].lessonID,
                                             progress:
                                             advancedLessons[index].progress,
+                                            lesson: advancedLessons[index],
                                           ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {

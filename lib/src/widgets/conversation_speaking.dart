@@ -147,7 +147,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                     ),
                   ).then((value) {
                     if (value == 'yes') {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop('No reload');
                     }
                   });
                 }

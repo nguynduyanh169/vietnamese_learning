@@ -66,7 +66,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                   SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
                   IconButton(
                     icon: Icon(Icons.arrow_back_ios),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => Navigator.of(context).pop('No reload'),
                   ),
                   SizedBox(width: SizeConfig.blockSizeHorizontal * 5,),
                   FittedBox(

@@ -107,7 +107,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   ),
                 ).then((value) {
                   if (value == 'yes') {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop('No reload');
                   }
                 });
               }

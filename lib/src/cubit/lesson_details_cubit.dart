@@ -113,7 +113,7 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
     }
   }
 
-  Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress) async{
+  Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress, Lesson lessonAPI) async{
     SaveProgressLocal saveProgressLocal;
     bool isSyncProgress = false;
     bool isUpdate = false;
@@ -126,22 +126,17 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       isSyncProgress = true;
     }else{
       emit(LoadingLocalLesson());
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
       LessonRepository _lessonRepository = new LessonRepository();
-      String token = prefs.getString('accessToken');
-      List<Lesson> lessons = await _lessonRepository.getLessonsByLevelId(token);
       List<Lesson> lessonsLocal = await _lessonRepository.getLessonsLocal();
       DateTime apiTime;
       DateTime localTime;
       var connectivityResult = await (Connectivity().checkConnectivity());
       if(connectivityResult != ConnectivityResult.none){
-        Lesson api = new Lesson();
-        api = findLesson(lessonId, lessons);
         Lesson local = new Lesson();
         local = findLesson(lessonId, lessonsLocal);
-        apiTime = DateTime.parse(api.lessonUpdate.replaceAll('+00:00', ''));
+        apiTime = DateTime.parse(lessonAPI.lessonUpdate.replaceAll('+00:00', ''));
         localTime = DateTime.parse(local.lessonUpdate.replaceAll('+00:00', ''));
-        print('api: ' + apiTime.toLocal().toString() + ' word: ' + api.lessonName);
+        print('api: ' + apiTime.toLocal().toString() + ' word: ' + lessonAPI.lessonName);
         print('local: ' + localTime.toLocal().toString() + ' word: ' + local.lessonName);
         if(localTime.compareTo(apiTime) == 0){
           print(true);
