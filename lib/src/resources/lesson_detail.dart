@@ -234,496 +234,496 @@ class _LessonDetailState extends State<LessonDetail> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return BlocProvider(
-      create: (context) => LessonDetailsCubit(VocabularyRepository(),
-          ConversationRepository(), ProgressRepository())
-        ..loadLessonFromLocalStorage(lessonId, progress),
-      child: BlocConsumer<LessonDetailsCubit, LessonDetailsState>(
-        listener: (context, state) {
-          if (state is DownloadingLesson) {
-            percent = state.percent;
-          } else if (state is DownloadLessonFailed) {
-            print('Download Failed');
-          } else if (state is DownloadLessonSuccess) {
-            vocabularies = state.vocabularies;
-            conversations = state.conversations;
-            print('Success');
-            isDownload = true;
-          } else if (state is LoadingLocalLesson) {
-          } else if (state is LoadLocalLessonSuccess) {
-            vocabularies = state.vocabularies;
-            conversations = state.conversations;
-            progressLocal = state.progressLocal;
-            converProgress = progressLocal.converProgress;
-            vocabProgress = progressLocal.vocabProgress;
-            quizProgress = progressLocal.quizProgress;
-            isProgressSync = state.isSyncProgress;
-            isUpdate = state.isUpdated;
-            print(isDownload);
-          } else if (state is CannotLoadLocalLesson) {
-            isDownload = false;
-            progressLocal = state.progressLocal;
-            converProgress = progressLocal.converProgress;
-            vocabProgress = progressLocal.vocabProgress;
-            quizProgress = progressLocal.quizProgress;
-            isProgressSync = state.isSyncProgress;
-            Toast.show(state.message, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                backgroundColor: Colors.redAccent,
-                textColor: Colors.white);
-          } else if (state is SyncingProgress) {
-            print('Sync');
-            CustomProgressDialog.progressDialog(context);
-          } else if (state is SyncProgressSuccess) {
-            Navigator.pop(context);
-            print('success');
-            isProgressSync = true;
-            progressLocal = state.newProgressLocal;
-            converProgress = progressLocal.converProgress;
-            vocabProgress = progressLocal.vocabProgress;
-            quizProgress = progressLocal.quizProgress;
-          } else if(state is SyncProgressFailed){
-            Navigator.pop(context);
-            isProgressSync = false;
-            print('failed');
-            Toast.show(state.message, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                backgroundColor: Colors.redAccent,
-                textColor: Colors.white);
-          }
-        },
-        builder: (context, state) {
-          if (state is DownloadingLesson) {
-            return _loading();
-          } else {
-            return Scaffold(
-              body: Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 239, 215, 100),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 0.1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            FlatButton.icon(
-                              icon: Icon(
-                                CupertinoIcons.back,
-                                color: Colors.black,
-                                size: 20,
-                              ),
-                              label: Text(
-                                "Back",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 42,
-                            ),
-                            _button(context)
-                          ],
-                        ),
+    return WillPopScope(
+        child: BlocProvider(
+          create: (context) => LessonDetailsCubit(VocabularyRepository(),
+              ConversationRepository(), ProgressRepository())
+            ..loadLessonFromLocalStorage(lessonId, progress),
+          child: BlocConsumer<LessonDetailsCubit, LessonDetailsState>(
+            listener: (context, state) {
+              if (state is DownloadingLesson) {
+                percent = state.percent;
+              } else if (state is DownloadLessonFailed) {
+                print('Download Failed');
+              } else if (state is DownloadLessonSuccess) {
+                vocabularies = state.vocabularies;
+                conversations = state.conversations;
+                print('Success');
+                isDownload = true;
+              } else if (state is LoadingLocalLesson) {
+              } else if (state is LoadLocalLessonSuccess) {
+                vocabularies = state.vocabularies;
+                conversations = state.conversations;
+                progressLocal = state.progressLocal;
+                converProgress = progressLocal.converProgress;
+                vocabProgress = progressLocal.vocabProgress;
+                quizProgress = progressLocal.quizProgress;
+                isProgressSync = state.isSyncProgress;
+              } else if (state is CannotLoadLocalLesson) {
+                isDownload = false;
+                progressLocal = state.progressLocal;
+                converProgress = progressLocal.converProgress;
+                vocabProgress = progressLocal.vocabProgress;
+                quizProgress = progressLocal.quizProgress;
+                isProgressSync = state.isSyncProgress;
+                Toast.show(state.message, context,
+                    duration: Toast.LENGTH_LONG,
+                    gravity: Toast.BOTTOM,
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white);
+              } else if (state is SyncingProgress) {
+                print('Sync');
+                CustomProgressDialog.progressDialog(context);
+              } else if (state is SyncProgressSuccess) {
+                Navigator.pop(context);
+                print('success');
+                isProgressSync = true;
+                progressLocal = state.newProgressLocal;
+                converProgress = progressLocal.converProgress;
+                vocabProgress = progressLocal.vocabProgress;
+                quizProgress = progressLocal.quizProgress;
+              } else if(state is SyncProgressFailed){
+                Navigator.pop(context);
+                isProgressSync = false;
+                print('failed');
+                Toast.show(state.message, context,
+                    duration: Toast.LENGTH_LONG,
+                    gravity: Toast.BOTTOM,
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white);
+              }
+            },
+            builder: (context, state) {
+              if (state is DownloadingLesson) {
+                return _loading();
+              } else {
+                return Scaffold(
+                  body: Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(255, 239, 215, 100),
                       ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        width: SizeConfig.blockSizeHorizontal * 87,
-                        child: Text(
-                          "$title",
-                          style: TextStyle(
-                            fontSize: 29,
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.black12,
-                              width: 1.0,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeVertical * 0.1),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                FlatButton.icon(
+                                  icon: Icon(
+                                    CupertinoIcons.back,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                  label: Text(
+                                    "Back",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                                SizedBox(
+                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                ),
+                                _button(context)
+                              ],
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 0,
-                            left: SizeConfig.blockSizeHorizontal * 5,
-                            right: SizeConfig.blockSizeHorizontal * 5),
-                        height: SizeConfig.blockSizeVertical * 84,
-                        // card height
-                        child: ListView(
-                          children: <Widget>[
-                            InkWell(
-                              child: Card(
-                                color: Colors.green,
-                                elevation: 6,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    19,
-                                          ),
-                                          child: Text(
-                                            'Vocabulary',
-                                            style: TextStyle(
-                                                fontFamily: 'Helvetica',
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                top: 4, right: 4),
-                                            child: _progress(vocabProgress),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 1,
-                                    ),
-                                    Container(
-                                      child: Image(
-                                        image: AssetImage(
-                                            'assets/images/vocabulary_logo.png'),
-                                        width: 90,
-                                        height: 90,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 1,
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        'Vocabulary is the key to mastering a language',
-                                        style: TextStyle(
-                                            fontFamily: 'Helvetica',
-                                            fontSize: 12),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 2,
-                                    ),
-                                  ],
+                          Container(
+                            alignment: Alignment.topLeft,
+                            width: SizeConfig.blockSizeHorizontal * 87,
+                            child: Text(
+                              "$title",
+                              style: TextStyle(
+                                fontSize: 29,
+                                fontFamily: 'Helvetica',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black12,
+                                  width: 1.0,
                                 ),
                               ),
-                              onTap: () {
-                                if(isDownload == false){
-                                  Toast.show(
-                                      'Please download lesson before learn!',
-                                      context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.BOTTOM,
-                                      backgroundColor: Colors.redAccent,
-                                      textColor: Colors.white);
-                                }else{
-                                  if (vocabularies.isEmpty) {
-                                    Toast.show(
-                                        'This lesson has not updated vocabulary part!',
-                                        context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.BOTTOM,
-                                        backgroundColor: Colors.redAccent,
-                                        textColor: Colors.white);
-                                  } else {
-                                    Navigator.of(context)
-                                        .push(
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                            VocabDetailScreen(
-                                              lessonId: lessonId,
-                                              lessonName: title,
-                                              vocabularies: vocabularies,
-                                            ),
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          var begin = Offset(1.0, 0.0);
-                                          var end = Offset.zero;
-                                          var curve = Curves.ease;
-                                          var tween = Tween(
-                                              begin: begin, end: end)
-                                              .chain(CurveTween(curve: curve));
-                                          return SlideTransition(
-                                            position: animation.drive(tween),
-                                            child: child,
-                                          );
-                                        },
-                                      ),
-                                    )
-                                        .whenComplete(() {
-                                      BlocProvider.of<LessonDetailsCubit>(context)
-                                          .loadLessonFromLocalStorage(
-                                          lessonId, progress);
-                                    });
-                                  }
-                                }
-
-                              },
                             ),
-                            InkWell(
-                              child: Card(
-                                color: Colors.amberAccent,
-                                elevation: 6,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                child: Column(children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 1,
-                                          right:
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 0,
+                                left: SizeConfig.blockSizeHorizontal * 5,
+                                right: SizeConfig.blockSizeHorizontal * 5),
+                            height: SizeConfig.blockSizeVertical * 84,
+                            // card height
+                            child: ListView(
+                              children: <Widget>[
+                                InkWell(
+                                  child: Card(
+                                    color: Colors.green,
+                                    elevation: 6,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0)),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                top: SizeConfig.blockSizeVertical *
+                                                    1,
+                                                right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    19,
+                                              ),
+                                              child: Text(
+                                                'Vocabulary',
+                                                style: TextStyle(
+                                                    fontFamily: 'Helvetica',
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    top: 4, right: 4),
+                                                child: _progress(vocabProgress),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        Container(
+                                          child: Image(
+                                            image: AssetImage(
+                                                'assets/images/vocabulary_logo.png'),
+                                            width: 90,
+                                            height: 90,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            'Vocabulary is the key to mastering a language',
+                                            style: TextStyle(
+                                                fontFamily: 'Helvetica',
+                                                fontSize: 12),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: SizeConfig.blockSizeVertical * 2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    if(isDownload == false){
+                                      Toast.show(
+                                          'Please download lesson before learn!',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.BOTTOM,
+                                          backgroundColor: Colors.redAccent,
+                                          textColor: Colors.white);
+                                    }else{
+                                      if (vocabularies.isEmpty) {
+                                        Toast.show(
+                                            'This lesson has not updated vocabulary part!',
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.BOTTOM,
+                                            backgroundColor: Colors.redAccent,
+                                            textColor: Colors.white);
+                                      } else {
+                                        Navigator.of(context)
+                                            .push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                                VocabDetailScreen(
+                                                  lessonId: lessonId,
+                                                  lessonName: title,
+                                                  vocabularies: vocabularies,
+                                                ),
+                                            transitionsBuilder: (context, animation,
+                                                secondaryAnimation, child) {
+                                              var begin = Offset(1.0, 0.0);
+                                              var end = Offset.zero;
+                                              var curve = Curves.ease;
+                                              var tween = Tween(
+                                                  begin: begin, end: end)
+                                                  .chain(CurveTween(curve: curve));
+                                              return SlideTransition(
+                                                position: animation.drive(tween),
+                                                child: child,
+                                              );
+                                            },
+                                          ),
+                                        )
+                                            .whenComplete(() {
+                                          BlocProvider.of<LessonDetailsCubit>(context)
+                                              .loadLessonFromLocalStorage(
+                                              lessonId, progress);
+                                        });
+                                      }
+                                    }
+
+                                  },
+                                ),
+                                InkWell(
+                                  child: Card(
+                                    color: Colors.amberAccent,
+                                    elevation: 6,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0)),
+                                    child: Column(children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical * 1,
+                                              right:
                                               SizeConfig.blockSizeHorizontal *
                                                   16,
-                                        ),
-                                        child: Text(
-                                          'Conversation',
-                                          style: TextStyle(
-                                              fontFamily: 'Helvetica',
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Container(
-                                          padding:
-                                              EdgeInsets.only(top: 4, right: 4),
-                                          child: _progress(converProgress),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 1),
-                                    child: Image(
-                                      image: AssetImage(
-                                          'assets/images/conversation_logo.png'),
-                                      width: 90,
-                                      height: 90,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 1,
-                                        bottom:
-                                            SizeConfig.blockSizeVertical * 2),
-                                    child: Text(
-                                      'Conversation makes you feel more confident',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 12),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                ]),
-                              ),
-                              onTap: () {
-                                if(isDownload == false){
-                                  Toast.show(
-                                      'Please download lesson before learn!',
-                                      context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.BOTTOM,
-                                      backgroundColor: Colors.redAccent,
-                                      textColor: Colors.white);
-                                }else{
-                                  if (conversations.isEmpty) {
-                                    Toast.show(
-                                        'This lesson has not updated conversation part!',
-                                        context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.BOTTOM,
-                                        backgroundColor: Colors.redAccent,
-                                        textColor: Colors.white);
-                                  } else {
-                                    Navigator.of(context)
-                                        .push(
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                            ConversationGetStarted(
-                                              lessonId: lessonId,
-                                              lessonName: title,
-                                              conversations: conversations,
                                             ),
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          var begin = Offset(1.0, 0.0);
-                                          var end = Offset.zero;
-                                          var curve = Curves.ease;
-                                          var tween = Tween(
-                                              begin: begin, end: end)
-                                              .chain(CurveTween(curve: curve));
-                                          return SlideTransition(
-                                            position: animation.drive(tween),
-                                            child: child,
-                                          );
-                                        },
+                                            child: Text(
+                                              'Conversation',
+                                              style: TextStyle(
+                                                  fontFamily: 'Helvetica',
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Container(
+                                              padding:
+                                              EdgeInsets.only(top: 4, right: 4),
+                                              child: _progress(converProgress),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                        .whenComplete(() {
-                                      BlocProvider.of<LessonDetailsCubit>(context)
-                                          .loadLessonFromLocalStorage(
-                                          lessonId, progress);
-                                    });
-                                  }
-                                }
-
-                              },
-                            ),
-                            InkWell(
-                              child: Card(
-                                color: Colors.lightBlue,
-                                elevation: 6,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                child: Column(children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
                                       Container(
                                         padding: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 2,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  27,
-                                        ),
-                                        child: Text(
-                                          'Quiz',
-                                          style: TextStyle(
-                                              fontFamily: 'Helvetica',
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500),
+                                            top: SizeConfig.blockSizeVertical * 1),
+                                        child: Image(
+                                          image: AssetImage(
+                                              'assets/images/conversation_logo.png'),
+                                          width: 90,
+                                          height: 90,
                                         ),
                                       ),
                                       Container(
-                                        child: Container(
-                                          padding:
-                                              EdgeInsets.only(top: 4, right: 4),
-                                          child: _progress(quizProgress),
+                                        padding: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            bottom:
+                                            SizeConfig.blockSizeVertical * 2),
+                                        child: Text(
+                                          'Conversation makes you feel more confident',
+                                          style: TextStyle(
+                                              fontFamily: 'Helvetica',
+                                              fontSize: 12),
+                                          textAlign: TextAlign.center,
                                         ),
                                       )
-                                    ],
+                                    ]),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 1),
-                                    child: Image(
-                                      image: AssetImage(
-                                          'assets/images/quiz_logo.png'),
-                                      width: 90,
-                                      height: 90,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 1,
-                                        bottom:
-                                            SizeConfig.blockSizeVertical * 2,
-                                        left: 4.0,
-                                        right: 4.0),
-                                    child: Text(
-                                      'Do the quiz to test your memory',
-                                      style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 12),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                ]),
-                              ),
-                              onTap: () async {
-                                bool checkInternet = await checkConnectivity();
-                                if(checkInternet == true){
-                                  print(converProgress);
-                                  if (vocabProgress < 8 ||
-                                      converProgress < 8) {
-                                    Toast.show(
-                                        'You need to finish the lesson before do the quiz',
-                                        context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.BOTTOM,
-                                        backgroundColor: Colors.redAccent,
-                                        textColor: Colors.white);
-                                  } else {
-                                    Navigator.of(context)
-                                        .push(
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                            QuizGetStarted(
-                                              lessonId: lessonId,
-                                              progress: progress,
-                                              lessonName: title,
+                                  onTap: () {
+                                    if(isDownload == false){
+                                      Toast.show(
+                                          'Please download lesson before learn!',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.BOTTOM,
+                                          backgroundColor: Colors.redAccent,
+                                          textColor: Colors.white);
+                                    }else{
+                                      if (conversations.isEmpty) {
+                                        Toast.show(
+                                            'This lesson has not updated conversation part!',
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.BOTTOM,
+                                            backgroundColor: Colors.redAccent,
+                                            textColor: Colors.white);
+                                      } else {
+                                        Navigator.of(context)
+                                            .push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                                ConversationGetStarted(
+                                                  lessonId: lessonId,
+                                                  lessonName: title,
+                                                  conversations: conversations,
+                                                ),
+                                            transitionsBuilder: (context, animation,
+                                                secondaryAnimation, child) {
+                                              var begin = Offset(1.0, 0.0);
+                                              var end = Offset.zero;
+                                              var curve = Curves.ease;
+                                              var tween = Tween(
+                                                  begin: begin, end: end)
+                                                  .chain(CurveTween(curve: curve));
+                                              return SlideTransition(
+                                                position: animation.drive(tween),
+                                                child: child,
+                                              );
+                                            },
+                                          ),
+                                        )
+                                            .whenComplete(() {
+                                          BlocProvider.of<LessonDetailsCubit>(context)
+                                              .loadLessonFromLocalStorage(
+                                              lessonId, progress);
+                                        });
+                                      }
+                                    }
+
+                                  },
+                                ),
+                                InkWell(
+                                  child: Card(
+                                    color: Colors.lightBlue,
+                                    elevation: 6,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0)),
+                                    child: Column(children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical * 2,
+                                              right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  27,
                                             ),
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          var begin = Offset(1.0, 0.0);
-                                          var end = Offset.zero;
-                                          var curve = Curves.ease;
-                                          var tween = Tween(
-                                              begin: begin, end: end)
-                                              .chain(CurveTween(curve: curve));
-                                          return SlideTransition(
-                                            position: animation.drive(tween),
-                                            child: child,
-                                          );
-                                        },
+                                            child: Text(
+                                              'Quiz',
+                                              style: TextStyle(
+                                                  fontFamily: 'Helvetica',
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Container(
+                                              padding:
+                                              EdgeInsets.only(top: 4, right: 4),
+                                              child: _progress(quizProgress),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                        .whenComplete(() {
-                                      BlocProvider.of<LessonDetailsCubit>(context)
-                                          .loadLessonFromLocalStorage(
-                                          lessonId, progress);
-                                    });
-                                  }
-                                }
-                                else{
-                                  Toast.show(
-                                      'Please connect internet to do quiz!',
-                                      context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.BOTTOM,
-                                      backgroundColor: Colors.redAccent,
-                                      textColor: Colors.white);
-                                }
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  )),
-            );
-          }
-        },
-      ),
-    );
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1),
+                                        child: Image(
+                                          image: AssetImage(
+                                              'assets/images/quiz_logo.png'),
+                                          width: 90,
+                                          height: 90,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            bottom:
+                                            SizeConfig.blockSizeVertical * 2,
+                                            left: 4.0,
+                                            right: 4.0),
+                                        child: Text(
+                                          'Do the quiz to test your memory',
+                                          style: TextStyle(
+                                              fontFamily: 'Helvetica',
+                                              fontSize: 12),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      )
+                                    ]),
+                                  ),
+                                  onTap: () async {
+                                    bool checkInternet = await checkConnectivity();
+                                    if(checkInternet == true){
+                                      print(converProgress);
+                                      if (vocabProgress < 8 ||
+                                          converProgress < 8) {
+                                        Toast.show(
+                                            'You need to finish the lesson before do the quiz',
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.BOTTOM,
+                                            backgroundColor: Colors.redAccent,
+                                            textColor: Colors.white);
+                                      } else {
+                                        Navigator.of(context)
+                                            .push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                                QuizGetStarted(
+                                                  lessonId: lessonId,
+                                                  progress: progress,
+                                                  lessonName: title,
+                                                ),
+                                            transitionsBuilder: (context, animation,
+                                                secondaryAnimation, child) {
+                                              var begin = Offset(1.0, 0.0);
+                                              var end = Offset.zero;
+                                              var curve = Curves.ease;
+                                              var tween = Tween(
+                                                  begin: begin, end: end)
+                                                  .chain(CurveTween(curve: curve));
+                                              return SlideTransition(
+                                                position: animation.drive(tween),
+                                                child: child,
+                                              );
+                                            },
+                                          ),
+                                        )
+                                            .whenComplete(() {
+                                          BlocProvider.of<LessonDetailsCubit>(context)
+                                              .loadLessonFromLocalStorage(
+                                              lessonId, progress);
+                                        });
+                                      }
+                                    }
+                                    else{
+                                      Toast.show(
+                                          'Please connect internet to do quiz!',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.BOTTOM,
+                                          backgroundColor: Colors.redAccent,
+                                          textColor: Colors.white);
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                );
+              }
+            },
+          ),
+        ),
+        onWillPop: () => Future.value(false));
   }
 
   Widget _loading() {

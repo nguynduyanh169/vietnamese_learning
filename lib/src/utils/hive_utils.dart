@@ -107,6 +107,7 @@ class HiveUtils {
 
   Future<String> downloadFile(String url) async {
     String filePath;
+    print(url);
     var httpClient = new HttpClient();
     var request = await httpClient.getUrl(Uri.parse(url));
     var response = await request.close();

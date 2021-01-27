@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reorderables/reorderables.dart';
+import 'package:toast/toast.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/cubit/learn_conversation_cubit.dart';
@@ -75,6 +77,15 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
       percent = conversationIndex * 0.1;
       conversationIndex = conversationIndex + 1;
     });
+  }
+
+  Future<bool> checkConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if(connectivityResult == ConnectivityResult.none){
+      return false;
+    }else{
+      return true;
+    }
   }
 
   void speakingButton(BuildContext context) {
@@ -596,18 +607,27 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                               ),
                               Center(
                                 child: FlatButton(
-                                  onPressed: () {
-                                    if (_isRecording == false) {
-                                      setState(() {
-                                        recognizeFinished = false;
-                                        _isRecording = true;
-                                      });
-                                      _start();
-                                    } else {
-                                      setState(() {
-                                        _isRecording = false;
-                                      });
-                                      _stop();
+                                  onPressed: () async{
+                                    bool checkInternet = await checkConnectivity();
+                                    if(checkInternet == true){
+                                      if (_isRecording == false) {
+                                        setState(() {
+                                          recognizeFinished = false;
+                                          _isRecording = true;
+                                        });
+                                        _start();
+                                      } else {
+                                        setState(() {
+                                          _isRecording = false;
+                                        });
+                                        _stop();
+                                      }
+                                    }else {
+                                      Toast.show('Please connect internet to record voice!', context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Colors.redAccent,
+                                          textColor: Colors.white);
                                     }
                                   },
                                   color: Color.fromRGBO(255, 190, 51, 30),
@@ -905,11 +925,13 @@ class _RecognizeContent extends StatelessWidget {
 
   const _RecognizeContent({Key key, this.text}) : super(key: key);
 
-  Widget _recognizeResult(){
+  Widget _recognizeResult() {
     double result = double.parse(text) / 100;
-    if(result == 1) {
+    if (result == 1) {
       return Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 60,
         height: SizeConfig.blockSizeVertical * 15,
         decoration: BoxDecoration(
@@ -921,32 +943,40 @@ class _RecognizeContent extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Perfect!',), Container(
-            margin: const EdgeInsets.all(2.0),
-            child: Padding(padding: const EdgeInsets.all(4.0),
-              child: CircularPercentIndicator(
-                radius: 70,
-                lineWidth: 5.0,
-                animation: true,
-                percent: double.parse(text)/100,
-                center: new Text(
-                  "${double.parse(text).toStringAsFixed(1)}%",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.green,
-                      fontFamily: "Helvetica"),
-                ),
-                circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.green,
-              ),
+          children: [
+            Text(
+              'Perfect!',
             ),
-          )],
+            Container(
+              margin: const EdgeInsets.all(2.0),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text) / 100,
+                  center: new Text(
+                    "${double.parse(text).toStringAsFixed(1)}%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
+                ),
+              ),
+            )
+          ],
         ),
       );
-    }else if(result >= 0.6 && result < 1){
+    } else if (result >= 0.8 && result < 1) {
       return Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 60,
         height: SizeConfig.blockSizeVertical * 15,
         decoration: BoxDecoration(
@@ -958,32 +988,38 @@ class _RecognizeContent extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Almost correct!'), Container(
-            margin: const EdgeInsets.all(2.0),
-            child: Padding(padding: const EdgeInsets.all(4.0),
-              child: CircularPercentIndicator(
-                radius: 70,
-                lineWidth: 5.0,
-                animation: true,
-                percent: double.parse(text)/100,
-                center: new Text(
-                  "${double.parse(text).toStringAsFixed(1)}%",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.green,
-                      fontFamily: "Helvetica"),
+          children: [
+            Text('Almost correct!'),
+            Container(
+              margin: const EdgeInsets.all(2.0),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text) / 100,
+                  center: new Text(
+                    "${double.parse(text).toStringAsFixed(1)}%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
                 ),
-                circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.green,
               ),
-            ),
-          )],
+            )
+          ],
         ),
       );
-    }else{
+    } else if(result >= 0.5 && result < 0.8 ){
       return Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
         width: SizeConfig.blockSizeHorizontal * 60,
         height: SizeConfig.blockSizeVertical * 15,
         decoration: BoxDecoration(
@@ -995,27 +1031,74 @@ class _RecognizeContent extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Pretty good!'), Container(
-            margin: const EdgeInsets.all(2.0),
-            child: Padding(padding: const EdgeInsets.all(4.0),
-              child: CircularPercentIndicator(
-                radius: 70,
-                lineWidth: 5.0,
-                animation: true,
-                percent: double.parse(text)/100,
-                center: new Text(
-                  "${double.parse(text).toStringAsFixed(1)}%",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.green,
-                      fontFamily: "Helvetica"),
+          children: [
+            Text('Pretty good!'),
+            Container(
+              margin: const EdgeInsets.all(2.0),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text) / 100,
+                  center: new Text(
+                    "${double.parse(text).toStringAsFixed(1)}%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
                 ),
-                circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.green,
               ),
-            ),
-          )],
+            )
+          ],
+        ),
+      );
+    }else {
+      return Container(
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 5,
+            right: SizeConfig.blockSizeHorizontal * 5),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        height: SizeConfig.blockSizeVertical * 15,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.blue,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Limited!'),
+            Container(
+              margin: const EdgeInsets.all(2.0),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CircularPercentIndicator(
+                  radius: 70,
+                  lineWidth: 5.0,
+                  animation: true,
+                  percent: double.parse(text) / 100,
+                  center: new Text(
+                    "${double.parse(text).toStringAsFixed(1)}%",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.green,
+                        fontFamily: "Helvetica"),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.green,
+                ),
+              ),
+            )
+          ],
         ),
       );
     }
