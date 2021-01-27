@@ -32,6 +32,7 @@ class ProfileCubit extends Cubit<ProfileState>{
       _hiveUtils.deleteBox(HiveBoxName.JSON_BOX);
       _hiveUtils.deleteBox(HiveBoxName.CACHE_FILE_BOX);
       _hiveUtils.deleteBox(HiveBoxName.PROGRESS_BOX);
+      _hiveUtils.deleteBox(HiveBoxName.LOCAL_LESSON);
       emit(LogoutSuccess());
     }on Exception{
       emit(LogoutFailed('Logout Failed!'));

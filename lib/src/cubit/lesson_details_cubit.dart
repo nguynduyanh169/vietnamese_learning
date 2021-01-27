@@ -114,7 +114,6 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   }
 
   Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress) async{
-    emit(LoadingLocalLesson());
     SaveProgressLocal saveProgressLocal;
     bool isSyncProgress = false;
     bool isUpdate = false;
@@ -126,41 +125,37 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       _hiveUtils.addProgress(progressLocal: saveProgressLocal, boxName: HiveBoxName.PROGRESS_BOX);
       isSyncProgress = true;
     }else{
-      try{
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        LessonRepository _lessonRepository = new LessonRepository();
-        String token = prefs.getString('accessToken');
-        List<Lesson> lessons = await _lessonRepository.getLessonsByLevelId(token);
-        List<Lesson> lessonsLocal = await _lessonRepository.getLessonsLocal();
-        DateTime apiTime;
-        DateTime localTime;
-        var connectivityResult = await (Connectivity().checkConnectivity());
-        if(connectivityResult != ConnectivityResult.none){
-          HiveUtils _hiveUtils = new HiveUtils();
-          Lesson api = new Lesson();
-          api = findLesson(lessonId, lessons);
-          Lesson local = new Lesson();
-          local = findLesson(lessonId, lessonsLocal);
-          apiTime = DateTime.parse(api.lessonUpdate.replaceAll('+00:00', ''));
-          localTime = DateTime.parse(local.lessonUpdate.replaceAll('+00:00', ''));
-          print('api: ' + apiTime.toLocal().toString() + ' word: ' + api.lessonName);
-          print('local: ' + localTime.toLocal().toString() + ' word: ' + local.lessonName);
-          if(localTime.compareTo(apiTime) == 0){
-            print(true);
-            isUpdate = true;
-          }else{
-            print(false);
-            isUpdate = false;
-          }
+      emit(LoadingLocalLesson());
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      LessonRepository _lessonRepository = new LessonRepository();
+      String token = prefs.getString('accessToken');
+      List<Lesson> lessons = await _lessonRepository.getLessonsByLevelId(token);
+      List<Lesson> lessonsLocal = await _lessonRepository.getLessonsLocal();
+      DateTime apiTime;
+      DateTime localTime;
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if(connectivityResult != ConnectivityResult.none){
+        Lesson api = new Lesson();
+        api = findLesson(lessonId, lessons);
+        Lesson local = new Lesson();
+        local = findLesson(lessonId, lessonsLocal);
+        apiTime = DateTime.parse(api.lessonUpdate.replaceAll('+00:00', ''));
+        localTime = DateTime.parse(local.lessonUpdate.replaceAll('+00:00', ''));
+        print('api: ' + apiTime.toLocal().toString() + ' word: ' + api.lessonName);
+        print('local: ' + localTime.toLocal().toString() + ' word: ' + local.lessonName);
+        if(localTime.compareTo(apiTime) == 0){
+          print(true);
+          isUpdate = true;
         }else{
-          print('local');
+          print(false);
+          isUpdate = false;
         }
-      } on Exception{
+      }else{
+        print('local');
       }
       saveProgressLocal = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonId);
       DateTime localProgressUpdateDate = saveProgressLocal.updateTime;
       DateTime apiProgressDate = DateTime.parse(progress.updateDate.replaceAll('+00:00', ''));
-
       if(localProgressUpdateDate.compareTo(apiProgressDate) == 0){
         isSyncProgress = true;
       }else{
@@ -176,13 +171,9 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
     }
   }
 
-  Future<bool> checkUpdate(String lessonIdAPI) async {
-
-  }
-
   Lesson findLesson(String lessonID, List<Lesson> lessons){
     Lesson result = new Lesson();
-    for(int i = 0; i <lessons.length; i++){
+    for(int i = 0; i < lessons.length; i++){
       if(lessonID == lessons[i].lessonID){
         result = lessons[i];
       }

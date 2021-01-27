@@ -251,7 +251,10 @@ class _LessonDetailState extends State<LessonDetail> {
                 print('Success');
                 isDownload = true;
               } else if (state is LoadingLocalLesson) {
+                print('loading local');
+                CustomProgressDialog.progressDialog(context);
               } else if (state is LoadLocalLessonSuccess) {
+                print('success');
                 vocabularies = state.vocabularies;
                 conversations = state.conversations;
                 progressLocal = state.progressLocal;
@@ -259,6 +262,8 @@ class _LessonDetailState extends State<LessonDetail> {
                 vocabProgress = progressLocal.vocabProgress;
                 quizProgress = progressLocal.quizProgress;
                 isProgressSync = state.isSyncProgress;
+                isUpdate = state.isUpdated;
+                Navigator.pop(context);
               } else if (state is CannotLoadLocalLesson) {
                 isDownload = false;
                 progressLocal = state.progressLocal;
@@ -266,6 +271,7 @@ class _LessonDetailState extends State<LessonDetail> {
                 vocabProgress = progressLocal.vocabProgress;
                 quizProgress = progressLocal.quizProgress;
                 isProgressSync = state.isSyncProgress;
+                Navigator.pop(context);
                 Toast.show(state.message, context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,
@@ -585,10 +591,12 @@ class _LessonDetailState extends State<LessonDetail> {
                                             },
                                           ),
                                         )
-                                            .whenComplete(() {
-                                          BlocProvider.of<LessonDetailsCubit>(context)
-                                              .loadLessonFromLocalStorage(
-                                              lessonId, progress);
+                                            .then((data) {
+                                              if(data != 'No reload'){
+                                                BlocProvider.of<LessonDetailsCubit>(context)
+                                                    .loadLessonFromLocalStorage(
+                                                    lessonId, progress);
+                                              }
                                         });
                                       }
                                     }
@@ -788,6 +796,4 @@ class _LessonDetailState extends State<LessonDetail> {
       ),
     );
   }
-
-
 }

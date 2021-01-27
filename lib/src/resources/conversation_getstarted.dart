@@ -34,7 +34,7 @@ class ConversationGetStarted extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.arrow_back_ios),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).pop('No reload'),
               ),
               Text(
                 'Conversation',
