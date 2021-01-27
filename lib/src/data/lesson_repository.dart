@@ -8,4 +8,8 @@ class LessonRepository {
   Future<List<Lesson>> getLessonsByLevelId(String token) {
     return _lessonProvider.getLessonByLevel(token);
   }
+
+  Future<List<Lesson>> getLessonsLocal() {
+    return _lessonProvider.getLessonLocal();
+  }
 }

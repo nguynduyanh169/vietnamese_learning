@@ -46,4 +46,5 @@ class HiveBoxName{
   static const String CACHE_FILE_BOX = 'CacheFile';
   static const String PROGRESS_BOX = 'Progress';
   static const String JSON_BOX = 'JSON';
+  static const String LOCAL_LESSON = 'LocalLesson';
 }

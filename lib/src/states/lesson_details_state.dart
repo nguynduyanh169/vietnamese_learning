@@ -35,7 +35,8 @@ class LoadLocalLessonSuccess extends LessonDetailsState{
   final List<Conversation> conversations;
   final SaveProgressLocal progressLocal;
   final bool isSyncProgress;
-  const LoadLocalLessonSuccess(this.vocabularies, this.conversations, this.progressLocal, this.isSyncProgress);
+  final bool isUpdated;
+  const LoadLocalLessonSuccess(this.vocabularies, this.conversations, this.progressLocal, this.isSyncProgress, this.isUpdated);
 }
 
 class CannotLoadLocalLesson extends LessonDetailsState{

@@ -36,6 +36,11 @@ class HiveUtils {
     openBox.put(responseAPI.name, responseAPI);
   }
 
+  addLesson(ResponseAPI responseAPI, String boxName) {
+    final openBox = Hive.box(boxName);
+    openBox.put(responseAPI.name, responseAPI);
+  }
+
   addProgress({SaveProgressLocal progressLocal, String boxName}){
     final openBox = Hive.box(boxName);
     openBox.put(progressLocal.lessonID, progressLocal);
@@ -117,4 +122,8 @@ class HiveUtils {
     return file.path;
   }
 
+  deleteValue(String boxName, String url){
+    final openBox = Hive.box(boxName);
+    openBox.delete(url);
+  }
 }
