@@ -255,7 +255,7 @@ class _LessonDetailState extends State<LessonDetail> {
                 isDownload = true;
               } else if (state is LoadingLocalLesson) {
                 print('loading local');
-                CustomProgressDialog.progressDialog(context);
+                //CustomProgressDialog.progressDialog(context);
               } else if (state is LoadLocalLessonSuccess) {
                 print('success');
                 vocabularies = state.vocabularies;
@@ -266,7 +266,7 @@ class _LessonDetailState extends State<LessonDetail> {
                 quizProgress = progressLocal.quizProgress;
                 isProgressSync = state.isSyncProgress;
                 isUpdate = state.isUpdated;
-                Navigator.pop(context);
+                //Navigator.pop(context);
               } else if (state is CannotLoadLocalLesson) {
                 isDownload = false;
                 progressLocal = state.progressLocal;
@@ -274,18 +274,16 @@ class _LessonDetailState extends State<LessonDetail> {
                 vocabProgress = progressLocal.vocabProgress;
                 quizProgress = progressLocal.quizProgress;
                 isProgressSync = state.isSyncProgress;
-                Navigator.pop(context);
+                //Navigator.pop(context);
                 Toast.show(state.message, context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,
                     backgroundColor: Colors.redAccent,
                     textColor: Colors.white);
               } else if (state is SyncingProgress) {
-                print('Sync');
                 CustomProgressDialog.progressDialog(context);
               } else if (state is SyncProgressSuccess) {
                 Navigator.pop(context);
-                print('success');
                 isProgressSync = true;
                 progressLocal = state.newProgressLocal;
                 converProgress = progressLocal.converProgress;
@@ -294,7 +292,6 @@ class _LessonDetailState extends State<LessonDetail> {
               } else if(state is SyncProgressFailed){
                 Navigator.pop(context);
                 isProgressSync = false;
-                print('failed');
                 Toast.show(state.message, context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,

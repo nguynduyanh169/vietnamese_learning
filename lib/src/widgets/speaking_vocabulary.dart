@@ -263,10 +263,9 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               child: FlatButton(
                   color: Color.fromRGBO(255, 190, 51, 30),
                   onPressed: () {
-                    caculateMark(answerMark);
-                    // if(similarity(widget.vietnamese, text) >= 0.8){
-                    //   caculateMark(0.3125);
-                    // }
+                    if(similarity(widget.vietnamese, text) >= 0.8){
+                      caculateMark(answerMark);
+                    }
                     widget.next(widget.vocabularyContext);
                   },
                   child: Container(

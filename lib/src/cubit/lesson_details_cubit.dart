@@ -130,6 +130,7 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   }
 
   Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress, Lesson lessonAPI) async{
+    emit(LoadingLocalLesson());
     SaveProgressLocal saveProgressLocal;
     bool isSyncProgress = false;
     bool isUpdate = true;
@@ -141,7 +142,6 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       _hiveUtils.addProgress(progressLocal: saveProgressLocal, boxName: HiveBoxName.PROGRESS_BOX);
       isSyncProgress = true;
     }else{
-      emit(LoadingLocalLesson());
       LessonRepository _lessonRepository = new LessonRepository();
       List<Lesson> lessonsLocal = await _lessonRepository.getLessonsLocal();
       DateTime apiTime;
