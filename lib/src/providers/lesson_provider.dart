@@ -55,6 +55,17 @@ class LessonProvider {
     }catch(error, stacktrace){
       print("Exception occur: $error stackTrace: $stacktrace");
     }
+  }
 
+  Future<List<Lesson>> getLessonLocalJson() async{
+    try{
+      ResponseAPI responseAPI = new ResponseAPI();
+      responseAPI = _hiveUtils.getBoxes(HiveBoxName.JSON_BOX, APIConstants.LESSONS_BY_LEVEL);
+      if(responseAPI != null){
+        return  (jsonDecode(responseAPI.response) as List).map((i) => Lesson.fromJson(i)).toList();
+      }
+    }catch(error, stacktrace){
+      print("Exception occur: $error stackTrace: $stacktrace");
+    }
   }
 }

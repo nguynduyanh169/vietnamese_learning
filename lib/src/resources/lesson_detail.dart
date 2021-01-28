@@ -154,6 +154,7 @@ class _LessonDetailState extends State<LessonDetail> {
           if(checkInternet == true) {
             BlocProvider.of<LessonDetailsCubit>(context)
                 .downloadLesson(lessonId);
+            isUpdate = true;
           }
         },
         child: Container(

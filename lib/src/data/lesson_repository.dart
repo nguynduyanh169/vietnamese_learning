@@ -12,4 +12,10 @@ class LessonRepository {
   Future<List<Lesson>> getLessonsLocal() {
     return _lessonProvider.getLessonLocal();
   }
+
+  Future<List<Lesson>> getLessonsLocalJson() {
+    return _lessonProvider.getLessonLocalJson();
+  }
+
+
 }

@@ -8,6 +8,7 @@ import 'package:vietnamese_learning/src/data/progress_repository.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
 import 'package:vietnamese_learning/src/models/lesson.dart';
+import 'package:vietnamese_learning/src/models/response_api.dart';
 import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/states/lesson_details_state.dart';
@@ -31,9 +32,24 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
       List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesByLessonId(lessonId, token);
       List<Conversation> conversations = await _conversationRepository.getConversationsByLessonId(lessonId, token);
       LessonRepository _lessonRepository = new LessonRepository();
-      List<Lesson> lessons = await _lessonRepository.getLessonsByLevelId(token);
+      List<Lesson> lesson = await _lessonRepository.getLessonsLocalJson();
       List<Lesson> lessonsLocal = await _lessonRepository.getLessonsLocal();
-
+      Lesson localJson = new Lesson();
+      Lesson localBox = new Lesson();
+      localJson = findLesson(lessonId, lesson);
+      localBox = findLesson(lessonId, lessonsLocal);
+      DateTime apiTime = DateTime.parse(localJson.lessonUpdate.replaceAll('+00:00', ''));
+      DateTime localTime = DateTime.parse(localBox.lessonUpdate.replaceAll('+00:00', ''));
+      print('api: ' + apiTime.toLocal().toString() + ' word: ' + localJson.lessonName);
+      print('local: ' + localTime.toLocal().toString() + ' word: ' + localBox.lessonName);
+      if(localTime.compareTo(apiTime)==0){
+        print('Updated');
+      }else{
+        print('Not Update');
+        String localBoxJson = jsonEncode(lesson);
+        ResponseAPI responseAPI = new ResponseAPI(name: APIConstants.LESSONS_BY_LEVEL, response: localBoxJson);
+        _hiveUtils.updateBox(responseAPI, HiveBoxName.LOCAL_LESSON);
+      }
       var connectivityResult = await (Connectivity().checkConnectivity());
       double percent = 0;
       int totalLength = vocabularies.length + conversations.length;
