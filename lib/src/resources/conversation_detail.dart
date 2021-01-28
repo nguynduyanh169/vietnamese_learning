@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/utils/url_utils.dart';
@@ -15,19 +16,21 @@ class ConversationDetail extends StatefulWidget {
   List<Conversation> conversations;
   String lessonTitle;
   String lessonID;
-  ConversationDetail({Key key, this.conversations, this.lessonTitle, this.lessonID})
+  Progress progress;
+  ConversationDetail({Key key, this.conversations, this.lessonTitle, this.lessonID, this.progress})
       : super(key: key);
 
   _ConversationDetailState createState() => _ConversationDetailState(
-      conversations: conversations, lessonTitle: lessonTitle, lessonID: lessonID);
+      conversations: conversations, lessonTitle: lessonTitle, lessonID: lessonID, progress: progress);
 }
 
 class _ConversationDetailState extends State<ConversationDetail> {
   List<Conversation> conversations;
   String lessonTitle;
   String lessonID;
+  Progress progress;
   HiveUtils _hiveUtils = new HiveUtils();
-  _ConversationDetailState({this.conversations, this.lessonTitle, this.lessonID});
+  _ConversationDetailState({this.conversations, this.lessonTitle, this.lessonID, this.progress});
 
   var conversationIndex = 0;
 
@@ -118,7 +121,7 @@ class _ConversationDetailState extends State<ConversationDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                ConversationSpeaking(conversations: conversations, lessonID: lessonID,),
+                                ConversationSpeaking(conversations: conversations, lessonID: lessonID, progress: progress,),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               var begin = Offset(1.0, 0.0);

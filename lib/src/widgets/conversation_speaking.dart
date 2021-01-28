@@ -16,6 +16,7 @@ import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/cubit/learn_conversation_cubit.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/resources/conversation_result.dart';
 import 'package:vietnamese_learning/src/states/learn_converasation_state.dart';
@@ -26,6 +27,7 @@ import 'dart:io' as io;
 import 'package:google_speech/google_speech.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 import 'dart:math' as Math;
 import '../config/size_config.dart';
 import 'chat_bubble.dart';
@@ -33,19 +35,21 @@ import 'chat_bubble.dart';
 class ConversationSpeaking extends StatefulWidget {
   List<Conversation> conversations;
   String lessonID;
+  Progress progress;
 
-  ConversationSpeaking({Key key, this.conversations, this.lessonID}) : super(key: key);
+  ConversationSpeaking({Key key, this.conversations, this.lessonID, this.progress}) : super(key: key);
 
   _ConversationSpeakingState createState() =>
-      _ConversationSpeakingState(conversations: conversations, lessonID: lessonID);
+      _ConversationSpeakingState(conversations: conversations, lessonID: lessonID, progress: progress);
 }
 
 @override
 class _ConversationSpeakingState extends State<ConversationSpeaking> {
   List<Conversation> conversations;
   String lessonID;
+  Progress progress;
 
-  _ConversationSpeakingState({this.conversations, this.lessonID});
+  _ConversationSpeakingState({this.conversations, this.lessonID, this.progress});
 
   int conversationIndex = 0;
   var percent = 0.0;
@@ -96,6 +100,10 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
   void caculateMark(){
     finalMark = finalMark + markForAnswer;
     print(finalMark);
+  }
+
+  void submitProgress(BuildContext context){
+    BlocProvider.of<LearnConversationCubit>(context).submitProgress(finalMark, lessonID, progress);
   }
 
   @override
@@ -517,7 +525,16 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
             ..learnSpeaking(conversationIndex),
           child: Scaffold(
             backgroundColor: Color.fromRGBO(255, 239, 204, 100),
-            body: BlocBuilder<LearnConversationCubit, LearnConversationState>(
+            body: BlocConsumer<LearnConversationCubit, LearnConversationState>(
+              listener: (context, state){
+                if(state is SubmittingProgress){
+                  CustomProgressDialog.progressDialog(context);
+                }else if(state is SubmittedProgress){
+                  Navigator.pop(context);
+                }else if(state is LearnConversationDone){
+                  submitProgress(context);
+                }
+              },
               builder: (context, state) {
                 if (state is LearnConversationSpeaking) {
                   var percent =
@@ -726,13 +743,6 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                     ],
                   );
                 } else {
-                  SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
-                  updateProgress.converProgress = finalMark;
-                  DateTime now = DateTime.now();
-                  DateTime currentDate = new DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
-                  updateProgress.updateTime = currentDate.toLocal();
-                  _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
-                  SaveProgressLocal returnProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
                   return ConversationResult(
                     words: conversationIndex,
                     finalMark: finalMark,

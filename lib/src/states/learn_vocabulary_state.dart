@@ -30,3 +30,11 @@ class LearnVocabularyDone extends LearnVocabularyState {
   final int vocabulariesLength;
   const LearnVocabularyDone(this.vocabulariesLength);
 }
+
+class SubmittingProgress extends LearnVocabularyState{
+  const SubmittingProgress();
+}
+
+class SubmittedProgress extends LearnVocabularyState{
+  const SubmittedProgress();
+}

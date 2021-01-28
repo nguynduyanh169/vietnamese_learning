@@ -6,6 +6,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/cubit/vocabularies_cubit.dart';
 import 'package:vietnamese_learning/src/data/vocabulary_repository.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/resources/vocabulary_screen.dart';
 import 'package:vietnamese_learning/src/states/vocabularies_state.dart';
@@ -14,9 +15,10 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 class VocabDetailScreen extends StatelessWidget {
   String lessonId;
   String lessonName;
+  Progress progress;
   List<Vocabulary> vocabularies;
 
-  VocabDetailScreen({this.lessonId, this.lessonName, this.vocabularies});
+  VocabDetailScreen({this.lessonId, this.lessonName, this.vocabularies, this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +99,7 @@ class VocabDetailScreen extends StatelessWidget {
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
                                   VocabularyScreen(
+                                    progress: progress,
                             vocabularies: vocabularies,
                                     lessonID: lessonId,
                           ),

@@ -465,6 +465,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                                   lessonId: lessonId,
                                                   lessonName: title,
                                                   vocabularies: vocabularies,
+                                                  progress: progress,
                                                 ),
                                             transitionsBuilder: (context, animation,
                                                 secondaryAnimation, child) {
@@ -580,6 +581,7 @@ class _LessonDetailState extends State<LessonDetail> {
                                                   lessonId: lessonId,
                                                   lessonName: title,
                                                   conversations: conversations,
+                                                  progress: progress,
                                                 ),
                                             transitionsBuilder: (context, animation,
                                                 secondaryAnimation, child) {

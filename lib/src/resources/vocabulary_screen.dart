@@ -9,29 +9,34 @@ import 'package:reorderables/reorderables.dart';
 import 'package:vietnamese_learning/src/config/size_config.dart';
 import 'package:vietnamese_learning/src/constants.dart';
 import 'package:vietnamese_learning/src/cubit/learn_vocabulary_cubit.dart';
+import 'package:vietnamese_learning/src/data/progress_repository.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/models/save_progress_local.dart';
 import 'package:vietnamese_learning/src/models/vocabulary.dart';
 import 'package:vietnamese_learning/src/states/learn_vocabulary_state.dart';
 import 'package:vietnamese_learning/src/utils/hive_utils.dart';
 import 'package:vietnamese_learning/src/widgets/flash_card.dart';
+import 'package:vietnamese_learning/src/widgets/progress_dialog.dart';
 import 'package:vietnamese_learning/src/widgets/speaking_vocabulary.dart';
 import 'package:vietnamese_learning/src/widgets/vocabulary_result.dart';
 
 class VocabularyScreen extends StatefulWidget {
   List<Vocabulary> vocabularies;
   String lessonID;
+  Progress progress;
 
-  VocabularyScreen({Key key, this.vocabularies, this.lessonID}) : super(key: key);
+  VocabularyScreen({Key key, this.vocabularies, this.lessonID, this.progress}) : super(key: key);
 
   _VocabularyScreenState createState() =>
-      _VocabularyScreenState(vocabularies: vocabularies, lessonID: lessonID);
+      _VocabularyScreenState(vocabularies: vocabularies, lessonID: lessonID, progress: progress);
 }
 
 class _VocabularyScreenState extends State<VocabularyScreen> {
   List<Vocabulary> vocabularies;
   String lessonID;
+  Progress progress;
 
-  _VocabularyScreenState({this.vocabularies, this.lessonID});
+  _VocabularyScreenState({this.vocabularies, this.lessonID, this.progress});
 
   var _vocabularyIndex = 0;
   List<String> chars = new List();
@@ -137,6 +142,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       BlocProvider.of<LearnVocabularyCubit>(context)
           .learnMatching(_vocabularyIndex);
     }
+
+    void submitProgress(BuildContext context){
+      BlocProvider.of<LearnVocabularyCubit>(context).submitProgress(finalMark, lessonID, progress);
+    }
+
 
     Widget _card(String content) {
       return Container(
@@ -418,7 +428,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ),
             FlatButton(
               onPressed: () async{
-                print('audio' + audio);
                 AssetsAudioPlayer.playAndForget(Audio.file(_hiveUtils.getFile(boxName: HiveBoxName.CACHE_FILE_BOX, url: audioInput)));
               },
               color: Colors.amberAccent,
@@ -479,7 +488,16 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ..learnFlashCard(_vocabularyIndex),
           child: Scaffold(
             backgroundColor: Color.fromRGBO(255, 239, 204, 100),
-            body: BlocBuilder<LearnVocabularyCubit, LearnVocabularyState>(
+            body: BlocConsumer<LearnVocabularyCubit, LearnVocabularyState>(
+              listener: (context, state){
+                if(state is LearnVocabularyDone){
+                    submitProgress(context);
+                }else if(state is SubmittingProgress){
+                  CustomProgressDialog.progressDialog(context);
+                }else if(state is SubmittedProgress){
+                  Navigator.pop(context);
+                }
+              },
               builder: (context, state) {
                 if (state is LearnVocabularyFlashCard) {
                   _vocabularyIndex = state.vocabulariesIndex;
@@ -546,12 +564,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     ],
                   );
                 } else {
-                  SaveProgressLocal updateProgress = _hiveUtils.getLocalProgress(boxName: HiveBoxName.PROGRESS_BOX, lessonId: lessonID);
-                  updateProgress.vocabProgress = finalMark;
-                  DateTime now = DateTime.now();
-                  DateTime currentDate = new DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
-                  updateProgress.updateTime = currentDate.toLocal();
-                  _hiveUtils.updateLocalProgress(progressLocal: updateProgress, boxName: HiveBoxName.PROGRESS_BOX);
                   return VocabularyResult(
                     words: vocabularies.length,
                     finalMark: finalMark,

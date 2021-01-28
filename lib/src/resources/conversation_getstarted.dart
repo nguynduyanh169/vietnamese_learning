@@ -7,15 +7,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vietnamese_learning/src/cubit/conversation_cubit.dart';
 import 'package:vietnamese_learning/src/data/conversation_repository.dart';
 import 'package:vietnamese_learning/src/models/conversation.dart';
+import 'package:vietnamese_learning/src/models/lesson.dart';
 import 'package:vietnamese_learning/src/resources/conversation_detail.dart';
 import 'package:vietnamese_learning/src/states/conversation_state.dart';
 
 class ConversationGetStarted extends StatelessWidget {
   String lessonId;
   String lessonName;
+  Progress progress;
   List<Conversation> conversations;
 
-  ConversationGetStarted({this.lessonId, this.lessonName, this.conversations});
+  ConversationGetStarted({this.lessonId, this.lessonName, this.conversations, this.progress});
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -90,7 +92,7 @@ class ConversationGetStarted extends StatelessWidget {
                       PageRouteBuilder(
                         pageBuilder:
                             (context, animation, secondaryAnimation) =>
-                            ConversationDetail(conversations: conversations, lessonTitle: lessonName, lessonID: lessonId,),
+                            ConversationDetail(conversations: conversations, lessonTitle: lessonName, lessonID: lessonId, progress: progress,),
                         transitionsBuilder: (context, animation,
                             secondaryAnimation, child) {
                           var begin = Offset(1.0, 0.0);

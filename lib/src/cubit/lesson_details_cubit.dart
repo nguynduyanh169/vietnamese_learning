@@ -132,7 +132,7 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
   Future<void> loadLessonFromLocalStorage(String lessonId, Progress progress, Lesson lessonAPI) async{
     SaveProgressLocal saveProgressLocal;
     bool isSyncProgress = false;
-    bool isUpdate = false;
+    bool isUpdate = true;
     List<Vocabulary> vocabularies = await _vocabularyRepository.getVocabulariesFromLocalStorage(lessonId);
     List<Conversation> conversations = await _conversationRepository.getConversationsFromLocalStorage(lessonId);
     bool localProgressExist = _hiveUtils.isProgressExist(lessonID: lessonId, boxName: HiveBoxName.PROGRESS_BOX);
@@ -155,10 +155,10 @@ class LessonDetailsCubit extends Cubit<LessonDetailsState>{
         print('api: ' + apiTime.toLocal().toString() + ' word: ' + lessonAPI.lessonName);
         print('local: ' + localTime.toLocal().toString() + ' word: ' + local.lessonName);
         if(localTime.compareTo(apiTime) == 0){
-          print(true);
+          print('ok');
           isUpdate = true;
         }else{
-          print(false);
+          print('not ok');
           isUpdate = false;
         }
       }else{

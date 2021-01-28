@@ -30,3 +30,11 @@ class LearnConversationDone extends LearnConversationState {
   final int conversationsLength;
   const LearnConversationDone(this.conversationsLength);
 }
+
+class SubmittingProgress extends LearnConversationState{
+  const SubmittingProgress();
+}
+
+class SubmittedProgress extends LearnConversationState{
+  const SubmittedProgress();
+}
