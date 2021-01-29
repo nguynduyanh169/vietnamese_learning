@@ -155,6 +155,12 @@ class _LessonDetailState extends State<LessonDetail> {
             BlocProvider.of<LessonDetailsCubit>(context)
                 .downloadLesson(lessonId);
             isUpdate = true;
+          }else{
+            Toast.show('Please connect internet to update lesson!', context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
           }
         },
         child: Container(
