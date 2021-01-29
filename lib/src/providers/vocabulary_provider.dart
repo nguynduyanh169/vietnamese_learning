@@ -23,15 +23,15 @@ class VocabularyProvider {
       ResponseAPI responseAPI = new ResponseAPI();
       var connectivityResult = await (Connectivity().checkConnectivity());
       if(connectivityResult == ConnectivityResult.none){
-        responseAPI = _hiveUtils.getBoxes('JSON', '${APIConstants.VOCABULARY}$lessonId');
+        responseAPI = _hiveUtils.getBoxes(HiveBoxName.JSON_BOX, '${APIConstants.VOCABULARY}$lessonId');
       }else{
-        bool exist =  _hiveUtils.isExists(name: '${APIConstants.VOCABULARY}$lessonId', boxName: 'JSON');
+        bool exist =  _hiveUtils.isExists(name: '${APIConstants.VOCABULARY}$lessonId', boxName: HiveBoxName.JSON_BOX);
         Response response = await _dio.get('${APIConstants.VOCABULARY}$lessonId', options: Options(headers: header));
         responseAPI = new ResponseAPI(name: '${APIConstants.VOCABULARY}$lessonId', response: jsonEncode(response.data));
         if(exist){
-          _hiveUtils.addBox(responseAPI, 'JSON');
+          _hiveUtils.addBox(responseAPI, HiveBoxName.JSON_BOX);
         }else{
-          _hiveUtils.addBox(responseAPI, 'JSON');
+          _hiveUtils.addBox(responseAPI, HiveBoxName.JSON_BOX);
         }
       }
       return (jsonDecode(responseAPI.response) as List).map((i) => Vocabulary.fromJson(i)).toList();
