@@ -263,7 +263,7 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
               child: FlatButton(
                   color: Color.fromRGBO(255, 190, 51, 30),
                   onPressed: () {
-                    if(similarity(widget.vietnamese, text) >= 0.8){
+                    if(similarity(widget.vietnamese, text) >= 0.7){
                       caculateMark(answerMark);
                     }
                     widget.next(widget.vocabularyContext);
@@ -302,6 +302,14 @@ class _SpeakingVocabularyState extends State<SpeakingVocabulary> {
         text = value.results
             .map((e) => e.alternatives.first.transcript)
             .join('\n');
+        print(text);
+        if (text != null && text.length > 0) {
+          print(text);
+          if(text.contains('!')){
+            text = text.substring(0, text.length - 1);
+            print(text);
+          }
+        }
       });
     }).whenComplete(() => setState(() {
           recognizeFinished = true;

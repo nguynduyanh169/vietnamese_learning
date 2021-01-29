@@ -697,7 +697,7 @@ class _ConversationSpeakingState extends State<ConversationSpeaking> {
                               color: Color.fromRGBO(255, 190, 51, 30),
                                 onPressed: () {
                                   //caculateMark();
-                                  if(similarity(conversations[conversationIndex].conversation, text) >= 0.8){
+                                  if(similarity(conversations[conversationIndex].conversation, text) >= 0.7){
                                     caculateMark();
                                   }
                                   recognizeFinished = false;

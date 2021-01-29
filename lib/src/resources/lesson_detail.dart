@@ -232,7 +232,6 @@ class _LessonDetailState extends State<LessonDetail> {
   @override
   void initState() {
     super.initState();
-
   }
   @override
   Widget build(BuildContext context) {
@@ -443,6 +442,14 @@ class _LessonDetailState extends State<LessonDetail> {
                                           gravity: Toast.BOTTOM,
                                           backgroundColor: Colors.redAccent,
                                           textColor: Colors.white);
+                                    }else if(isUpdate == false){
+                                      Toast.show(
+                                          'Please update lesson before learn!',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.BOTTOM,
+                                          backgroundColor: Colors.redAccent,
+                                          textColor: Colors.white);
                                     }else{
                                       if (vocabularies.isEmpty) {
                                         Toast.show(
@@ -559,7 +566,15 @@ class _LessonDetailState extends State<LessonDetail> {
                                           gravity: Toast.BOTTOM,
                                           backgroundColor: Colors.redAccent,
                                           textColor: Colors.white);
-                                    }else{
+                                    } else if(isUpdate == false){
+                                      Toast.show(
+                                          'Please update lesson before learn!',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.BOTTOM,
+                                          backgroundColor: Colors.redAccent,
+                                          textColor: Colors.white);
+                                    } else{
                                       if (conversations.isEmpty) {
                                         Toast.show(
                                             'This lesson has not updated conversation part!',
@@ -671,7 +686,6 @@ class _LessonDetailState extends State<LessonDetail> {
                                   onTap: () async {
                                     bool checkInternet = await checkConnectivity();
                                     if(checkInternet == true){
-                                      print(converProgress);
                                       if (vocabProgress < 8 ||
                                           converProgress < 8) {
                                         Toast.show(
